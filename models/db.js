@@ -16,7 +16,9 @@ var Farmer = mongoose.model('Farmer',
         fa_contact: String,
         //fa_picture:
         deceased: Boolean,
-        mi_membership: [Schema.Types.Mixed]
+        mi_membership: [Schema.Types.Mixed],
+        ct_comments: [Schema.Types.Mixed],
+        in_integrity: Schema.Types.Mixed
     });
 
 var Crop = mongoose.model('Crop',
@@ -79,7 +81,7 @@ var Membership = mongoose.model('Membership',
         mi_start: Date,
         mi_expiration: Date,
         mt_type_id: Schema.Types.Mixed,
-        br_branch_id: String,
+        br_branch_id: Schema.Types.ObjectId,
         ad_address: Schema.Types.Mixed,
         mi_date_updated: {type: Date, default: Date.now()},
         mi_sub_sector: String
@@ -116,7 +118,8 @@ var Commodity = mongoose.model('Commodity',
         co_notes: String,
         co_recurring: String,
         co_until: Date,
-        co_parent_id: String //ideally this is a ID value... need to set the appropriate type here
+        co_parent_id: Schema.Types.ObjectId,
+        ct_comments: [Schema.Types.Mixed]
     });
 
 var Demand = mongoose.model('Demand',
@@ -134,7 +137,8 @@ var Demand = mongoose.model('Demand',
         co_until: Date,
         de_payment_terms: String,
         de_recurring: String,
-        de_parent_id: String //ideally this is a ID value... need to set the appropriate type here
+        de_parent_id: Schema.Types.ObjectId,
+        ct_comments: [Schema.Types.Mixed]
     });
 
 var CallType = mongoose.model('CallType',
@@ -147,29 +151,30 @@ var CallLog = mongoose.model('CallLog',
     {
         cc_caller_id: String,
         cc_entity_type: String,
-        cc_entity_id: String,
+        cc_entity_id: Schema.Types.ObjectId,
         ct_call_type: Schema.Types.Mixed,
         cc_date: Date,
         cc_duration: Number,
         cc_quality: Number,
         cc_note: String,
-        us_user_id: String,
+        us_user_id: Schema.Types.ObjectId,
         cc_incoming: Boolean
     });
 
 var Transaction = mongoose.model('Transaction',
     {
-        bu_buyer_id: String,
-        fr_farmer_id: String,
+        bu_buyer_id: Schema.Types.ObjectId,
+        fr_farmer_id: Schema.Types.ObjectId,
         tr_quantity: Number,
         tr_value: Number,
         tr_date: Date,
         tr_date_created: {type: Date, default: Date.now()},
         tr_status: String,
-        us_user_id: String,
+        us_user_id: Schema.Types.ObjectId,
         tr_note: String,
         de_demand: Schema.Types.Mixed,
-        co_commodity: Schema.Types.Mixed
+        co_commodity: Schema.Types.Mixed,
+        ct_comments: [Schema.Types.Mixed]
     });
 
 var Dispute = mongoose.model('Dispute',
@@ -177,98 +182,109 @@ var Dispute = mongoose.model('Dispute',
         di_dispute_type: String,
         di_dispute_entity_type: String,
         di_dispute_description: String,
-        di_dispute_entity: String,
+        di_dispute_entity: Schema.Types.ObjectId,
         di_resolution_description: String,
         di_status: String,
-        di_parent_id: String
+        di_parent_id: Schema.Types.ObjectId,
+        ct_comments: [Schema.Types.Mixed]
     });
 
 var Event = mongoose.model('Event',
     {
         ev_event_name: String,
         ev_event_description: String,
-        us_user_id: String,
+        us_user_id: Schema.Types.ObjectId,
         ad_address: Schema.Types.Mixed,
         ev_cost: Number,
         ev_type_event: String,
         ev_host_info: String,
         ev_date: Date,
-        ev_contact_details: String
+        ev_contact_details: String,
+        ct_comments: [Schema.Types.Mixed]
     });
 
-//
-//us_user_id
-//us_user_first_name
-//us_user_last_name
-//ut_user_type_id
-//us_email_address
-//us_contact
-//us_user_creation_date
-//
-//
-//ut_user_type_id
-//ut_user_type_name
-//ut_user_type_desc
-//
-//
-//
-//al_audit_id
-//us_user_id
-//al_table
-//al_record_id
-//au_before_commit
-//au_after_commit
-//au_date
-//au_type
-//
-//
-//bu_buyer_id
-//bu_buyer_name
-//bt_buyer_type_id
-//bu_phone
-//bu_email
-//bu_payment_terms
-//ad_address_id
-//
-//
-//bt_buyer_type_id
-//bt_buyer_type_name
-//bt_buyer_type_desc
-//
-//
-//in_integrity_id
-//in_entity_id
-//in_rank
-//in_entity_type
-//
-//
-//ct_comment_id
-//ct_entity_id
-//ct_type
-//us_user_id
-//ct_date
-//ct_message
-//
-//
-//su_supplier_id
-//su_supplier_name
-//su_description
-//ad_address_id
-//
-//
-//ip_input_id
-//ip_input_name
-//su_supplier_id
-//ip_description
-//ip_last_updated
-//ip_price
-//un_price_unit_id
-//it_input_type_id
-//ip_brand
-//ip_jas_discounted
-//ip_discount_terms
-//
-//
-//it_input_type_id
-//it_input_type_desc
-//it_input_type_name
+var User = mongoose.model('User',
+    {
+        us_user_first_name: String,
+        us_user_last_name: String,
+        ut_user_type: Schema.Types.Mixed,
+        us_email_address: String,
+        us_contact: String,
+        us_user_creation_date: {type: Date, default: Date.now()}
+    });
+
+var UserType = mongoose.model('UserType',
+    {
+        ut_user_type_name: String,
+        ut_user_type_desc: String
+    });
+
+var Audit = mongoose.model('Audit',
+    {
+        us_user_id: Schema.Types.ObjectId,
+        al_table: String,
+        al_record_id: Number,
+        au_before_commit: String,
+        au_after_commit: String,
+        au_date: {type: Date, default: Date.now()},
+        au_type: String
+    });
+
+var Buyer = mongoose.model('Buyer',
+    {
+        bu_buyer_name: String,
+        bt_buyer_type: Schema.Types.ObjectId,
+        bu_phone: String,
+        bu_email: String,
+        bu_payment_terms: String,
+        ad_address: Schema.Types.Mixed,
+        ct_comments: [Schema.Types.Mixed],
+        in_integrity: Schema.Types.Mixed
+    });
+
+var BuyerType = mongoose.model('BuyerType',
+    {
+        bt_buyer_type_name: String,
+        bt_buyer_type_desc: String
+    });
+
+var Integrity = mongoose.model('Integrity',
+    {
+        in_entity_id: Schema.Types.ObjectId,
+        in_rank: Number,
+        in_entity_type: String
+    });
+
+var Comment = mongoose.model('Comment',
+    {
+        us_user_id: Schema.Types.ObjectId,
+        ct_date: {type: Date, default: Date.now()},
+        ct_message: String
+    });
+
+var Supplier = mongoose.model('Supplier',
+    {
+        su_supplier_name: String,
+        su_description: String,
+        ad_address: Schema.Types.Mixed,
+        ip_inputs: [Schema.Types.Mixed]
+    });
+
+var Input = mongoose.model('Input',
+    {
+        ip_input_name: String,
+        ip_description: String,
+        ip_last_updated: {type: Date, default: Date.now()},
+        ip_price: Number,
+        un_price_unit: Schema.Types.Mixed,
+        it_input_type: Schema.Types.Mixed,
+        ip_brand: String,
+        ip_jas_discounted: String,
+        ip_discount_terms: String
+    });
+
+var InputType = mongoose.model('InputType',
+    {
+        it_input_type_desc: String,
+        it_input_type_name: String
+    });
