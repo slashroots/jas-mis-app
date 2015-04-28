@@ -99,6 +99,11 @@ var Address = mongoose.model('Address',
         ad_country: String
     });
 
+/**
+ * A role allows for the capturing of histories for a position in a
+ * JAS branch.
+ * @type {Model|*}
+ */
 var Role = mongoose.model('Role',
     {
         ro_start_date: {type: Date, default: Date.now()},
@@ -106,6 +111,10 @@ var Role = mongoose.model('Role',
         fa_farmer: Schema.Types.Mixed
     });
 
+/**
+ *
+ * @type {Model|*}
+ */
 var Branch = mongoose.model('Branch',
     {
         br_branch_name: String,
