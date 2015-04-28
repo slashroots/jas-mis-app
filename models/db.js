@@ -22,22 +22,23 @@ mongoose.connect('mongodb://localhost/jas-mis-app');
  * TODO: Implement binary store to capture picture(s) for farmers.
  * @type {Model|*}
  */
-var Farmer = mongoose.model('Farmer',
-    {
-        fa_first_name: String,
-        fa_middle_name: String,
-        fa_last_name: String,
-        fa_dob: Date,
-        fa_government_id: String,
-        fa_rada_id: String,
-        fa_contact: String,
-        //fa_picture:
-        deceased: Boolean,
-        mi_membership: [Schema.Types.Mixed],
-        ct_comments: [Schema.Types.Mixed],
-        co_commodities: [Schema.Types.Mixed],
-        in_integrity: Schema.Types.Mixed
-    });
+var farmer_schema = {
+    fa_first_name: String,
+    fa_middle_name: String,
+    fa_last_name: String,
+    fa_dob: Date,
+    fa_government_id: String,
+    fa_rada_id: String,
+    fa_contact: String,
+    //fa_picture:
+    deceased: Boolean,
+    mi_membership: [Schema.Types.Mixed],
+    ct_comments: [Schema.Types.Mixed],
+    co_commodities: [Schema.Types.Mixed],
+    in_integrity: Schema.Types.Mixed
+};
+exports.Farmer = mongoose.model('Farmer', farmer_schema);
+
 
 /**
  * Crop Model.  This model contains pre-defined information on a particular
