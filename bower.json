@@ -1,0 +1,18 @@
+{
+  "name": "jas-mis-app",
+  "version": "0.0.1",
+  "homepage": "https://github.com/slashroots/jas-mis-app",
+  "authors": [
+    "Matthew Budram <matjames007@gmail.com>"
+  ],
+  "description": "Jamaica Agricultural Society - Marketing Information System",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

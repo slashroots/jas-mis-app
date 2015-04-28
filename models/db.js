@@ -3,8 +3,25 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
+/**
+ * TODO: Need to make the .connect method read from env variables for heroku
+ */
 mongoose.connect('mongodb://localhost/jas-mis-app');
 
+/**
+ * Farmer model.  This model is made up of personal information as well as
+ * membership information relevant to the JAS.  There are several records
+ * of membership being captured.  The most recent membership record will
+ * contain the most current information about address etc.
+ *
+ * The Farmer also has the ability to post his wares/commodities to the app.
+ *
+ * TODO: Implement quick functions for getting current member info.
+ *
+ * TODO: Implement binary store to capture picture(s) for farmers.
+ * @type {Model|*}
+ */
 var Farmer = mongoose.model('Farmer',
     {
         fa_first_name: String,
@@ -22,6 +39,14 @@ var Farmer = mongoose.model('Farmer',
         in_integrity: Schema.Types.Mixed
     });
 
+/**
+ * Crop Model.  This model contains pre-defined information on a particular
+ * crop and/or variety.  This is intended to be populated based on info from
+ * RADA and will be used to help determine/validate potential yields for a
+ * farmer(s).
+ *
+ * @type {Model|*}
+ */
 var Crop = mongoose.model('Crop',
     {
         cr_crop_name: String,
@@ -33,18 +58,36 @@ var Crop = mongoose.model('Crop',
         cr_crop_season: String
     });
 
+/**
+ * Membership Types example: Direct/Branch/Life Member/Affiliate
+ * @type {Model|*}
+ */
 var MembershipType = mongoose.model('MembershipType',
     {
         mt_type_name: String,
         mt_type_desc: String
     });
 
+/**
+ * The Parish Model allows for backwards compatibility with the JAS
+ * numbering convention for Parishes.  This will be used for the
+ * generation of membership numbers.
+ *
+ * @type {Model|*}
+ */
 var Parish = mongoose.model('Parish',
     {
         pa_parish_code: String,
         pa_parish_name: String
     });
 
+/**
+ * The Address Model can be used for any entity for which there is a
+ * need to capture location information.
+ *
+ * TODO: Need to change the latitude and longitude into a GeoJSON Field
+ * @type {Model|*}
+ */
 var Address = mongoose.model('Address',
     {
         ad_address1: String,
