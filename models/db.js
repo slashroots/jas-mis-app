@@ -18,6 +18,7 @@ var Farmer = mongoose.model('Farmer',
         deceased: Boolean,
         mi_membership: [Schema.Types.Mixed],
         ct_comments: [Schema.Types.Mixed],
+        co_commodities: [Schema.Types.Mixed],
         in_integrity: Schema.Types.Mixed
     });
 
@@ -239,7 +240,8 @@ var Buyer = mongoose.model('Buyer',
         bu_payment_terms: String,
         ad_address: Schema.Types.Mixed,
         ct_comments: [Schema.Types.Mixed],
-        in_integrity: Schema.Types.Mixed
+        in_integrity: Schema.Types.Mixed,
+        de_demands: [Schema.Types.Mixed]
     });
 
 var BuyerType = mongoose.model('BuyerType',
