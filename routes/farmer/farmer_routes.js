@@ -21,10 +21,9 @@ router.put('/farmer/:id', Farmer.updateFarmerById);
 /**
  * Manipulate information about Farms for a specific farmer
  */
-router.get('/farmer/:id/farms', dummyfunction);
-router.get('/farmer/:id/farm', dummyfunction);
-router.post('/farmer/:id/farm', dummyfunction);
-router.put('/farmer/:id/farm', dummyfunction);
+router.get('/farmer/:id/farms', Farmer.getFarmsByFarmerId);
+router.post('/farmer/:id/farm', Farmer.createFarm);
+router.put('/farm/:farm_id', Farmer.updateFarmById);
 
 /**
  * Manipulate info about Membership for a specific farmer
@@ -36,8 +35,8 @@ router.put('/farmer/:id/membership/:member_id', dummyfunction);
 /**
  * Manipulate info about Comment for a specific farmer
  */
-router.get('/farmer/:id/comments', dummyfunction);
-router.post('/farmer/:id/comment', dummyfunction);
+router.get('/farmer/:id/comments', Farmer.getCommentsForFarmer);
+router.post('/farmer/:id/comment', Farmer.createFarmerComment);
 
 /**
  * TODO:  Need to create endpoints for Transactions, Commodity, Disputes

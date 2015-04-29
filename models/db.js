@@ -77,8 +77,8 @@ var MembershipSchema = new Schema({
 var FarmSchema = new Schema({
     fr_district_id: String,
     fr_extension_id: String,
-    ad_address_id: Schema.Types.ObjectId,
-    fr_size: Number
+    ad_address_id: {type: Schema.Types.ObjectId, required: true},
+    fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
     cr_crop: {type: Schema.Types.ObjectId, required: true},
@@ -319,7 +319,7 @@ var Membership = mongoose.model('Membership',MembershipSchema);
  * Structure captures the Farmer's Farms and their locations
  * @type {Model|*}
  */
-var Farm = mongoose.model('Farm', FarmSchema);
+exports.Farm = mongoose.model('Farm', FarmSchema);
 
 /**
  * This structure captures the various Units used throughout the
@@ -362,7 +362,7 @@ var BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
 
 var Integrity = mongoose.model('Integrity', IntegritySchema);
 
-var Comment = mongoose.model('Comment', CommentSchema);
+exports.Comment = mongoose.model('Comment', CommentSchema);
 
 var Supplier = mongoose.model('Supplier', SupplierSchema);
 
