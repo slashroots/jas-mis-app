@@ -14,9 +14,9 @@ dummyfunction = function(req, res) {
  * End Points relevant to Farmers
  */
 router.get('/farmers', Farmer.getFarmers);
-router.post('/farmer', dummyfunction);
-router.get('/farmer/:id', dummyfunction);
-router.put('/farmer/:id', dummyfunction);
+router.post('/farmer', Farmer.createFarmer);
+router.get('/farmer/:id', Farmer.getFarmerById);
+router.put('/farmer/:id', Farmer.updateFarmerById);
 
 /**
  * Manipulate information about Farms for a specific farmer
