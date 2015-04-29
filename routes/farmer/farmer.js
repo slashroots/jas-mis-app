@@ -276,29 +276,35 @@ exports.getActiveMembership = function(req, res) {
         if(err) {
             handleDBError(err, res);
         } else {
-            item.mi_membership.find({mi_expiration: {"$gte": Date.now()},
-                mi_start: {"$lte": Date.now()}}, function(err2, items) {
-                if(items) {
-                    /**
-                     * There is a possibility that there are multiple
-                     * items coming back because there can be more than
-                     * one membership record created for one period of time.
-                     *
-                     * We therefore would required the record last created.
-                     */
-                    var max = new Date(0); //start this value at the minimum date
-                    var v;
-                    for(i in items) {
-                        if(i.mi_date_updated > max) {
-                            max = i.mi_date_updated;
-                            v = i;
-                        }
-                    }
-                    res.send(v);
-                } else {
-                    res.send({});
+            var items = [];
+            var current_date = Date.now();
+            for(var m in item.mi_membership) {
+                if((current_date >= m.mi_start) & (current_date <= m.mi_expiration)) {
+                    items.push(m);
                 }
-            });
+            }
+
+            if(items.length > 0) {
+                /**
+                 * There is a possibility that there are multiple
+                 * items coming back because there can be more than
+                 * one membership record created for one period of time.
+                 *
+                 * We therefore would required the record last created.
+                 */
+                var max = new Date(0); //start this value at the minimum date
+                var v;
+                for(i in items) {
+                    if(i.mi_date_updated > max) {
+                        max = i.mi_date_updated;
+                        v = i;
+                    }
+                }
+                res.send(v);
+            } else {
+                res.send({});
+            }
+
         }
     });
 };

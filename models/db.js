@@ -40,12 +40,12 @@ var ParishSchema = new Schema({
     pa_parish_name: {type: String, unique:true, required: true}
 });
 var AddressSchema = new Schema({
-    ad_address1: {type: String, required: true},
+    ad_address1: {type: String, required: false},
     ad_address2: String,
     ad_latitude: Number,
     ad_longitude: Number,
     ad_city: String,
-    pa_parish: Schema.Types.ObjectId,
+    pa_parish: {required: true, type: Schema.Types.ObjectId},
     ad_country: {type: String, required: true}
 });
 var RoleSchema = new Schema({
@@ -287,7 +287,7 @@ var MembershipType = mongoose.model('MembershipType', MembershipTypeSchema);
  *
  * @type {Model|*}
  */
-var Parish = mongoose.model('Parish', ParishSchema);
+exports.Parish = mongoose.model('Parish', ParishSchema);
 
 /**
  * The Address Model can be used for any entity for which there is a
@@ -296,7 +296,7 @@ var Parish = mongoose.model('Parish', ParishSchema);
  * TODO: Need to change the latitude and longitude into a GeoJSON Field
  * @type {Model|*}
  */
-var Address = mongoose.model('Address', AddressSchema);
+exports.Address = mongoose.model('Address', AddressSchema);
 
 /**
  * A role allows for the capturing of histories for a position in a

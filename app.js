@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var farmer_routes = require('./routes/farmer/farmer_routes');
+var common_routes = require('./routes/common/common_routes');
 
 var model = require('./models/db');
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', farmer_routes);
+app.use('/common', common_routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
