@@ -230,3 +230,108 @@ exports.getCommentsForFarmer = function(req, res) {
         }
     });
 };
+
+/**
+ * Creates a new membership record and associates it with a
+ * particular farmer.  The database should ensure validation.
+ *
+ *
+ * @param req
+ * @param res
+ */
+exports.createMembership = function(req, res) {
+    var membership = new model.Membership(req.body);
+    model.Farmer.findById(req.params.id, function(err, item) {
+        if(err) {
+            handleDBError(err, res);
+        } else if(item == null) {
+            res.status(404);
+            res.send({error: "Farmer Not Found"});
+        } else {
+            item.ct_comments.push(membership);
+            item.save(function(err2, result) {
+                if(err2) {
+                    handleDBError(err2, res);
+                } else {
+                    res.send(result);
+                }
+            });
+        }
+    });
+};
+
+/**
+ * This function looks for a farmer's active membership record and
+ * sends it.  If there is none then it returns an empty record.
+ * This function requires the farmer's record _id to be sent in
+ * req.params
+ *
+ * TODO: This is unchecked!  This should also be documented!
+ *
+ * @param req
+ * @param res
+ */
+exports.getActiveMembership = function(req, res) {
+    model.Farmer.findById(req.params.id, function(err, item) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            item.mi_membership.find({mi_expiration: {"$gte": Date.now()},
+                mi_start: {"$lte": Date.now()}}, function(err2, items) {
+                if(items) {
+                    /**
+                     * There is a possibility that there are multiple
+                     * items coming back because there can be more than
+                     * one membership record created for one period of time.
+                     *
+                     * We therefore would required the record last created.
+                     */
+                    var max = new Date(0); //start this value at the minimum date
+                    var v;
+                    for(i in items) {
+                        if(i.mi_date_updated > max) {
+                            max = i.mi_date_updated;
+                            v = i;
+                        }
+                    }
+                    res.send(v);
+                } else {
+                    res.send({});
+                }
+            });
+        }
+    });
+};
+
+/**
+ * Allows for updating of a membership record. Based on a Farmer ID and a
+ * Membership ID.
+ *
+ * TODO: Test this function!!!!
+ *
+ * @param req
+ * @param res
+ */
+exports.updateMembership = function(req, res) {
+    model.Farmer.findById(req.params.id, function(err, item) {
+        if(err) {
+            handleDBError(err,res);
+        } else {
+            var member_record = item.mi_membership.id(req.params.member_id);
+            //for each element in the request body modify
+            //the record in the membership record.
+            for(var key in req.body) {
+                if(req.body.hasOwnProperty(key)) {
+                    member_record[key] = req.body[key];
+                }
+            }
+            item.save(function(err2,item2) {
+                if(err2) {
+                    handleDBError(err2, res);
+                } else {
+                    res.send(item2);
+                }
+            });
+        }
+    });
+}

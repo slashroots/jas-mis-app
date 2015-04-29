@@ -6,10 +6,6 @@ var express = require('express');
 var Farmer = require('./farmer');
 var router = express.Router();
 
-dummyfunction = function(req, res) {
-    res.send('not implemented');
-};
-
 /**
  * End Points relevant to Farmers
  */
@@ -28,9 +24,9 @@ router.put('/farm/:farm_id', Farmer.updateFarmById);
 /**
  * Manipulate info about Membership for a specific farmer
  */
-router.get('/farmer/:id/membership/active', dummyfunction);
-router.post('/farmer/:id/membership', dummyfunction);
-router.put('/farmer/:id/membership/:member_id', dummyfunction);
+router.get('/farmer/:id/membership/active', Farmer.getActiveMembership);
+router.post('/farmer/:id/membership', Farmer.createMembership);
+router.put('/farmer/:id/membership/:member_id', Farmer.updateMembership);
 
 /**
  * Manipulate info about Comment for a specific farmer

@@ -65,13 +65,15 @@ var BranchSchema = new Schema({
     ro_absrep_id: [RoleSchema]
 });
 var MembershipSchema = new Schema({
-    mi_jas_number: String,
-    mi_start: Date,
-    mi_expiration: Date,
-    mt_type_id: Schema.Types.ObjectId,
+    mi_jas_number: {type: String, required: true},
+    mi_start: {type: Date, required: true},
+    mi_expiration: {type: Date, required: true},
+    mt_type_id: {type: Schema.Types.ObjectId, required: true},
     br_branch_id: Schema.Types.ObjectId,
-    ad_address_id: Schema.Types.ObjectId,
+    ad_address_id: {type: Schema.Types.ObjectId, required: true},
     mi_date_updated: {type: Date, default: Date.now()},
+    mi_due_owed: {type: Number, required: true},
+    mi_due_paid: {type: Number, required: true},
     mi_sub_sector: String
 });
 var FarmSchema = new Schema({
@@ -313,7 +315,7 @@ var Branch = mongoose.model('Branch', BranchSchema);
  * This model is used to capture a membership record in the JAS
  * @type {Model|*}
  */
-var Membership = mongoose.model('Membership',MembershipSchema);
+exports.Membership = mongoose.model('Membership',MembershipSchema);
 
 /**
  * Structure captures the Farmer's Farms and their locations
