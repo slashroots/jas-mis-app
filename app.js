@@ -26,6 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', farmer_routes);
+app.use('/', routes);
 app.use('/common', common_routes);
 
 // catch 404 and forward to error handler
