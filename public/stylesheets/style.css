@@ -1,3 +1,4 @@
+/*
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +6,25 @@ body {
 
 a {
   color: #00B7FF;
+}
+*/
+md-toolbar.md-default-theme {
+  background-color: white;
+}
+
+ui-view {
+  background-color: whitesmoke;
+}
+
+.belowTheToolbar {
+  background-color: whitesmoke;
+  padding-top: 80px;
+}
+
+.addNew{
+  padding-top: 100px;
+}
+
+a.md-button.md-default-theme.md-fab, .md-button.md-default-theme.md-fab{
+  background-color: black;
 }
