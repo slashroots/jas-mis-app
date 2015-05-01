@@ -134,6 +134,7 @@ var FarmerSchema = new Schema({
     fa_first_name: {type: String, required: true},
     fa_middle_name: String,
     fa_last_name: {type: String, required: true},
+    fa_gender: {type: String, required: true},
     fa_dob: Date,
     fa_government_id: String,
     fa_rada_id: String,
