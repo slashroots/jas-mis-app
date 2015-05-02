@@ -10,3 +10,9 @@ In this project we will be using Material design elements to give users the best
 Cheers!
 
 ![Mean.js](http://meanjs.org/img/logo.png)
+
+## Importing Data
+
+1.	Create all parishes
+2.	Create all membership Types
+3.	Create 

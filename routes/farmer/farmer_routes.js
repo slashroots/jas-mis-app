@@ -24,6 +24,8 @@ router.put('/farm/:farm_id', Farmer.updateFarmById);
 /**
  * Manipulate info about Membership for a specific farmer
  */
+router.post('/membershiptype', Farmer.createMembershipType);
+router.get('/membershiptypes', Farmer.getMembershipTypes);
 router.get('/farmer/:id/membership/active', Farmer.getActiveMembership);
 router.post('/farmer/:id/membership', Farmer.createMembership);
 router.put('/farmer/:id/membership/:member_id', Farmer.updateMembership);
@@ -38,5 +40,7 @@ router.post('/farmer/:id/comment', Farmer.createFarmerComment);
  * TODO:  Need to create endpoints for Transactions, Commodity, Disputes
  * TODO:  replace dummy function with actual controller logic
  */
+
+router.post('/farmers', Farmer.batchCreateFarmers);
 
 module.exports = router;

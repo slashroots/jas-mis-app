@@ -139,8 +139,10 @@ var FarmerSchema = new Schema({
     fa_government_id: String,
     fa_rada_id: String,
     fa_contact: String,
+    fa_contact2: String,
+    fa_email: String,
     //fa_picture:
-    deceased: {type: Boolean, required: true},
+    fa_deceased: {type: Boolean, required: true},
     mi_membership: [MembershipSchema],
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
@@ -279,7 +281,7 @@ var Crop = mongoose.model('Crop', CropSchema);
  * Membership Types example: Direct/Branch/Life Member/Affiliate
  * @type {Model|*}
  */
-var MembershipType = mongoose.model('MembershipType', MembershipTypeSchema);
+exports.MembershipType = mongoose.model('MembershipType', MembershipTypeSchema);
 
 /**
  * The Parish Model allows for backwards compatibility with the JAS

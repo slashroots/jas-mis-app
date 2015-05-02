@@ -340,4 +340,174 @@ exports.updateMembership = function(req, res) {
             });
         }
     });
+};
+
+/**
+ * Create New Membership Type. Validation done by DB.
+ * @param req
+ * @param res
+ */
+exports.createMembershipType = function(req, res) {
+    var mt = new model.MembershipType(req.body);
+    mt.save(function(err, item) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(item);
+        }
+    });
+};
+
+/**
+ * Retrieve all membership types.
+ *
+ * @param req
+ * @param res
+ */
+exports.getMembershipTypes = function(req, res) {
+    model.MembershipType.find(function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(list);
+        }
+    });
+};
+
+/**
+ * Attempts to import farmers in a batch using a json object.
+ * This has a request body restriction of 50MB!
+ *
+ * This will first do a lookup of all parishes and a specific
+ * membership type
+ *
+ * @param req
+ * @param res
+ */
+exports.batchCreateFarmers = function(req, res) {
+
+    //TODO: Lookup of membership types and parishes
+    model.MembershipType.findOne({mt_type_name: "Direct"}, function(err, membershipType) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            model.Parish.find(function(err2, parishes) {
+                if(err2) {
+                    handleDBError(err2, res);
+                } else {
+                    performTransform(membershipType, parishes, req, res);
+                }
+            });
+        }
+    });
+};
+
+var fs = require('fs');
+
+/**
+ * Does the transform from information supplied in the request
+ * body to match that of this application schema.
+ *
+ * @param membershipType
+ * @param parishes
+ * @param res
+ */
+function performTransform(membershipType, parishes, req, res) {
+    var farmer;
+    var farm_address;
+    var mailing_address;
+    var membership;
+    var d;
+    var addresses = [];
+    var allfarmers = [];
+
+    for(var f in req.body) {
+        try{
+            d = Date.parse(req.body[f]["D.O.B"]);
+        } catch(e) {
+            d = null;
+        }
+
+        farmer = new model.Farmer({
+            fa_first_name: req.body[f]["First Name"],
+            fa_middle_name: req.body[f]["Middle "],
+            fa_last_name: req.body[f]["Last Name"],
+            fa_gender: req.body[f]["Gender"],
+            fa_contact: req.body[f]["Contact Number"],
+            fa_contact2: req.body[f]["Office Number"],
+            fa_email: req.body[f]["Email Address"],
+            fa_deceased: false
+        });
+        if(d != null) {
+            farmer.fa_dob = d;
+        }
+
+        if(req.body[f]["Mailing Address"] != "") {
+            mailing_address = new model.Address({
+                ad_address1: req.body[f]["Mailing Address"],
+                pa_parish: lookupParish(req.body[f]["Parish code"], parishes),
+                ad_country: "Jamaica"
+            });
+            addresses.push(mailing_address);
+        }
+        if(req.body[f]["Farmers Address"] != "") {
+            farm_address = new model.Address({
+                ad_address1: req.body[f]["Farmers Address"],
+                pa_parish: lookupParish(req.body[f]["Parish code"], parishes),
+                ad_country: "Jamaica"
+            });
+            addresses.push(farm_address);
+        }
+
+        var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011"];
+        for(y in histories) {
+            //TODO: Create Membership and Farm Information
+            if (req.body[f][histories[y]] == "A") {
+                membership = new model.Membership({
+                    mi_jas_number: req.body[f]["Parish code"]
+                    + req.body[f]["Expiry Year"]
+                    + req.body[f]["Member Number"],
+                    mi_start: new Date("4/1/" + histories[y].split("-")[0]),
+                    mi_expiration: new Date("3/31/"+ histories[y].split("-")[1]),
+                    mi_type_id: membershipType._id,
+                    mi_due_owed: 1000,
+                    mi_due_paid: 1000,
+                    mi_sub_sector: req.body[f]["Subsector"],
+                    ad_address_id: (mailing_address != null) ? mailing_address._id : (farm_address != null) ? farm_address._id : null
+                });
+                farmer.mi_membership.push(membership);
+            }
+        }
+
+        //TODO: Push information into the farmer object
+        allfarmers.push(farmer);
+        mailing_address = null;
+        farm_address = null;
+    }
+
+    /**
+     * THIS IS VERY INEFFICIENT BUT IT IS THE ONLY WAY TO GET THIS
+     * DONE!
+     */
+    model.Address.create(addresses, function(err,list) {
+        model.Farmer.create(allfarmers, function(err2, list2) {
+            res.send("Done!");
+        })
+    });
+
+};
+
+/**
+ * Inefficient function to lookup parish by parish code
+ * and return the _id value.
+ * @param code
+ * @param parishes
+ * @returns {*|id|_id|{$nin}|{type, auto}}
+ */
+function lookupParish(code, parishes) {
+    for(p in parishes) {
+        if(parishes[p].pa_parish_code == code) {
+            return parishes[p]._id;
+        }
+    }
 }
