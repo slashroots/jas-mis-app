@@ -13,6 +13,10 @@ Cheers!
 
 ## Importing Data
 
-1.	Create all parishes
-2.	Create all membership Types
-3.	Create 
+1.	Create all parishes with parish code and parish names
+2.	Create all membership Types with distinct values (direct/branch etc)
+3.	Create JSON array that matches the fields in the function ```performTransform()``` in the ```farmer.js``` file.
+4.  Load JSON array in request body and send the request to the ```/farmers``` endpoint using ```POST``` action.
+5.  Sit back and watch the magic!
+
+Cheers!
