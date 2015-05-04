@@ -375,6 +375,10 @@ exports.getMembershipTypes = function(req, res) {
 };
 
 /**
+ * TODO: Move these transform functions outta here!
+ */
+
+/**
  * Attempts to import farmers in a batch using a json object.
  * This has a request body restriction of 50MB!
  *

@@ -19,4 +19,16 @@ Cheers!
 4.  Load JSON array in request body and send the request to the ```/farmers``` endpoint using ```POST``` action.
 5.  Sit back and watch the magic!
 
+## Assumptions During import (direct membership)
+
+1.  The ```Mailing address``` is the farmer's residency address.  If this isn't given, the ```farmers address``` by default is both the address of the farm and the farmer's residency address.
+2.  The number in the ```acreage``` field is the acreage for the farm with address given by ```farmers address```.
+3.  The year range given by ```2006-2007``` means that the membership period is 1st of April ```2006``` to the 31st of March ```2007```.
+4.  The symbol ```√``` and the ```A``` in the year range columns have the same meaning (active registration for the period).
+5.  Direct members have always paid $1000 for dues.
+6.  Branch members have always paid $200 for dues.
+7.  Every member designated as being active for a period has paid his dues
+8.  The parish code represents the parish for which the farmer is a member but NOT necessarily where he/she resides.
+
+
 Cheers!
