@@ -10,6 +10,7 @@ a {
 */
 md-toolbar.md-default-theme {
   background-color: white;
+  color: rgba(116, 117, 41, 1);
 }
 
 ui-view {
@@ -18,13 +19,24 @@ ui-view {
 
 .belowTheToolbar {
   background-color: whitesmoke;
-  padding-top: 80px;
+  background: url("../images/bg-img.jpg") no-repeat;
+  background-size: 100% 220px;
 }
 
 .addNew{
-  padding-top: 100px;
+  padding-top: 180px;
 }
 
 a.md-button.md-default-theme.md-fab, .md-button.md-default-theme.md-fab{
   background-color: black;
+}
+
+.globalSearchArea {
+  padding-top: 30px;
+}
+
+.search {
+  width: 100%;
+  height: 35px;
+  text-align: right;
 }

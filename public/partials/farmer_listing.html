@@ -1,0 +1,42 @@
+<div>
+    <input type="text" ng-model="farmerFilter" placeholder="Search..."/>
+
+    <table>
+        <thead>
+        <tr>
+            <th>JAS #</th>
+            <th>Title</th>
+            <th>First</th>
+            <th>Middle</th>
+            <th>Last</th>
+            <th>Gender</th>
+            <th>TRN</th>
+            <th>Address 1</th>
+            <th>Address 2</th>
+            <th>Parish</th>
+            <th>DOB</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Active</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="farmer in farmers | filter: farmerFilter">
+            <td>{{ farmer.jas_number }}</td>
+            <td>{{ farmer.title }}</td>
+            <td>{{ farmer.first_name}}</td>
+            <td>{{ farmer.middle_name }}</td>
+            <td>{{ farmer.last_name }}</td>
+            <td>{{ farmer.gender}}</td>
+            <td>{{ farmer.trn }}</td>
+            <td>{{ farmer.address1}}</td>
+            <td>{{ farmer.address2}}</td>
+            <td>{{ farmer.parish}}</td>
+            <td>{{ farmer.dob}}</td>
+            <td>{{ farmer.cell}}</td>
+            <td>{{ farmer.email }}</td>
+            <td>{{ farmer.active }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

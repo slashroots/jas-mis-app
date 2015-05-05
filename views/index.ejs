@@ -26,24 +26,35 @@
       <md-label>+</md-label>
     </md-button>
   </div>
-  <div ng-view class="contentArea" flex>
+  <div layout="column" flex>
+    <div class="headerArea" layout="row" flex>
+      <div class="globalSearchArea" flex="60">
+        <input class="search" type="text" placeholder="Search"/>
+      </div>
+      <div class="emptyArea" flex="40">
 
-  <md-content>
-    <!--
-     Will use this area to dynamically load information from
-     other pages in the application  The section wrapped in <ui-view>
-     will be removed from this.  This will be removed from this file.
-     Just a stub at the moment.
-    -->
-    <ui-view layout="column" layout-fill layout-padding>
-      <md-card>
-        <md-card-content>
+      </div>
+    </div>
 
-        </md-card-content>
-      </md-card>
+    <div class="contentArea" flex>
 
-    </ui-view>
-  </md-content>
+      <md-content>
+        <!--
+         Will use this area to dynamically load information from
+         other pages in the application  The section wrapped in <ui-view>
+         will be removed from this.  This will be removed from this file.
+         Just a stub at the moment.
+        -->
+        <ui-view layout="column" layout-fill layout-padding>
+          <md-card>
+            <md-card-content>
+
+            </md-card-content>
+          </md-card>
+
+        </ui-view>
+      </md-content>
+    </div>
   </div>
   <div class="emptySpace" layout="column" flex="10">
 

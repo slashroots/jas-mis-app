@@ -11,5 +11,5 @@ angular.module('jasmic', [
     'jasmic.controllers'
 ]).
     config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/farmer', {templateUrl: 'partials/farmer.html', controller: 'MyCtrl1'});
+        $routeProvider.when('/farmer', {templateUrl: '../partials/farmer_listing.html', controller: 'FarmerListing'});
     }]);
