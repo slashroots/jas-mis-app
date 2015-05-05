@@ -66,7 +66,7 @@ exports.createParish = function(req, res) {
  * @param res
  */
 exports.getParishes = function(req, res) {
-    Parish.find(function(err, items) {
+    Parish.find(req.query, function(err, items) {
         if(err) {
             handleDBError(err, res);
         } else {

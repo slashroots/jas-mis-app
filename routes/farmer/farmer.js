@@ -39,7 +39,7 @@ handleDBError = function(err, res) {
  * @param res
  */
 exports.getFarmers = function(req, res) {
-    model.Farmer.find(req.params, function(err, list) {
+    model.Farmer.find(req.query, function(err, list) {
         if(err) {
             handleDBError(err, res);
         } else {
@@ -365,7 +365,7 @@ exports.createMembershipType = function(req, res) {
  * @param res
  */
 exports.getMembershipTypes = function(req, res) {
-    model.MembershipType.find(function(err, list) {
+    model.MembershipType.find(req.query, function(err, list) {
         if(err) {
             handleDBError(err, res);
         } else {
