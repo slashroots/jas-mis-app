@@ -39,13 +39,15 @@ handleDBError = function(err, res) {
  * @param res
  */
 exports.getFarmers = function(req, res) {
-    model.Farmer.find(req.query, function(err, list) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(list);
-        }
-    })
+    model.Farmer.find(req.query)
+        .populate('ad_address')
+        .exec(function(err, list) {
+            if(err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
 };
 
 /**
@@ -463,6 +465,9 @@ function performTransform(membershipType, parishes, req, res) {
             addresses.push(farm_address);
         }
 
+        farmer.ad_address= (mailing_address != null) ? mailing_address._id : (farm_address != null) ? farm_address._id : null
+        farmer.fa_sub_sector= req.body[f]["Subsector"];
+
         var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011"];
         for(y in histories) {
             //TODO: Create Membership and Farm Information
@@ -475,9 +480,7 @@ function performTransform(membershipType, parishes, req, res) {
                     mi_expiration: new Date("3/31/"+ histories[y].split("-")[1]),
                     mi_type_id: membershipType._id,
                     mi_due_owed: 1000,
-                    mi_due_paid: 1000,
-                    mi_sub_sector: req.body[f]["Subsector"],
-                    ad_address_id: (mailing_address != null) ? mailing_address._id : (farm_address != null) ? farm_address._id : null
+                    mi_due_paid: 1000
                 });
                 farmer.mi_membership.push(membership);
             }
@@ -511,7 +514,7 @@ function performTransform(membershipType, parishes, req, res) {
 function lookupParish(code, parishes) {
     for(p in parishes) {
         if(parishes[p].pa_parish_code == code) {
-            return parishes[p]._id;
+            return parishes[p].pa_parish_name;
         }
     }
 }

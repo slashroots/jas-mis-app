@@ -45,7 +45,7 @@ var AddressSchema = new Schema({
     ad_latitude: Number,
     ad_longitude: Number,
     ad_city: String,
-    pa_parish: {required: true, type: Schema.Types.ObjectId},
+    pa_parish: {required: true, type: String},
     ad_country: {type: String, required: true}
 });
 var RoleSchema = new Schema({
@@ -70,16 +70,14 @@ var MembershipSchema = new Schema({
     mi_expiration: {type: Date, required: true},
     mt_type_id: {type: Schema.Types.ObjectId, required: true},
     br_branch_id: Schema.Types.ObjectId,
-    ad_address_id: {type: Schema.Types.ObjectId, required: true},
     mi_date_updated: {type: Date, default: Date.now()},
     mi_due_owed: {type: Number, required: true},
-    mi_due_paid: {type: Number, required: true},
-    mi_sub_sector: String
+    mi_due_paid: {type: Number, required: true}
 });
 var FarmSchema = new Schema({
     fr_district_id: String,
     fr_extension_id: String,
-    ad_address_id: {type: Schema.Types.ObjectId, required: true},
+    ad_address_id: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
@@ -141,13 +139,14 @@ var FarmerSchema = new Schema({
     fa_contact: String,
     fa_contact2: String,
     fa_email: String,
-    //fa_picture:
+    ad_address: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
     fa_deceased: {type: Boolean, required: true},
     mi_membership: [MembershipSchema],
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     co_commodities: [CommoditySchema],
-    in_integrity: Schema.Types.ObjectId
+    in_integrity: Schema.Types.ObjectId,
+    fa_sub_sector: String
 });
 var CallTypeSchema = new Schema({
     us_user_id: {type: Schema.Types.ObjectId, required: true},

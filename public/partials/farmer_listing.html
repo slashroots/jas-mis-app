@@ -13,21 +13,21 @@
                         <th>TRN</th>
                         <th>DOB</th>
                         <th>Contact</th>
-                        <th>Email</th>
                         <th>Deceased</th>
+                        <th>Parish</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in farmers">
-                        <td>{{ farmer.fa_first_name}}</td>
+                    <tr ng-repeat="farmer in farmers | filter: search">
+                        <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_middle_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
-                        <td>{{ farmer.fa_gender}}</td>
+                        <td>{{ farmer.fa_gender }}</td>
                         <td>{{ farmer.fa_government_id }}</td>
-                        <td>{{ farmer.fa_dob | date}}</td>
-                        <td>{{ farmer.fa_contact}}</td>
-                        <td>{{ farmer.fa_email | lowercase}}</td>
+                        <td>{{ farmer.fa_dob | date }}</td>
+                        <td>{{ farmer.fa_contact }}</td>
                         <td>{{ farmer.fa_deceased }}</td>
+                        <td>{{ farmer.ad_address.pa_parish }}</td>
                     </tr>
                     </tbody>
                 </table>
