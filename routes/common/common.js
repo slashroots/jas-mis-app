@@ -5,6 +5,7 @@ var model = require('../../models/db');
 var Address = model.Address;
 var Parish = model.Parish;
 var Farmer = model.Farmer;
+var Buyer = model.Buyer;
 
 
 /**
@@ -126,20 +127,34 @@ exports.searchAll = function(req, res) {
         Farmer.find({
             $or: [
                 {fa_first_name: {$in: list}},
-                {fa_last_name: {$in: list}}
+                {fa_last_name: {$in: list}},
+                {fa_jas_number: {$in: list}}
             ]
         }).populate('ad_address').limit(10)
-            .exec(function (err, documents) {
+            .exec(function (err, farmers) {
                 if (err) {
                     handleDBError(err, res);
                 } else {
-                    var result = {
-                        farmers: documents
-                    }
-                    res.send(result);
+                    Buyer.find({
+                        $or: [
+                            {bu_buyer_name: {$in: list}},
+                            {bu_email: {$in: list}}
+                        ]
+                    }).populate('ad_address').limit(10)
+                        .exec(function(err2, buyers) {
+                            if(err2) {
+                                handleDBError(err, res);
+                            } else {
+                                var result = {
+                                    'farmers': farmers,
+                                    'buyers': buyers
+                                };
+                                res.send(result);
+                            }
+                        })
                 }
             });
     } else {
-        res.send({farmers:[]});
+        res.send({farmers:[],buyers:[],transaction:[], calls:[]});
     }
 };

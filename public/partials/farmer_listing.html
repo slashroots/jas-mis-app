@@ -7,10 +7,9 @@
                 <table class="table table-hover table-mc-light-blue">
                     <thead>
                     <tr>
+                        <th>JAS #</th>
                         <th>First</th>
                         <th>Last</th>
-                        <th>Gender</th>
-                        <th>TRN</th>
                         <th>DOB</th>
                         <th>Contact</th>
                         <th>Deceased</th>
@@ -19,10 +18,9 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="farmer in farmers | filter: search">
+                        <td>{{ farmer.fa_jas_number }}</td>
                         <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
-                        <td>{{ farmer.fa_gender }}</td>
-                        <td>{{ farmer.fa_government_id }}</td>
                         <td>{{ farmer.fa_dob | date }}</td>
                         <td>{{ farmer.fa_contact }}</td>
                         <td>{{ farmer.fa_deceased }}</td>

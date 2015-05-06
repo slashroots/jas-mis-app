@@ -129,6 +129,7 @@ var TransactionSchema = new Schema({
     ct_comments: [CommentSchema]
 });
 var FarmerSchema = new Schema({
+    fa_jas_number: {type: String, unique: true},
     fa_first_name: {type: String, required: true},
     fa_middle_name: String,
     fa_last_name: {type: String, required: true},
@@ -171,11 +172,11 @@ var BuyerTypeSchema = new Schema({
 });
 var BuyerSchema = new Schema({
     bu_buyer_name: {type: String, required: true, unique: true},
-    bt_buyer_type: Schema.Types.ObjectId,
+    bt_buyer_type: {type: Schema.Types.ObjectId, ref: 'BuyerType'},
     bu_phone: String,
     bu_email: String,
     bu_payment_terms: String,
-    ad_address: Schema.Types.ObjectId,
+    ad_address: {type: Schema.Types.ObjectId, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Schema.Types.ObjectId,
     de_demands: [DemandSchema]
@@ -360,9 +361,9 @@ var UserType = mongoose.model('UserType', UserTypeSchema);
 
 var Audit = mongoose.model('Audit', AuditSchema);
 
-var Buyer = mongoose.model('Buyer', BuyerSchema);
+exports.Buyer = mongoose.model('Buyer', BuyerSchema);
 
-var BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
+exports.BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
 
 var Integrity = mongoose.model('Integrity', IntegritySchema);
 

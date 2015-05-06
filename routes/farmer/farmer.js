@@ -467,6 +467,9 @@ function performTransform(membershipType, parishes, req, res) {
 
         farmer.ad_address= (mailing_address != null) ? mailing_address._id : (farm_address != null) ? farm_address._id : null
         farmer.fa_sub_sector= req.body[f]["Subsector"];
+        farmer.fa_jas_number = req.body[f]["Parish code"]
+        + req.body[f]["Expiry Year"]
+        + req.body[f]["Member Number"];
 
         var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011"];
         for(y in histories) {
