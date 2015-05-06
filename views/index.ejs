@@ -32,8 +32,8 @@
       -->
     </span>
   </div>
-  <div layout="column" flex>
-    <div class="headerArea" layout="row" flex>
+  <div layout="column" flex layout-wrap>
+    <div class="headerArea" layout="row" >
       <div class="globalSearchArea" flex="60">
         <input class="search" ng-model="search" type="text" placeholder="Search"/>
       </div>
@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="contentArea" flex>
+    <div class="contentArea" layout-fill flex>
       <div ng-view>
 
       </div>
@@ -62,8 +62,9 @@
 <script src="../javascripts/lb-services.js"></script>
 <script src="../javascripts/app.js"></script>
 <script src="../javascripts/services.js"></script>
-<script src="../javascripts/controllers/navigation.js"></script>
+<script src="../javascripts/controllers/navigation-ctrl.js"></script>
 <script src="../javascripts/controllers/farmer-ctrl.js"></script>
+<script src="../javascripts/controllers/search-ctrl.js"></script>
 <script src="../javascripts/filters.js"></script>
 <script src="../javascripts/directives.js"></script>
 </body>

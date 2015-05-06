@@ -32,11 +32,19 @@ a.md-button.md-default-theme.md-fab, .md-button.md-default-theme.md-fab{
 }
 
 .globalSearchArea {
-  padding-top: 30px;
+  padding-top: 80px;
 }
 
 .search {
   width: 100%;
   height: 35px;
   text-align: right;
+}
+
+html {
+  background-color: whitesmoke;
+}
+
+.contentArea {
+  padding-top: 30px;
 }

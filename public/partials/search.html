@@ -1,39 +1,39 @@
 <div>
     <ui-view layout="column" layout-fill layout-padding>
         <md-content layout-padding style="height: 600px;padding: 24px;">
-
-        <md-card>
-            <md-card-content>
+            <md-card>
+                <md-subheader class="md-primary">Farmers:</md-subheader>
                 <table class="hoverable">
                     <thead>
                     <tr>
+                        <th>JAS #</th>
                         <th>First</th>
-                        <th>Middle</th>
                         <th>Last</th>
-                        <th>Gender</th>
-                        <th>TRN</th>
-                        <th>DOB</th>
-                        <th>Contact</th>
-                        <th>Deceased</th>
                         <th>Parish</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="farmer in farmers | filter: search">
+                        <td>JAS #</td>
                         <td>{{ farmer.fa_first_name }}</td>
-                        <td>{{ farmer.fa_middle_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
-                        <td>{{ farmer.fa_gender }}</td>
-                        <td>{{ farmer.fa_government_id }}</td>
-                        <td>{{ farmer.fa_dob | date }}</td>
-                        <td>{{ farmer.fa_contact }}</td>
-                        <td>{{ farmer.fa_deceased }}</td>
                         <td>{{ farmer.ad_address.pa_parish }}</td>
                     </tr>
                     </tbody>
                 </table>
-            </md-card-content>
-        </md-card>
+            </md-card>
+
+            <md-card>
+                <md-subheader class="md-primary">Buyers:</md-subheader>
+            </md-card>
+
+            <md-card>
+                <md-subheader class="md-primary">Transactions:</md-subheader>
+            </md-card>
+
+            <md-card>
+                <md-subheader class="md-primary">Calls:</md-subheader>
+            </md-card>
         </md-content>
     </ui-view>
 </div>

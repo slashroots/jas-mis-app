@@ -9,7 +9,8 @@ angular.module('jasmic', [
     'jasmic.controllers'
 ]).config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/farmer', {templateUrl: '../partials/farmer_listing.html', controller: 'FarmerListingCtrl'});
-        $routeProvider.otherwise({redirectTo: '/farmer'});
+        $routeProvider.when('/search', {templateUrl: '../partials/search.html', controller: 'SearchCtrl'});
+        $routeProvider.otherwise({redirectTo: '/search'});
     }]);
 
 angular.module('jasmic.controllers',[]);
