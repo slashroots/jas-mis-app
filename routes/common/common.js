@@ -1,9 +1,11 @@
 /**
  * Created by matjames007 on 4/29/15.
  */
+var model = require('../../models/db');
+var Address = model.Address;
+var Parish = model.Parish;
+var Farmer = model.Farmer;
 
-var Address = require('../../models/db').Address;
-var Parish = require('../../models/db').Parish;
 
 /**
  * This is a generic helper function for MongoDB errors
@@ -111,4 +113,33 @@ exports.updateAddressById = function(req, res) {
             }
         }
     });
+};
+
+/**
+ * This function always expects the searchTerm Parameter!
+ * @param req
+ * @param res
+ */
+exports.searchAll = function(req, res) {
+    if("searchTerms" in req.query) {
+        var list = req.query.searchTerms.toUpperCase().split(" ");
+        Farmer.find({
+            $or: [
+                {fa_first_name: {$in: list}},
+                {fa_last_name: {$in: list}}
+            ]
+        }).populate('ad_address').limit(10)
+            .exec(function (err, documents) {
+                if (err) {
+                    handleDBError(err, res);
+                } else {
+                    var result = {
+                        farmers: documents
+                    }
+                    res.send(result);
+                }
+            });
+    } else {
+        res.send({farmers:[]});
+    }
 };

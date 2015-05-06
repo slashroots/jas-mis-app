@@ -26,4 +26,6 @@ router.put('/address/:id', Common.updateAddressById);
 router.post('/parish', Common.createParish);
 router.get('/parishes', Common.getParishes);
 
+router.get('/search', Common.searchAll);
+
 module.exports = router;

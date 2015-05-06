@@ -3,7 +3,8 @@
         <md-content layout-padding style="height: 600px;padding: 24px;">
             <md-card>
                 <md-subheader class="md-primary">Farmers:</md-subheader>
-                <table class="hoverable">
+                <div class="table-responsive-vertical">
+                <table class="table table-hover table-mc-light-blue">
                     <thead>
                     <tr>
                         <th>JAS #</th>
@@ -13,7 +14,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in farmers | filter: search">
+                    <tr ng-repeat="farmer in results.farmers | filter: search">
                         <td>JAS #</td>
                         <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
@@ -21,6 +22,7 @@
                     </tr>
                     </tbody>
                 </table>
+                </div>
             </md-card>
 
             <md-card>

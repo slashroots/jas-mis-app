@@ -55,3 +55,14 @@ services.factory('FarmerFarmsFactory', function($resource) {
         query: { method: 'GET', params: {id: '@id'}}
     });
 });
+
+/**
+ * This factory allows us to do a search across multiple entities
+ * including, Farmer, transactions, Buyers and Calls (limited to
+ * 10 per entity)
+ */
+services.factory('SearchAllFactory', function($resource) {
+    return $resource('/common/search', {}, {
+        query: { method: 'GET'}
+    });
+});

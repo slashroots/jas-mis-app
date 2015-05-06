@@ -3,8 +3,13 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('SearchCtrl', ['$scope', '$routeParams', 'FarmersFactory',
-        function ($scope, $routeParams, FarmersFactory) {
-            $scope.farmers = FarmersFactory.query($routeParams);
+    .controller('SearchCtrl', ['$scope','$location','$routeParams', 'SearchAllFactory',
+        function ($scope, $location, $routeParams, SearchAllFactory) {
+            $scope.results = SearchAllFactory.query($routeParams);
+            console.log($scope.results);
+
+            $scope.searchAll = function() {
+                $location.url("/search?searchTerms=" + $scope.search);
+            }
         }
     ]);

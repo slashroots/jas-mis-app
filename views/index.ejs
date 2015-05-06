@@ -35,7 +35,9 @@
   <div layout="column" flex layout-wrap>
     <div class="headerArea" layout="row" >
       <div class="globalSearchArea" flex="60">
-        <input class="search" ng-model="search" type="text" placeholder="Search"/>
+        <form ng-controller="SearchCtrl" ng-submit="searchAll()">
+          <input class="search" ng-model="search" type="text" placeholder="Search"/>
+        </form>
       </div>
       <div class="emptyArea" flex="40">
 
