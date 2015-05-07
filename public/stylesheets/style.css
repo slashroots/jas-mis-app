@@ -13,8 +13,12 @@ md-toolbar.md-default-theme {
   color: rgba(116, 117, 41, 1);
 }
 
-ui-view {
-  background-color: whitesmoke;
+md-content.md-default-theme {
+  background-color: transparent;
+}
+
+md-option {
+  background-color: white;
 }
 
 .belowTheToolbar {

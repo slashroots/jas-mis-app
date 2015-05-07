@@ -1,7 +1,8 @@
-<div>
-    <ui-view layout="column" layout-fill layout-padding>
-        <md-content layout-padding style="height: 800px;padding: 24px;">
+<ui-view>
+    <md-content layout="row" layout-fill style="height: 800px;">
+        <div flex="{{false ? 60: 100"}}" layout="column" layout-fill>
             <md-card>
+                <md-content layout-padding>
                 <md-subheader class="md-primary">Farmers:</md-subheader>
                 <div class="table-responsive-vertical">
                 <table class="table table-hover table-mc-light-blue">
@@ -27,9 +28,11 @@
                     </tbody>
                 </table>
                 </div>
+                </md-content>
             </md-card>
 
             <md-card>
+                <md-content layout-padding>
                 <md-subheader class="md-primary">Buyers:</md-subheader>
                 <div class="table-responsive-vertical">
                     <table class="table table-hover table-mc-light-blue">
@@ -55,15 +58,23 @@
                         </tbody>
                     </table>
                 </div>
+                </md-content>
             </md-card>
 
             <md-card>
-                <md-subheader class="md-primary">Transactions:</md-subheader>
+                <md-content layout-padding>
+                    <md-subheader class="md-primary">Transactions:</md-subheader>
+                </md-content>
             </md-card>
 
             <md-card>
-                <md-subheader class="md-primary">Calls:</md-subheader>
+                <md-content layout-padding>
+                    <md-subheader class="md-primary">Calls:</md-subheader>
+                </md-content>
             </md-card>
-        </md-content>
-    </ui-view>
-</div>
+        </div>
+        <div ng-include="'/partials/farmer_profile_small.html'" flex="{{false ? 40: 0}}">
+
+        </div>
+    </md-content>
+</ui-view>
