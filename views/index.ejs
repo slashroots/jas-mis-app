@@ -11,7 +11,7 @@
 <div ng-controller="NavigationCtrl">
   <md-toolbar>
     <div class="md-toolbar-tools" >
-      <md-select ng-model="nav" placeholder="Navigation" flex="15">
+      <md-select ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
         <md-option>Dashboard</md-option>
         <md-option>Search</md-option>
         <md-option>Price Data</md-option>

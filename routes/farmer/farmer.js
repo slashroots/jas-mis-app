@@ -31,7 +31,9 @@ handleDBError = function(err, res) {
 
 /**
  * Retrieves all farmers based on the criteria given in the
- * request parameters.
+ * request parameters. If the parameter "searchTerms" is present
+ * in the req.query object then it will do a match to facilitate
+ * the search engine of the front end application.
  *
  * TODO: Need to ensure that this uses the request params!
  *
@@ -39,13 +41,27 @@ handleDBError = function(err, res) {
  * @param res
  */
 exports.getFarmers = function(req, res) {
-    model.Farmer.find(req.query)
+    var query;
+    if("searchTerms" in req.query) {
+        var list = req.query.searchTerms.toUpperCase().split(" ");
+        query = {
+            $or: [
+                {fa_first_name: {$in: list}},
+                {fa_last_name: {$in: list}},
+                {fa_jas_number: {$in: list}}
+            ]
+        };
+    } else {
+        query = req.query;
+    }
+
+    model.Farmer.find(query)
         .populate('ad_address')
-        .exec(function(err, list) {
+        .exec(function(err, docs) {
             if(err) {
                 handleDBError(err, res);
             } else {
-                res.send(list);
+                res.send(docs);
             }
         });
 };

@@ -1,6 +1,6 @@
 <div>
     <ui-view layout="column" layout-fill layout-padding>
-        <md-content layout-padding style="height: 600px;padding: 24px;">
+        <md-content layout-padding style="height: 800px;padding: 24px;">
             <md-card>
                 <md-subheader class="md-primary">Farmers:</md-subheader>
                 <div class="table-responsive-vertical">
@@ -48,7 +48,7 @@
                             <td>{{ buyer.bu_email}}</td>
                             <td>{{ buyer.ad_address.pa_parish }}</td>
                         </tr>
-                        <tr ng-if="results.farmers.length == 10">
+                        <tr ng-if="results.buyers.length == 10">
                             <td style="text-align: center" colspan="4"><a ng-href="#/buyer?searchTerms={{terms}}" >More Results</a></td>
                         </tr>
 
