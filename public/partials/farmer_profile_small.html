@@ -1,8 +1,54 @@
 <div layout="column" layout-fill>
 
     <md-card>
+        <md-card-content class="pretty">
+            <div layout-fill layout="column">
+                <div layout="row">
+                    View More
+                    <span layout-fill></span>
+                </div>
+                <div layout="row" class="farmerPretty">
+                    <div flex="30" class="profilePic"></div>
+                    <div flex="70" layout="column" class="farmerNames">
+                        <h4>Farmer</h4>
+                        <H3>{{selectedFarmer.fa_first_name}} &nbsp;{{selectedFarmer.fa_middle_name}}</H3>
+                        <h2>{{selectedFarmer.fa_last_name}}</h2>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
         <md-card-content>
-            Farmer Profile
+            <div layout="column">
+                <div layout-padding layout="row">
+                    <div flex="20">pic</div>
+                    <div flex="80" layout="column">
+                        <label>JAS #</label>
+                        {{selectedFarmer.fa_jas_number}}
+                    </div>
+                </div>
+                <div layout-padding layout="row">
+                    <div flex="20">pic</div>
+                    <div flex="80" layout="column">
+                        <label>Contact #</label>
+                        {{selectedFarmer.fa_contact}}
+                    </div>
+                </div>
+                <div layout-padding layout="row">
+                    <div flex="20">pic</div>
+                    <div flex="80" layout="column">
+                        <label>Email</label>
+                        {{selectedFarmer.fa_email}}
+                    </div>
+                </div>
+                <div layout-padding layout="row">
+                    <div flex="20">pic</div>
+                    <div flex="80" layout="column">
+                        <label>Address</label>
+                        {{selectedFarmer.ad_address.ad_address1}}<br/>
+                        {{selectedFarmer.pa_parish}}
+                    </div>
+                </div>
+            </div>
         </md-card-content>
     </md-card>
 

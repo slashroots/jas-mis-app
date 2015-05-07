@@ -52,3 +52,11 @@ html {
 .contentArea {
   padding-top: 30px;
 }
+
+.farmerPretty {
+  padding-top: 50px;
+}
+
+md-card-content.pretty {
+  background-color: #aed1e7;
+}

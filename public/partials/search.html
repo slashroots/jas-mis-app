@@ -1,9 +1,9 @@
 <ui-view>
     <md-content layout="row" layout-fill style="height: 800px;">
-        <div flex="{{false ? 60: 100"}}" layout="column" layout-fill>
+        <div flex="{{selected ? 60: 100"}}" layout="column" layout-fill>
             <md-card>
                 <md-content layout-padding>
-                <md-subheader class="md-primary">Farmers:</md-subheader>
+                <md-subheader class="md-no-sticky md-primary">Farmers:</md-subheader>
                 <div class="table-responsive-vertical">
                 <table class="table table-hover table-mc-light-blue">
                     <thead>
@@ -15,7 +15,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in results.farmers">
+                    <tr ng-repeat="farmer in results.farmers"  ng-click="selectedElement(farmer)">
                         <td>{{ farmer.fa_jas_number }}</td>
                         <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
@@ -73,7 +73,7 @@
                 </md-content>
             </md-card>
         </div>
-        <div ng-include="'/partials/farmer_profile_small.html'" flex="{{false ? 40: 0}}">
+        <div ng-include="'/partials/farmer_profile_small.html'" flex="{{selected ? 40: 0}}">
 
         </div>
     </md-content>
