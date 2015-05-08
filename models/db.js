@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 /**
  * TODO: Need to make the .connect method read from env variables for heroku
  */
-mongoose.connect('mongodb://localhost/jas-mis-app');
+mongoose.connect(process.env.MONGOLAB_URI);
 
 /**
  *  These are the schema for the entire application
