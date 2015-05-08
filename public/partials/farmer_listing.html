@@ -1,7 +1,6 @@
-<div>
-    <ui-view layout="column" layout-fill >
-        <md-content style="height: 800px;">
-
+<ui-view>
+    <md-content layout="row" layout-fill>
+        <div layout="column" layout-fill flex="{{selected ? 60: 100}}">
         <md-card>
             <md-card-content layout-padding>
                 <table class="table table-hover table-mc-light-blue">
@@ -17,7 +16,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in farmers | filter: search">
+                    <tr ng-repeat="farmer in farmers" ng-click="selectedElement(farmer)">
                         <td>{{ farmer.fa_jas_number }}</td>
                         <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
@@ -30,6 +29,9 @@
                 </table>
             </md-card-content>
         </md-card>
-        </md-content>
-    </ui-view>
-</div>
+        </div>
+        <div ng-include="selected ? '/partials/farmer_profile_small.html':null" flex="40">
+
+        </div>
+    </md-content>
+</ui-view>
