@@ -13,4 +13,9 @@ angular.module('jasmic.controllers')
                 $scope.selected = true;
             };
         }
+    ])
+    .controller('FarmerProfileCtrl', ['$scope', '$routeParams', 'FarmerFactory',
+        function ($scope, $routeParams, FarmerFactory) {
+            $scope.farmer = FarmerFactory.show({id:$routeParams.id});
+        }
     ]);

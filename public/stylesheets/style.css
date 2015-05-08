@@ -57,6 +57,11 @@ html {
   padding-top: 50px;
 }
 
+.farmerPretty2 {
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+
 md-card-content.pretty {
   background-color: #d8e4f1;
 }
@@ -80,4 +85,16 @@ md-card-content.pretty {
   border-bottom-color: #B8BDBD;
   border-width: thin;
   border-bottom-style: solid;
+}
+
+.farmer_info {
+  border-bottom-color: #B8BDBD;
+  border-width: thin;
+  border-bottom-style: solid;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.lastInfo{
+  padding-top: 10px;
 }

@@ -1,0 +1,85 @@
+<ui-view>
+    <md-content layout="row" layout-fill>
+        <div layout="column" layout-fill flex="60">
+        <md-card>
+            <md-card-content class="pretty" layout-padding>
+                <div layout="row">
+                    <div flex="30" class="profilePic"></div>
+                    <div flex="50" layout="column" class="farmerNames farmerPretty2">
+                        <label>Farmer</label>
+                        <H3 class="farmerSummary">{{farmer.fa_first_name}} &nbsp;{{farmer.fa_middle_name}}</H3>
+                        <h2 class="farmerSummary">{{farmer.fa_last_name}}</h2>
+                    </div>
+                    <div layout="column" flex="20">
+                        <div layout="row" >
+                            <md-button class="md-icon-button" aria-label="Edit">
+                                <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="Favourites">
+                                <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button" aria-label="Details">
+                                <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                        <span flex></span>
+                    </div>
+                </div>
+            </md-card-content>
+            <md-card-content layout="column">
+                <div class="farmer_info" layout="row">
+                    <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
+                    <div layout="column">
+                        {{farmer.fa_government_id}}
+                        <div class="label">TRN</div>
+                    </div>
+                    <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
+                    <div layout="column">
+                        {{farmer.fa_dob|date}}
+                        <div class="label">Date of Birth</div>
+                    </div>
+                    <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
+                    <div layout="column">
+                        {{farmer.fa_deceased ? Yes: No}}
+                        <div class="label">Deceased</div>
+                    </div>
+                </div>
+                <div class="farmer_info" layout="row">
+                    <div layout="row" flex>
+                        <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
+                        <div layout="column">
+                            {{farmer.fa_contact}}
+                            <div class="label">Contact</div>
+                        </div>
+                    </div>
+                    <div layout="row" flex>
+                        <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
+                        <div layout="column">
+                            {{farmer.fa_email}}
+                            <div class="label">Email</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lastInfo" layout="row">
+                    <span flex></span>
+                    <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+                    <div layout="column">
+                        {{farmer.ad_address.ad_address1}}<br/>
+                        {{farmer.ad_address.ad_address2}}<br/>
+                        {{farmer.ad_address.pa_parish}}<br/>
+                        <div class="label">Address</div>
+                    </div>
+                    <span flex></span>
+                </div>
+            </md-card-content>
+        </md-card>
+        </div>
+        <div layout="column" flex="40">
+            <md-card>
+                <md-card-content layout-padding>
+                    STATISTICS
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-content>
+</ui-view>

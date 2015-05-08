@@ -89,7 +89,8 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
+    model.Farmer.findById(req.params.id).populate('ad_address')
+        .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);
         } else {
