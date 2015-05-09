@@ -3,8 +3,8 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('FarmerListingCtrl', ['$scope', '$routeParams', 'FarmersFactory',
-        function ($scope, $routeParams, FarmersFactory) {
+    .controller('FarmerListingCtrl', ['$scope', '$location', '$routeParams', 'FarmersFactory',
+        function ($scope, $location, $routeParams, FarmersFactory) {
             $scope.farmers = FarmersFactory.query($routeParams);
             $scope.selected = false;
 
@@ -12,10 +12,23 @@ angular.module('jasmic.controllers')
                 $scope.selectedFarmer = farmer;
                 $scope.selected = true;
             };
+
+            $scope.goToFarmer = function() {
+                $location.url('farmer/'+$scope.selectedFarmer._id);
+            }
         }
     ])
     .controller('FarmerProfileCtrl', ['$scope', '$routeParams', 'FarmerFactory',
         function ($scope, $routeParams, FarmerFactory) {
             $scope.farmer = FarmerFactory.show({id:$routeParams.id});
+            $scope.isValid = function(obj) {
+                if(obj == undefined) {
+                    return false;
+                } else if(obj == '') {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
         }
     ]);

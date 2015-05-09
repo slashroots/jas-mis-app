@@ -3,19 +3,19 @@
 <html lang="en">
 <head>
   <title>JASMIC</title>
+  <link rel='stylesheet' href="../stylesheets/table.css"/>
   <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
   <link rel='stylesheet' href="../stylesheets/style.css"/>
-  <link rel='stylesheet' href="../stylesheets/table.css"/>
 </head>
 <body ng-app="jasmic" layout="column" layout-fill>
 <div ng-controller="NavigationCtrl">
   <md-toolbar>
     <div class="md-toolbar-tools" >
       <md-select ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
-        <md-option><img src="/images/ic_dashboard_24px.svg"/>Dashboard</md-option>
-        <md-option><img src="/images/ic_search_24px.svg"/>Search</md-option>
-        <md-option><img src="/images/ic_trending_up_24px.svg"/>Price Data</md-option>
-        <md-option><img src="/images/ic_store_mall_directory_24px.svg"/>Supply Data</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon>Dashboard</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon>Search</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon>Price Data</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon>Supply Data</md-option>
       </md-select>
       <span flex></span>
     </div>

@@ -41,8 +41,11 @@ a.md-button.md-default-theme.md-fab, .md-button.md-default-theme.md-fab{
 
 .search {
   width: 100%;
-  height: 35px;
-  text-align: right;
+  height: 50px;
+  background: url("/images/ic_search_24px.svg") no-repeat;
+  background-color: white;
+  padding-left: 50px;
+  background-position: 10px 10px;
 }
 
 html {
@@ -79,6 +82,11 @@ md-card-content.pretty {
 
 .farmerSummary {
   margin: 0px;
+  text-transform: lowercase;
+}
+
+.farmerSummary:first-letter {
+  text-transform: uppercase;
 }
 
 .farmerInfo {
@@ -97,4 +105,8 @@ md-card-content.pretty {
 
 .lastInfo{
   padding-top: 10px;
+}
+
+.label {
+  color: grey;
 }

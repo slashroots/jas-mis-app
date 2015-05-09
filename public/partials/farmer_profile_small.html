@@ -4,10 +4,10 @@
         <md-card-content class="pretty">
             <div layout-fill layout-align="center" layout="column">
                 <div layout="row">
-                    <md-button href="#/farmer/{{selectedFarmer._id}}" class="md-icon-button" aria-label="View More">
+                    <md-button ng-click="goToFarmer()" class="md-icon-button" aria-label="View More">
                         <md-icon md-svg-icon="../images/ic_arrow_back_24px.svg"></md-icon>
                     </md-button>
-                    <md-button>View More</md-button>
+                    <md-button ng-click="goToFarmer()">View More</md-button>
                     <span flex layout-fill></span>
                     <md-button class="md-icon-button" aria-label="Edit">
                         <md-icon md-svg-icon="../images/ic_mode_edit_24px.svg"></md-icon>
