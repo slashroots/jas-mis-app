@@ -51,6 +51,9 @@ a.md-button.md-default-theme.md-fab, .md-button.md-default-theme.md-fab{
 html {
   background-color: whitesmoke;
 }
+body{
+  background-color: whitesmoke;
+}
 
 .contentArea {
   padding-top: 30px;

@@ -31,4 +31,11 @@ angular.module('jasmic.controllers')
                 }
             };
         }
-    ]);
+    ])
+    .controller('NewFarmerCtrl', ['$scope', '$routeParams', 'FarmerFactory',
+        function ($scope, $routeParams, FarmerFactory) {
+            $scope.save = function() {
+                //save the farmer!
+            };
+        }
+    ])
