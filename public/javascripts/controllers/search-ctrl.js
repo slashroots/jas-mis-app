@@ -15,7 +15,11 @@ angular.module('jasmic.controllers')
 
             $scope.goToFarmer = function() {
                 $location.url('farmer/'+$scope.selectedFarmer._id);
-            }
+            };
+
+            $scope.editFarmer = function() {
+                $location.url('farmer/'+$scope.selectedFarmer._id+'/edit');
+            };
 
             $scope.selectedElement = function(farmer) {
                 $scope.selectedFarmer = farmer;

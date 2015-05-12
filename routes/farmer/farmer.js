@@ -114,13 +114,15 @@ exports.updateFarmerById = function(req, res) {
         if(err) {
             handleDBError(err, res);
         } else {
-            //check if any document got modified
-            if(response.nModified != 0) {
-                res.send(response);
-            } else {
-                res.status(404);
-                res.send({error: "Not Found"});
-            }
+            //update the address
+            model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
+                function(err2, response2) {
+                    if(err2) {
+                        handleDBError(err, res);
+                    } else {
+                        res.send(req.body);
+                    }
+                });
         }
     })
 };

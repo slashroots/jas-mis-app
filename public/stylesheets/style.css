@@ -113,3 +113,7 @@ md-card-content.pretty {
 .label {
   color: grey;
 }
+
+.md-subheader.md-default-theme.pretty {
+  background-color: #d8e4f1;
+}

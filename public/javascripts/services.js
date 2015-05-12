@@ -66,3 +66,12 @@ services.factory('SearchAllFactory', function($resource) {
         query: { method: 'GET'}
     });
 });
+
+/**
+ * Factory to be used to retrieve the Parishes.
+ */
+services.factory('ParishesFactory', function ($resource) {
+    return $resource('/common/parishes', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
