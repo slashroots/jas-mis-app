@@ -15,7 +15,8 @@ mongoose.connect(process.env.MONGOLAB_URI);
  */
 var UnitSchema = new Schema({
     un_unit_name: {type: String, required: true, unique: true},
-    un_unit_desc: String
+    un_unit_desc: {type: String},
+    un_unit_conversion: {type: Number, required: true}
 });
 var CommentSchema = new Schema({
     us_user_id: {type: Schema.Types.ObjectId, required: true},

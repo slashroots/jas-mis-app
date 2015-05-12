@@ -11,6 +11,14 @@ Cheers!
 
 ![Mean.js](http://meanjs.org/img/logo.png)
 
+## Environment Config Variables
+
+It is necessary to setup the database URI for the application.  To do this run the following:
+
+```
+export MONGOLAB_URI="mongodb://username:password@hostname:port/database_name"
+```
+
 ## Importing Data
 
 1.	Create all parishes with parish code and parish names
