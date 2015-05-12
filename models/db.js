@@ -146,7 +146,7 @@ var FarmerSchema = new Schema({
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     co_commodities: [CommoditySchema],
-    in_integrity: Schema.Types.ObjectId,
+    in_integrity: Number,
     fa_sub_sector: String
 });
 var CallTypeSchema = new Schema({
@@ -178,7 +178,7 @@ var BuyerSchema = new Schema({
     bu_payment_terms: String,
     ad_address: {type: Schema.Types.ObjectId, ref: 'Address'},
     ct_comments: [CommentSchema],
-    in_integrity: Schema.Types.ObjectId,
+    in_integrity: Number,
     de_demands: [DemandSchema]
 });
 var InputTypeSchema = new Schema({
@@ -212,11 +212,7 @@ var DisputeSchema = new Schema({
     di_parent_id: Schema.Types.ObjectId,
     ct_comments: [CommentSchema]
 });
-var IntegritySchema = new Schema({
-    in_entity_id: {type: Schema.Types.ObjectId, required: true, unique: true},
-    in_rank: {required: true, type: Number},
-    in_entity_type: {type: String, required: true}
-});
+
 var EventSchema = new Schema({
     ev_event_name: {type: String, required: true},
     ev_event_description: {type: String, required: true},
@@ -364,8 +360,6 @@ var Audit = mongoose.model('Audit', AuditSchema);
 exports.Buyer = mongoose.model('Buyer', BuyerSchema);
 
 exports.BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
-
-var Integrity = mongoose.model('Integrity', IntegritySchema);
 
 exports.Comment = mongoose.model('Comment', CommentSchema);
 

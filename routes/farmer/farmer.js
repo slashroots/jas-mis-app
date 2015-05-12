@@ -105,7 +105,7 @@ exports.getFarmerById = function(req, res) {
 };
 
 /**
- * Attempt to update/upsert farmer given an id in the req.params
+ * Attempt to update farmer given an id in the req.params
  * @param req
  * @param res
  */
