@@ -9,7 +9,7 @@
  */
 
 var model = require('../../models/db');
-
+var common = require('../common/common');
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -43,7 +43,7 @@ handleDBError = function(err, res) {
 exports.getFarmers = function(req, res) {
     var query;
     if("searchTerms" in req.query) {
-        var list = req.query.searchTerms.toUpperCase().split(" ");
+        var list = common.regexSearchTermCreator(req.query.searchTerms.split(" "));
         query = {
             $or: [
                 {fa_first_name: {$in: list}},

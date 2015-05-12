@@ -172,11 +172,11 @@ var BuyerTypeSchema = new Schema({
 });
 var BuyerSchema = new Schema({
     bu_buyer_name: {type: String, required: true, unique: true},
-    bt_buyer_type: {type: Schema.Types.ObjectId, ref: 'BuyerType'},
+    bt_buyer_type: {type: Schema.Types.ObjectId, required: true, ref: 'BuyerType'},
     bu_phone: String,
     bu_email: String,
     bu_payment_terms: String,
-    ad_address: {type: Schema.Types.ObjectId, ref: 'Address'},
+    ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
     de_demands: [DemandSchema]

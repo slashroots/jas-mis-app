@@ -60,7 +60,7 @@ angular.module('jasmic.controllers')
     .controller('NewFarmerCtrl', ['$scope', '$routeParams', 'FarmerFactory',
         function ($scope, $routeParams, FarmerFactory) {
             $scope.save = function() {
-                //save the farmer!
+                console.log($scope.farmer);
             };
         }
     ])
@@ -74,10 +74,13 @@ angular.module('jasmic.controllers')
             FarmerFactory.show({id:$routeParams.id},
                 function(farmer) {
                     $scope.farmer = farmer;
-                    $scope.dob = moment(farmer.fa_dob).toDate();
+                    if(farmer.fa_dob == '') {
+                        $scope.dob = moment(farmer.fa_dob).toDate();
+                    } else {
+                        $scope.dob = "";
+                    }
                 },
                 function(error) {
-                    console.log(error);
                     showDialog($mdDialog, null, error, true);
                 });
 
@@ -91,7 +94,6 @@ angular.module('jasmic.controllers')
 
             $scope.save = function() {
                 FarmerFactory.update({id:$scope.farmer._id}, $scope.farmer, function(something) {
-                    console.log(something);
                     showDialog($mdDialog, null, {statusText:"Successfully Updated!"}, false);
                 }, function(error) {
                     showDialog($mdDialog, null, error, true);

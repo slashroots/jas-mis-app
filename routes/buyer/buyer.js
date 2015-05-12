@@ -7,32 +7,11 @@
  *
  * Created by matjames007 on 5/12/15.
  */
-
+var common = require('../common/common');
 var model = require('../../models/db');
 var Buyer = model.Buyer;
 var BuyerType = model.BuyerType;
 
-/**
- * This is a generic helper function for MongoDB errors
- * that occur during searching/creating/updating a document.
- *
- * TODO: Need to create a utils library and just drop this in there!
- *
- * @param err
- * @param res
- */
-handleDBError = function(err, res) {
-    if(err.name == "ValidationError") {
-        res.status(400);
-        res.send(err);
-    } else if(err.name == "CastError") {
-        res.status(400);
-        res.send(err);
-    } else {
-        res.status(500);
-        res.send(err);
-    }
-};
 
 /**
  * Retrieves all buyers based on the criteria given in the
@@ -48,7 +27,7 @@ handleDBError = function(err, res) {
 exports.getBuyers = function(req, res) {
     var query;
     if("searchTerms" in req.query) {
-        var list = req.query.searchTerms.toUpperCase().split(" ");
+        var list = common.regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
         query = {
             $or: [
                 {bu_buyer_name: {$in: list}},
@@ -61,10 +40,10 @@ exports.getBuyers = function(req, res) {
     }
 
     Buyer.find(query)
-        .populate('ad_address', 'bt_buyer_type')
+        .populate('ad_address bt_buyer_type')
         .exec(function(err, docs) {
             if(err) {
-                handleDBError(err, res);
+                common.handleDBError(err, res);
             } else {
                 res.send(docs);
             }
@@ -81,7 +60,7 @@ exports.createBuyer = function(req, res) {
     var buyer = new Buyer(req.body);
     buyer.save(function(err) {
         if(err) {
-            handleDBError(err, res);
+            common.handleDBError(err, res);
         } else {
             res.send(buyer);
         }
@@ -97,7 +76,7 @@ exports.getBuyerById = function(req, res) {
     Buyer.findById(req.params.id).populate('ad_address', 'bt_buyer_type')
         .exec(function(err, item) {
             if(err) {
-                handleDBError(err, res);
+                common.handleDBError(err, res);
             } else {
                 if(item) {
                     res.send(item);
@@ -121,13 +100,13 @@ exports.getBuyerById = function(req, res) {
 exports.updateBuyerById = function(req, res) {
     Buyer.update({_id: req.params.id}, req.body, function(err, response) {
         if(err) {
-            handleDBError(err, res);
+            common.handleDBError(err, res);
         } else {
             //update the address
             model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
                 function(err2, response2) {
                     if(err2) {
-                        handleDBError(err, res);
+                        common.handleDBError(err2, res);
                     } else {
                         res.send(req.body);
                     }
@@ -145,7 +124,7 @@ exports.createBuyerType = function(req, res) {
     var bt = new BuyerType(req.body);
     bt.save(function(err, item) {
         if(err) {
-            handleDBError(err, res);
+            common.handleDBError(err, res);
         } else {
             res.send(item);
         }
@@ -161,7 +140,7 @@ exports.createBuyerType = function(req, res) {
 exports.getBuyerTypes = function(req, res) {
     BuyerType.find(req.query, function(err, list) {
         if(err) {
-            handleDBError(err, res);
+            common.handleDBError(err, res);
         } else {
             res.send(list);
         }

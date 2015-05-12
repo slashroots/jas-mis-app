@@ -11,21 +11,40 @@ var Buyer = model.Buyer;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
+ *
+ * TODO: move this into a util library
+ *
  * @param err
  * @param res
  */
-handleDBError = function(err, res) {
-    if(err.name == "ValidationError") {
-        res.status(400);
-        res.send(err);
-    } else if(err.name == "CastError") {
-        res.status(400);
-        res.send(err);
+exports.handleDBError = function(err, res) {
+    if(err) {
+        if (err.name == "ValidationError") {
+            res.status(400);
+            res.send(err);
+        } else if (err.name == "CastError") {
+            res.status(400);
+            res.send(err);
+        } else {
+            res.status(500);
+            res.send(err);
+        }
     } else {
         res.status(500);
-        res.send(err);
+        res.send({error: 'Unknown Server Error'});
     }
 };
+
+regexSearchTermCreator = function (list) {
+    regList = [];
+    for(var i in list) {
+        regList.push(new RegExp(list[i],'i'));
+    }
+    return regList;
+};
+
+exports.regexSearchTermCreator = regexSearchTermCreator;
+
 
 /**
  * Allows for the creation of an address.  Takes information
@@ -123,7 +142,7 @@ exports.updateAddressById = function(req, res) {
  */
 exports.searchAll = function(req, res) {
     if("searchTerms" in req.query) {
-        var list = req.query.searchTerms.toUpperCase().split(" ");
+        var list = regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
         Farmer.find({
             $or: [
                 {fa_first_name: {$in: list}},
@@ -138,9 +157,10 @@ exports.searchAll = function(req, res) {
                     Buyer.find({
                         $or: [
                             {bu_buyer_name: {$in: list}},
+                            {bu_phone: {$in: list}},
                             {bu_email: {$in: list}}
                         ]
-                    }).populate('ad_address').limit(10)
+                    }).populate('ad_address bt_buyer_type').limit(10)
                         .exec(function(err2, buyers) {
                             if(err2) {
                                 handleDBError(err, res);

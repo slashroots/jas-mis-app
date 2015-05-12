@@ -41,13 +41,13 @@
                             <th>Buyer Name</th>
                             <th>Type</th>
                             <th>Email</th>
-                            <th>Payment Terms</th>
+                            <th>Parish</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="buyer in results.buyers">
                             <td>{{ buyer.bu_buyer_name }}</td>
-                            <td>{{ buyer.bt_buyer_type }}</td>
+                            <td>{{ buyer.bt_buyer_type.bt_buyer_type_name }}</td>
                             <td>{{ buyer.bu_email}}</td>
                             <td>{{ buyer.ad_address.pa_parish }}</td>
                         </tr>
