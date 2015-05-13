@@ -1,7 +1,7 @@
 table.table1{
     padding-left: 24px;
     padding-right: 24px;
-    width: 100%;
+    width: inherit;
 }
 
 tr.row-select:hover{
@@ -24,11 +24,13 @@ thead.farmer-header{
     padding-right: 4em;
     text-align: left;
     height: 3.43em;
+
 }
 
 .flex1 {
     text-align: left;
     padding-right:4em;
+
 }
 
 .header-title{
