@@ -11,9 +11,9 @@ dummyfunction = function(req, res) {
 
 /**
  * End Points relevant to Transactions
- * TODO: Need a PUT to be able to modify a transaction
  */
 router.get('/transactions', Transaction.searchTransaction);
 router.post('/transaction', Transaction.createTransaction);
+router.put('/transaction/:id', Transaction.updateTransactionById)
 
 module.exports = router;

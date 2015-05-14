@@ -9,6 +9,7 @@ var farmer_routes = require('./routes/farmer/farmer_routes');
 var buyer_routes = require('./routes/buyer/buyer_routes');
 var common_routes = require('./routes/common/common_routes');
 var transaction_routes = require('./routes/transaction/transaction-routes');
+var crop_routes = require('./routes/crop/crop-routes');
 
 var model = require('./models/db');
 
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', farmer_routes);
 app.use('/', buyer_routes);
+app.use('/', crop_routes);
 app.use('/', transaction_routes);
 app.use('/', routes);
 app.use('/common', common_routes);

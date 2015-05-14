@@ -272,7 +272,7 @@ exports.Farmer = mongoose.model('Farmer', FarmerSchema);
  *
  * @type {Model|*}
  */
-var Crop = mongoose.model('Crop', CropSchema);
+exports.Crop = mongoose.model('Crop', CropSchema);
 
 /**
  * Membership Types example: Direct/Branch/Life Member/Affiliate
