@@ -1,44 +1,56 @@
-table.table1{
+.table1 {
     padding-left: 24px;
     padding-right: 24px;
     width: inherit;
+    max-width: inherit;
+    border-spacing: 0;
+    border-collapse: collapse;
 }
 
-tr.row-select:hover{
-    background-color: #EEEEEE;
-
+#row-select:hover {
+    background-color: #A0A0A0;
 }
 
-thead.farmer-header{
-    font-family:"Roboto", "Noto", sans-serif;
+thead.farmer-header {
+    font-family: "Roboto", "Noto", sans-serif;
     font-size: 0.85em;
 }
 
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
 
-/*th.initial{*/
+    /*th.initial{*/
     /*text-align:left;*/
     /*padding-left: 4em;*/
-/*}*/
-
-.initial{
+    /*}*/
+.initial {
     padding-right: 4em;
     text-align: left;
-    height: 3.43em;
+        height: 3.43em;
 
-}
+    }
 
-.flex1 {
-    text-align: left;
-    padding-right:4em;
+    .flex1 {
+        text-align: left;
+        padding-right: 4em;
 
-}
+    }
 
-.header-title{
-    height: 4em;
-}
+    .header-title {
+        height: 4em;
+    }
 
-td.flex2{
-    /*padding-left: 4em;*/
-    height: 3.43em;
-    text-align: left;
-}
+    td.flex2 {
+        /*padding-left: 4em;*/
+        height: 3.43em;
+        text-align: left;
+    }
+
+@media (min-width:768px){
+
+
+
+    }

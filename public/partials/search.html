@@ -1,6 +1,6 @@
 <ui-view>
     <md-content layout="row" layout-fill>
-        <div flex="{{selected ? 60: 100"}}" layout="column" layout-fill>
+        <div flex="{{selected ? 60: 100}}" layout="column" layout-fill>
 
             <md-card>
                 <md-content layout-padding>
@@ -21,7 +21,7 @@
                             </thead>
 
                             <tbody>
-                                <tr class="row-select" ng-repeat="farmer in results.farmers" ng-animate="'animate'" ng-click="selectedElement(farmer)">
+                                <tr id="row-select" ng-repeat="farmer in results.farmers" ng-animate="'animate'" ng-click="selectedElement(farmer)">
                                     <td class="initial">{{ farmer.fa_jas_number }}</td>
                                     <td class="flex1">{{ farmer.fa_first_name }}</td>
                                     <td class="flex1">{{ farmer.fa_last_name }}</td>
