@@ -1,0 +1,22 @@
+<md-dialog layout="column" class="repeated-item" layout-fill flex>
+    <md-dialog-content layout-padding>
+        <table class="table table-hover table-mc-light-blue">
+            <thead>
+            <tr>
+                <th>Crop Name</th>
+                <th>Variety</th>
+                <th>Time to Maturity</th>
+                <th>Season</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="crop in crops">
+                <td>{{ crop.cr_crop_name }}</td>
+                <td>{{ crop.cr_crop_variety }}</td>
+                <td>{{ crop.cr_crop_mature_weeks }}</td>
+                <td>{{ crop.cr_crop_season }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-dialog-content>
+</md-dialog>

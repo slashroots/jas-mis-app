@@ -26,7 +26,7 @@ var CommentSchema = new Schema({
 var CropSchema = new Schema({
     cr_crop_name: {type: String, required: true},
     cr_crop_variety: String,
-    cr_crop_mature_date: Date,
+    cr_crop_mature_weeks: Number,
     cr_crop_avg_size: Number,
     cr_crop_planting_density_min: Number,
     cr_crop_planting_density_max: Number,
@@ -76,14 +76,15 @@ var MembershipSchema = new Schema({
     mi_due_paid: {type: Number, required: true}
 });
 var FarmSchema = new Schema({
+    fr_name: String,
     fr_district_id: String,
     fr_extension_id: String,
     ad_address_id: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
-    cr_crop: {type: Schema.Types.ObjectId, required: true},
-    fr_farm: Schema.Types.ObjectId,
+    cr_crop: {type: Schema.Types.ObjectId, ref:'Crop', required: true},
+    fr_farm: {type: Schema.Types.ObjectId, ref: 'Farm'},
     co_quantity: {type: Number, required: true},
     un_quantity_unit: {type: Schema.Types.ObjectId, required: true},
     co_expiration_date: Date,

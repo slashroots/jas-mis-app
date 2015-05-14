@@ -31,8 +31,18 @@ md-option {
   padding-top: 180px;
 }
 
-a.md-button.md-default-theme.md-fab, .md-button.md-default-theme.md-fab{
+.md-button.md-default-theme.md-fab{
   background-color: black;
+}
+.md-button.md-default-theme.md-fab.edge{
+  background-color: white;
+
+}
+.md-button.md-default-theme.md-fab md-icon.edge {
+  color: black;
+}
+div.md-actions.edge {
+  margin-right: -50px;
 }
 
 .globalSearchArea {

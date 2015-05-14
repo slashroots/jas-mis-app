@@ -13,7 +13,7 @@ angular.module('jasmic.controllers')
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
             }, function(error) {
-                showDialog($mdDialog, null, error, true);
+                showDialog($mdDialog, error, true);
             });
             $scope.selected = false;
 
@@ -36,8 +36,9 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scoe.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', 'TransactionsFactory', 'FarmerFactory',
-        function ($scope, $location, $routeParams, TransactionsFactory, FarmerFactory) {
+    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
+        'TransactionsFactory', 'FarmerFactory',
+        function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory, FarmerFactory) {
             FarmerFactory.show({id:$routeParams.id}, function(farmer) {
                 $scope.farmer = farmer;
                 $scope.completedTransactions = TransactionsFactory.query({
@@ -61,6 +62,17 @@ angular.module('jasmic.controllers')
             };
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.farmer._id+'/edit');
+            };
+
+            $scope.findAndSelectCrop = function() {
+                var pa = angular.element(document.body);
+                $mdDialog.show({
+                    parent: pa,
+                    clickOutsideToClose: true,
+                    scope: $scope,        // use parent scope in template
+                    preserveScope: true,
+                    templateUrl:'/partials/crop_listing.html'
+                });
             };
         }
     ])
@@ -92,7 +104,7 @@ angular.module('jasmic.controllers')
                     }
                 },
                 function(error) {
-                    showDialog($mdDialog, null, error, true);
+                    showDialog($mdDialog, error, true);
                 });
 
             ParishesFactory.query({},
@@ -105,11 +117,12 @@ angular.module('jasmic.controllers')
 
             $scope.save = function() {
                 FarmerFactory.update({id:$scope.farmer._id}, $scope.farmer, function(something) {
-                    showDialog($mdDialog, null, {statusText:"Successfully Updated!"}, false);
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
                 }, function(error) {
-                    showDialog($mdDialog, null, error, true);
+                    showDialog($mdDialog, error, true);
                 });
             };
+
         }
     ]);
 
@@ -122,7 +135,7 @@ angular.module('jasmic.controllers')
  * @param message
  * @param isError
  */
-function showDialog($mdDialog, ev, message, isError) {
+function showDialog($mdDialog, message, isError) {
     $mdDialog.show(
         $mdDialog.alert()
             .parent(angular.element(document.body))
@@ -130,6 +143,5 @@ function showDialog($mdDialog, ev, message, isError) {
             .content(message.statusText)
             .ariaLabel(isError?'Alert Error':'Alert Message')
             .ok('Ok')
-            .targetEvent(ev)
     );
 };
