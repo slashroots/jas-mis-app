@@ -7,6 +7,7 @@ angular.module('jasmic.controllers')
  * all screens.
  */
     .controller('NavigationCtrl', ['$scope', '$location', function ($scope, $location) {
+        $scope.add_clicked = false;
         $scope.goTo = function() {
             if($scope.nav == 'Search') {
                 $location.url('/search');
@@ -17,6 +18,8 @@ angular.module('jasmic.controllers')
             } else {
                 $location.url('/dashboard');
             }
-            console.log($scope.nav);
-        }
+        };
+        $scope.addNewButtonClick = function() {
+            $scope.add_clicked=!$scope.add_clicked;
+        };
     }]);

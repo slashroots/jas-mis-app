@@ -21,13 +21,22 @@
     </div>
   </md-toolbar>
 </div>
-<div class="belowTheToolbar" layout="row" flex>
+<div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex>
   <div class="addNew" layout="column" flex="10" layout-align="start center">
-    <md-button class="md-fab" aria-label="Add New">
+    <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
       <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-      <md-tooltip>
-        Add New
-      </md-tooltip>
+    </md-button>
+    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farmer">
+      Farmer
+    </md-button>
+    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
+      Buyer
+    </md-button>
+    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
+      Call
+    </md-button>
+    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
+      Transaction
     </md-button>
 
     <span layout="row" flex>
