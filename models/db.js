@@ -116,8 +116,8 @@ var DemandSchema = new Schema({
     ct_comments: [CommentSchema]
 });
 var TransactionSchema = new Schema({
-    bu_buyer_id: Schema.Types.ObjectId,
-    fr_farmer_id: Schema.Types.ObjectId,
+    bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
+    fr_farmer: {type: Schema.Types.ObjectId, required: true, ref: 'Farmer'},
     tr_quantity: {type: Number, required: false},
     tr_value: {type: Number, required: false},
     tr_date: Date,
@@ -125,8 +125,8 @@ var TransactionSchema = new Schema({
     tr_status: {type:String, required: true},
     us_user_id: Schema.Types.ObjectId,
     tr_note: String,
-    de_demand: Schema.Types.ObjectId,
-    co_commodity: Schema.Types.ObjectId,
+    de_demand: {type: Schema.Types.ObjectId, ref: 'Demand'},
+    co_commodity: {type: Schema.Types.ObjectId, ref: 'Commodity'},
     ct_comments: [CommentSchema]
 });
 var FarmerSchema = new Schema({
@@ -346,7 +346,7 @@ var CallType = mongoose.model('CallType', CallTypeSchema);
 
 var CallLog = mongoose.model('CallLog', CallLogSchema);
 
-var Transaction = mongoose.model('Transaction', TransactionSchema);
+exports.Transaction = mongoose.model('Transaction', TransactionSchema);
 
 var Dispute = mongoose.model('Dispute', DisputeSchema);
 

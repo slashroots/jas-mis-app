@@ -36,9 +36,20 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scoe.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', 'FarmerFactory',
-        function ($scope, $location, $routeParams, FarmerFactory) {
-            $scope.farmer = FarmerFactory.show({id:$routeParams.id});
+    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', 'TransactionsFactory', 'FarmerFactory',
+        function ($scope, $location, $routeParams, TransactionsFactory, FarmerFactory) {
+            FarmerFactory.show({id:$routeParams.id}, function(farmer) {
+                $scope.farmer = farmer;
+                $scope.completedTransactions = TransactionsFactory.query({
+                    fr_farmer: farmer._id, tr_status: 'Completed'
+                });
+                $scope.pendingTransactions = TransactionsFactory.query({
+                    fr_farmer: farmer._id, tr_status: 'Pending'
+                });
+                $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+            }, function(err) {
+                console.log(err);
+            });
             $scope.isValid = function(obj) {
                 if(obj == undefined) {
                     return false;

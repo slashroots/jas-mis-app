@@ -26,16 +26,16 @@
     <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
       <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
     </md-button>
-    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farmer">
+    <md-button ng-click="addNew('farmer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farmer">
       Farmer
     </md-button>
-    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
+    <md-button ng-click="addNew('buyer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
       Buyer
     </md-button>
-    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
+    <md-button ng-click="addNew('call')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
       Call
     </md-button>
-    <md-button ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
+    <md-button ng-click="addNew('transaction')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
       Transaction
     </md-button>
 

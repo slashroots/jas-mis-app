@@ -22,4 +22,18 @@ angular.module('jasmic.controllers')
         $scope.addNewButtonClick = function() {
             $scope.add_clicked=!$scope.add_clicked;
         };
+
+        $scope.addNew = function(entity) {
+            if(entity == 'farmer') {
+                $location.url('/farmer');
+            } else if(entity == 'buyer') {
+                $location.url('/buyer');
+            } else if(entity == 'call'){
+                $location.url('/call');
+            } else if(entity == 'transaction') {
+                $location.url('/transaction');
+            } else {
+                console.log('Unknown route!');
+            }
+        }
     }]);
