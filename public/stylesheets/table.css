@@ -1,56 +1,84 @@
-.table1 {
-    padding-left: 24px;
-    padding-right: 24px;
-    width: inherit;
-    max-width: inherit;
-    border-spacing: 0;
+/* Table.css helps in making the features of the table more adjustable and comfortable without conflicts */
+
+/*********************
+  Media Query Classes
+**********************/
+@media only screen and (max-width : 600px) {
+    .hide-on-small-only, .hide-on-small-and-down {
+        display: none !important; } }
+
+@media only screen and (max-width : 992px) {
+    .hide-on-med-and-down {
+        display: none !important; } }
+
+@media only screen and (min-width : 601px) {
+    .hide-on-med-and-up {
+        display: none !important; } }
+
+@media only screen and (min-width: 600px) and (max-width: 992px) {
+    .hide-on-med-only {
+        display: none !important; } }
+
+@media only screen and (min-width : 993px) {
+    .hide-on-large-only {
+        display: none !important; } }
+
+@media only screen and (min-width : 993px) {
+    .show-on-large {
+        display: initial !important; } }
+
+@media only screen and (min-width: 600px) and (max-width: 992px) {
+    .show-on-medium {
+        display: initial !important; } }
+
+@media only screen and (max-width : 600px) {
+    .show-on-small {
+        display: initial !important; } }
+
+@media only screen and (min-width : 601px) {
+    .show-on-medium-and-up {
+        display: initial !important; } }
+
+@media only screen and (max-width : 992px) {
+    .show-on-medium-and-down {
+        display: initial !important; } }
+
+@media only screen and (max-width : 600px) {
+    .center-on-small-only {
+        text-align: center; } }
+
+/************************************************************************************************/
+/*                                    Table Formation                                           */
+/************************************************************************************************/
+table {
     border-collapse: collapse;
+    border-spacing: 0;
 }
+
+th, td{
+    padding: 0;
+}
+
+table, thead, tr, td{
+    border: none;
+}
+
+table{
+    width: 100%;
+}
+
+table.bordered tr{
+    border-bottom: 1px solid #d0d0d0;
+}
+
+td, th {
+    padding: 15px 5px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 2px; }
 
 #row-select:hover {
-    background-color: #A0A0A0;
+    background-color: #E0E0E0;
 }
 
-thead.farmer-header {
-    font-family: "Roboto", "Noto", sans-serif;
-    font-size: 0.85em;
-}
-
-thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
-}
-
-    /*th.initial{*/
-    /*text-align:left;*/
-    /*padding-left: 4em;*/
-    /*}*/
-.initial {
-    padding-right: 4em;
-    text-align: left;
-        height: 3.43em;
-
-    }
-
-    .flex1 {
-        text-align: left;
-        padding-right: 4em;
-
-    }
-
-    .header-title {
-        height: 4em;
-    }
-
-    td.flex2 {
-        /*padding-left: 4em;*/
-        height: 3.43em;
-        text-align: left;
-    }
-
-@media (min-width:768px){
-
-
-
-    }

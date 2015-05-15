@@ -4,8 +4,8 @@
             <md-card>
                 <md-content layout-padding>
                 <md-subheader class="md-no-sticky md-primary">Farmers:</md-subheader>
-                <div class="table-responsive-vertical">
-                <table class="table table-hover table-mc-light-blue">
+
+                <table class="bordered">
                     <thead>
                     <tr>
                         <th>JAS #</th>
@@ -15,7 +15,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in results.farmers" class="repeated-item" ng-click="selectedElement(farmer)">
+                    <tr id="row-select" ng-repeat="farmer in results.farmers" class="repeated-item" ng-click="selectedElement(farmer)">
                         <td>{{ farmer.fa_jas_number }}</td>
                         <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
@@ -27,7 +27,7 @@
 
                     </tbody>
                 </table>
-                </div>
+
                 </md-content>
             </md-card>
 
