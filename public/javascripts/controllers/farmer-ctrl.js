@@ -34,11 +34,17 @@ angular.module('jasmic.controllers')
 
     /**
      * This controller does a query to retrieve the farmer by the specified ID in the
-     * routeParameter.  It then creates the $scoe.farmer object for the view to consume
+     * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
-        'TransactionsFactory', 'FarmerFactory',
-        function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory, FarmerFactory) {
+        'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory',
+        function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
+                 FarmerFactory, ParishesFactory, FarmerFarmFactory) {
+            /**
+             * First query for the farmer based on the id supplied in the parameters,
+             * then query for the transactions this farmer has been involved in.
+             * TODO: Finish up this!
+             */
             FarmerFactory.show({id:$routeParams.id}, function(farmer) {
                 $scope.farmer = farmer;
                 $scope.completedTransactions = TransactionsFactory.query({
@@ -51,6 +57,13 @@ angular.module('jasmic.controllers')
             }, function(err) {
                 console.log(err);
             });
+
+            /**
+             * Quick and dirty check to see if information is present for
+             * manipulation
+             * @param obj
+             * @returns {boolean}
+             */
             $scope.isValid = function(obj) {
                 if(obj == undefined) {
                     return false;
@@ -60,10 +73,57 @@ angular.module('jasmic.controllers')
                     return true;
                 }
             };
+
+            /**
+             * Attempts to add new Farm to the farmer object.  Assumes the
+             * server will take care of the address creation.
+             */
+            $scope.addNewFarm = function() {
+                $scope.farm.ad_address.ad_country = "Jamaica";
+                FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
+                    showDialog($mdDialog, {statusText:"Successfully Added!"}, false);
+                    $scope.farmer = success;
+                    $scope.newFarm = !$scope.newFarm;
+                }, function(fail) {
+                    showDialog($mdDialog, fail, true);
+                });
+            };
+
+            /**
+             * Necessary to load all parishes in the necessary forms
+             */
+            ParishesFactory.query({},
+                function(parishes) {
+                    $scope.parishes = parishes;
+                },
+                function(error) {
+                    console.log(error);
+                });
+
+            /**
+             * Button related functions and variables for hiding/showing
+             * new forms
+             */
+            $scope.newFarmLocation = function() {
+                $scope.newFarm = !$scope.newFarm;
+            };
+            $scope.newCommodityItem = function() {
+                $scope.newCommodity = !$scope.newCommodity;
+            };
+            $scope.newCommodity = false;
+            $scope.newFarm = false;
+            $scope.farm = {};
+
+            /**
+             * Open the page for editing the farmer.
+             */
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.farmer._id+'/edit');
             };
 
+            /**
+             * TODO: Incomplete!
+             */
             $scope.findAndSelectCrop = function() {
                 var pa = angular.element(document.body);
                 $mdDialog.show({

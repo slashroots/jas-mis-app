@@ -31,25 +31,30 @@
                     </div>
                 </md-card-content>
                 <md-card-content layout="column">
-                    <div class="farmer_info" layout="row">
-                        <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
-                            {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
-                            <div class="label">TRN</div>
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
+                                <div class="label">TRN</div>
+                            </div>
                         </div>
-                        <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
-                            {{isValid(farmer.dob)? (farmer.fa_dob|date): 'Not Disclosed'}}
-                            <div class="label">Date of Birth</div>
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(farmer.dob)? (farmer.fa_dob|date): 'Not Disclosed'}}
+                                <div class="label">Date of Birth</div>
+                            </div>
                         </div>
-                        <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
-                            {{isValid(farmer.fa_deceased)? 'Unknown' : (farmer.fa_deceased ? 'Yes': 'No')}}
-
-                            <div class="label">Deceased</div>
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(farmer.fa_deceased)? 'Unknown' : (farmer.fa_deceased ? 'Yes': 'No')}}
+                                <div class="label">Deceased</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="farmer_info" layout="row">
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
                         <div layout="row" flex>
                             <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                             <div layout-align="center" layout="column">
@@ -65,8 +70,9 @@
                                 <div class="label">Email</div>
                             </div>
                         </div>
+                        <span flex></span>
                     </div>
-                    <div class="lastInfo" layout="row">
+                    <div layout-align="space-around start" class="lastInfo" layout="row">
                         <span flex></span>
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
                         <div layout-align="center" layout="column">
@@ -85,12 +91,15 @@
             <md-card>
                 <md-card-content>
                     <div layout="row">
-                        <md-subheader>Supply</md-subheader>
+                        <md-subheader>Supplies</md-subheader>
                     <div flex class="md-actions edge" layout="row" layout-align="end center">
-                        <md-button class="md-fab edge" aria-label="Add New Supply">
+                        <md-button ng-click="newCommodityItem()" class="md-fab edge" aria-label="Add New Supply">
                             <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                         </md-button>
                     </div>
+                    </div>
+                    <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
+
                     </div>
                     <div ng-repeat="commodity in farmer.co_commodities">
                         {{commodity.cr_crop}}
@@ -101,15 +110,31 @@
             <md-card>
                 <md-card-content>
                     <div layout="row">
-                        <md-subheader>Farm</md-subheader>
+                        <md-subheader>Farms</md-subheader>
                         <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button class="md-fab edge" aria-label="Add New Farm">
+                            <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>
                     </div>
-                    <div ng-repeat="farm in farmer.fr_farms">
-                        {{farm.fr_name}}
+                    <div ng-include="newFarm ? '/partials/farm_new.html':null">
+
+                    </div>
+                    <div layout="row" layout-padding ng-repeat="farm in farmer.fr_farms">
+                        <md-icon flex="20" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+                        <div layout="column" flex="40">
+                            <div layout-align="center center" layout="column">
+                                {{farm.fr_name}}
+                                <div class="label">Farm Name</div>
+                            </div>
+                        </div>
+                        <div layout="column" flex="40">
+                            <div layout-align="center center" layout="column">
+                                {{farm.fr_size}}
+                                <div class="label">Farm Size (Acre)</div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </md-card-content>
             </md-card>

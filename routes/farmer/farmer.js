@@ -153,23 +153,32 @@ exports.getFarmsByFarmerId = function(req, res) {
  * @param res
  */
 exports.createFarm = function(req, res) {
-    var farm = new model.Farm(req.body);
-    model.Farmer.findById(req.params.id, function(err, item) {
+    model.Farmer.findById(req.params.id, function(err, farmer) {
         if(err) {
             handleDBError(err, res);
         } else {
-            if(item == null) {
+            if(farmer == null) {
                 res.status(404);
                 res.send("Farmer Not Found");
             } else {
-                item.fr_farms.push(farm);
-                item.save(function(err2, result) {
+                var address = model.Address(req.body.ad_address);
+                var farm = new model.Farm(req.body);
+                address.save(function(err2, response) {
                     if(err2) {
-                        handleDBError(err2, res);
+                        common.handleDBError(err2, res);
                     } else {
-                        res.send(result);
+                        farm.ad_address = response._id;
+                        farmer.fr_farms.push(farm);
+                        farmer.save(function(err3, result) {
+                            if(err3) {
+                                handleDBError(err3, res);
+                            } else {
+                                res.send(result);
+                            }
+                        });
                     }
                 });
+
             }
         }
     });

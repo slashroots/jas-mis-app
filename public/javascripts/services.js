@@ -57,6 +57,17 @@ services.factory('FarmerFarmsFactory', function($resource) {
 });
 
 /**
+ * This factory is to be used to create and update a particular
+ * farm based on the farmer's id.
+ */
+services.factory('FarmerFarmFactory', function($resource) {
+    return $resource('/farmer/:id/farm', {}, {
+        create: {method: 'POST', params: {id: '@id'}},
+        update: {method: 'PUT', params: {id: '@id'}}
+    });
+});
+
+/**
  * This factory allows us to do a search across multiple entities
  * including, Farmer, transactions, Buyers and Calls (limited to
  * 10 per entity)

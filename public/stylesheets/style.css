@@ -112,12 +112,12 @@ md-card-content.pretty {
   border-bottom-color: #B8BDBD;
   border-width: thin;
   border-bottom-style: solid;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-bottom: 30px;
+  padding-top: 30px;
 }
 
 .lastInfo{
-  padding-top: 10px;
+  padding-top: 30px;
 }
 
 .label {
