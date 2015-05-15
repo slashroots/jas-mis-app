@@ -102,6 +102,13 @@ md-card-content.pretty {
   text-transform: uppercase;
 }
 
+md-content.farmForm {
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: lightgray;
+  background-color: ghostwhite;
+}
+
 .farmerInfo {
   border-bottom-color: #B8BDBD;
   border-width: thin;
