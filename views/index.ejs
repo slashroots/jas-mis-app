@@ -2,30 +2,44 @@
 <!--suppress InjectedReferences, HtmlUnknownTarget -->
 <html lang="en">
 <head>
-  <title>JASMIC</title>
+  <title><%=title%></title>
+  <link rel='stylesheet' href="../stylesheets/table.css"/>
   <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
   <link rel='stylesheet' href="../stylesheets/style.css"/>
-  <link rel='stylesheet' href="../stylesheets/table.css"/>
 </head>
 <body ng-app="jasmic" layout="column" layout-fill>
 <div ng-controller="NavigationCtrl">
   <md-toolbar>
     <div class="md-toolbar-tools" >
       <md-select ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
-        <md-option><img src="images/ic_dashboard_24px.svg"/>Dashboard</md-option>
-        <md-option><img src="images/ic_search_24px.svg"/>Search</md-option>
-        <md-option><img src="images/ic_trending_up_24px.svg"/>Price Data</md-option>
-        <md-option><img src="images/ic_store_mall_directory_24px.svg"/>Supply Data</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon>Dashboard</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon>Search</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon>Price Data</md-option>
+        <md-option><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon>Supply Data</md-option>
       </md-select>
       <span flex></span>
+      <md-button><md-icon md-svg-src="/images/ic_more_vert_24px.svg"></md-icon></md-button>
     </div>
   </md-toolbar>
 </div>
-<div class="belowTheToolbar" layout="row" flex>
+<div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex>
   <div class="addNew" layout="column" flex="10" layout-align="start center">
-    <md-button class="md-fab" aria-label="Eat cake">
-      <md-label>+</md-label>
+    <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
+      <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
     </md-button>
+    <md-button ng-click="addNew('farmer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farmer">
+      Farmer
+    </md-button>
+    <md-button ng-click="addNew('buyer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
+      Buyer
+    </md-button>
+    <md-button ng-click="addNew('call')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
+      Call
+    </md-button>
+    <md-button ng-click="addNew('transaction')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
+      Transaction
+    </md-button>
+
     <span layout="row" flex>
       <!--
         Fill up the rest of the space
@@ -36,7 +50,10 @@
     <div class="headerArea" layout="row" >
       <div class="globalSearchArea" layout-padding flex="60">
         <form ng-controller="SearchCtrl" ng-submit="searchAll()">
-          <input class="search" ng-model="search" type="text" placeholder="Search"/>
+          <input class="search" ng-model="search" type="text" placeholder="Search">
+          <md-tooltip>
+            Keyword Search
+          </md-tooltip>
         </form>
       </div>
       <div class="emptyArea" flex="40">
@@ -55,13 +72,13 @@
   </div>
 </div>
 <script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/moment/moment.js"></script>
 <script src="../bower_components/angular-route/angular-route.js"></script>
 <script src="../bower_components/angular-resource/angular-resource.js"></script>
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/angular-aria/angular-aria.js"></script>
 <script src="../bower_components/angular-material/angular-material.js"></script>
 
-<script src="../javascripts/lb-services.js"></script>
 <script src="../javascripts/app.js"></script>
 <script src="../javascripts/services.js"></script>
 <script src="../javascripts/controllers/navigation-ctrl.js"></script>

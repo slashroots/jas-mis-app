@@ -9,7 +9,7 @@
  */
 
 var model = require('../../models/db');
-
+var common = require('../common/common');
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -43,7 +43,7 @@ handleDBError = function(err, res) {
 exports.getFarmers = function(req, res) {
     var query;
     if("searchTerms" in req.query) {
-        var list = req.query.searchTerms.toUpperCase().split(" ");
+        var list = common.regexSearchTermCreator(req.query.searchTerms.split(" "));
         query = {
             $or: [
                 {fa_first_name: {$in: list}},
@@ -89,7 +89,8 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
+    model.Farmer.findById(req.params.id).populate('ad_address')
+        .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);
         } else {
@@ -104,7 +105,7 @@ exports.getFarmerById = function(req, res) {
 };
 
 /**
- * Attempt to update/upsert farmer given an id in the req.params
+ * Attempt to update farmer given an id in the req.params
  * @param req
  * @param res
  */
@@ -113,13 +114,15 @@ exports.updateFarmerById = function(req, res) {
         if(err) {
             handleDBError(err, res);
         } else {
-            //check if any document got modified
-            if(response.nModified != 0) {
-                res.send(response);
-            } else {
-                res.status(404);
-                res.send({error: "Not Found"});
-            }
+            //update the address
+            model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
+                function(err2, response2) {
+                    if(err2) {
+                        handleDBError(err, res);
+                    } else {
+                        res.send(req.body);
+                    }
+                });
         }
     })
 };

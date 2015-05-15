@@ -66,3 +66,31 @@ services.factory('SearchAllFactory', function($resource) {
         query: { method: 'GET'}
     });
 });
+
+/**
+ * Factory to be used to retrieve the Parishes.
+ */
+services.factory('ParishesFactory', function ($resource) {
+    return $resource('/common/parishes', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Factory to be used to retrieve the Transactions.
+ */
+services.factory('TransactionsFactory', function ($resource) {
+    return $resource('/transactions', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Factory to be used to create and modify a transaction
+ */
+services.factory('TransactionFactory', function($resource) {
+    return $resource('/transaction/:id', {}, {
+        create: { method: 'POST'},
+        update: { method: 'PUT', params: {id: '@id'}}
+    });
+});

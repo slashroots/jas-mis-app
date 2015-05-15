@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 /**
  * TODO: Need to make the .connect method read from env variables for heroku
  */
-mongoose.connect('mongodb://localhost/jas-mis-app');
+mongoose.connect(process.env.MONGOLAB_URI);
 
 /**
  *  These are the schema for the entire application
@@ -15,7 +15,8 @@ mongoose.connect('mongodb://localhost/jas-mis-app');
  */
 var UnitSchema = new Schema({
     un_unit_name: {type: String, required: true, unique: true},
-    un_unit_desc: String
+    un_unit_desc: {type: String},
+    un_unit_conversion: {type: Number, required: true}
 });
 var CommentSchema = new Schema({
     us_user_id: {type: Schema.Types.ObjectId, required: true},
@@ -25,7 +26,7 @@ var CommentSchema = new Schema({
 var CropSchema = new Schema({
     cr_crop_name: {type: String, required: true},
     cr_crop_variety: String,
-    cr_crop_mature_date: Date,
+    cr_crop_mature_weeks: Number,
     cr_crop_avg_size: Number,
     cr_crop_planting_density_min: Number,
     cr_crop_planting_density_max: Number,
@@ -75,14 +76,15 @@ var MembershipSchema = new Schema({
     mi_due_paid: {type: Number, required: true}
 });
 var FarmSchema = new Schema({
+    fr_name: String,
     fr_district_id: String,
     fr_extension_id: String,
     ad_address_id: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
-    cr_crop: {type: Schema.Types.ObjectId, required: true},
-    fr_farm: Schema.Types.ObjectId,
+    cr_crop: {type: Schema.Types.ObjectId, ref:'Crop', required: true},
+    fr_farm: {type: Schema.Types.ObjectId, ref: 'Farm'},
     co_quantity: {type: Number, required: true},
     un_quantity_unit: {type: Schema.Types.ObjectId, required: true},
     co_expiration_date: Date,
@@ -115,8 +117,8 @@ var DemandSchema = new Schema({
     ct_comments: [CommentSchema]
 });
 var TransactionSchema = new Schema({
-    bu_buyer_id: Schema.Types.ObjectId,
-    fr_farmer_id: Schema.Types.ObjectId,
+    bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
+    fr_farmer: {type: Schema.Types.ObjectId, required: true, ref: 'Farmer'},
     tr_quantity: {type: Number, required: false},
     tr_value: {type: Number, required: false},
     tr_date: Date,
@@ -124,8 +126,8 @@ var TransactionSchema = new Schema({
     tr_status: {type:String, required: true},
     us_user_id: Schema.Types.ObjectId,
     tr_note: String,
-    de_demand: Schema.Types.ObjectId,
-    co_commodity: Schema.Types.ObjectId,
+    de_demand: {type: Schema.Types.ObjectId, ref: 'Demand'},
+    co_commodity: {type: Schema.Types.ObjectId, ref: 'Commodity'},
     ct_comments: [CommentSchema]
 });
 var FarmerSchema = new Schema({
@@ -146,7 +148,7 @@ var FarmerSchema = new Schema({
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     co_commodities: [CommoditySchema],
-    in_integrity: Schema.Types.ObjectId,
+    in_integrity: Number,
     fa_sub_sector: String
 });
 var CallTypeSchema = new Schema({
@@ -172,13 +174,13 @@ var BuyerTypeSchema = new Schema({
 });
 var BuyerSchema = new Schema({
     bu_buyer_name: {type: String, required: true, unique: true},
-    bt_buyer_type: {type: Schema.Types.ObjectId, ref: 'BuyerType'},
+    bt_buyer_type: {type: Schema.Types.ObjectId, required: true, ref: 'BuyerType'},
     bu_phone: String,
     bu_email: String,
     bu_payment_terms: String,
-    ad_address: {type: Schema.Types.ObjectId, ref: 'Address'},
+    ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
-    in_integrity: Schema.Types.ObjectId,
+    in_integrity: Number,
     de_demands: [DemandSchema]
 });
 var InputTypeSchema = new Schema({
@@ -212,11 +214,7 @@ var DisputeSchema = new Schema({
     di_parent_id: Schema.Types.ObjectId,
     ct_comments: [CommentSchema]
 });
-var IntegritySchema = new Schema({
-    in_entity_id: {type: Schema.Types.ObjectId, required: true, unique: true},
-    in_rank: {required: true, type: Number},
-    in_entity_type: {type: String, required: true}
-});
+
 var EventSchema = new Schema({
     ev_event_name: {type: String, required: true},
     ev_event_description: {type: String, required: true},
@@ -275,7 +273,7 @@ exports.Farmer = mongoose.model('Farmer', FarmerSchema);
  *
  * @type {Model|*}
  */
-var Crop = mongoose.model('Crop', CropSchema);
+exports.Crop = mongoose.model('Crop', CropSchema);
 
 /**
  * Membership Types example: Direct/Branch/Life Member/Affiliate
@@ -349,7 +347,7 @@ var CallType = mongoose.model('CallType', CallTypeSchema);
 
 var CallLog = mongoose.model('CallLog', CallLogSchema);
 
-var Transaction = mongoose.model('Transaction', TransactionSchema);
+exports.Transaction = mongoose.model('Transaction', TransactionSchema);
 
 var Dispute = mongoose.model('Dispute', DisputeSchema);
 
@@ -364,8 +362,6 @@ var Audit = mongoose.model('Audit', AuditSchema);
 exports.Buyer = mongoose.model('Buyer', BuyerSchema);
 
 exports.BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
-
-var Integrity = mongoose.model('Integrity', IntegritySchema);
 
 exports.Comment = mongoose.model('Comment', CommentSchema);
 
