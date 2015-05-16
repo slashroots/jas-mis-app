@@ -1,17 +1,15 @@
 <md-content class="farmForm" layout-padding layout="column">
-
-    <md-input-container>
-        <label>Farm Name</label>
-        <input type="text" ng-model="farm.fr_name">
-    </md-input-container>
-
     <div layout="row">
-        <md-input-container>
+        <md-input-container flex>
+            <label>Farm Name</label>
+            <input type="text" ng-model="farm.fr_name">
+        </md-input-container>
+        <md-input-container flex>
             <label>District ID</label>
             <input type="number" ng-model="farm.fr_district_id">
         </md-input-container>
 
-        <md-input-container>
+        <md-input-container flex>
             <label>Extension ID</label>
             <input type="number" ng-model="farm.fr_extension_id">
         </md-input-container>
@@ -20,37 +18,23 @@
 
     <md-input-container>
         <label>Address 1</label>
-        <input type="text" ng-model="farm.ad_address.ad_address1">
+        <input type="text" ng-model="farm.ad_address1">
     </md-input-container>
 
 
     <div layout="row">
         <md-input-container flex>
             <label>Address 2</label>
-            <input type="text" ng-model="farm.ad_address.ad_address2">
+            <input type="text" ng-model="farm.ad_address2">
         </md-input-container>
-
-        <div layout="row" flex>
-            <md-input-container>
-                <label>Latitude</label>
-                <input type="number" ng-model="farm.ad_address.ad_latitude">
-            </md-input-container>
-
-            <md-input-container>
-                <label>Longitude</label>
-                <input type="number" ng-model="farm.ad_address.ad_longitude">
-            </md-input-container>
-        </div>
+        <md-input-container flex>
+            <label>City</label>
+            <input type="text" ng-model="farm.ad_city">
+        </md-input-container>
     </div>
 
     <div layout="row">
-        <md-input-container flex>
-            <label>City</label>
-            <input type="text" ng-model="farm.ad_address.ad_city">
-        </md-input-container>
-
-
-        <md-select flex ng-init="farm.ad_address.pa_parish" placeholder="Parish" ng-model="farm.ad_address.pa_parish">
+        <md-select flex ng-init="farm.ad_address.pa_parish" placeholder="Parish" ng-model="farm.pa_parish">
             <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
         </md-select>
 

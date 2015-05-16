@@ -79,7 +79,7 @@ angular.module('jasmic.controllers')
              * server will take care of the address creation.
              */
             $scope.addNewFarm = function() {
-                $scope.farm.ad_address.ad_country = "Jamaica";
+                $scope.farm.ad_country = "Jamaica";
                 FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
                     showDialog($mdDialog, {statusText:"Successfully Added!"}, false);
                     $scope.farmer = success;

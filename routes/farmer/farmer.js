@@ -161,24 +161,15 @@ exports.createFarm = function(req, res) {
                 res.status(404);
                 res.send("Farmer Not Found");
             } else {
-                var address = model.Address(req.body.ad_address);
                 var farm = new model.Farm(req.body);
-                address.save(function(err2, response) {
-                    if(err2) {
-                        common.handleDBError(err2, res);
+                farmer.fr_farms.push(farm);
+                farmer.save(function(err3, result) {
+                    if(err3) {
+                        handleDBError(err3, res);
                     } else {
-                        farm.ad_address = response._id;
-                        farmer.fr_farms.push(farm);
-                        farmer.save(function(err3, result) {
-                            if(err3) {
-                                handleDBError(err3, res);
-                            } else {
-                                res.send(result);
-                            }
-                        });
+                        res.send(result);
                     }
                 });
-
             }
         }
     });

@@ -79,7 +79,13 @@ var FarmSchema = new Schema({
     fr_name: String,
     fr_district_id: String,
     fr_extension_id: String,
-    ad_address: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
+    ad_address1: {type: String, required: false},
+    ad_address2: String,
+    ad_latitude: Number,
+    ad_longitude: Number,
+    ad_city: String,
+    pa_parish: {required: true, type: String},
+    ad_country: {type: String, required: true},
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
