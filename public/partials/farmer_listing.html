@@ -1,53 +1,9 @@
-<<<<<<< HEAD
-<div>
-    <ui-view layout="column" layout-fill >
-        <md-content>
-
-            <md-card>
-                <md-card-content layout-padding>
-
-                    <table class="table1" flex>
-
-                        <thead class="farmer-header">
-
-                            <tr>
-                                <th class="initial">JAS #</th>
-                                <th class="flex1">First</th>
-                                <th class="flex1">Last</th>
-                                <th class="flex1">DOB</th>
-                                <th class="flex1">Contact</th>
-                                <th class="flex1">Deceased</th>
-                                <th class="flex1">Parish</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr ng-repeat="farmer in farmers | filter: search">
-
-                                <td class="initial">{{ farmer.fa_jas_number }}</td>
-                                <td class="flex1">{{ farmer.fa_first_name }}</td>
-                                <td class="flex1">{{ farmer.fa_last_name }}</td>
-                                <td class="flex1">{{ farmer.fa_dob | date }}</td>
-                                <td class="flex1">{{ farmer.fa_contact }}</td>
-                                <td class="flex1">{{ farmer.fa_deceased }}</td>
-                                <td class="flex1">{{ farmer.ad_address.pa_parish }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </md-card-content>
-            </md-card>
-
-        </md-content>
-    </ui-view>
-</div>
-=======
 <ui-view>
     <md-content layout="row" layout-fill>
         <div layout="column" class="repeated-item" layout-fill flex="{{selected ? 60: 100}}">
         <md-card>
             <md-card-content layout-padding>
-                <table class="table table-hover table-mc-light-blue">
+                <table class="bordered">
                     <thead>
                     <tr>
                         <th>JAS #</th>
@@ -60,7 +16,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in farmers" ng-click="selectedElement(farmer)">
+                    <tr id="row-select" ng-repeat="farmer in farmers" ng-click="selectedElement(farmer)">
                         <td>{{ farmer.fa_jas_number }}</td>
                         <td>{{ farmer.fa_first_name }}</td>
                         <td>{{ farmer.fa_last_name }}</td>
@@ -79,4 +35,3 @@
         </div>
     </md-content>
 </ui-view>
->>>>>>> f73ab91a403a91523ba4190fbde411233e2bf01c
