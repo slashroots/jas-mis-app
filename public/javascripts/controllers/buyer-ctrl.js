@@ -34,9 +34,9 @@ angular.module('jasmic.controllers')
      * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
      * edit farmer view
      */
-    .controller('NewBuyerCtrl', ['$scope', '$mdDialog', '$routeParams', 'BuyerFactory', 'BuyerTypesListingFactory',
+    .controller('NewBuyerCtrl', ['$scope', '$location', '$mdDialog', '$routeParams', 'BuyerFactory', 'BuyerTypesListingFactory',
             'ParishesFactory',
-        function ($scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory, ParishesFactory) {
+        function ($scope, $location, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory, ParishesFactory) {
             BuyerTypesListingFactory.query(function(buyertypes) {
                 $scope.buyerTypes = buyertypes;
             }, function(fail) {
@@ -54,10 +54,10 @@ angular.module('jasmic.controllers')
             $scope.save = function() {
                 BuyerFactory.create($scope.buyer, function(success) {
                     showDialog($mdDialog, {statusText:"Successfully Saved!"}, false);
+                    $location.url('buyer/'+ success._id);
                 },
                 function(fail) {
-                    //TODO: Handle this!!!
-                    console.log(fail);
+                    showDialog($mdDialog, fail, true);
                 });
             };
         }
