@@ -128,3 +128,15 @@ services.factory('BuyerFactory', function($resource) {
         update: { method: 'PUT', params: {id: '@id'}}
     });
 });
+
+/**
+ * Allows for retrieval of multiple buyer types to populate pickers.
+ */
+services.factory('BuyerTypesListingFactory', function($resource) {
+    return $resource('/buyertypes', {}, {
+        query: {
+            method: 'GET',
+            isArray: true
+        }
+    })
+});

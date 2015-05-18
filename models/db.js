@@ -47,7 +47,7 @@ var AddressSchema = new Schema({
     ad_longitude: Number,
     ad_city: String,
     pa_parish: {required: true, type: String},
-    ad_country: {type: String, required: true}
+    ad_country: {type: String, default: 'Jamaica', required: true}
 });
 var RoleSchema = new Schema({
     ro_start_date: {type: Date, default: Date.now()},

@@ -8,55 +8,42 @@
             <div layout="row">
                 <div class="profilePicture" flex="30"></div>
                 <div layout="column" flex="70">
-                    <div layout="row" flex>
-                        <md-input-container flex>
-                            <label>First Name</label><input type="text" ng-model="farmer.fa_first_name" />
-                        </md-input-container>
-                        <md-input-container flex>
-                            <label>Middle Name</label><input type="text" ng-model="farmer.fa_middle_name" />
-                        </md-input-container>
-                    </div>
                     <md-input-container flex>
-                        <label>Last Name</label><input type="text" ng-model="farmer.fa_last_name" />
+                        <label>Buyer Name/Company Name</label><input type="text" ng-model="buyer.bu_buyer_name" />
                     </md-input-container>
+                    <md-select placeholder="Type" ng-model="buyer.bt_buyer_type">
+                        <md-option ng-value="buyerType._id" ng-repeat="buyerType in buyerTypes">{{buyerType.bt_buyer_type_name}}</md-option>
+                    </md-select>
                 </div>
             </div>
         </md-card-content>
         <md-card-content>
 
-        <div layout layout-sm="column" >
-            <md-select ng-model="farmer.fa_gender">
-                <md-option value="M">Male</md-option>
-                <md-option value="F">Female</md-option>
-            </md-select>
-            <md-input-container flex>
-                <label>Date of Birth (yyyy-MM-dd)</label><input type="date" ng-model="dob"/>
+        <div id="contact">
+            <md-input-container>
+                <label>Address 1: </label><input type="text" ng-model="buyer.ad_address.ad_address1"/>
             </md-input-container>
-            <md-input-container flex>
-                <label>TRN: </label><input type="text" ng-model="farmer.fa_government_id"/>
+            <div layout="row">
+                <md-input-container flex>
+                    <label>Address 2: </label><input type="text" ng-model="buyer.ad_address.ad_address2"/>
+                </md-input-container>
+
+                <md-select flex ng-init="buyer.ad_address.pa_parish" placeholder="Parish" ng-model="buyer.ad_address.pa_parish">
+                    <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
+                </md-select>
+            </div>
+
+            <md-input-container>
+                <label>Cell #: </label><input type="tel" ng-model="buyer.bu_phone"/>
+            </md-input-container>
+            <md-input-container>
+                <label>Email: </label><input type="email" ng-model="buyer.bu_email"/>
             </md-input-container>
         </div>
 
-
-        <div id="contact">
+        <div id="paymentTerms">
             <md-input-container>
-                <label>Address 1: </label><input type="text" ng-model="farmer.ad_address.ad_address1"/>
-            </md-input-container>
-            <md-input-container>
-                <label>Address 2: </label><input type="text" ng-model="farmer.ad_address.ad_address2"/>
-            </md-input-container>
-
-
-            <md-select ng-init="farmer.ad_address.pa_parish" placeholder="Parish" ng-model="farmer.ad_address.pa_parish">
-                <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
-            </md-select>
-
-
-            <md-input-container>
-                <label>Cell #: </label><input type="tel" ng-model="farmer.fa_contact"/>
-            </md-input-container>
-            <md-input-container>
-                <label>Email: </label><input type="email" ng-model="farmer.fa_email"/>
+                <label>Preferred Payment Terms: </label><input type="text" ng-model="buyer.bu_payment_terms"/>
             </md-input-container>
         </div>
         <md-input-container layout="row" layout-sm="column" layout-align="center center">

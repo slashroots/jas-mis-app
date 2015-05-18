@@ -57,14 +57,23 @@ exports.getBuyers = function(req, res) {
  * @param res
  */
 exports.createBuyer = function(req, res) {
-    var buyer = new Buyer(req.body);
-    buyer.save(function(err) {
+    console.log(req.body);
+    var address = new model.Address(req.body.ad_address);
+    address.save(function(err) {
         if(err) {
             common.handleDBError(err, res);
         } else {
-            res.send(buyer);
+            var buyer = new Buyer(req.body);
+            buyer.ad_address = address._id;
+            buyer.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(buyer);
+                }
+            })
         }
-    })
+    });
 };
 
 /**
