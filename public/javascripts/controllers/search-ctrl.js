@@ -7,7 +7,8 @@ angular.module('jasmic.controllers')
         function ($scope, $location, $routeParams, SearchAllFactory) {
             $scope.results = SearchAllFactory.query($routeParams);
             $scope.terms = $routeParams.searchTerms;
-            $scope.selected = false;
+            $scope.farmerSelected = false;
+            $scope.buyerSelected = false;
 
             $scope.searchAll = function() {
                 $location.url("/search?searchTerms=" + $scope.search);
@@ -21,9 +22,26 @@ angular.module('jasmic.controllers')
                 $location.url('farmer/'+$scope.selectedFarmer._id+'/edit');
             };
 
-            $scope.selectedElement = function(farmer) {
-                $scope.selectedFarmer = farmer;
-                $scope.selected = true;
+            $scope.goToBuyer = function() {
+                $location.url('buyer/'+$scope.selectedBuyer._id);
+            };
+
+            $scope.editBuyer = function() {
+                $location.url('buyer/'+$scope.selectedBuyer._id+'/edit');
+            };
+
+            $scope.selectedElement = function(entityType, obj) {
+                if(entityType == 'farmer') {
+                    $scope.selectedFarmer = obj;
+                    $scope.farmerSelected = true;
+                    $scope.buyerSelected = false;
+                } else if(entityType == 'buyer') {
+                    $scope.farmerSelected = false;
+                    $scope.buyerSelected = true;
+                    $scope.selectedBuyer = obj;
+                } else {
+                    //unknown selection
+                }
             };
         }
     ]);
