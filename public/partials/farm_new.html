@@ -50,7 +50,8 @@
         <input type="number" ng-model="farm.fr_size">
     </md-input-container>
 
-    <md-input-container layout-align="center center">
-        <md-button ng-click="addNewFarm()">Add</md-button>
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="cancelAdd()">Cancel</md-button>
+        <md-button ng-click="addNewFarm()">Save</md-button>
     </md-input-container>
 </md-content>
