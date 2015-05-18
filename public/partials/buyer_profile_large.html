@@ -1,0 +1,115 @@
+<ui-view>
+    <md-content layout="row" layout-fill>
+        <div layout="column" layout-fill flex-md="100" flex="60" flex-sm="100">
+            <md-card>
+                <md-card-content class="pretty2" layout-padding>
+                    <div layout="row">
+                        <div flex="30" class="profilePic"></div>
+                        <div flex="50" layout="column" class="farmerNames farmerPretty2">
+                            <label>Buyer</label>
+
+                            <h2 class="farmerSummary">{{buyer.bu_name}}</h2>
+                        </div>
+                        <div layout="column" flex="20">
+                            <div layout="row" >
+                                <md-button ng-click="editbuyer()" class="md-icon-button" aria-label="Edit">
+                                    <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Favourites">
+                                    <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Details">
+                                    <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
+                                </md-button>
+                            </div>
+                            <span flex></span>
+                        </div>
+                    </div>
+                </md-card-content>
+                <md-card-content layout="column">
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(buyer.fa_government_id)? buyer.fa_government_id:  'TRN not found'}}
+                                <div class="label">TRN</div>
+                            </div>
+                        </div>
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(buyer.dob)? (buyer.fa_dob|date): 'Not Disclosed'}}
+                                <div class="label">Date of Birth</div>
+                            </div>
+                        </div>
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(buyer.fa_deceased)? 'Unknown' : (buyer.fa_deceased ? 'Yes': 'No')}}
+                                <div class="label">Deceased</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
+                        <div layout="row" flex>
+                            <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(buyer.bu_phone)? buyer.bu_phone : 'Not Disclosed'}}
+                                <div class="label">Contact</div>
+                            </div>
+                        </div>
+
+                        <div layout="row" flex>
+                            <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(buyer.bu_email)? (buyer.bu_email| lowercase): 'Not Disclosed'}}
+                                <div class="label">Email</div>
+                            </div>
+                        </div>
+                        <span flex></span>
+                    </div>
+                    <div layout-align="space-around start" class="lastInfo" layout="row">
+                        <span flex></span>
+                        <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+                        <div layout-align="center" layout="column">
+                            {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
+                            <br/>
+                            {{isValid(buyer.ad_address.ad_address2)? buyer.ad_address.ad_address2: ''}}
+                            <br ng-if="isValid(buyer.ad_address.ad_address2)"/>
+                            {{isValid(buyer.ad_address.pa_parish) ? buyer.ad_address.pa_parish: ''}}
+                            <br ng-if="isValid(buyer.ad_address.pa_parish)"/>
+                            <div class="label">Address</div>
+                        </div>
+                        <span flex></span>
+                    </div>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-content>
+                    <div layout="row">
+                        <md-subheader>Demands</md-subheader>
+                        <div flex class="md-actions edge" layout="row" layout-align="end center">
+                            <md-button ng-click="newDemand()" class="md-fab edge" aria-label="Add New Supply">
+                                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <div ng-include="new_demand ? '/partials/demand_new.html':null">
+
+                    </div>
+                    <div ng-repeat="demand in buyer.de_demands">
+                        {{demand.cr_crop}}
+                    </div>
+                </md-card-content>
+            </md-card>
+
+            <md-card>
+                <md-card-content>
+
+                </md-card-content>
+            </md-card>
+        </div>
+        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        </div>
+    </md-content>
+</ui-view>

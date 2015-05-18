@@ -62,4 +62,83 @@ angular.module('jasmic.controllers')
                 });
             };
         }
+    ])
+    /**
+     * This controller is responsible for the querying of the buyer by id,
+     * then creation of the buyer object for the view to render.  It also
+     * populates the parishes combo box for user interaction.
+     */
+    .controller('EditBuyerCtrl', ['$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+        'ParishesFactory', 'BuyerTypesListingFactory',
+        function ($scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
+            BuyerFactory.show({id:$routeParams.id},
+                function(buyer) {
+                    $scope.buyer = buyer;
+                },
+                function(error) {
+                    showDialog($mdDialog, error, true);
+                });
+
+            BuyerTypesListingFactory.query({}, function(bTypes) {
+                $scope.buyerTypes = bTypes;
+            }, function(failure) {
+
+            });
+
+            ParishesFactory.query({},
+                function(parishes) {
+                    $scope.parishes = parishes;
+                },
+                function(error) {
+                    console.log(error);
+                });
+
+            $scope.save = function() {
+                BuyerFactory.update({id:$scope.buyer._id}, $scope.buyer, function(something) {
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+                }, function(error) {
+                    showDialog($mdDialog, error, true);
+                });
+            };
+
+        }
+    ])
+
+    /**
+     *  Controller logic for the profile page of a buyer.
+     */
+    .controller('BuyerProfileCtrl', ['$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+        'ParishesFactory', 'BuyerTypesListingFactory',
+        function ($scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
+            BuyerFactory.show({id:$routeParams.id},
+                function(buyer) {
+                    $scope.buyer = buyer;
+                },
+                function(error) {
+                    showDialog($mdDialog, error, true);
+                });
+
+            $scope.isValid = isValid;
+
+            $scope.editBuyer = function() {
+                $location.url('buyer/'+$scope.buyer._id+'/edit');
+            }
+        }
     ]);
+
+
+/**
+ * Quick and dirty check to see if information is present for
+ * manipulation
+ * @param obj
+ * @returns {boolean}
+ */
+isValid = function(obj) {
+    if(obj == undefined) {
+        return false;
+    } else if(obj == '') {
+        return false;
+    } else {
+        return true;
+    }
+};

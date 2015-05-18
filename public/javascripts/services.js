@@ -124,6 +124,7 @@ services.factory('BuyersListingFactory', function($resource) {
  */
 services.factory('BuyerFactory', function($resource) {
     return $resource('/buyer/:id', {}, {
+        show: { method: 'GET'},
         create: { method: 'POST'},
         update: { method: 'PUT', params: {id: '@id'}}
     });

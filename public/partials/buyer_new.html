@@ -11,7 +11,7 @@
                     <md-input-container flex>
                         <label>Buyer Name/Company Name</label><input type="text" ng-model="buyer.bu_buyer_name" />
                     </md-input-container>
-                    <md-select placeholder="Type" ng-model="buyer.bt_buyer_type">
+                    <md-select placeholder="Type" ng-model="buyer.bt_buyer_type._id">
                         <md-option ng-value="buyerType._id" ng-repeat="buyerType in buyerTypes">{{buyerType.bt_buyer_type_name}}</md-option>
                     </md-select>
                 </div>

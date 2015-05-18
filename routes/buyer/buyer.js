@@ -82,7 +82,7 @@ exports.createBuyer = function(req, res) {
  * @param res
  */
 exports.getBuyerById = function(req, res) {
-    Buyer.findById(req.params.id).populate('ad_address', 'bt_buyer_type')
+    Buyer.findById(req.params.id).populate('ad_address bt_buyer_type')
         .exec(function(err, item) {
             if(err) {
                 common.handleDBError(err, res);
