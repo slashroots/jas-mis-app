@@ -82,6 +82,10 @@ md-card-content.pretty {
   background-color: #d8e4f1;
 }
 
+md-card-content.pretty2 {
+  background-color: #d5e7be;
+}
+
 .farmerSummary h2 {
   font-weight: bolder;
 }
@@ -133,6 +137,10 @@ md-content.farmForm {
 
 .md-subheader.md-default-theme.pretty {
   background-color: #d8e4f1;
+}
+
+.md-subheader.md-default-theme.pretty2 {
+  background-color: #d5e7be;
 }
 
 .completeTransStat {

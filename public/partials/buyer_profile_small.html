@@ -1,0 +1,56 @@
+<div layout="column" layout-fill>
+
+    <md-card>
+        <md-card-content class="pretty2">
+            <div layout-fill layout-align="center" layout="column">
+                <div layout="row">
+                    <md-button ng-click="goToBuyer()" class="md-icon-button" aria-label="View More">
+                        <md-icon md-svg-icon="../images/ic_arrow_back_24px.svg"></md-icon>
+                    </md-button>
+                    <md-button ng-click="goToBuyer()">View More</md-button>
+                    <span flex layout-fill></span>
+                    <md-button class="md-icon-button" ng-click="editBuyer()" aria-label="Edit">
+                        <md-icon md-svg-icon="../images/ic_mode_edit_24px.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Details">
+                        <md-icon md-svg-icon="../images/ic_more_vert_24px.svg"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" class="farmerPretty">
+                    <div flex="30" class="profilePic"></div>
+                    <div flex="70" layout="column" class="farmerNames">
+                        <label>Buyer</label>
+                        <H3 class="farmerSummary">{{selectedBuyer.bu_buyer_name}}</H3>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+        <md-card-content>
+            <div layout="column">
+                <div layout-padding layout="row">
+                    <div flex="20"><img src="../images/ic_call_24px.svg"/> </div>
+                    <div class="farmerInfo" flex="80" layout="column">
+                        <label>Contact #</label>
+                        {{selectedBuyer.bu_phone}}
+                    </div>
+                </div>
+                <div layout-padding layout="row">
+                    <div flex="20"><img src="../images/ic_email_24px.svg"/> </div>
+                    <div class="farmerInfo" flex="80" layout="column">
+                        <label>Email</label>
+                        {{selectedBuyer.bu_email}}
+                    </div>
+                </div>
+                <div layout-padding layout="row">
+                    <div flex="20"><img src="../images/ic_location_on_24px.svg"/></div>
+                    <div flex="80" layout="column">
+                        <label>Address</label>
+                        {{selectedBuyer.ad_address.ad_address1}}<br/>
+                        {{selectedBuyer.ad_address.pa_parish }}
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+
+</div>

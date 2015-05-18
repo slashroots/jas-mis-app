@@ -105,3 +105,26 @@ services.factory('TransactionFactory', function($resource) {
         update: { method: 'PUT', params: {id: '@id'}}
     });
 });
+
+/**
+ * Allows for retrieval of multiple buyers to populate listing
+ * screens.
+ */
+services.factory('BuyersListingFactory', function($resource) {
+    return $resource('/buyers', {}, {
+        query: {
+            method: 'GET',
+            isArray: true
+        }
+    })
+});
+
+/**
+ * Factory to be used to create and modify a transaction
+ */
+services.factory('BuyerFactory', function($resource) {
+    return $resource('/buyer/:id', {}, {
+        create: { method: 'POST'},
+        update: { method: 'PUT', params: {id: '@id'}}
+    });
+});
