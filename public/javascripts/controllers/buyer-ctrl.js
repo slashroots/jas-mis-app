@@ -106,12 +106,20 @@ angular.module('jasmic.controllers')
     /**
      *  Controller logic for the profile page of a buyer.
      */
-    .controller('BuyerProfileCtrl', ['$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'ParishesFactory', 'BuyerTypesListingFactory',
-        function ($scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
+    .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+        'BuyerTypesListingFactory', 'TransactionsFactory',
+        function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+                  TransactionsFactory) {
             BuyerFactory.show({id:$routeParams.id},
                 function(buyer) {
                     $scope.buyer = buyer;
+                    $scope.completedTransactions = TransactionsFactory.query({
+                        bu_buyer: buyer._id, tr_status: 'Completed'
+                    });
+                    $scope.pendingTransactions = TransactionsFactory.query({
+                        bu_buyer: buyer._id, tr_status: 'Pending'
+                    });
+                    $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
                 },
                 function(error) {
                     showDialog($mdDialog, error, true);

@@ -99,11 +99,11 @@ md-card-content.pretty2 {
 
 .farmerSummary {
   margin: 0px;
-  text-transform: lowercase;
+  text-transform:capitalize;
 }
 
 .farmerSummary:first-letter {
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 md-content.farmForm {

@@ -11,6 +11,7 @@ var common = require('../common/common');
 var model = require('../../models/db');
 var Buyer = model.Buyer;
 var BuyerType = model.BuyerType;
+var Representative = model.Representative;
 
 
 /**
@@ -152,6 +153,30 @@ exports.getBuyerTypes = function(req, res) {
             common.handleDBError(err, res);
         } else {
             res.send(list);
+        }
+    })
+};
+
+/**
+ * A representative can be added to a particular company.
+ * This function pushes a new rep into the buyer object.
+ * @param req
+ * @param res
+ */
+exports.addNewRep = function(req, res) {
+    var rep = new Representative(req.body);
+    Buyer.findById(req.params.id, function(err, buyer) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            buyer.re_representatives.push(rep);
+            buyer.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(buyer);
+                }
+            })
         }
     })
 };

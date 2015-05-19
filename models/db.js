@@ -178,6 +178,14 @@ var BuyerTypeSchema = new Schema({
     bt_buyer_type_name: {type: String, required: true, unique: true},
     bt_buyer_type_desc: String
 });
+var RepresentativeSchema = new Schema({
+    re_name: {type: String, required: true},
+    re_contact: {type: String, required: true},
+    re_email: {type: String},
+    re_crop: {type: String},
+    re_security_question: {type: String, required: true},
+    re_security_answer: {type: String, required: true}
+});
 var BuyerSchema = new Schema({
     bu_buyer_name: {type: String, required: true, unique: true},
     bt_buyer_type: {type: Schema.Types.ObjectId, required: true, ref: 'BuyerType'},
@@ -187,7 +195,8 @@ var BuyerSchema = new Schema({
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    de_demands: [DemandSchema]
+    de_demands: [DemandSchema],
+    re_representatives: [RepresentativeSchema]
 });
 var InputTypeSchema = new Schema({
     it_input_type_desc: {type: String, required: true},
@@ -364,6 +373,8 @@ var User = mongoose.model('User', UserSchema);
 var UserType = mongoose.model('UserType', UserTypeSchema);
 
 var Audit = mongoose.model('Audit', AuditSchema);
+
+exports.Representative = mongoose.model('Representative', RepresentativeSchema);
 
 exports.Buyer = mongoose.model('Buyer', BuyerSchema);
 
