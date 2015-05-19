@@ -11,7 +11,12 @@ var Crop = model.Crop;
  * @param res
  */
 exports.findCrops = function(req, res) {
-    Crop.find(req.query)
+    var query = req.query;
+    if("beginsWith" in req.query) {
+        query = {cr_crop_name: new RegExp(req.query.beginsWith,'i')};
+    }
+    Crop.find(query)
+        .sort('cr_crop_name cr_crop_variety')
         .exec(function(err, list) {
             if(err) {
                 common.handleDBError(err, res);

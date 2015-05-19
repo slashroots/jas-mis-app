@@ -151,3 +151,13 @@ services.factory('RepFactory', function($resource) {
         create: { method: 'POST', params: {id: '@id'}}
     });
 });
+
+/**
+ * The plural form of crop.  Use this factory to get access to all crop
+ * information on the system and their varieties.
+ */
+services.factory('CropsFactory', function($resource) {
+    return $resource('/crops', {}, {
+        query: { method: 'GET', isArray: true}
+    })
+});

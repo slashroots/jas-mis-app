@@ -37,9 +37,9 @@ angular.module('jasmic.controllers')
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
-        'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory',
+        'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
-                 FarmerFactory, ParishesFactory, FarmerFarmFactory) {
+                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -125,17 +125,10 @@ angular.module('jasmic.controllers')
             };
 
             /**
-             * TODO: Incomplete!
+             *
              */
-            $scope.findAndSelectCrop = function() {
-                var pa = angular.element(document.body);
-                $mdDialog.show({
-                    parent: pa,
-                    clickOutsideToClose: true,
-                    scope: $scope,        // use parent scope in template
-                    preserveScope: true,
-                    templateUrl:'/partials/crop_listing.html'
-                });
+            $scope.queryCropSearch = function(cropName) {
+                return CropsFactory.query({beginsWith: cropName});
             };
         }
     ])

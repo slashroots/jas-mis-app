@@ -1,3 +1,20 @@
 <div>
-    New Supply Form
+    <md-autocomplete
+            ng-disabled="false"
+            md-no-cache="true"
+            md-selected-item="selectedItem"
+            md-search-text-change="searchTextChange(searchText)"
+            md-search-text="searchText"
+            md-selected-item-change="selectedItemChange(item)"
+            md-items="item in queryCropSearch(searchText)"
+            md-item-text="item.cr_crop_name+' - '+item.cr_crop_variety"
+            md-min-length="3"
+            placeholder="Crop">
+        <md-item-template>
+            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.cr_crop_name}} - {{item.cr_crop_variety}}</span>
+        </md-item-template>
+        <md-not-found>
+            No matches found for "{{searchText}}".
+        </md-not-found>
+    </md-autocomplete>
 </div>
