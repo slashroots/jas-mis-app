@@ -101,18 +101,30 @@
                     <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
 
                     </div>
-                    <div layout-align="space-around start" layout="row" ng-repeat="commodity in farmer.co_commodities">
-                        <div layout="column">
-                            {{commodity.cr_crop.cr_crop_name}} - {{commodity.cr_crop.cr_crop_variety}}
-                            <label>Produce/Crop</label>
+                    <div class="farmerInfo" layout="column" ng-repeat="commodity in farmer.co_commodities">
+                        <div layout-align="space-around start" layout="row">
+                            <div layout="column">
+                                {{commodity.cr_crop.cr_crop_name}} - {{commodity.cr_crop.cr_crop_variety}}
+                                <label>Produce/Crop</label>
+                            </div>
+                            <div layout="column">
+                                {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                            <div layout="column">
+                                {{commodity.co_price}} per {{commodity.un_price_unit.un_unit_name}}
+                                <label>Unit Cost</label>
+                            </div>
                         </div>
-                        <div layout="column">
-                            {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
-                            <label>Amount</label>
-                        </div>
-                        <div layout="column">
-                            {{commodity.co_price}} per {{commodity.un_price_unit.un_unit_name}}
-                            <label>Unit Cost</label>
+                        <div layout-align="space-around start" layout="row">
+                            <div layout="column">
+                                {{commodity.co_payment_preference}}
+                                <label>Payout Preference</label>
+                            </div>
+                            <div layout="column">
+                                {{commodity.co_notes}}
+                                <label>Notes</label>
+                            </div>
                         </div>
                     </div>
                 </md-card-content>
