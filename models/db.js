@@ -90,9 +90,8 @@ var FarmSchema = new Schema({
 });
 var CommoditySchema = new Schema({
     cr_crop: {type: Schema.Types.ObjectId, ref:'Crop', required: true},
-    fr_farm: {type: Schema.Types.ObjectId, ref: 'Farm'},
     co_quantity: {type: Number, required: true},
-    un_quantity_unit: {type: Schema.Types.ObjectId, required: true},
+    un_quantity_unit: {type: Schema.Types.Mixed, required: true},
     co_expiration_date: Date,
     co_quality: String,
     co_price: {type: Number, required: true},
@@ -350,13 +349,13 @@ exports.Unit = mongoose.model('Unit', UnitSchema);
  * This captures the various commodities that are seeking markets
  * @type {Model|*}
  */
-var Commodity = mongoose.model('Commodity', CommoditySchema);
+exports.Commodity = mongoose.model('Commodity', CommoditySchema);
 
 /**
  * These are the various Demands needed by buyers on the JAS platform
  * @type {Model|*}
  */
-var Demand = mongoose.model('Demand', DemandSchema);
+exports.Demand = mongoose.model('Demand', DemandSchema);
 
 var CallType = mongoose.model('CallType', CallTypeSchema);
 

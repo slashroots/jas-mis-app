@@ -170,3 +170,9 @@ services.factory('UnitsFactory', function($resource) {
         query: {method: 'GET', isArray: true}
     });
 });
+
+services.factory('CommodityFactory', function($resource) {
+    return $resource('/farmer/:id/commodity', {}, {
+        create: {method: 'POST', params: {id: '@id'}}
+    })
+});

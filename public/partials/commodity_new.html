@@ -1,6 +1,7 @@
 <div>
     <md-content>
         <md-autocomplete
+                ng-required="true"
                 ng-disabled="false"
                 md-no-cache="true"
                 md-selected-item="selectedItem"
@@ -20,21 +21,21 @@
         </md-autocomplete>
         <div layout-align="center center" layout="row">
             <md-input-container flex>
-                <label>Quantity</label><input ng-model="commodity.un_quantity" type="number"/>
+                <label>Quantity</label><input ng-required="true" ng-model="commodity.co_quantity" type="number"/>
             </md-input-container>
 
-            <md-select ng-model="commodity.un_quantity_unit" placeholder="Unit">
-                <md-option ng-value="unit._id" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+            <md-select ng-required="true" ng-model="commodity.un_quantity_unit" placeholder="Unit">
+                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
             </md-select>
         </div>
         <div layout-align="center center" layout="row">
             <md-input-container flex>
                 <label>Unit Price</label>
-                <input ng-model="commodity.co_price" type="number"/>
+                <input ng-required="true" ng-model="commodity.co_price" type="number"/>
             </md-input-container>
             per
-            <md-select ng-model="commodity.un_price_unit" placeholder="Unit">
-                <md-option ng-value="unit._id" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+            <md-select ng-required="true" ng-model="commodity.un_price_unit" placeholder="Unit">
+                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
             </md-select>
         </div>
 
@@ -44,17 +45,25 @@
         </md-input-container>
 
         <div layout="row">
+
             <md-input-container>
-                <label>Listing Date</label>
-                <input type="date"/>
+                <label>Available Date (yyyy-MM-dd)</label>
+                <input ng-required="true" ng-model="co_availability_date" type="date"/>
             </md-input-container>
+
             <md-input-container>
-                <label>End Date</label>
-                <input type="date"/>
+                <label>End Date (yyyy-MM-dd)</label>
+                <input ng-required="true" ng-model="co_until" type="date"/>
             </md-input-container>
         </div>
+
+        <md-input-container>
+            <label>Notes</label>
+            <input ng-model="commodity.co_notes" type="text"/>
+        </md-input-container>
+
         <md-input-container layout="row" layout-sm="column" layout-align="center center">
-            <md-button ng-click="cancelSave()">Cancel</md-button>
+            <md-button ng-click="newCommodityItem()">Cancel</md-button>
             <md-button ng-click="saveCommodity()">Save</md-button>
         </md-input-container>
     </md-content>

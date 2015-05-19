@@ -56,7 +56,7 @@ exports.getFarmers = function(req, res) {
     }
 
     model.Farmer.find(query)
-        .populate('ad_address')
+        .populate('ad_address co_commodities.cr_crop')
         .exec(function(err, docs) {
             if(err) {
                 handleDBError(err, res);
@@ -89,7 +89,7 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id).populate('ad_address')
+    model.Farmer.findById(req.params.id).populate('ad_address co_commodities.cr_crop ')
         .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);
@@ -173,6 +173,39 @@ exports.createFarm = function(req, res) {
             }
         }
     });
+};
+
+/**
+ * Adds a commodity to the farmer object based on the farmer's ID.
+ * @param req
+ * @param res
+ */
+exports.addCommodity = function(req, res) {
+    model.Farmer.findById(req.params.id, function(err, farmer) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            var commodity = new model.Commodity(req.body);
+            farmer.co_commodities.push(commodity);
+            farmer.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(farmer);
+                }
+            })
+        }
+    });
+};
+
+/**
+ * Intended to be able to edit the commodity based on farmer's id
+ * @param req
+ * @param res
+ */
+exports.editCommodity = function(req, res) {
+    res.statusCode(500);
+    res.send({error: 'Not Implemented!'});
 };
 
 /**

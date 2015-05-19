@@ -38,26 +38,30 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory',
+        'UnitsFactory', 'CommodityFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
-                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory) {
+                FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
+                CommodityFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
              * TODO: Finish up this!
              */
-            FarmerFactory.show({id:$routeParams.id}, function(farmer) {
-                $scope.farmer = farmer;
-                $scope.completedTransactions = TransactionsFactory.query({
-                    fr_farmer: farmer._id, tr_status: 'Completed'
+            function loadAll() {
+                FarmerFactory.show({id:$routeParams.id}, function(farmer) {
+                    $scope.farmer = farmer;
+                    $scope.completedTransactions = TransactionsFactory.query({
+                        fr_farmer: farmer._id, tr_status: 'Completed'
+                    });
+                    $scope.pendingTransactions = TransactionsFactory.query({
+                        fr_farmer: farmer._id, tr_status: 'Pending'
+                    });
+                    $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+                }, function(err) {
+                    console.log(err);
                 });
-                $scope.pendingTransactions = TransactionsFactory.query({
-                    fr_farmer: farmer._id, tr_status: 'Pending'
-                });
-                $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
-            }, function(err) {
-                console.log(err);
-            });
+            };
+            loadAll();
 
             /**
              * Quick and dirty check to see if information is present for
@@ -113,10 +117,15 @@ angular.module('jasmic.controllers')
             };
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
+                $scope.co_availability_date= moment().toDate();
+                $scope.co_unitl = moment().add(7, 'days').toDate();
+                $scope.commodity = {};
             };
             $scope.newCommodity = false;
             $scope.newFarm = false;
             $scope.farm = {};
+            $scope.commodity = {};
+            var selectedCrop;
 
             /**
              * Open the page for editing the farmer.
@@ -134,8 +143,26 @@ angular.module('jasmic.controllers')
             $scope.queryCropSearch = function(cropName) {
                 return CropsFactory.query({beginsWith: cropName});
             };
+            $scope.selectedItemChange = function(item) {
+                selectedCrop = item._id;
+            };
 
+            /**
+             * Fetches the units that user can select
+             */
             $scope.units = UnitsFactory.query({});
+
+            $scope.saveCommodity = function() {
+                $scope.commodity.co_availability_date = moment($scope.co_availability_date).toDate();
+                $scope.commodity.co_until = moment($scope.co_until).toDate();
+                $scope.commodity.cr_crop = selectedCrop;
+                CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
+                    $scope.newCommodityItem();
+                    loadAll();
+                }, function(error) {
+                    showDialog($mdDialog, error, true);
+                })
+            }
         }
     ])
     /**

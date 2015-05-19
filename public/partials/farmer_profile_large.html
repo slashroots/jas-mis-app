@@ -101,8 +101,19 @@
                     <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
 
                     </div>
-                    <div ng-repeat="commodity in farmer.co_commodities">
-                        {{commodity.cr_crop}}
+                    <div layout-align="space-around start" layout="row" ng-repeat="commodity in farmer.co_commodities">
+                        <div layout="column">
+                            {{commodity.cr_crop.cr_crop_name}} - {{commodity.cr_crop.cr_crop_variety}}
+                            <label>Produce/Crop</label>
+                        </div>
+                        <div layout="column">
+                            {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
+                            <label>Amount</label>
+                        </div>
+                        <div layout="column">
+                            {{commodity.co_price}} per {{commodity.un_price_unit.un_unit_name}}
+                            <label>Unit Cost</label>
+                        </div>
                     </div>
                 </md-card-content>
             </md-card>

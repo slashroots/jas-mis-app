@@ -21,6 +21,9 @@ router.get('/farmer/:id/farms', Farmer.getFarmsByFarmerId);
 router.post('/farmer/:id/farm', Farmer.createFarm);
 router.put('/farm/:farm_id', Farmer.updateFarmById);
 
+router.post('/farmer/:id/commodity', Farmer.addCommodity);
+router.put('/farmer/:id/commodity/:comID', Farmer.editCommodity);
+
 /**
  * Manipulate info about Membership for a specific farmer
  */
