@@ -6,6 +6,7 @@ var Address = model.Address;
 var Parish = model.Parish;
 var Farmer = model.Farmer;
 var Buyer = model.Buyer;
+var Unit = model.Unit;
 
 
 /**
@@ -177,4 +178,35 @@ exports.searchAll = function(req, res) {
     } else {
         res.send({farmers:[],buyers:[],transaction:[], calls:[]});
     }
+};
+
+/**
+ * Captures the units and stores it to mongo.  Mongo does the validation.
+ * @param req
+ * @param res
+ */
+exports.createUnit = function(req, res) {
+    var unit = new Unit(req.body);
+    unit.save(function(err) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(unit);
+        }
+    })
+};
+
+/**
+ * Retrieves the units allows for search based on req.query.
+ * @param req
+ * @param res
+ */
+exports.findUnits = function(req, res) {
+    Unit.find(req.query, function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(list);
+        }
+    });
 };

@@ -38,8 +38,9 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
+        'UnitsFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
-                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory) {
+                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -125,11 +126,16 @@ angular.module('jasmic.controllers')
             };
 
             /**
-             *
+             *  This function does the magic for the auto-complete crop selection
+             *  tool.  The API looks out for a key called 'beginsWith' and they
+             *  constructs a regex expression that searches for the crop name and
+             *  returns a list matching the expression.
              */
             $scope.queryCropSearch = function(cropName) {
                 return CropsFactory.query({beginsWith: cropName});
             };
+
+            $scope.units = UnitsFactory.query({});
         }
     ])
     /**

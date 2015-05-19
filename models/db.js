@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGOLAB_URI);
 var UnitSchema = new Schema({
     un_unit_name: {type: String, required: true, unique: true},
     un_unit_desc: {type: String},
-    un_unit_conversion: {type: Number, required: true}
+    un_unit_conversion: {type: Number, required: false}
 });
 var CommentSchema = new Schema({
     us_user_id: {type: Schema.Types.ObjectId, required: true},
@@ -344,7 +344,7 @@ exports.Farm = mongoose.model('Farm', FarmSchema);
  * application
  * @type {Model|*}
  */
-var Unit = mongoose.model('Unit', UnitSchema);
+exports.Unit = mongoose.model('Unit', UnitSchema);
 
 /**
  * This captures the various commodities that are seeking markets

@@ -112,6 +112,14 @@ angular.module('jasmic.controllers')
         'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   TransactionsFactory, RepFactory) {
+
+            /**
+             * Start the page by setting up the buyer.  This section retrieves the
+             * buyer based on the supplied id in the $routeParams.  Also attempts to
+             * find the various transactions in progress and completed.
+             *
+             * TODO:  Create and Generate Endpoints and Functions for disputes
+             */
             BuyerFactory.show({id:$routeParams.id},
                 function(buyer) {
                     $scope.buyer = buyer;
@@ -121,7 +129,7 @@ angular.module('jasmic.controllers')
                     $scope.pendingTransactions = TransactionsFactory.query({
                         bu_buyer: buyer._id, tr_status: 'Pending'
                     });
-                    $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+                    $scope.disputes = [];
                 },
                 function(error) {
                     showDialog($mdDialog, error, true);
@@ -129,14 +137,25 @@ angular.module('jasmic.controllers')
 
             $scope.isValid = isValid;
 
+            /**
+             * Move to the edit page for the buyer from profile
+             * page.
+             */
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.buyer._id+'/edit');
             };
 
+            /**
+             * Allows the user to cancel the data entry and hide the window.
+             */
             $scope.cancelAdd = function() {
                 $scope.new_rep = false;
             };
 
+            /**
+             * This attempts to create a new representative and associate he/she with the
+             * buying institution or company
+             */
             $scope.addNewRep = function() {
                 RepFactory.create({id: $scope.buyer._id},$scope.representative, function(success) {
                     $scope.buyer = success;
@@ -149,10 +168,23 @@ angular.module('jasmic.controllers')
                 });
             };
 
+            /**
+             * This section sets up the representative capture feature.
+             */
             $scope.representative = {};
             $scope.new_rep = false;
             $scope.newRep = function() {
                 $scope.new_rep = !$scope.new_rep;
+            };
+
+            /**
+             *  This function does the magic for the auto-complete crop selection
+             *  tool.  The API looks out for a key called 'beginsWith' and they
+             *  constructs a regex expression that searches for the crop name and
+             *  returns a list matching the expression.
+             */
+            $scope.queryCropSearch = function(cropName) {
+                return CropsFactory.query({beginsWith: cropName});
             };
         }
     ]);

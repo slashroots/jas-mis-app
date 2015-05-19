@@ -28,4 +28,7 @@ router.get('/parishes', Common.getParishes);
 
 router.get('/search', Common.searchAll);
 
+router.get('/units', Common.findUnits);
+router.post('/unit', Common.createUnit);
+
 module.exports = router;

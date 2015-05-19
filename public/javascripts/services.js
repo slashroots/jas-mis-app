@@ -139,7 +139,7 @@ services.factory('BuyerTypesListingFactory', function($resource) {
             method: 'GET',
             isArray: true
         }
-    })
+    });
 });
 
 /**
@@ -159,5 +159,14 @@ services.factory('RepFactory', function($resource) {
 services.factory('CropsFactory', function($resource) {
     return $resource('/crops', {}, {
         query: { method: 'GET', isArray: true}
-    })
+    });
+});
+
+/**
+ * Search/query for all the units in the system.
+ */
+services.factory('UnitsFactory', function($resource) {
+    return $resource('/common/units', {}, {
+        query: {method: 'GET', isArray: true}
+    });
 });
