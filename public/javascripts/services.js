@@ -141,3 +141,13 @@ services.factory('BuyerTypesListingFactory', function($resource) {
         }
     })
 });
+
+/**
+ * This is the factory used to create a representative based on a given
+ * Buyer.
+ */
+services.factory('RepFactory', function($resource) {
+    return $resource('/buyer/:id/rep', {}, {
+        create: { method: 'POST', params: {id: '@id'}}
+    });
+});

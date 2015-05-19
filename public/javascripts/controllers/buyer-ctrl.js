@@ -106,11 +106,12 @@ angular.module('jasmic.controllers')
 
     /**
      *  Controller logic for the profile page of a buyer.
+     *  TODO: Document this controller!
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'TransactionsFactory',
+        'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  TransactionsFactory) {
+                  TransactionsFactory, RepFactory) {
             BuyerFactory.show({id:$routeParams.id},
                 function(buyer) {
                     $scope.buyer = buyer;
@@ -130,7 +131,29 @@ angular.module('jasmic.controllers')
 
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.buyer._id+'/edit');
-            }
+            };
+
+            $scope.cancelAdd = function() {
+                $scope.new_rep = false;
+            };
+
+            $scope.addNewRep = function() {
+                RepFactory.create({id: $scope.buyer._id},$scope.representative, function(success) {
+                    $scope.buyer = success;
+                    showDialog($mdDialog, {statusText:"Successfully Added Rep!"}, false);
+                    $scope.new_rep = false;
+                    $scope.representative = {};
+                },
+                function(err) {
+                    showDialog($mdDialog, err, true);
+                });
+            };
+
+            $scope.representative = {};
+            $scope.new_rep = false;
+            $scope.newRep = function() {
+                $scope.new_rep = !$scope.new_rep;
+            };
         }
     ]);
 

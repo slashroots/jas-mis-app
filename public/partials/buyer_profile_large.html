@@ -103,16 +103,40 @@
                     <div layout="row">
                         <md-subheader>Approved Employees</md-subheader>
                         <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button ng-click="newDemand()" class="md-fab edge" aria-label="Add New Supply">
+                            <md-button ng-click="newRep()" class="md-fab edge" aria-label="Add New Supply">
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>
                     </div>
-                    <div ng-include="new_demand ? '/partials/demand_new.html':null">
+                    <div ng-include="new_rep ? '/partials/representative_new.html':null">
 
                     </div>
-                    <div ng-repeat="representative in buyer.re_representatives">
-                        {{representative.re_name}}
+                    <div class="farmerInfo" ng-repeat="representative in buyer.re_representatives">
+                        <div layout="column">
+                            <div layout-padding layout-align="space-around center" layout="row">
+                                <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
+                                <div flex>
+                                    {{representative.re_name}}
+                                </div>
+                                <div flex>
+                                    {{representative.re_contact}}
+                                </div>
+                                <div flex>
+                                    {{representative.re_email}}
+                                </div>
+                            </div>
+                            <div layout-padding layout-align="space-around center" layout="row">
+                                <div flex>
+                                    {{representative.re_crop}}
+                                </div>
+                                <div flex>
+                                    {{representative.re_security_question}}
+                                </div>
+                                <div flex>
+                                    {{representative.re_security_answer}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </md-card-content>
             </md-card>
