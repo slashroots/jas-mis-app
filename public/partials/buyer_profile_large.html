@@ -27,51 +27,46 @@
                     </div>
                 </md-card-content>
                 <md-card-content layout="column">
-                    <div layout-align="space-around start" class="farmer_info" layout="row">
-                        <div flex layout="row">
+                    <div class="farmer_info" layout="row">
+                        <div flex="25" layout="row">
                             <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column">
-                                {{isValid(buyer.fa_government_id)? buyer.fa_government_id:  'TRN not found'}}
-                                <div class="label">TRN</div>
+                            <div layout="column">
+                                {{isValid(buyer.bt_buyer_type.bt_buyer_type_name)? buyer.bt_buyer_type.bt_buyer_type_name:  'Unknown Type'}}
+                                <div class="label">Type</div>
                             </div>
                         </div>
-                        <div flex layout="row">
-                            <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column">
-                                {{isValid(buyer.dob)? (buyer.fa_dob|date): 'Not Disclosed'}}
-                                <div class="label">Date of Birth</div>
+                        <span flex="5"></span>
+                        <div flex="60" layout="row">
+                            <md-icon md-svg-icon="/images/ic_attach_money_24px.svg"></md-icon>
+                            <div layout="column">
+                                {{isValid(buyer.bu_payment_terms)? buyer.bu_payment_terms: 'Not Disclosed'}}
+                                <div class="label">Payment Terms</div>
                             </div>
                         </div>
-                        <div flex layout="row">
-                            <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column">
-                                {{isValid(buyer.fa_deceased)? 'Unknown' : (buyer.fa_deceased ? 'Yes': 'No')}}
-                                <div class="label">Deceased</div>
-                            </div>
-                        </div>
+                        <span flex="10"></span>
                     </div>
                     <div layout-align="space-around start" class="farmer_info" layout="row">
-                        <div layout="row" flex>
+                        <div layout="row" flex="25">
                             <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column">
+                            <div layout="column">
                                 {{isValid(buyer.bu_phone)? buyer.bu_phone : 'Not Disclosed'}}
                                 <div class="label">Contact</div>
                             </div>
                         </div>
-
-                        <div layout="row" flex>
+                        <span flex="5"></span>
+                        <div layout="row" flex="60">
                             <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column">
+                            <div layout="column">
                                 {{isValid(buyer.bu_email)? (buyer.bu_email| lowercase): 'Not Disclosed'}}
                                 <div class="label">Email</div>
                             </div>
                         </div>
-                        <span flex></span>
+                        <span flex="10"></span>
                     </div>
-                    <div layout-align="space-around start" class="lastInfo" layout="row">
+                    <div class="lastInfo" layout="row">
                         <span flex></span>
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
+                        <div layout="column">
                             {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
                             <br/>
                             {{isValid(buyer.ad_address.ad_address2)? buyer.ad_address.ad_address2: ''}}
@@ -112,6 +107,12 @@
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>
+                    </div>
+                    <div ng-include="new_demand ? '/partials/demand_new.html':null">
+
+                    </div>
+                    <div ng-repeat="representative in buyer.re_representatives">
+                        {{representative.re_name}}
                     </div>
                 </md-card-content>
             </md-card>

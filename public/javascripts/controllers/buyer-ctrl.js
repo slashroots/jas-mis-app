@@ -67,9 +67,9 @@ angular.module('jasmic.controllers')
      * then creation of the buyer object for the view to render.  It also
      * populates the parishes combo box for user interaction.
      */
-    .controller('EditBuyerCtrl', ['$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('EditBuyerCtrl', ['$location', '$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'ParishesFactory', 'BuyerTypesListingFactory',
-        function ($scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
+        function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
             BuyerFactory.show({id:$routeParams.id},
                 function(buyer) {
                     $scope.buyer = buyer;
@@ -93,8 +93,9 @@ angular.module('jasmic.controllers')
                 });
 
             $scope.save = function() {
-                BuyerFactory.update({id:$scope.buyer._id}, $scope.buyer, function(something) {
+                BuyerFactory.update({id:$scope.buyer._id}, $scope.buyer, function(success) {
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+                    $location.url('buyer/'+ success._id);
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 });

@@ -155,8 +155,8 @@ angular.module('jasmic.controllers')
      * then creation of the farmer object for the view to render.  It also
      * populates the parishes combo box for user interaction.
      */
-    .controller('EditFarmerCtrl', ['$scope', '$mdDialog','$routeParams', 'FarmerFactory', 'ParishesFactory',
-        function ($scope, $mdDialog, $routeParams, FarmerFactory, ParishesFactory) {
+    .controller('EditFarmerCtrl', ['$scope', '$location', '$mdDialog','$routeParams', 'FarmerFactory', 'ParishesFactory',
+        function ($scope, $location, $mdDialog, $routeParams, FarmerFactory, ParishesFactory) {
             FarmerFactory.show({id:$routeParams.id},
                 function(farmer) {
                     $scope.farmer = farmer;
@@ -179,8 +179,9 @@ angular.module('jasmic.controllers')
                 });
 
             $scope.save = function() {
-                FarmerFactory.update({id:$scope.farmer._id}, $scope.farmer, function(something) {
+                FarmerFactory.update({id:$scope.farmer._id}, $scope.farmer, function(success) {
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+                    $location.url('farmer/' + success._id);
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 });
