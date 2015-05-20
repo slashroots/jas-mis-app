@@ -177,6 +177,10 @@ md-content.farmForm {
   border-bottom-color: lightgray;
 }
 
+.dark {
+  background-color: lightgrey;
+}
+
 /*
   We're using CSS transitions for when
   the enter and move events are triggered
