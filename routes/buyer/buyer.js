@@ -219,10 +219,9 @@ exports.searchCurrentDemands = function(req, res) {
     if(req.query) {
         query = req.query;
     }
-
-    query['de_demands.de_until'] = {$lte :curr_date};
+    query['de_demands.de_until'] = {$gte: curr_date};
     Buyer.find(query,
-        {de_demands: {$elemMatch: {de_until: {$lte: curr_date}}}})
+        {de_demands: {$elemMatch: {de_until: {$gte: curr_date}}}})
         .populate('ad_address bt_buyer_type de_demands.cr_crop')
         .exec(function(err, list) {
             if(err) {

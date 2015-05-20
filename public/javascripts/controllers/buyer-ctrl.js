@@ -185,6 +185,8 @@ angular.module('jasmic.controllers')
             $scope.toggleDemandForm = function() {
                 $scope.new_demand = !$scope.new_demand;
                 $scope.demand = {};
+                $scope.demand.de_posting_date= moment().toDate();
+                $scope.demand.de_until = moment().add(7, 'days').toDate();
             };
 
 
@@ -205,8 +207,7 @@ angular.module('jasmic.controllers')
              * Attempts to save the demand.
              */
             $scope.saveDemand = function() {
-                $scope.demand.de_posting_date = moment($scope.de_posting_date).toDate();
-                $scope.demand.de_until = moment($scope.de_until).toDate();
+
                 $scope.demand.cr_crop = selectedCrop;
                 DemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
                     $scope.toggleDemandForm();

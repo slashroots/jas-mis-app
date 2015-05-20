@@ -117,9 +117,9 @@ angular.module('jasmic.controllers')
             };
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
-                $scope.co_availability_date= moment().toDate();
-                $scope.co_unitl = moment().add(7, 'days').toDate();
                 $scope.commodity = {};
+                $scope.commodity.co_availability_date= moment().toDate();
+                $scope.commodity.co_until = moment().add(7, 'days').toDate();
             };
             $scope.newCommodity = false;
             $scope.newFarm = false;
@@ -153,8 +153,6 @@ angular.module('jasmic.controllers')
             $scope.units = UnitsFactory.query({});
 
             $scope.saveCommodity = function() {
-                $scope.commodity.co_availability_date = moment($scope.co_availability_date).toDate();
-                $scope.commodity.co_until = moment($scope.co_until).toDate();
                 $scope.commodity.cr_crop = selectedCrop;
                 CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
                     $scope.newCommodityItem();
