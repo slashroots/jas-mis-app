@@ -89,6 +89,8 @@ angular.module('jasmic.controllers')
                     $scope.farmer = success;
                     $scope.newFarm = !$scope.newFarm;
                 }, function(fail) {
+                    console.log(fail);
+                    console.log($scope.farm);
                     showDialog($mdDialog, fail, true);
                 });
             };

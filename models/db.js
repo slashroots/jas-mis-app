@@ -85,7 +85,7 @@ var FarmSchema = new Schema({
     ad_longitude: Number,
     ad_city: String,
     pa_parish: {required: true, type: String},
-    ad_country: {type: String, required: true},
+    ad_country: {type: String, required: true, default: 'Jamaica'},
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
