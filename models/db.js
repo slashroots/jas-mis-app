@@ -106,16 +106,15 @@ var CommoditySchema = new Schema({
     ct_comments: [CommentSchema]
 });
 var DemandSchema = new Schema({
-    cr_crop: {type: Schema.Types.ObjectId, required: true},
+    cr_crop: {type: Schema.Types.ObjectId, ref: 'Crop', required: true},
     de_quantity: {type: Number, required: true},
-    un_quantity_unit: {type: Schema.Types.ObjectId, required: true},
+    un_quantity_unit: {type: Schema.Types.Mixed, required: true},
     de_price: {type: Number, required: true},
-    un_price_unit: {type: Schema.Types.ObjectId, required: true},
+    un_price_unit: {type: Schema.Types.Mixed, required: true},
     de_quality: String,
-    de_fulfillment_date: Date,
     de_expiration_period: Number,
     de_posting_date: {type: Date, default: Date.now()},
-    co_until: Date,
+    de_until: { type: Date, required: true},
     de_payment_terms: {type: String, required: true},
     de_recurring: String,
     de_parent_id: Schema.Types.ObjectId,

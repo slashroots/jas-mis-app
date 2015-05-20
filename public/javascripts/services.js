@@ -171,8 +171,20 @@ services.factory('UnitsFactory', function($resource) {
     });
 });
 
+/**
+ * Adds new Commodity and associates it with a farmer.
+ */
 services.factory('CommodityFactory', function($resource) {
     return $resource('/farmer/:id/commodity', {}, {
+        create: {method: 'POST', params: {id: '@id'}}
+    })
+});
+
+/**
+ * Adds a new Demand and associates it with a buyer
+ */
+services.factory('DemandFactory', function($resource) {
+    return $resource('/buyer/:id/demand', {}, {
         create: {method: 'POST', params: {id: '@id'}}
     })
 });

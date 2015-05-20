@@ -109,9 +109,10 @@ angular.module('jasmic.controllers')
      *  TODO: Document this controller!
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory',
+        'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
+        'DemandFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  TransactionsFactory, RepFactory) {
+                  TransactionsFactory, RepFactory, CropsFactory, UnitsFactory, DemandFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -120,20 +121,28 @@ angular.module('jasmic.controllers')
              *
              * TODO:  Create and Generate Endpoints and Functions for disputes
              */
-            BuyerFactory.show({id:$routeParams.id},
-                function(buyer) {
-                    $scope.buyer = buyer;
-                    $scope.completedTransactions = TransactionsFactory.query({
-                        bu_buyer: buyer._id, tr_status: 'Completed'
+            function loadAll() {
+                BuyerFactory.show({id: $routeParams.id},
+                    function (buyer) {
+                        $scope.buyer = buyer;
+                        $scope.completedTransactions = TransactionsFactory.query({
+                            bu_buyer: buyer._id, tr_status: 'Completed'
+                        });
+                        $scope.pendingTransactions = TransactionsFactory.query({
+                            bu_buyer: buyer._id, tr_status: 'Pending'
+                        });
+                        $scope.disputes = [];
+                    },
+                    function (error) {
+                        showDialog($mdDialog, error, true);
                     });
-                    $scope.pendingTransactions = TransactionsFactory.query({
-                        bu_buyer: buyer._id, tr_status: 'Pending'
-                    });
-                    $scope.disputes = [];
-                },
-                function(error) {
-                    showDialog($mdDialog, error, true);
-                });
+            };
+            loadAll();
+
+            /**
+             * Fetches the units that user can select
+             */
+            $scope.units = UnitsFactory.query({});
 
             $scope.isValid = isValid;
 
@@ -145,12 +154,6 @@ angular.module('jasmic.controllers')
                 $location.url('buyer/'+$scope.buyer._id+'/edit');
             };
 
-            /**
-             * Allows the user to cancel the data entry and hide the window.
-             */
-            $scope.cancelAdd = function() {
-                $scope.new_rep = false;
-            };
 
             /**
              * This attempts to create a new representative and associate he/she with the
@@ -169,13 +172,21 @@ angular.module('jasmic.controllers')
             };
 
             /**
-             * This section sets up the representative capture feature.
+             * This section sets up the representative/demand capture features.
              */
             $scope.representative = {};
+            $scope.demand = {};
             $scope.new_rep = false;
-            $scope.newRep = function() {
+            $scope.new_demand = false;
+            $scope.toggleRepForm = function() {
                 $scope.new_rep = !$scope.new_rep;
+                $scope.representative = {};
             };
+            $scope.toggleDemandForm = function() {
+                $scope.new_demand = !$scope.new_demand;
+                $scope.demand = {};
+            };
+
 
             /**
              *  This function does the magic for the auto-complete crop selection
@@ -186,6 +197,24 @@ angular.module('jasmic.controllers')
             $scope.queryCropSearch = function(cropName) {
                 return CropsFactory.query({beginsWith: cropName});
             };
+            $scope.selectedItemChange = function(item) {
+                selectedCrop = item._id;
+            };
+
+            /**
+             * Attempts to save the demand.
+             */
+            $scope.saveDemand = function() {
+                $scope.demand.de_posting_date = moment($scope.de_posting_date).toDate();
+                $scope.demand.de_until = moment($scope.de_until).toDate();
+                $scope.demand.cr_crop = selectedCrop;
+                DemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
+                    $scope.toggleDemandForm();
+                    loadAll();
+                }, function(error) {
+                    showDialog($mdDialog, error, true);
+                })
+            }
         }
     ]);
 

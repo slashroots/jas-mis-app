@@ -16,6 +16,8 @@ router.put('/buyer/:id', Buyer.updateBuyerById);
 
 router.post('/buyer/:id/rep', Buyer.addNewRep);
 
+router.post('/buyer/:id/demand', Buyer.addNewDemand);
+
 /**
  * End Points for manipulating a buyer type
  */

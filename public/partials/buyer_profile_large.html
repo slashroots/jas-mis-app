@@ -84,7 +84,7 @@
                     <div layout="row">
                         <md-subheader>Demands</md-subheader>
                         <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button ng-click="newDemand()" class="md-fab edge" aria-label="Add New Supply">
+                            <md-button ng-click="toggleDemandForm()" class="md-fab edge" aria-label="Add New Supply">
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>
@@ -92,8 +92,27 @@
                     <div ng-include="new_demand ? '/partials/demand_new.html':null">
 
                     </div>
-                    <div ng-repeat="demand in buyer.de_demands">
-                        {{demand.cr_crop}}
+                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="demand in buyer.de_demands">
+                        <div layout-align="space-around start" layout="row">
+                            <div layout-align="left center" layout="column">
+                                {{demand.cr_crop.cr_crop_name}} - {{demand.cr_crop.cr_crop_variety}}
+                                <label>Produce/Crop</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{demand.de_price}} per {{demand.un_price_unit.un_unit_name}}
+                                <label>Unit Cost</label>
+                            </div>
+                        </div>
+                        <div layout-align="space-around start" layout="row">
+                            <div layout-align="left center" layout="column">
+                                {{demand.de_payment_terms}}
+                                <label>Payout Term(s)</label>
+                            </div>
+                        </div>
                     </div>
                 </md-card-content>
             </md-card>
@@ -103,7 +122,7 @@
                     <div layout="row">
                         <md-subheader>Approved Employees</md-subheader>
                         <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button ng-click="newRep()" class="md-fab edge" aria-label="Add New Supply">
+                            <md-button ng-click="toggleRepForm()" class="md-fab edge" aria-label="Add New Supply">
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>

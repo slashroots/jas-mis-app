@@ -12,6 +12,7 @@ var model = require('../../models/db');
 var Buyer = model.Buyer;
 var BuyerType = model.BuyerType;
 var Representative = model.Representative;
+var Demand = model.Demand;
 
 
 /**
@@ -41,7 +42,7 @@ exports.getBuyers = function(req, res) {
     }
 
     Buyer.find(query)
-        .populate('ad_address bt_buyer_type')
+        .populate('ad_address bt_buyer_type de_demands.cr_crop')
         .exec(function(err, docs) {
             if(err) {
                 common.handleDBError(err, res);
@@ -83,7 +84,8 @@ exports.createBuyer = function(req, res) {
  * @param res
  */
 exports.getBuyerById = function(req, res) {
-    Buyer.findById(req.params.id).populate('ad_address bt_buyer_type')
+    Buyer.findById(req.params.id)
+        .populate('ad_address bt_buyer_type de_demands.cr_crop')
         .exec(function(err, item) {
             if(err) {
                 common.handleDBError(err, res);
@@ -177,6 +179,31 @@ exports.addNewRep = function(req, res) {
                     res.send(buyer);
                 }
             })
+        }
+    })
+};
+
+/**
+ * Adds a new demand to the buyer object.  Returns the buyer
+ * object to the requester.
+ *
+ * @param req
+ * @param res
+ */
+exports.addNewDemand = function(req, res) {
+    var demand = new Demand(req.body);
+    Buyer.findById(req.params.id, function(err, buyer) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            buyer.de_demands.push(demand);
+            buyer.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(buyer);
+                }
+            });
         }
     })
 };
