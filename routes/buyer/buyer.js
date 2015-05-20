@@ -222,6 +222,7 @@ exports.searchCurrentDemands = function(req, res) {
     query['de_demands.de_until'] = {$gte: curr_date};
     Buyer.find(query,
         {de_demands: {$elemMatch: {de_until: {$gte: curr_date}}}})
+        .select('bu_buyer_name ad_address bt_buyer_type')
         .populate('ad_address bt_buyer_type de_demands.cr_crop')
         .exec(function(err, list) {
             if(err) {

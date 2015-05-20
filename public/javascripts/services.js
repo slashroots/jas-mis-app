@@ -188,3 +188,12 @@ services.factory('DemandFactory', function($resource) {
         create: {method: 'POST', params: {id: '@id'}}
     })
 });
+
+/**
+ * Factory to be used to retrieve the demands listing.
+ */
+services.factory('DemandsFactory', function ($resource) {
+    return $resource('/buyers/current_demands', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
