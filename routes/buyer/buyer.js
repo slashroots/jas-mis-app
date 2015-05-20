@@ -207,3 +207,28 @@ exports.addNewDemand = function(req, res) {
         }
     })
 };
+
+/**
+ * Finds all the demands that haven't yet expired.
+ * @param req
+ * @param res
+ */
+exports.searchCurrentDemands = function(req, res) {
+    var curr_date = Date.now();
+    var query = {};
+    if(req.query) {
+        query = req.query;
+    }
+
+    query['de_demands.de_until'] = {$lte :curr_date};
+    Buyer.find(query,
+        {de_demands: {$elemMatch: {de_until: {$lte: curr_date}}}})
+        .populate('ad_address bt_buyer_type de_demands.cr_crop')
+        .exec(function(err, list) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+};
