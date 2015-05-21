@@ -226,7 +226,10 @@ exports.searchAll = function(req, res) {
                                                          * active Commodities based on today's date
                                                          */
                                                         Commodity.find({
-                                                            co_until: {$gte: curr_date}
+                                                            co_until: {$gte: curr_date},
+                                                            $or: [
+                                                                {cr_crop: {$in: crops}}
+                                                            ]
                                                         }).populate('cr_crop fa_farmer')
                                                             .limit(10)
                                                             .sort('co_posting_date fa_farmer.fa_last_name')
