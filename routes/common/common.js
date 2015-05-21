@@ -7,7 +7,8 @@ var Parish = model.Parish;
 var Farmer = model.Farmer;
 var Buyer = model.Buyer;
 var Unit = model.Unit;
-
+var Demand = model.Demand;
+var Crop = model.Crop;
 
 /**
  * This is a generic helper function for MongoDB errors
@@ -153,7 +154,7 @@ exports.searchAll = function(req, res) {
         }).populate('ad_address').limit(10)
             .exec(function (err, farmers) {
                 if (err) {
-                    handleDBError(err, res);
+                    this.handleDBError(err, res);
                 } else {
                     Buyer.find({
                         $or: [
@@ -164,13 +165,41 @@ exports.searchAll = function(req, res) {
                     }).populate('ad_address bt_buyer_type').limit(10)
                         .exec(function(err2, buyers) {
                             if(err2) {
-                                handleDBError(err, res);
+                                this.handleDBError(err, res);
                             } else {
-                                var result = {
-                                    'farmers': farmers,
-                                    'buyers': buyers
-                                };
-                                res.send(result);
+                                var curr_date = Date.now();
+                                Crop.find({
+                                    $or: [
+                                        {cr_crop_name: {$in: list}},
+                                        {cr_crop_variety: {$in: list}}
+                                    ]
+                                }).select('_id')
+                                    .exec(function(crop_error, crops) {
+                                        if(crop_error) {
+                                            this.handleDBError(crop_error, res);
+                                        } else {
+                                            Demand.find({
+                                                de_until: {$gte: curr_date},
+                                                $or: [
+                                                    {cr_crop: {$in: crops}}
+                                                ]
+                                            })
+                                                .populate('cr_crop bu_buyer')
+                                                .sort('de_posting_date bu_buyer.bu_buyer_name')
+                                                .exec(function (err, demands) {
+                                                    if (err) {
+                                                        this.handleDBError(err, res);
+                                                    } else {
+                                                        var result = {
+                                                            'farmers': farmers,
+                                                            'buyers': buyers,
+                                                            'demands': demands
+                                                        };
+                                                        res.send(result);
+                                                    }
+                                                });
+                                        }
+                                    });
                             }
                         })
                 }
@@ -179,6 +208,8 @@ exports.searchAll = function(req, res) {
         res.send({farmers:[],buyers:[],transaction:[], calls:[]});
     }
 };
+
+
 
 /**
  * Captures the units and stores it to mongo.  Mongo does the validation.
