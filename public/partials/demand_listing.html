@@ -3,6 +3,7 @@
         <div layout="column" class="repeated-item" layout-fill flex="{{selected ? 60: 100}}">
             <md-card>
                 <md-card-content layout-padding>
+                    <md-subheader>Active Demands</md-subheader>
                     <div layout-padding layout="row" ng-repeat="demand in demands" ng-click="selectedDemand(demand)">
                         <div flex>{{ demand.cr_crop.cr_crop_name }} - {{ demand.cr_crop.cr_crop_variety }}</div>
                         <div flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}}</div>

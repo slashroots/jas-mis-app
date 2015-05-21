@@ -11,11 +11,11 @@
 <div ng-controller="NavigationCtrl">
   <md-toolbar>
     <div class="md-toolbar-tools" >
-      <md-select ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
-        <md-option><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon>Dashboard</md-option>
-        <md-option><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon>Search</md-option>
-        <md-option><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon>Price Data</md-option>
-        <md-option><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon>Supply Data</md-option>
+      <md-select class="navigation" ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
+        <md-option value="Dashboard"><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon> Dashboard</md-option>
+        <md-option value="Search"><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon> Search</md-option>
+        <md-option value="Demand Data"><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon> Demand Data</md-option>
+        <md-option value="Supply Data"><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon> Supply Data</md-option>
       </md-select>
       <span flex></span>
       <md-button><md-icon md-svg-src="/images/ic_more_vert_24px.svg"></md-icon></md-button>
@@ -85,6 +85,7 @@
 <script src="../javascripts/controllers/farmer-ctrl.js"></script>
 <script src="../javascripts/controllers/buyer-ctrl.js"></script>
 <script src="../javascripts/controllers/search-ctrl.js"></script>
+<script src="../javascripts/controllers/dashboard-ctrl.js"></script>
 <script src="../javascripts/controllers/demand-ctrl.js"></script>
 <script src="../javascripts/filters.js"></script>
 <script src="../javascripts/directives.js"></script>

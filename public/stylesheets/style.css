@@ -177,6 +177,11 @@ md-content.farmForm {
   border-bottom-color: lightgray;
 }
 
+.navigation .md-select-label *:first-child {
+  overflow: visible;
+  line-height: 2rem;
+}
+
 .dark {
   background-color: lightgrey;
 }
