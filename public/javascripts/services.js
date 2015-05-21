@@ -188,7 +188,7 @@ services.factory('DemandFactory', function($resource) {
         create: {method: 'POST', params: {id: '@id'}}
     })
 });
-2
+
 /**
  * Factory to be used to retrieve the demands listing.
  */
