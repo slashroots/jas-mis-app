@@ -3,19 +3,13 @@
         <div layout="column" class="repeated-item" layout-fill flex="{{selected ? 60: 100}}">
             <md-card>
                 <md-card-content layout-padding>
-                    <div ng-repeat="buyer in buyers">
-                        <div layout="rown">
-                            <div class="md-subheader" flex>{{ buyer.bu_buyer_name }} ({{ buyer.bt_buyer_type.bt_buyer_type_name}})</div>
-                        </div>
-                        <div layout-padding layout="row" ng-repeat="demand in buyer.de_demands" ng-click="selectedDemand(demand)">
-                            <span flex="5"></span>
-                            <div flex>{{ demand.cr_crop.cr_crop_name }} - {{ demand.cr_crop.cr_crop_variety }}</div>
-                            <div flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}}</div>
-                            <div flex>${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</div>
-                            <div flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</div>
-                        </div>
+                    <div layout-padding layout="row" ng-repeat="demand in demands" ng-click="selectedDemand(demand)">
+                        <div flex>{{ demand.cr_crop.cr_crop_name }} - {{ demand.cr_crop.cr_crop_variety }}</div>
+                        <div flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}}</div>
+                        <div flex>${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</div>
+                        <div flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</div>
+                        <div class="md-subheader" flex>{{demand.bu_buyer.bu_buyer_name}}</div>
                     </div>
-
                 </md-card-content>
             </md-card>
         </div>

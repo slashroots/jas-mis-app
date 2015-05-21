@@ -10,6 +10,7 @@
 
 var model = require('../../models/db');
 var common = require('../common/common');
+var Commodity = model.Commodity;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -56,7 +57,7 @@ exports.getFarmers = function(req, res) {
     }
 
     model.Farmer.find(query)
-        .populate('ad_address co_commodities.cr_crop')
+        .populate('ad_address')
         .exec(function(err, docs) {
             if(err) {
                 handleDBError(err, res);
@@ -89,7 +90,7 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id).populate('ad_address co_commodities.cr_crop ')
+    model.Farmer.findById(req.params.id).populate('ad_address')
         .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);
@@ -176,26 +177,38 @@ exports.createFarm = function(req, res) {
 };
 
 /**
- * Adds a commodity to the farmer object based on the farmer's ID.
+ * Adds a commodity and associates by the farmer's ID.
  * @param req
  * @param res
  */
 exports.addCommodity = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, farmer) {
+    var com = new Commodity(req.body);
+    com.fa_farmer = req.params.id;
+    com.save(function(err, item) {
         if(err) {
             common.handleDBError(err, res);
         } else {
-            var commodity = new model.Commodity(req.body);
-            farmer.co_commodities.push(commodity);
-            farmer.save(function(err2) {
-                if(err2) {
-                    common.handleDBError(err2, res);
-                } else {
-                    res.send(farmer);
-                }
-            })
+            res.send(item);
         }
     });
+};
+
+/**
+ * Get commodities by farmer id.
+ *
+ * @param req
+ * @param res
+ */
+exports.getCommodities = function(req, res) {
+    Commodity.find({fa_farmer: req.params.id})
+        .populate('fa_farmer cr_crop')
+        .exec(function(err, list) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
 };
 
 /**

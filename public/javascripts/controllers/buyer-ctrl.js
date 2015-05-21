@@ -110,9 +110,10 @@ angular.module('jasmic.controllers')
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'DemandFactory',
+        'DemandFactory', 'DemandsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  TransactionsFactory, RepFactory, CropsFactory, UnitsFactory, DemandFactory) {
+                  TransactionsFactory, RepFactory, CropsFactory, UnitsFactory, DemandFactory,
+                  DemandsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -137,7 +138,15 @@ angular.module('jasmic.controllers')
                         showDialog($mdDialog, error, true);
                     });
             };
+            function populateDemands() {
+                DemandsFactory.query({id: $routeParams.id}, function(listing) {
+                    $scope.demands = listing;
+                }, function(fail) {
+                    console.log(fail);
+                });
+            };
             loadAll();
+            populateDemands();
 
             /**
              * Fetches the units that user can select
@@ -211,7 +220,7 @@ angular.module('jasmic.controllers')
                 $scope.demand.cr_crop = selectedCrop;
                 DemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
                     $scope.toggleDemandForm();
-                    loadAll();
+                    populateDemands();
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 })

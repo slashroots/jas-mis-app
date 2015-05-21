@@ -42,7 +42,7 @@ exports.getBuyers = function(req, res) {
     }
 
     Buyer.find(query)
-        .populate('ad_address bt_buyer_type de_demands.cr_crop')
+        .populate('ad_address bt_buyer_type')
         .exec(function(err, docs) {
             if(err) {
                 common.handleDBError(err, res);
@@ -85,7 +85,7 @@ exports.createBuyer = function(req, res) {
  */
 exports.getBuyerById = function(req, res) {
     Buyer.findById(req.params.id)
-        .populate('ad_address bt_buyer_type de_demands.cr_crop')
+        .populate('ad_address bt_buyer_type')
         .exec(function(err, item) {
             if(err) {
                 common.handleDBError(err, res);
@@ -192,20 +192,31 @@ exports.addNewRep = function(req, res) {
  */
 exports.addNewDemand = function(req, res) {
     var demand = new Demand(req.body);
-    Buyer.findById(req.params.id, function(err, buyer) {
+    demand.bu_buyer = req.params.id;
+    demand.save(function(err, item) {
         if(err) {
             common.handleDBError(err, res);
         } else {
-            buyer.de_demands.push(demand);
-            buyer.save(function(err2) {
-                if(err2) {
-                    common.handleDBError(err2, res);
-                } else {
-                    res.send(buyer);
-                }
-            });
+            res.send(item);
         }
-    })
+    });
+};
+
+/**
+ * Retrieve buyer's demands.
+ * @param req
+ * @param res
+ */
+exports.getDemands = function(req, res) {
+    Demand.find({bu_buyer: req.params.id})
+        .populate('cr_crop bu_buyer')
+        .exec(function(err, list) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
 };
 
 /**
@@ -215,15 +226,10 @@ exports.addNewDemand = function(req, res) {
  */
 exports.searchCurrentDemands = function(req, res) {
     var curr_date = Date.now();
-    var query = {};
-    if(req.query) {
-        query = req.query;
-    }
-    query['de_demands.de_until'] = {$gte: curr_date};
-    Buyer.find(query,
-        {de_demands: {$elemMatch: {de_until: {$gte: curr_date}}}})
-        .select('bu_buyer_name ad_address bt_buyer_type')
-        .populate('ad_address bt_buyer_type de_demands.cr_crop')
+
+    Demand.find({de_until: {$gte: curr_date}})
+        .populate('cr_crop bu_buyer')
+        .sort('de_posting_date bu_buyer.bu_buyer_name')
         .exec(function(err, list) {
             if(err) {
                 common.handleDBError(err, res);

@@ -38,10 +38,10 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory',
+        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory) {
+                CommodityFactory, CommoditiesFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -61,7 +61,15 @@ angular.module('jasmic.controllers')
                     console.log(err);
                 });
             };
+            function populateCommodities() {
+                CommoditiesFactory.query({id: $routeParams.id}, function(list) {
+                    $scope.commodities = list;
+                }, function(fail) {
+                    console.log(fail);
+                });
+            };
             loadAll();
+            populateCommodities();
 
             /**
              * Quick and dirty check to see if information is present for
@@ -158,7 +166,7 @@ angular.module('jasmic.controllers')
                 $scope.commodity.cr_crop = selectedCrop;
                 CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
                     $scope.newCommodityItem();
-                    loadAll();
+                    populateCommodities();
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 })

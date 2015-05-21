@@ -3,13 +3,13 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('DemandListingCtrl', ['$scope','$location','$routeParams', 'DemandsFactory',
-        function ($scope, $location, $routeParams, DemandsFactory) {
-            DemandsFactory.query({}, function(buyers) {
-                $scope.buyers = buyers;
+    .controller('DemandListingCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
+        function ($scope, $location, $routeParams, CurrentDemandsFactory) {
+            CurrentDemandsFactory.query({}, function(demands) {
+                $scope.demands = demands;
             },
             function(error) {
-                $scope.buyers = [];
+                $scope.demands = [];
             });
         }
     ]);

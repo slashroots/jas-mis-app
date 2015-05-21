@@ -89,6 +89,7 @@ var FarmSchema = new Schema({
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
+    fa_farmer: {type: Schema.Types.ObjectId, ref: 'Farmer', required: true},
     cr_crop: {type: Schema.Types.ObjectId, ref:'Crop', required: true},
     co_quantity: {type: Number, required: true},
     un_quantity_unit: {type: Schema.Types.Mixed, required: true},
@@ -106,6 +107,7 @@ var CommoditySchema = new Schema({
     ct_comments: [CommentSchema]
 });
 var DemandSchema = new Schema({
+    bu_buyer: {type: Schema.Types.ObjectId, ref: 'Buyer', required: true},
     cr_crop: {type: Schema.Types.ObjectId, ref: 'Crop', required: true},
     de_quantity: {type: Number, required: true},
     un_quantity_unit: {type: Schema.Types.Mixed, required: true},
@@ -151,7 +153,6 @@ var FarmerSchema = new Schema({
     mi_membership: [MembershipSchema],
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
-    co_commodities: [CommoditySchema],
     in_integrity: Number,
     fa_sub_sector: String
 });
@@ -193,7 +194,6 @@ var BuyerSchema = new Schema({
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    de_demands: [DemandSchema],
     re_representatives: [RepresentativeSchema]
 });
 var InputTypeSchema = new Schema({

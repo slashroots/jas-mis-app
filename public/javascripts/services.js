@@ -192,8 +192,26 @@ services.factory('DemandFactory', function($resource) {
 /**
  * Factory to be used to retrieve the demands listing.
  */
-services.factory('DemandsFactory', function ($resource) {
+services.factory('CurrentDemandsFactory', function ($resource) {
     return $resource('/buyers/current_demands', {}, {
         query: { method: 'GET', isArray: true }
     })
+});
+
+/**
+ * Retrieve a buyer's demands based on id
+ */
+services.factory('DemandsFactory', function($resource) {
+    return $resource('/buyer/:id/demands', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
+});
+
+/**
+ * Retrieve a farmer's commdoties based on his id.
+ */
+services.factory('CommoditiesFactory', function($resource) {
+    return $resource('/farmer/:id/commodities', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
 });

@@ -22,6 +22,7 @@ router.post('/farmer/:id/farm', Farmer.createFarm);
 router.put('/farm/:farm_id', Farmer.updateFarmById);
 
 router.post('/farmer/:id/commodity', Farmer.addCommodity);
+router.get('/farmer/:id/commodities', Farmer.getCommodities);
 router.put('/farmer/:id/commodity/:comID', Farmer.editCommodity);
 
 /**
