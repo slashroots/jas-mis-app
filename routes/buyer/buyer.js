@@ -227,14 +227,28 @@ exports.getDemands = function(req, res) {
 exports.searchCurrentDemands = function(req, res) {
     var curr_date = Date.now();
 
-    Demand.find({de_until: {$gte: curr_date}})
-        .populate('cr_crop bu_buyer')
-        .sort('de_posting_date bu_buyer.bu_buyer_name')
-        .exec(function(err, list) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(list);
-            }
-        });
+    if(req.params.amount) {
+        Demand.find({de_until: {$gte: curr_date}})
+            .populate('cr_crop bu_buyer')
+            .limit(req.params.amount)
+            .sort('de_posting_date bu_buyer.bu_buyer_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    } else {
+        Demand.find({de_until: {$gte: curr_date}})
+            .populate('cr_crop bu_buyer')
+            .sort('de_posting_date bu_buyer.bu_buyer_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
 };
