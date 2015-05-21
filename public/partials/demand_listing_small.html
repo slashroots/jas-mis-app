@@ -6,4 +6,7 @@
         <div flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</div>
         <div class="md-subheader" flex>{{demand.bu_buyer.bu_buyer_name}}</div>
     </div>
+    <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 5">
+        <a ng-href="#/demands" >More Results</a>
+    </div>
 </md-card-content>
