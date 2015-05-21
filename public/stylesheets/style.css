@@ -17,6 +17,14 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.globalSearchArea {
+  padding-top: 70px;
+}
+
+.headerArea {
+  min-height: 160px;
+}
+
 md-option {
   background-color: white;
 }
@@ -45,13 +53,9 @@ div.md-actions.edge {
   margin-right: -50px;
 }
 
-.globalSearchArea {
-  padding-top: 80px;
-}
-
 .follow {
   position: fixed;
-  top: 250px;
+  top: 240px;
   width: 31%;
 }
 
@@ -69,10 +73,6 @@ html {
 }
 body{
   background-color: whitesmoke;
-}
-
-.contentArea {
-  padding-top: 30px;
 }
 
 .farmerPretty {

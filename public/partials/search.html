@@ -1,5 +1,5 @@
 <ui-view>
-    <md-content layout="row" layout-fill>
+    <md-content layout="row" >
         <div flex="{{(farmerSelected || buyerSelected) ? 60: 100}}" layout="column" layout-fill>
             <md-card>
                 <md-content layout-padding>
@@ -33,7 +33,7 @@
 
             <md-card>
                 <md-content layout-padding>
-                <md-subheader class="md-primary">Buyers:</md-subheader>
+                <md-subheader class="md-no-sticky md-primary">Buyers:</md-subheader>
                 <div class="table-responsive-vertical">
                     <table class="table table-hover table-mc-light-blue repeated-item">
                         <thead>
@@ -62,7 +62,7 @@
             </md-card>
             <md-card>
                 <md-content layout-padding>
-                    <md-subheader class="md-primary">Active Demands:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Active Demands:</md-subheader>
                     <div class="table-responsive-vertical">
                         <table class="table table-hover table-mc-light-blue repeated-item">
                             <thead>
@@ -92,7 +92,7 @@
 
             <md-card>
                 <md-content layout-padding>
-                    <md-subheader class="md-primary">Active Commodities:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Active Commodities:</md-subheader>
                     <div class="table-responsive-vertical">
                         <table class="table table-hover table-mc-light-blue repeated-item">
                             <thead>
@@ -122,13 +122,13 @@
 
             <md-card>
                 <md-content layout-padding>
-                    <md-subheader class="md-primary">Inputs:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Inputs:</md-subheader>
                 </md-content>
             </md-card>
 
             <md-card>
                 <md-content layout-padding>
-                    <md-subheader class="md-primary">Events:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Events:</md-subheader>
                 </md-content>
             </md-card>
         </div>
