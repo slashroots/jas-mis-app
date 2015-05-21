@@ -9,6 +9,7 @@ var Buyer = model.Buyer;
 var Unit = model.Unit;
 var Demand = model.Demand;
 var Crop = model.Crop;
+var Commodity = model.Commodity;
 
 /**
  * This is a generic helper function for MongoDB errors
@@ -26,6 +27,9 @@ exports.handleDBError = function(err, res) {
             res.send(err);
         } else if (err.name == "CastError") {
             res.status(400);
+            res.send(err);
+        } else if(err.name == "Not Found") {
+            res.status(404);
             res.send(err);
         } else {
             res.status(500);
@@ -138,13 +142,23 @@ exports.updateAddressById = function(req, res) {
 };
 
 /**
- * This function always expects the searchTerm Parameter!
+ * This function always expects the searchTerm Parameter! It searches for the following entities:
+ * farmers, buyers, crops (and their demands and commodities).  It searches for the best matches
+ * of various entity attributes.
  * @param req
  * @param res
  */
 exports.searchAll = function(req, res) {
     if("searchTerms" in req.query) {
+        /**
+         * Creates a list of regular expression terms to search by
+         */
         var list = regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
+
+        /**
+         * First search attributes (first and last names and jas number) for any matches to
+         * the regular expression
+         */
         Farmer.find({
             $or: [
                 {fa_first_name: {$in: list}},
@@ -156,6 +170,11 @@ exports.searchAll = function(req, res) {
                 if (err) {
                     this.handleDBError(err, res);
                 } else {
+
+                    /**
+                     * Search for buyers who's name, phone number and/or email matches the
+                     * regex pattern in `list`
+                     */
                     Buyer.find({
                         $or: [
                             {bu_buyer_name: {$in: list}},
@@ -168,6 +187,11 @@ exports.searchAll = function(req, res) {
                                 this.handleDBError(err, res);
                             } else {
                                 var curr_date = Date.now();
+
+                                /**
+                                 * Search for all the crops who's name or variety matches
+                                 * the regex pattern supplied
+                                 */
                                 Crop.find({
                                     $or: [
                                         {cr_crop_name: {$in: list}},
@@ -178,6 +202,11 @@ exports.searchAll = function(req, res) {
                                         if(crop_error) {
                                             this.handleDBError(crop_error, res);
                                         } else {
+
+                                            /**
+                                             * Using the crops identified display their active
+                                             * demands based on today's date.
+                                             */
                                             Demand.find({
                                                 de_until: {$gte: curr_date},
                                                 $or: [
@@ -185,17 +214,41 @@ exports.searchAll = function(req, res) {
                                                 ]
                                             })
                                                 .populate('cr_crop bu_buyer')
+                                                .limit(10)
                                                 .sort('de_posting_date bu_buyer.bu_buyer_name')
                                                 .exec(function (err, demands) {
                                                     if (err) {
                                                         this.handleDBError(err, res);
                                                     } else {
-                                                        var result = {
-                                                            'farmers': farmers,
-                                                            'buyers': buyers,
-                                                            'demands': demands
-                                                        };
-                                                        res.send(result);
+
+                                                        /**
+                                                         * Using the crops identified display their
+                                                         * active Commodities based on today's date
+                                                         */
+                                                        Commodity.find({
+                                                            co_until: {$gte: curr_date}
+                                                        }).populate('cr_crop fa_farmer')
+                                                            .limit(10)
+                                                            .sort('co_posting_date fa_farmer.fa_last_name')
+                                                            .exec(function (com_error, commodities) {
+                                                                if(com_error) {
+                                                                    this.handleDBError(com_error, res);
+                                                                } else {
+
+                                                                    /**
+                                                                     * Submit the matching entities to the
+                                                                     * user.
+                                                                     * @type {{farmers: *, buyers: *, demands: *, commodities: *}}
+                                                                     */
+                                                                    var result = {
+                                                                        'farmers': farmers,
+                                                                        'buyers': buyers,
+                                                                        'demands': demands,
+                                                                        'commodities': commodities
+                                                                    };
+                                                                    res.send(result);
+                                                                }
+                                                            })
                                                     }
                                                 });
                                         }
@@ -205,7 +258,7 @@ exports.searchAll = function(req, res) {
                 }
             });
     } else {
-        res.send({farmers:[],buyers:[],transaction:[], calls:[]});
+        this.handleDBError({name: 'Not Found'}, res);
     }
 };
 
