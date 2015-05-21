@@ -193,9 +193,8 @@ services.factory('DemandFactory', function($resource) {
  * Factory to be used to retrieve the demands listing.
  */
 services.factory('CurrentDemandsFactory', function ($resource) {
-    return $resource('/buyers/current_demands/:amount', {}, {
-        query: { method: 'GET', isArray: true },
-        show: { method: 'GET', isArray: true, params: {amount: '@amount'} }
+    return $resource('/buyers/current_demands', {}, {
+        query: { method: 'GET', isArray: true }
     })
 });
 

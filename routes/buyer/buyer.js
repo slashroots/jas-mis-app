@@ -227,10 +227,10 @@ exports.getDemands = function(req, res) {
 exports.searchCurrentDemands = function(req, res) {
     var curr_date = Date.now();
 
-    if(req.params.amount) {
+    if(req.query.amount) {
         Demand.find({de_until: {$gte: curr_date}})
             .populate('cr_crop bu_buyer')
-            .limit(req.params.amount)
+            .limit(req.query.amount)
             .sort('de_posting_date bu_buyer.bu_buyer_name')
             .exec(function (err, list) {
                 if (err) {
