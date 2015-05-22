@@ -10,6 +10,7 @@ deploy:
   api_key:
     secure: cDBVvo4NQK0doJSxpfOUTWXvHSU21BeBtvGY2phAycCdGZIiHGiFXO7/ZxfbVoUSFFFgJHCNM1Lni0DTlqJQTC0R9obuPeFOAmKYmuvE0W2ShK1n/nbwjhdqJB3ux/TeCSeWYJgxPJUJ2dEm419eOwCAuKMTwDp2KRR+T5bFfH0=
     provider: heroku
+    strategy: api
     app:
       develop: jas-mis-app-develop
       master: jas-mis-app-prod
