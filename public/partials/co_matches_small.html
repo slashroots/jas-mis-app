@@ -1,0 +1,47 @@
+<div class="follow" layout="column" layout-fill>
+
+    <md-card>
+        <md-card-content class="pretty4">
+            <div layout-fill layout-align="center" layout="column">
+                <div layout="row">
+                    <md-button ng-click="goToCommodity()" class="md-icon-button" aria-label="View More">
+                        <md-icon md-svg-icon="../images/ic_arrow_back_24px.svg"></md-icon>
+                    </md-button>
+                    <md-button ng-click="goToCommodity()">View More</md-button>
+                    <span flex layout-fill></span>
+                    <md-button class="md-icon-button" aria-label="Details">
+                        <md-icon md-svg-icon="../images/ic_more_vert_24px.svg"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" class="farmerPretty">
+                    <div flex="10" class="profilePic"></div>
+                    <div flex="90" layout="column" class="farmerNames">
+                        <label>Supply</label>
+                        <H3 style="color: green;" class="farmerSummary">{{selectedCommodity.fa_farmer.fa_first_name}} {{selectedCommodity.fa_farmer.fa_last_name}}</H3>
+                        <h2 class="farmerSummary">{{selectedCommodity.cr_crop.cr_crop_name}} - {{selectedCommodity.cr_crop.cr_crop_variety}}</h2>
+                        <h4>{{selectedCommodity.co_availability_date|date}} - {{selectedCommodity.co_until|date}}</h4>
+                        Value: {{(selectedCommodity.co_price * selectedCommodity.co_quantity)|currency}} - [{{selectedCommodity.co_payment_preference}}]
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+        <md-card-content>
+            <div layout="column">
+                <div ng-repeat="demand in m_demands" layout-padding layout="row">
+                    <div flex="10"><img src="../images/ic_label_outline_24px.svg"/></div>
+                    <div flex="90" layout="row">
+                        <div layout="column" flex>
+                            {{demand.bu_buyer.bu_buyer_name}}<br/>
+                            {{demand.de_quantity| number}} {{demand.un_quantity_unit.un_unit_name}}
+                        </div>
+                        <div layout="column" flex>
+                            {{demand.de_posting_date | date}} - {{demand.de_until | date}}<br/>
+                            {{demand.de_price | currency}} per {{demand.un_price_unit.un_unit_name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+
+</div>

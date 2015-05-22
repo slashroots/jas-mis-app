@@ -225,3 +225,13 @@ services.factory('DemandMatchFactory', function($resource) {
         query: {method: 'GET', isArray: true, params: {id: '@id'}}
     });
 });
+
+/**
+ * Use this service to match a commodity based on its ID to a
+ * number of active demands.  Returns a list.
+ */
+services.factory('CommodityMatchFactory', function($resource) {
+    return $resource('/commodity/:id/match', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
+});

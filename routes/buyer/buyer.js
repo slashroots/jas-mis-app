@@ -255,7 +255,7 @@ exports.searchCurrentDemands = function(req, res) {
 };
 
 /**
- * Find and return Commodities that who's dates intersect with that of
+ * Find and return Commodities who's dates intersect with that of
  * the demand.  Also must be matching based on the crop type.  Return
  * that list sorted (desc) by the quantity.
  * @param req

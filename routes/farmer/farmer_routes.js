@@ -25,6 +25,8 @@ router.post('/farmer/:id/commodity', Farmer.addCommodity);
 router.get('/farmer/:id/commodities', Farmer.getCommodities);
 router.put('/farmer/:id/commodity/:comID', Farmer.editCommodity);
 
+router.get('/commodity/:id/match', Farmer.findCommodityMatch);
+
 /**
  * Manipulate info about Membership for a specific farmer
  */

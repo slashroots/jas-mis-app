@@ -11,6 +11,7 @@
 var model = require('../../models/db');
 var common = require('../common/common');
 var Commodity = model.Commodity;
+var Demand = model.Demand;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -570,6 +571,43 @@ function performTransform(membershipType, parishes, req, res) {
         })
     });
 
+};
+
+/**
+ * Find and return Demands who's dates intersect with that of
+ * the commodity.  Also must be matching based on the crop type.  Return
+ * that list sorted (asc) by the quantity.
+ * @param req
+ * @param res
+ */
+exports.findCommodityMatch = function(req, res) {
+    Commodity.findById(req.params.id, function(err, commodity) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            Demand.find({
+                $or: [
+                    {$and :[
+                        {de_until: {$gte: commodity.co_availability_date}},
+                        {de_posting_date: {$lte: commodity.co_availability_date}}
+                    ]},
+                    {$and :[
+                        {de_until: {$gte: commodity.co_until}},
+                        {de_posting_date: {$lte: commodity.co_until}}
+                    ]}
+                ],
+                cr_crop: commodity.cr_crop
+            }).populate('cr_crop bu_buyer')
+                .sort({de_quantity: 'ascending'})
+                .exec(function(err2, list) {
+                    if(err2) {
+                        common.handleDBError(err2, list);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        }
+    })
 };
 
 /**
