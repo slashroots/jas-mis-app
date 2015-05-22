@@ -1,5 +1,24 @@
 <ui-view>
-    <md-content layout="row" >
+    <md-content ng-if="terms == undefined">
+        <md-card>
+            <md-content layout-padding>
+                <p>
+                    This search engine can find by:
+                    <ul>
+                        <li>JAS #</li>
+                        <li>Farmer's First Name</li>
+                        <li>Farmer's Last Name</li>
+                        <li>Buyer's Name</li>
+                        <li>Crop/Produce Name and Variety</li>
+                    </ul>
+
+                    All relevant information about demands, commodities, farmers and buyers will be found and displayed.
+                    Enjoy using the search engine!  The Google(TM) of Agriculture!
+                </p>
+            </md-content>
+        </md-card>
+    </md-content>
+    <md-content ng-if="terms != undefined" layout="row" >
         <div flex="{{(farmerSelected || buyerSelected || demandSelected || commoditySelected) ? 60: 100}}" layout="column" layout-fill>
             <md-card>
                 <md-content layout-padding>
