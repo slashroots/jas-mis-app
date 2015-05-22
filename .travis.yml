@@ -6,3 +6,10 @@ node_js:
 notifications:
   slack:
     secure: eJL7cnwuQXD7hYmCg43PmO/6gVbPM2UhpA41Trml+jDyNGnFHlbUntbg1Uyk7kKSCWKo1ndXVoviLPnciLdf82gSW/bIRcanWA7gLol9LDeCvW2n3PNzh6R2cRC9UzOTIf2E7YN0IQMjwFlEy8CZJKSJDfYzFwXokwK9rbv4V3o=
+deploy:
+  api_key:
+    secure: cDBVvo4NQK0doJSxpfOUTWXvHSU21BeBtvGY2phAycCdGZIiHGiFXO7/ZxfbVoUSFFFgJHCNM1Lni0DTlqJQTC0R9obuPeFOAmKYmuvE0W2ShK1n/nbwjhdqJB3ux/TeCSeWYJgxPJUJ2dEm419eOwCAuKMTwDp2KRR+T5bFfH0=
+    provider: heroku
+    app:
+      develop: jas-mis-app-develop
+      master: jas-mis-app-prod
