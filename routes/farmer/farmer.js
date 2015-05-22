@@ -611,6 +611,40 @@ exports.findCommodityMatch = function(req, res) {
 };
 
 /**
+ * Finds all the commodies that haven't expired.
+ * @param req
+ * @param res
+ */
+exports.searchCurrentCommodities = function(req, res) {
+    var curr_date = Date.now();
+
+    if(req.query.amount) {
+        Commodity.find({co_until: {$gte: curr_date}})
+            .populate('cr_crop fa_farmer')
+            .limit(req.query.amount)
+            .sort('co_availability_date fa_farmer.fa_first_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    } else {
+        Commodity.find({co_until: {$gte: curr_date}})
+            .populate('cr_crop fa_farmer')
+            .sort('co_availability_date fa_farmer.fa_first_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
+};
+
+/**
  * Inefficient function to lookup parish by parish code
  * and return the _id value.
  * @param code

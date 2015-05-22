@@ -19,6 +19,7 @@ angular.module('jasmic', [
         $routeProvider.when('/search', {templateUrl: '../partials/search.html', controller: 'SearchCtrl'});
         $routeProvider.when('/demands', {templateUrl: '../partials/demand_listing.html', controller: 'DemandListingCtrl'});
         $routeProvider.when('/dashboard', {templateUrl: '../partials/dashboard.html', controller: 'DashboardCtrl'});
+        $routeProvider.when('/supplies', {templateUrl: '../partials/commodity_listing.html', controller: 'CommodityListingCtrl'});
         $routeProvider.otherwise({redirectTo: '/dashboard'});
     }]);
 

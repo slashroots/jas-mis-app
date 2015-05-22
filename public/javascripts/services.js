@@ -199,6 +199,15 @@ services.factory('CurrentDemandsFactory', function ($resource) {
 });
 
 /**
+ * Factory to be used to retrieve the commodities listing.
+ */
+services.factory('CurrentCommoditiesFactory', function ($resource) {
+    return $resource('/farmers/current_commodities', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
  * Retrieve a buyer's demands based on id
  */
 services.factory('DemandsFactory', function($resource) {
