@@ -124,6 +124,7 @@ angular.module('jasmic.controllers')
              */
             $scope.newFarmLocation = function() {
                 $scope.newFarm = !$scope.newFarm;
+                $scope.farm = {};
             };
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
@@ -133,7 +134,7 @@ angular.module('jasmic.controllers')
             };
             $scope.newCommodity = false;
             $scope.newFarm = false;
-            $scope.farm = {};
+
             $scope.commodity = {};
             var selectedCrop;
 
