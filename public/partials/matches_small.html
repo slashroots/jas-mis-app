@@ -27,12 +27,16 @@
         </md-card-content>
         <md-card-content>
             <div layout="column">
+                <div layout="column" layout-align="center center" ng-if="m_commodities.length == 0">
+                    <md-icon md-svg-src="../images/ic_not_interested_24px.svg"></md-icon>
+                    <label>No Matches Found</label>
+                </div>
                 <div ng-repeat="commodity in m_commodities" layout-padding layout="row">
                     <div flex="10"><img src="../images/ic_label_outline_24px.svg"/></div>
                     <div flex="90" layout="row">
                         <div layout="column" flex>
                             {{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}<br/>
-                            {{commodity.co_quantity}} {{commodity.un_quantity_unit.un_unit_name}}
+                            {{commodity.co_quantity|number}} {{commodity.un_quantity_unit.un_unit_name}}
                         </div>
                         <div layout="column" flex>
                             {{commodity.co_availability_date | date}} - {{commodity.co_until | date}}<br/>

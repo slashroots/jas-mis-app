@@ -27,6 +27,10 @@
         </md-card-content>
         <md-card-content>
             <div layout="column">
+                <div layout="column" layout-align="center center" ng-if="m_demands.length == 0">
+                    <md-icon md-svg-src="../images/ic_not_interested_24px.svg"></md-icon>
+                    <label>No Matches Found</label>
+                </div>
                 <div ng-repeat="demand in m_demands" layout-padding layout="row">
                     <div flex="10"><img src="../images/ic_label_outline_24px.svg"/></div>
                     <div flex="90" layout="row">
