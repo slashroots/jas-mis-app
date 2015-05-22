@@ -20,6 +20,8 @@ router.post('/buyer/:id/demand', Buyer.addNewDemand);
 router.get('/buyer/:id/demands', Buyer.getDemands);
 router.get('/buyers/current_demands', Buyer.searchCurrentDemands);
 
+router.get('/demand/:id/match', Buyer.findDemandMatch);
+
 /**
  * End Points for manipulating a buyer type
  */

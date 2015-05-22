@@ -164,6 +164,8 @@ angular.module('jasmic.controllers')
 
             $scope.saveCommodity = function() {
                 $scope.commodity.cr_crop = selectedCrop;
+                alert($scope.commodity.co_availability_date);
+                console.log($scope.commodity);
                 CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
                     $scope.newCommodityItem();
                     populateCommodities();

@@ -3,8 +3,8 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('SearchCtrl', ['$scope','$location','$routeParams', 'SearchAllFactory',
-        function ($scope, $location, $routeParams, SearchAllFactory) {
+    .controller('SearchCtrl', ['$scope','$location','$routeParams', 'SearchAllFactory', 'DemandMatchFactory',
+        function ($scope, $location, $routeParams, SearchAllFactory, DemandMatchFactory) {
             $scope.results = SearchAllFactory.query($routeParams);
             $scope.terms = $routeParams.searchTerms;
             $scope.farmerSelected = false;
@@ -30,18 +30,37 @@ angular.module('jasmic.controllers')
                 $location.url('buyer/'+$scope.selectedBuyer._id+'/edit');
             };
 
+            /**
+             * TODO: This is a such a BAD function. Need to revisit.
+             * @param entityType
+             * @param obj
+             */
             $scope.selectedElement = function(entityType, obj) {
                 if(entityType == 'farmer') {
                     $scope.selectedFarmer = obj;
                     $scope.farmerSelected = true;
                     $scope.buyerSelected = false;
+                    $scope.demandSelected = false;
                 } else if(entityType == 'buyer') {
                     $scope.farmerSelected = false;
                     $scope.buyerSelected = true;
                     $scope.selectedBuyer = obj;
-                } else {
-                    //unknown selection
+                    $scope.demandSelected = false;
+                } else if(entityType == 'demand') {
+                    $scope.selectedDemand = obj;
+                    $scope.demandSelected = true;
+                    $scope.farmerSelected = false;
+                    $scope.buyerSelected = false;
+                    lookupDemandMatches();
                 }
             };
+
+            lookupDemandMatches = function() {
+                DemandMatchFactory.query({id: $scope.selectedDemand._id}, function(list) {
+                    $scope.m_commodities = list;
+                })
+            }
+
+
         }
     ]);

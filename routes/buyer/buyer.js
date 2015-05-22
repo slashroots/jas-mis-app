@@ -13,6 +13,7 @@ var Buyer = model.Buyer;
 var BuyerType = model.BuyerType;
 var Representative = model.Representative;
 var Demand = model.Demand;
+var Commodity = model.Commodity;
 
 
 /**
@@ -251,4 +252,41 @@ exports.searchCurrentDemands = function(req, res) {
                 }
             });
     }
+};
+
+/**
+ * Find and return Commodities that who's dates intersect with that of
+ * the demand.  Also must be matching based on the crop type.  Return
+ * that list sorted (desc) by the quantity.
+ * @param req
+ * @param res
+ */
+exports.findDemandMatch = function(req, res) {
+    Demand.findById(req.params.id, function(err, demand) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            Commodity.find({
+                $or: [
+                    {$and :[
+                        {co_until: {$gte: demand.de_posting_date}},
+                        {co_availability_date: {$lte: demand.de_posting_date}}
+                    ]},
+                    {$and :[
+                        {co_until: {$gte: demand.de_until}},
+                        {co_availability_date: {$lte: demand.de_until}}
+                    ]}
+                ],
+                cr_crop: demand.cr_crop
+            }).populate('cr_crop fa_farmer')
+                .sort('co_quantity')
+                .exec(function(err2, list) {
+                    if(err2) {
+                        common.handleDBError(err2, list);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        }
+    })
 };

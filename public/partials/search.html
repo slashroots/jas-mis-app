@@ -1,6 +1,6 @@
 <ui-view>
     <md-content layout="row" >
-        <div flex="{{(farmerSelected || buyerSelected) ? 60: 100}}" layout="column" layout-fill>
+        <div flex="{{(farmerSelected || buyerSelected || demandSelected) ? 60: 100}}" layout="column" layout-fill>
             <md-card>
                 <md-content layout-padding>
                 <md-subheader class="md-no-sticky md-primary">Farmers:</md-subheader>
@@ -136,6 +136,9 @@
 
         </div>
         <div ng-include="buyerSelected ? '/partials/buyer_profile_small.html':null" flex="40">
+
+        </div>
+        <div ng-include="demandSelected ? '/partials/matches_small.html':null" flex="40">
 
         </div>
     </md-content>
