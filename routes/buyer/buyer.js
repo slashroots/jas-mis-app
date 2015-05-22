@@ -279,7 +279,7 @@ exports.findDemandMatch = function(req, res) {
                 ],
                 cr_crop: demand.cr_crop
             }).populate('cr_crop fa_farmer')
-                .sort('co_quantity')
+                .sort({co_quantity: 'desc'})
                 .exec(function(err2, list) {
                     if(err2) {
                         common.handleDBError(err2, list);
