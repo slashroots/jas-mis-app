@@ -11,14 +11,17 @@
 <div ng-controller="NavigationCtrl">
   <md-toolbar>
     <div class="md-toolbar-tools" >
-      <md-select class="navigation" ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
+      <md-select class="navigation" aria-label="Navigation" ng-change="goTo()" ng-model="nav" placeholder="Navigation" flex="15">
         <md-option value="Dashboard"><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon> Dashboard</md-option>
         <md-option value="Search"><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon> Search</md-option>
         <md-option value="Demand Data"><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon> Demand Data</md-option>
         <md-option value="Supply Data"><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon> Supply Data</md-option>
       </md-select>
       <span flex></span>
-      <md-button><md-icon md-svg-src="/images/ic_more_vert_24px.svg"></md-icon></md-button>
+
+      <md-button aria-label="More"><md-icon style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon></md-button>
+      <md-button aria-label="Exit"><md-icon style="color: grey" md-svg-src="/images/ic_exit_to_app_24px.svg"></md-icon></md-button>
+
     </div>
   </md-toolbar>
 </div>

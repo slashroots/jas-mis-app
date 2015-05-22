@@ -261,7 +261,7 @@ exports.searchAll = function(req, res) {
                 }
             });
     } else {
-        this.handleDBError({name: 'Not Found'}, res);
+        res.send({});
     }
 };
 
