@@ -14,5 +14,5 @@ deploy:
   on:
     all_branches: true
   app:
-    develop: jas-mis-app-develop
-    master: jas-mis-app-prod
+    master: jas-mis-app-staging
+    production: jas-mis-app-prod
