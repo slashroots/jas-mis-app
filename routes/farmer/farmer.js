@@ -586,15 +586,9 @@ exports.findCommodityMatch = function(req, res) {
             common.handleDBError(err, res);
         } else {
             Demand.find({
-                $or: [
-                    {$and :[
-                        {de_until: {$gte: commodity.co_availability_date}},
-                        {de_posting_date: {$lte: commodity.co_availability_date}}
-                    ]},
-                    {$and :[
-                        {de_until: {$gte: commodity.co_until}},
-                        {de_posting_date: {$lte: commodity.co_until}}
-                    ]}
+                $and :[
+                    {de_posting_date: {$lte: commodity.co_until}},
+                    {de_until: {$gte: commodity.co_availability_date}}
                 ],
                 cr_crop: commodity.cr_crop
             }).populate('cr_crop bu_buyer')
