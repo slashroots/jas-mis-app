@@ -18,7 +18,8 @@
                     <div flex="90" layout="column" class="farmerNames">
                         <label>Demand</label>
                         <H3 style="color: green;" class="farmerSummary">{{selectedDemand.bu_buyer.bu_buyer_name}}</H3>
-                        <h2 class="farmerSummary">{{selectedDemand.cr_crop.cr_crop_name}} - {{selectedDemand.cr_crop.cr_crop_variety}}</h2>
+                        <h2 class="farmerSummary">{{selectedDemand.cr_crop.cr_crop_name}}
+                            {{selectedDemand.cr_crop.cr_crop_variety == ""?"":" - " + selectedDemand.cr_crop.cr_crop_variety}}</h2>
                         <h4>{{selectedDemand.de_posting_date|date}} - {{selectedDemand.de_until|date}}</h4>
                         Value: {{(selectedDemand.de_price * selectedDemand.de_quantity)|currency}} - {{selectedDemand.de_payment_terms}}
                     </div>
