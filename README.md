@@ -21,11 +21,12 @@ export MONGOLAB_URI="mongodb://username:password@hostname:port/database_name"
 
 ## Importing Data
 
-1.	Create all parishes with parish code and parish names
+1.	Create all parishes with parish code and parish names ```[POST /common/parishes]```
+2.  Import District and Extensions with matching parish names ```[POST /common/districts]```
 2.	Create all membership Types with distinct values (direct/branch etc)
 3.	Create JSON array that matches the fields in the function ```performTransform()``` in the ```farmer.js``` file.
-4.  Load JSON array in request body and send the request to the ```/farmers``` endpoint using ```POST``` action.
-5.  Insert crop names and varieties
+4.  Load JSON array in request body and send the request to the ```[POST /farmers]```.
+5.  Insert crop names and varieties ```[POST /crops]```
 6.  Insert units
 7.  Insert buyer types
 8.  Sit back and watch the magic!
