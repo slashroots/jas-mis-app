@@ -4,9 +4,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-/**
- * TODO: Need to make the .connect method read from env variables for heroku
- */
 mongoose.connect(process.env.MONGOLAB_URI);
 
 /**
