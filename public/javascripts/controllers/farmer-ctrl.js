@@ -94,8 +94,8 @@ angular.module('jasmic.controllers')
             $scope.addNewFarm = function() {
                 $scope.farm.di_district = selectedDistrict;
                 FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
-                    $scope.farmer = success;
                     $scope.newFarm = !$scope.newFarm;
+                    loadAll();
                 }, function(fail) {
                     console.log(fail);
                     console.log($scope.farm);

@@ -44,12 +44,6 @@
         </md-input-container>
     </div>
 
-    <div layout="row">
-        <md-select flex ng-init="farm.ad_address.pa_parish" placeholder="Parish" ng-model="farm.pa_parish">
-            <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
-        </md-select>
-    </div>
-
     <md-input-container>
         <label>Farm Size (Acres)</label>
         <input type="number" ng-model="farm.fr_size">

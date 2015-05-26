@@ -79,13 +79,12 @@ var DistrictSchema = new Schema({
 });
 var FarmSchema = new Schema({
     fr_name: String,
-    di_district: {type: Schema.Types.ObjectId, ref: 'District'},
+    di_district: {type: Schema.Types.ObjectId, required: true, ref: 'District'},
     ad_address1: {type: String, required: false},
     ad_address2: String,
     ad_latitude: Number,
     ad_longitude: Number,
     ad_city: String,
-    pa_parish: {required: true, type: String},
     ad_country: {type: String, required: true, default: 'Jamaica'},
     fr_size: {type: Number, required: true}
 });

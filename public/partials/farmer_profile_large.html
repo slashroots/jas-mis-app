@@ -135,11 +135,16 @@
                             </div>
                             <div layout="column" flex>
                                 <div layout-align="start center" layout="column">
-                                    {{farm.pa_parish}}
+                                    {{farm.di_district.di_parish_name}}
                                     <div class="label">Parish</div>
                                 </div>
                             </div>
-                            <span flex></span>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.di_district.di_extension_name}} - {{farm.di_district.di_district_name}}
+                                    <div class="label">Extension - District</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </md-card-content>
