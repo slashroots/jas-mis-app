@@ -58,7 +58,7 @@ exports.getFarmers = function(req, res) {
     }
 
     model.Farmer.find(query)
-        .populate('ad_address')
+        .populate('ad_address fr_farms.di_district')
         .exec(function(err, docs) {
             if(err) {
                 handleDBError(err, res);
@@ -91,7 +91,7 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id).populate('ad_address')
+    model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
         .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);

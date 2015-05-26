@@ -72,10 +72,14 @@ var MembershipSchema = new Schema({
     mi_due_owed: {type: Number, required: true},
     mi_due_paid: {type: Number, required: true}
 });
+var DistrictSchema = new Schema({
+    di_parish_name: {type: String, required: true},
+    di_extension_name: {type: String, required: true},
+    di_district_name: {type: String, required: true, unique: true}
+});
 var FarmSchema = new Schema({
     fr_name: String,
-    fr_district_id: String,
-    fr_extension_id: String,
+    di_district: {type: Schema.Types.ObjectId, ref: 'District'},
     ad_address1: {type: String, required: false},
     ad_address2: String,
     ad_latitude: Number,
@@ -327,6 +331,12 @@ var Branch = mongoose.model('Branch', BranchSchema);
  * @type {Model|*}
  */
 exports.Membership = mongoose.model('Membership',MembershipSchema);
+
+/**
+ * These are districts and extensions as captured by RADA.
+ * @type {Model|*}
+ */
+exports.District = mongoose.model('District', DistrictSchema);
 
 /**
  * Structure captures the Farmer's Farms and their locations

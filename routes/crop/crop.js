@@ -23,7 +23,7 @@ exports.findCrops = function(req, res) {
             } else {
                 res.send(list);
             }
-        })
+        });
 };
 
 

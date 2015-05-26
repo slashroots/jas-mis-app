@@ -38,10 +38,10 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory',
+        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -92,8 +92,8 @@ angular.module('jasmic.controllers')
              * server will take care of the address creation.
              */
             $scope.addNewFarm = function() {
+                $scope.farm.di_district = selectedDistrict;
                 FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
-                    showDialog($mdDialog, {statusText:"Successfully Added!"}, false);
                     $scope.farmer = success;
                     $scope.newFarm = !$scope.newFarm;
                 }, function(fail) {
@@ -137,6 +137,7 @@ angular.module('jasmic.controllers')
 
             $scope.commodity = {};
             var selectedCrop;
+            var selectedDistrict;
 
             /**
              * Open the page for editing the farmer.
@@ -172,6 +173,19 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, error, true);
                 })
             }
+
+            /**
+             *  This function does the magic for the auto-complete district selection
+             *  tool.  The API looks out for a key called 'beginsWith' and they
+             *  constructs a regex expression that searches for the district and
+             *  returns a list matching the expression.
+             */
+            $scope.queryDistrictSearch = function(districtName) {
+                return DistrictsFactory.query({beginsWith: districtName});
+            };
+            $scope.selectedDistrictChange = function(item) {
+                selectedDistrict = item._id;
+            };
         }
     ])
     /**

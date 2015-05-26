@@ -162,6 +162,12 @@ services.factory('CropsFactory', function($resource) {
     });
 });
 
+services.factory('DistrictsFactory', function($resource) {
+    return $resource('/common/districts', {}, {
+        query: { method: 'GET', isArray: true}
+    });
+});
+
 /**
  * Search/query for all the units in the system.
  */
