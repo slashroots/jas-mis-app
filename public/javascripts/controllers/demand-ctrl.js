@@ -41,9 +41,18 @@ angular.module('jasmic.controllers')
                 });
 
             $scope.checked = function(commodity) {
-                console.log(this.m_commodities);
+                var sum = 0;
+                for(var i in $scope.m_commodities) {
+                    sum += $scope.m_commodities[i].co_quantity;
+                }
+                if(sum >= $scope.demand.de_quantity) {
+                    $scope.demandMet = true;
+                } else {
+                    $scope.demandMet = false;
+                }
             };
 
+            $scope.demandMet = false;
             $scope.allSelected = false;
             $scope.m_commodities = [];
 
