@@ -19,6 +19,10 @@ angular.module('jasmic.controllers')
                 $location.url('farmer/'+$scope.selectedFarmer._id);
             };
 
+            $scope.goToDemand = function() {
+                $location.url('demand/' + $scope.selectedDemand._id);
+            };
+
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.selectedFarmer._id+'/edit');
             };
@@ -30,6 +34,7 @@ angular.module('jasmic.controllers')
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.selectedBuyer._id+'/edit');
             };
+
 
             /**
              * TODO: This is a such a BAD function. Need to revisit.

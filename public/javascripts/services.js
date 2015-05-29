@@ -250,3 +250,12 @@ services.factory('CommodityMatchFactory', function($resource) {
         query: {method: 'GET', isArray: true, params: {id: '@id'}}
     });
 });
+
+/**
+ * Use this service to take action on a demand.
+ */
+services.factory('DemandFactory', function($resource) {
+    return $resource('/demand/:id', {}, {
+        show: {method: 'GET', params: {id: '@id'}}
+    });
+});

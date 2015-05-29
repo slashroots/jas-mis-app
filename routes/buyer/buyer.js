@@ -284,3 +284,22 @@ exports.findDemandMatch = function(req, res) {
         }
     })
 };
+
+/**
+ * This function finds the demand by id and populates the
+ * associated buyer and crop.
+ *
+ * @param req
+ * @param res
+ */
+exports.getDemand = function(req, res) {
+    Demand.findById(req.params.id)
+        .populate('cr_crop bu_buyer')
+        .exec(function(err, demand) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(demand);
+            }
+        });
+};

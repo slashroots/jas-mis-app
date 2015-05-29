@@ -1,0 +1,50 @@
+<div layout="column" layout-fill>
+    <md-card>
+        <md-card-content class="pretty3">
+            <div layout-fill layout-align="center" layout="column">
+                <div layout="row">
+                    <span flex layout-fill></span>
+                    <md-button class="md-icon-button" aria-label="Details">
+                        <md-icon md-svg-icon="../images/ic_share_black_24px.svg"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Details">
+                        <md-icon md-svg-icon="../images/ic_more_vert_24px.svg"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" class="farmerPretty">
+                    <div flex="10" class="profilePic"></div>
+                    <div flex="90" layout="column" class="farmerNames">
+                        <label>Demand</label>
+                        <H3 style="color: green;" class="farmerSummary">{{selectedDemand.bu_buyer.bu_buyer_name}}</H3>
+                        <h2 class="farmerSummary">{{selectedDemand.cr_crop.cr_crop_name}}
+                            {{selectedDemand.cr_crop.cr_crop_variety == ""?"":" - " + selectedDemand.cr_crop.cr_crop_variety}}</h2>
+                        <h4>{{selectedDemand.de_posting_date|date}} - {{selectedDemand.de_until|date}}</h4>
+                        Value: {{(selectedDemand.de_price * selectedDemand.de_quantity)|currency}} - {{selectedDemand.de_payment_terms}}
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+        <md-card-content>
+            <div layout="column">
+                <div layout="column" layout-align="center center" ng-if="m_commodities.length == 0">
+                    <md-icon md-svg-src="../images/ic_not_interested_24px.svg"></md-icon>
+                    <label>No Matches Found</label>
+                </div>
+                <div ng-repeat="commodity in m_commodities" layout-padding layout="row">
+                    <div flex="10"><img src="../images/ic_label_outline_24px.svg"/></div>
+                    <div flex="90" layout="row">
+                        <div layout="column" flex>
+                            {{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}<br/>
+                            {{commodity.co_quantity|number}} {{commodity.un_quantity_unit.un_unit_name}}
+                        </div>
+                        <div layout="column" flex>
+                            {{commodity.co_availability_date | date}} - {{commodity.co_until | date}}<br/>
+                            {{commodity.co_price | currency}} per {{commodity.un_price_unit.un_unit_name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-card-content>
+    </md-card>
+
+</div>

@@ -27,4 +27,30 @@ angular.module('jasmic.controllers')
                 })
             }
         }
+    ])
+    .controller('DemandProfileCtrl', ['$scope','$location','$routeParams', 'DemandFactory',
+        'DemandMatchFactory',
+        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory) {
+            DemandFactory.show({id:$routeParams.id}, function(demand) {
+                    $scope.demand = demand;
+                    $scope.selectedDemand = demand;
+                    lookupDemandMatches();
+                },
+                function(error) {
+                    $scope.demand = {};
+                });
+
+            $scope.checked = function(commodity) {
+                console.log(this.m_commodities);
+            };
+
+            $scope.allSelected = false;
+            $scope.m_commodities = [];
+
+            lookupDemandMatches = function() {
+                DemandMatchFactory.query({id: $scope.demand._id}, function(list) {
+                    $scope.commodities = list;
+                })
+            }
+        }
     ]);
