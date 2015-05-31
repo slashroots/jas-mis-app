@@ -15,13 +15,14 @@
                     <div flex="10" class="profilePic"></div>
                     <div flex="85" layout="column" class="farmerNames">
                         <label>Demand</label>
-                        <h2 style="color: green;" class="farmerSummary">{{selectedDemand.cr_crop.cr_crop_name}}
+                        <h2 class="{{demandMet?'happy':'sad'}}">{{selectedDemand.cr_crop.cr_crop_name}}
                             {{selectedDemand.cr_crop.cr_crop_variety == ""?"":" - " + selectedDemand.cr_crop.cr_crop_variety}}</h2>
                         <h4>{{selectedDemand.de_posting_date|date}} - {{selectedDemand.de_until|date}}</h4>
                         Value: {{(selectedDemand.de_price * selectedDemand.de_quantity)|currency}} - {{selectedDemand.de_payment_terms}}
                     </div>
                     <div layout="column" layout-align="center center" flex="5">
-                        <md-icon md-svg-icon="../images/ic_mood{{demandMet?'':'_bad'}}_24px.svg"></md-icon>
+                        <md-icon class="{{demandMet?'happy':'sad'}}"
+                                 md-svg-icon="../images/ic_mood{{demandMet?'':'_bad'}}_24px.svg"></md-icon>
                     </div>
                 </div>
             </div>

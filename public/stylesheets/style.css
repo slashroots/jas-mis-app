@@ -17,6 +17,14 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.happy {
+  color: green;
+}
+
+.sad {
+  color: red;
+}
+
 .globalSearchArea {
   padding-top: 70px;
 }
