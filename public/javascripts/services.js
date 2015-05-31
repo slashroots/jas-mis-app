@@ -189,7 +189,7 @@ services.factory('CommodityFactory', function($resource) {
 /**
  * Adds a new Demand and associates it with a buyer
  */
-services.factory('DemandFactory', function($resource) {
+services.factory('BuyerDemandFactory', function($resource) {
     return $resource('/buyer/:id/demand', {}, {
         create: {method: 'POST', params: {id: '@id'}}
     })
