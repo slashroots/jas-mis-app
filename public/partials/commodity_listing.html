@@ -1,0 +1,23 @@
+<ui-view>
+    <md-content layout="row" layout-fill>
+        <div flex="{{itemSelected ? 60: 100}}">
+            <div layout="column" class="repeated-item" layout-fill>
+                <md-card>
+                    <md-card-content layout-padding>
+                        <md-subheader>Active Supplies</md-subheader>
+                        <div layout-padding layout="row" ng-repeat="commodity in commodities" ng-click="selectedItem(commodity)">
+                            <div flex>{{ commodity.cr_crop.cr_crop_name }}{{ commodity.cr_crop.cr_crop_variety?" - " + commodity.cr_crop.cr_crop_variety:"" }}</div>
+                            <div flex>{{ commodity.co_quantity |number }} {{commodity.un_quantity_unit.un_unit_name}}</div>
+                            <div flex>{{ commodity.co_price | currency }} per {{commodity.un_price_unit.un_unit_name}}</div>
+                            <div flex>{{commodity.co_availability_date| date}} - {{ commodity.co_until | date }}</div>
+                            <div class="md-subheader" flex>{{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}</div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </div>
+        <div ng-include="itemSelected ? '/partials/co_matches_small.html':null" flex="40">
+
+        </div>
+    </md-content>
+</ui-view>

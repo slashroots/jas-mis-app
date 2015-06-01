@@ -1,0 +1,12 @@
+<md-subheader class="md-no-sticky md-primary">Top 5 Active Demands</md-subheader>
+<md-card-content>
+    <div layout-padding layout="row" ng-repeat="demand in demands" ng-click="selectedDemand(demand)">
+        <div flex>{{ demand.cr_crop.cr_crop_name }} - {{ demand.cr_crop.cr_crop_variety }}</div>
+        <div flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}} @ ${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</div>
+        <div flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</div>
+        <div flex>{{demand.bu_buyer.bu_buyer_name}}</div>
+    </div>
+    <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 5">
+        <a ng-href="#/demands" >More Results</a>
+    </div>
+</md-card-content>

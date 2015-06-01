@@ -1,0 +1,38 @@
+<md-content class="repForm" layout-padding layout="column">
+    <div layout="row">
+        <md-input-container flex>
+            <label>Representative Name</label>
+            <input type="text" ng-model="representative.re_name">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Contact</label>
+            <input type="tel" ng-model="representative.re_contact">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Email</label>
+            <input type="email" ng-model="representative.re_email">
+        </md-input-container>
+    </div>
+
+    <md-input-container flex>
+        <label>Crop(s)</label>
+        <input type="text" ng-model="representative.re_crop">
+    </md-input-container>
+
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Security Question</label>
+            <input type="text" ng-model="representative.re_security_question">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Security Answer</label>
+            <input type="text" ng-model="representative.re_security_answer">
+        </md-input-container>
+    </div>
+
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="toggleRepForm()">Cancel</md-button>
+        <md-button ng-click="addNewRep()">Save</md-button>
+    </md-input-container>
+</md-content>

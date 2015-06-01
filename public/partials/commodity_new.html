@@ -1,0 +1,71 @@
+<div>
+    <md-content>
+        <md-autocomplete
+                ng-required="true"
+                ng-disabled="false"
+                md-no-cache="true"
+                md-selected-item="selectedItem"
+                md-search-text-change="searchTextChange(searchText)"
+                md-search-text="searchText"
+                md-selected-item-change="selectedItemChange(item)"
+                md-items="item in queryCropSearch(searchText)"
+                md-item-text="item.cr_crop_name+(item.cr_crop_variety == ''? '' : ' - ')+item.cr_crop_variety"
+                md-min-length="3"
+                placeholder="Please Enter the Crop/Produce Name">
+            <md-item-template>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.cr_crop_name}}
+                    {{item.cr_crop_variety == ""? "" : " - "}}{{item.cr_crop_variety}}</span>
+            </md-item-template>
+            <md-not-found>
+                No matches found for "{{searchText}}".
+            </md-not-found>
+        </md-autocomplete>
+        <div layout-align="center center" layout="row">
+            <md-input-container flex>
+                <label>Quantity</label><input ng-required="true" ng-model="commodity.co_quantity" type="number"/>
+            </md-input-container>
+
+            <md-select ng-required="true" ng-model="commodity.un_quantity_unit" placeholder="Unit">
+                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+            </md-select>
+        </div>
+        <div layout-align="center center" layout="row">
+            <md-input-container flex>
+                <label>Unit Price</label>
+                <input ng-required="true" ng-model="commodity.co_price" type="number"/>
+            </md-input-container>
+            per
+            <md-select ng-required="true" ng-model="commodity.un_price_unit" placeholder="Unit">
+                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+            </md-select>
+        </div>
+
+        <md-input-container>
+            <label>Preferred Payment Option(s)</label>
+            <input ng-model="commodity.co_payment_preference" type="text"/>
+        </md-input-container>
+
+        <div layout="row">
+
+            <md-input-container>
+                <label>Available Date (yyyy-MM-dd)</label>
+                <input ng-required="true" ng-model="commodity.co_availability_date" type="date"/>
+            </md-input-container>
+
+            <md-input-container>
+                <label>End Date (yyyy-MM-dd)</label>
+                <input ng-required="true" ng-model="commodity.co_until" type="date"/>
+            </md-input-container>
+        </div>
+
+        <md-input-container>
+            <label>Notes</label>
+            <input ng-model="commodity.co_notes" type="text"/>
+        </md-input-container>
+
+        <md-input-container layout="row" layout-sm="column" layout-align="center center">
+            <md-button ng-click="newCommodityItem()">Cancel</md-button>
+            <md-button ng-click="saveCommodity()">Save</md-button>
+        </md-input-container>
+    </md-content>
+</div>

@@ -57,6 +57,17 @@ services.factory('FarmerFarmsFactory', function($resource) {
 });
 
 /**
+ * This factory is to be used to create and update a particular
+ * farm based on the farmer's id.
+ */
+services.factory('FarmerFarmFactory', function($resource) {
+    return $resource('/farmer/:id/farm', {}, {
+        create: {method: 'POST', params: {id: '@id'}},
+        update: {method: 'PUT', params: {id: '@id'}}
+    });
+});
+
+/**
  * This factory allows us to do a search across multiple entities
  * including, Farmer, transactions, Buyers and Calls (limited to
  * 10 per entity)
@@ -92,5 +103,159 @@ services.factory('TransactionFactory', function($resource) {
     return $resource('/transaction/:id', {}, {
         create: { method: 'POST'},
         update: { method: 'PUT', params: {id: '@id'}}
+    });
+});
+
+/**
+ * Allows for retrieval of multiple buyers to populate listing
+ * screens.
+ */
+services.factory('BuyersListingFactory', function($resource) {
+    return $resource('/buyers', {}, {
+        query: {
+            method: 'GET',
+            isArray: true
+        }
+    })
+});
+
+/**
+ * Factory to be used to create and modify a transaction
+ */
+services.factory('BuyerFactory', function($resource) {
+    return $resource('/buyer/:id', {}, {
+        show: { method: 'GET'},
+        create: { method: 'POST'},
+        update: { method: 'PUT', params: {id: '@id'}}
+    });
+});
+
+/**
+ * Allows for retrieval of multiple buyer types to populate pickers.
+ */
+services.factory('BuyerTypesListingFactory', function($resource) {
+    return $resource('/buyertypes', {}, {
+        query: {
+            method: 'GET',
+            isArray: true
+        }
+    });
+});
+
+/**
+ * This is the factory used to create a representative based on a given
+ * Buyer.
+ */
+services.factory('RepFactory', function($resource) {
+    return $resource('/buyer/:id/rep', {}, {
+        create: { method: 'POST', params: {id: '@id'}}
+    });
+});
+
+/**
+ * The plural form of crop.  Use this factory to get access to all crop
+ * information on the system and their varieties.
+ */
+services.factory('CropsFactory', function($resource) {
+    return $resource('/crops', {}, {
+        query: { method: 'GET', isArray: true}
+    });
+});
+
+services.factory('DistrictsFactory', function($resource) {
+    return $resource('/common/districts', {}, {
+        query: { method: 'GET', isArray: true}
+    });
+});
+
+/**
+ * Search/query for all the units in the system.
+ */
+services.factory('UnitsFactory', function($resource) {
+    return $resource('/common/units', {}, {
+        query: {method: 'GET', isArray: true}
+    });
+});
+
+/**
+ * Adds new Commodity and associates it with a farmer.
+ */
+services.factory('CommodityFactory', function($resource) {
+    return $resource('/farmer/:id/commodity', {}, {
+        create: {method: 'POST', params: {id: '@id'}}
+    })
+});
+
+/**
+ * Adds a new Demand and associates it with a buyer
+ */
+services.factory('BuyerDemandFactory', function($resource) {
+    return $resource('/buyer/:id/demand', {}, {
+        create: {method: 'POST', params: {id: '@id'}}
+    })
+});
+
+/**
+ * Factory to be used to retrieve the demands listing.
+ */
+services.factory('CurrentDemandsFactory', function ($resource) {
+    return $resource('/buyers/current_demands', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Factory to be used to retrieve the commodities listing.
+ */
+services.factory('CurrentCommoditiesFactory', function ($resource) {
+    return $resource('/farmers/current_commodities', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Retrieve a buyer's demands based on id
+ */
+services.factory('DemandsFactory', function($resource) {
+    return $resource('/buyer/:id/demands', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
+});
+
+/**
+ * Retrieve a farmer's commdoties based on his id.
+ */
+services.factory('CommoditiesFactory', function($resource) {
+    return $resource('/farmer/:id/commodities', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
+});
+
+/**
+ * Use this service to match a demand based on its ID to a
+ * number of active commodities.  Returns a list.
+ */
+services.factory('DemandMatchFactory', function($resource) {
+    return $resource('/demand/:id/match', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
+});
+
+/**
+ * Use this service to match a commodity based on its ID to a
+ * number of active demands.  Returns a list.
+ */
+services.factory('CommodityMatchFactory', function($resource) {
+    return $resource('/commodity/:id/match', {}, {
+        query: {method: 'GET', isArray: true, params: {id: '@id'}}
+    });
+});
+
+/**
+ * Use this service to take action on a demand.
+ */
+services.factory('DemandFactory', function($resource) {
+    return $resource('/demand/:id', {}, {
+        show: {method: 'GET', params: {id: '@id'}}
     });
 });

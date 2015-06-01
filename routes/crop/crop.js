@@ -11,14 +11,19 @@ var Crop = model.Crop;
  * @param res
  */
 exports.findCrops = function(req, res) {
-    Crop.find(req.query)
+    var query = req.query;
+    if("beginsWith" in req.query) {
+        query = {cr_crop_name: new RegExp(req.query.beginsWith,'i')};
+    }
+    Crop.find(query)
+        .sort('cr_crop_name cr_crop_variety')
         .exec(function(err, list) {
             if(err) {
                 common.handleDBError(err, res);
             } else {
                 res.send(list);
             }
-        })
+        });
 };
 
 
@@ -51,6 +56,27 @@ exports.updateCropById = function(req, res) {
             common.handleDBError(err, res);
         } else {
             res.send(result);
+        }
+    })
+};
+
+
+/**
+ * Quick and dirty batch import. Expects JSON array.
+ * @param req
+ * @param res
+ */
+exports.batchUpdate = function(req, res) {
+    var cropArray = [];
+
+    for(i in req.body) {
+        cropArray.push(new Crop(req.body[i]));
+    }
+    model.Crop.create(cropArray, function(err, list) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            res.send("Success!")
         }
     })
 };

@@ -9,12 +9,13 @@ angular.module('jasmic.controllers')
     .controller('NavigationCtrl', ['$scope', '$location', function ($scope, $location) {
         $scope.add_clicked = false;
         $scope.goTo = function() {
+
             if($scope.nav == 'Search') {
                 $location.url('/search');
             } else if($scope.nav == 'Supply Data') {
                 $location.url('/supplies');
-            } else if($scope.nav == 'Price Data') {
-                $location.url('/prices');
+            } else if($scope.nav == 'Demand Data') {
+                $location.url('/demands');
             } else {
                 $location.url('/dashboard');
             }

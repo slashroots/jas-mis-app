@@ -34,23 +34,49 @@ angular.module('jasmic.controllers')
 
     /**
      * This controller does a query to retrieve the farmer by the specified ID in the
-     * routeParameter.  It then creates the $scoe.farmer object for the view to consume
+     * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
-        'TransactionsFactory', 'FarmerFactory',
-        function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory, FarmerFactory) {
-            FarmerFactory.show({id:$routeParams.id}, function(farmer) {
-                $scope.farmer = farmer;
-                $scope.completedTransactions = TransactionsFactory.query({
-                    fr_farmer: farmer._id, tr_status: 'Completed'
+        'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
+        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory',
+        function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
+                FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
+                CommodityFactory, CommoditiesFactory, DistrictsFactory) {
+            /**
+             * First query for the farmer based on the id supplied in the parameters,
+             * then query for the transactions this farmer has been involved in.
+             * TODO: Finish up this!
+             */
+            function loadAll() {
+                FarmerFactory.show({id:$routeParams.id}, function(farmer) {
+                    $scope.farmer = farmer;
+                    $scope.completedTransactions = TransactionsFactory.query({
+                        fr_farmer: farmer._id, tr_status: 'Completed'
+                    });
+                    $scope.pendingTransactions = TransactionsFactory.query({
+                        fr_farmer: farmer._id, tr_status: 'Pending'
+                    });
+                    $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+                }, function(err) {
+                    console.log(err);
                 });
-                $scope.pendingTransactions = TransactionsFactory.query({
-                    fr_farmer: farmer._id, tr_status: 'Pending'
+            };
+            function populateCommodities() {
+                CommoditiesFactory.query({id: $routeParams.id}, function(list) {
+                    $scope.commodities = list;
+                }, function(fail) {
+                    console.log(fail);
                 });
-                $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
-            }, function(err) {
-                console.log(err);
-            });
+            };
+            loadAll();
+            populateCommodities();
+
+            /**
+             * Quick and dirty check to see if information is present for
+             * manipulation
+             * @param obj
+             * @returns {boolean}
+             */
             $scope.isValid = function(obj) {
                 if(obj == undefined) {
                     return false;
@@ -60,19 +86,105 @@ angular.module('jasmic.controllers')
                     return true;
                 }
             };
+
+            /**
+             * Attempts to add new Farm to the farmer object.  Assumes the
+             * server will take care of the address creation.
+             */
+            $scope.addNewFarm = function() {
+                $scope.farm.di_district = selectedDistrict;
+                FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
+                    $scope.newFarm = !$scope.newFarm;
+                    loadAll();
+                }, function(fail) {
+                    console.log(fail);
+                    console.log($scope.farm);
+                    showDialog($mdDialog, fail, true);
+                });
+            };
+
+            $scope.cancelAdd = function() {
+                $scope.newFarm = !$scope.newFarm;
+            };
+
+            /**
+             * Necessary to load all parishes in the necessary forms
+             */
+            ParishesFactory.query({},
+                function(parishes) {
+                    $scope.parishes = parishes;
+                },
+                function(error) {
+                    console.log(error);
+                });
+
+            /**
+             * Button related functions and variables for hiding/showing
+             * new forms
+             */
+            $scope.newFarmLocation = function() {
+                $scope.newFarm = !$scope.newFarm;
+                $scope.farm = {};
+            };
+            $scope.newCommodityItem = function() {
+                $scope.newCommodity = !$scope.newCommodity;
+                $scope.commodity = {};
+                $scope.commodity.co_availability_date= moment().toDate();
+                $scope.commodity.co_until = moment().add(7, 'days').toDate();
+            };
+            $scope.newCommodity = false;
+            $scope.newFarm = false;
+
+            $scope.commodity = {};
+            var selectedCrop;
+            var selectedDistrict;
+
+            /**
+             * Open the page for editing the farmer.
+             */
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.farmer._id+'/edit');
             };
 
-            $scope.findAndSelectCrop = function() {
-                var pa = angular.element(document.body);
-                $mdDialog.show({
-                    parent: pa,
-                    clickOutsideToClose: true,
-                    scope: $scope,        // use parent scope in template
-                    preserveScope: true,
-                    templateUrl:'/partials/crop_listing.html'
-                });
+            /**
+             *  This function does the magic for the auto-complete crop selection
+             *  tool.  The API looks out for a key called 'beginsWith' and they
+             *  constructs a regex expression that searches for the crop name and
+             *  returns a list matching the expression.
+             */
+            $scope.queryCropSearch = function(cropName) {
+                return CropsFactory.query({beginsWith: cropName});
+            };
+            $scope.selectedItemChange = function(item) {
+                selectedCrop = item._id;
+            };
+
+            /**
+             * Fetches the units that user can select
+             */
+            $scope.units = UnitsFactory.query({});
+
+            $scope.saveCommodity = function() {
+                $scope.commodity.cr_crop = selectedCrop;
+                CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
+                    $scope.newCommodityItem();
+                    populateCommodities();
+                }, function(error) {
+                    showDialog($mdDialog, error, true);
+                })
+            }
+
+            /**
+             *  This function does the magic for the auto-complete district selection
+             *  tool.  The API looks out for a key called 'beginsWith' and they
+             *  constructs a regex expression that searches for the district and
+             *  returns a list matching the expression.
+             */
+            $scope.queryDistrictSearch = function(districtName) {
+                return DistrictsFactory.query({beginsWith: districtName});
+            };
+            $scope.selectedDistrictChange = function(item) {
+                selectedDistrict = item._id;
             };
         }
     ])
@@ -92,8 +204,8 @@ angular.module('jasmic.controllers')
      * then creation of the farmer object for the view to render.  It also
      * populates the parishes combo box for user interaction.
      */
-    .controller('EditFarmerCtrl', ['$scope', '$mdDialog','$routeParams', 'FarmerFactory', 'ParishesFactory',
-        function ($scope, $mdDialog, $routeParams, FarmerFactory, ParishesFactory) {
+    .controller('EditFarmerCtrl', ['$scope', '$location', '$mdDialog','$routeParams', 'FarmerFactory', 'ParishesFactory',
+        function ($scope, $location, $mdDialog, $routeParams, FarmerFactory, ParishesFactory) {
             FarmerFactory.show({id:$routeParams.id},
                 function(farmer) {
                     $scope.farmer = farmer;
@@ -116,8 +228,9 @@ angular.module('jasmic.controllers')
                 });
 
             $scope.save = function() {
-                FarmerFactory.update({id:$scope.farmer._id}, $scope.farmer, function(something) {
+                FarmerFactory.update({id:$scope.farmer._id}, $scope.farmer, function(success) {
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+                    $location.url('farmer/' + success._id);
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 });

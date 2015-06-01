@@ -17,13 +17,29 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.happy {
+  color: green;
+}
+
+.sad {
+  color: red;
+}
+
+.globalSearchArea {
+  padding-top: 70px;
+}
+
+.headerArea {
+  min-height: 160px;
+}
+
 md-option {
   background-color: white;
 }
 
 .belowTheToolbar {
   background-color: whitesmoke;
-  background: url("../images/bg-img.jpg") no-repeat;
+  background: url("../images/bg-img.png") no-repeat;
   background-size: 100% 220px;
 }
 
@@ -45,8 +61,10 @@ div.md-actions.edge {
   margin-right: -50px;
 }
 
-.globalSearchArea {
-  padding-top: 80px;
+.follow {
+  position: fixed;
+  top: 240px;
+  width: 31%;
 }
 
 .search {
@@ -65,10 +83,6 @@ body{
   background-color: whitesmoke;
 }
 
-.contentArea {
-  padding-top: 30px;
-}
-
 .farmerPretty {
   padding-top: 50px;
 }
@@ -80,6 +94,22 @@ body{
 
 md-card-content.pretty {
   background-color: #d8e4f1;
+}
+
+md-card-content.pretty3 {
+  background-color: #f1e9bf;
+}
+
+md-card-content.pretty4 {
+  background-color: #f1c9c6;
+}
+
+md-card-content.pretty2 {
+  background-color: #d5e7be;
+}
+
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .farmerSummary h2 {
@@ -95,11 +125,18 @@ md-card-content.pretty {
 
 .farmerSummary {
   margin: 0px;
-  text-transform: lowercase;
+  text-transform:capitalize;
 }
 
 .farmerSummary:first-letter {
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
+}
+
+md-content.farmForm {
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: lightgray;
+  background-color: ghostwhite;
 }
 
 .farmerInfo {
@@ -112,12 +149,12 @@ md-card-content.pretty {
   border-bottom-color: #B8BDBD;
   border-width: thin;
   border-bottom-style: solid;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-bottom: 30px;
+  padding-top: 30px;
 }
 
 .lastInfo{
-  padding-top: 10px;
+  padding-top: 30px;
 }
 
 .label {
@@ -126,6 +163,10 @@ md-card-content.pretty {
 
 .md-subheader.md-default-theme.pretty {
   background-color: #d8e4f1;
+}
+
+.md-subheader.md-default-theme.pretty2 {
+  background-color: #d5e7be;
 }
 
 .completeTransStat {
@@ -160,6 +201,15 @@ md-card-content.pretty {
   border-bottom: thin;
   border-bottom-style: solid;
   border-bottom-color: lightgray;
+}
+
+.navigation .md-select-label *:first-child {
+  overflow: visible;
+  line-height: 2rem;
+}
+
+.dark {
+  background-color: lightgrey;
 }
 
 /*

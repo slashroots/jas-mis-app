@@ -14,6 +14,15 @@ router.post('/buyer', Buyer.createBuyer);
 router.get('/buyer/:id', Buyer.getBuyerById);
 router.put('/buyer/:id', Buyer.updateBuyerById);
 
+router.post('/buyer/:id/rep', Buyer.addNewRep);
+
+router.post('/buyer/:id/demand', Buyer.addNewDemand);
+router.get('/buyer/:id/demands', Buyer.getDemands);
+router.get('/buyers/current_demands', Buyer.searchCurrentDemands);
+
+router.get('/demand/:id/match', Buyer.findDemandMatch);
+router.get('/demand/:id', Buyer.getDemand);
+
 /**
  * End Points for manipulating a buyer type
  */

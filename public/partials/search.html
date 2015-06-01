@@ -1,79 +1,168 @@
 <ui-view>
-    <md-content layout="row" layout-fill>
-        <div flex="{{selected ? 60: 100}}" layout="column" layout-fill>
+    <md-content ng-if="terms == undefined">
+        <md-card>
+            <md-content layout-padding>
+                <p>
+                    This search engine can find by:
+                <ul>
+                    <li>JAS #</li>
+                    <li>Farmer's First Name</li>
+                    <li>Farmer's Last Name</li>
+                    <li>Buyer's Name</li>
+                    <li>Crop/Produce Name and Variety</li>
+                </ul>
+
+                All relevant information about demands, commodities, farmers and buyers will be found and displayed.
+                Enjoy using the search engine!  The Google(TM) of Agriculture!
+                </p>
+            </md-content>
+        </md-card>
+    </md-content>
+    <md-content ng-if="terms != undefined" layout="row" >
+        <div flex="{{(farmerSelected || buyerSelected || demandSelected || commoditySelected) ? 60: 100}}" layout="column" layout-fill>
             <md-card>
                 <md-content layout-padding>
-                <md-subheader class="md-no-sticky md-primary">Farmers:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Farmers:</md-subheader>
+                    <div class="table-responsive-vertical">
+                        <table class="table table-hover table-mc-light-blue">
+                            <thead>
+                            <tr>
+                                <th>JAS #</th>
+                                <th>First</th>
+                                <th>Last</th>
+                                <th>Parish</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="farmer in results.farmers" class="repeated-item" ng-click="selectedElement('farmer', farmer)">
+                                <td>{{ farmer.fa_jas_number }}</td>
+                                <td>{{ farmer.fa_first_name }}</td>
+                                <td>{{ farmer.fa_last_name }}</td>
+                                <td>{{ farmer.ad_address.pa_parish }}</td>
+                            </tr>
+                            <tr ng-if="results.farmers.length == 10">
+                                <td style="text-align: center" colspan="4"><a ng-href="#/farmers?searchTerms={{terms}}" >More Results</a></td>
+                            </tr>
 
-                <table class="bordered">
-                    <thead>
-                    <tr>
-                        <th>JAS #</th>
-                        <th>First</th>
-                        <th>Last</th>
-                        <th>Parish</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr id="row-select" ng-repeat="farmer in results.farmers" class="repeated-item" ng-click="selectedElement(farmer)">
-                        <td>{{ farmer.fa_jas_number }}</td>
-                        <td>{{ farmer.fa_first_name }}</td>
-                        <td>{{ farmer.fa_last_name }}</td>
-                        <td>{{ farmer.ad_address.pa_parish }}</td>
-                    </tr>
-                    <tr ng-if="results.farmers.length == 10">
-                        <td style="text-align: center" colspan="4"><a ng-href="#/farmers?searchTerms={{terms}}" >More Results</a></td>
-                    </tr>
-
-                    </tbody>
-                </table>
-
+                            </tbody>
+                        </table>
+                    </div>
                 </md-content>
             </md-card>
 
             <md-card>
                 <md-content layout-padding>
-                <md-subheader class="md-primary">Buyers:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Buyers:</md-subheader>
+                    <div class="table-responsive-vertical">
+                        <table class="table table-hover table-mc-light-blue repeated-item">
+                            <thead>
+                            <tr>
+                                <th>Buyer Name</th>
+                                <th>Type</th>
+                                <th>Email</th>
+                                <th>Parish</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="buyer in results.buyers" class="repeated-item" ng-click="selectedElement('buyer', buyer)">
+                                <td>{{ buyer.bu_buyer_name }}</td>
+                                <td>{{ buyer.bt_buyer_type.bt_buyer_type_name }}</td>
+                                <td>{{ buyer.bu_email}}</td>
+                                <td>{{ buyer.ad_address.pa_parish }}</td>
+                            </tr>
+                            <tr ng-if="results.buyers.length == 10">
+                                <td style="text-align: center" colspan="4"><a ng-href="#/buyer?searchTerms={{terms}}" >More Results</a></td>
+                            </tr>
 
-                    <table class="bordered">
-                        <thead>
-                        <tr>
-                            <th>Buyer Name</th>
-                            <th>Type</th>
-                            <th>Email</th>
-                            <th>Parish</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="buyer in results.buyers">
-                            <td>{{ buyer.bu_buyer_name }}</td>
-                            <td>{{ buyer.bt_buyer_type.bt_buyer_type_name }}</td>
-                            <td>{{ buyer.bu_email}}</td>
-                            <td>{{ buyer.ad_address.pa_parish }}</td>
-                        </tr>
-                        <tr ng-if="results.buyers.length == 10">
-                            <td style="text-align: center" colspan="4"><a ng-href="#/buyer?searchTerms={{terms}}" >More Results</a></td>
-                        </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </md-content>
+            </md-card>
+            <md-card>
+                <md-content layout-padding>
+                    <md-subheader class="md-no-sticky md-primary">Active Demands:</md-subheader>
+                    <div class="table-responsive-vertical">
+                        <table class="table table-hover table-mc-light-blue repeated-item">
+                            <thead>
+                            <tr>
+                                <th>Buyer Name</th>
+                                <th>Produce-Variety</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="demand in results.demands" class="repeated-item" ng-click="selectedElement('demand', demand)">
+                                <td>{{ demand.bu_buyer.bu_buyer_name }}</td>
+                                <td>{{ demand.cr_crop.cr_crop_name }}
+                                    {{demand.cr_crop.cr_crop_variety==""?"":" - " + demand.cr_crop.cr_crop_variety}}</td>
+                                <td>{{ demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}</td>
+                                <td>${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</td>
+                            </tr>
+                            <tr ng-if="results.demands.length == 10">
+                                <td style="text-align: center" colspan="4"><a ng-href="#/demand?searchTerms={{terms}}" >More Results</a></td>
+                            </tr>
 
-                        </tbody>
-                    </table>
-
+                            </tbody>
+                        </table>
+                    </div>
                 </md-content>
             </md-card>
 
             <md-card>
                 <md-content layout-padding>
-                    <md-subheader class="md-primary">Transactions:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Active Commodities:</md-subheader>
+                    <div class="table-responsive-vertical">
+                        <table class="table table-hover table-mc-light-blue repeated-item">
+                            <thead>
+                            <tr>
+                                <th>Farmer Name</th>
+                                <th>Produce-Variety</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="commodity in results.commodities" class="repeated-item" ng-click="selectedElement('commodity', commodity)">
+                                <td>{{ commodity.fa_farmer.fa_first_name }} {{ commodity.fa_farmer.fa_last_name }}</td>
+                                <td>{{ commodity.cr_crop.cr_crop_name }}
+                                    {{commodity.cr_crop.cr_crop_variety?" - "+commodity.cr_crop.cr_crop_variety:""}}</td>
+                                <td>{{ commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}</td>
+                                <td>${{ commodity.co_price }} per {{commodity.un_price_unit.un_unit_name}}</td>
+                            </tr>
+                            <tr ng-if="results.commodities.length == 10">
+                                <td style="text-align: center" colspan="4"><a ng-href="#/commodities?searchTerms={{terms}}" >More Results</a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </md-content>
             </md-card>
 
             <md-card>
                 <md-content layout-padding>
-                    <md-subheader class="md-primary">Calls:</md-subheader>
+                    <md-subheader class="md-no-sticky md-primary">Inputs:</md-subheader>
+                </md-content>
+            </md-card>
+
+            <md-card>
+                <md-content layout-padding>
+                    <md-subheader class="md-no-sticky md-primary">Events:</md-subheader>
                 </md-content>
             </md-card>
         </div>
-        <div ng-include="selected ? '/partials/farmer_profile_small.html':null" flex="40">
+        <div ng-include="farmerSelected ? '/partials/farmer_profile_small.html':null" flex="40">
+
+        </div>
+        <div ng-include="buyerSelected ? '/partials/buyer_profile_small.html':null" flex="40">
+
+        </div>
+        <div ng-include="demandSelected ? '/partials/matches_small.html':null" flex="40">
+
+        </div>
+        <div ng-include="commoditySelected ? '/partials/co_matches_small.html':null" flex="40">
 
         </div>
     </md-content>

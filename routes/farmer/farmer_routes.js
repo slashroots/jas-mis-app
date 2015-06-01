@@ -21,6 +21,13 @@ router.get('/farmer/:id/farms', Farmer.getFarmsByFarmerId);
 router.post('/farmer/:id/farm', Farmer.createFarm);
 router.put('/farm/:farm_id', Farmer.updateFarmById);
 
+router.post('/farmer/:id/commodity', Farmer.addCommodity);
+router.get('/farmer/:id/commodities', Farmer.getCommodities);
+router.put('/farmer/:id/commodity/:comID', Farmer.editCommodity);
+router.get('/farmers/current_commodities', Farmer.searchCurrentCommodities);
+
+router.get('/commodity/:id/match', Farmer.findCommodityMatch);
+
 /**
  * Manipulate info about Membership for a specific farmer
  */
@@ -44,3 +51,5 @@ router.post('/farmer/:id/comment', Farmer.createFarmerComment);
 router.post('/farmers', Farmer.batchCreateFarmers);
 
 module.exports = router;
+//mongodb://localhost/jas-mis-app
+//

@@ -11,6 +11,9 @@ var common = require('../common/common');
 var model = require('../../models/db');
 var Buyer = model.Buyer;
 var BuyerType = model.BuyerType;
+var Representative = model.Representative;
+var Demand = model.Demand;
+var Commodity = model.Commodity;
 
 
 /**
@@ -57,14 +60,23 @@ exports.getBuyers = function(req, res) {
  * @param res
  */
 exports.createBuyer = function(req, res) {
-    var buyer = new Buyer(req.body);
-    buyer.save(function(err) {
+    console.log(req.body);
+    var address = new model.Address(req.body.ad_address);
+    address.save(function(err) {
         if(err) {
             common.handleDBError(err, res);
         } else {
-            res.send(buyer);
+            var buyer = new Buyer(req.body);
+            buyer.ad_address = address._id;
+            buyer.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(buyer);
+                }
+            })
         }
-    })
+    });
 };
 
 /**
@@ -73,7 +85,8 @@ exports.createBuyer = function(req, res) {
  * @param res
  */
 exports.getBuyerById = function(req, res) {
-    Buyer.findById(req.params.id).populate('ad_address', 'bt_buyer_type')
+    Buyer.findById(req.params.id)
+        .populate('ad_address bt_buyer_type')
         .exec(function(err, item) {
             if(err) {
                 common.handleDBError(err, res);
@@ -145,4 +158,148 @@ exports.getBuyerTypes = function(req, res) {
             res.send(list);
         }
     })
+};
+
+/**
+ * A representative can be added to a particular company.
+ * This function pushes a new rep into the buyer object.
+ * @param req
+ * @param res
+ */
+exports.addNewRep = function(req, res) {
+    var rep = new Representative(req.body);
+    Buyer.findById(req.params.id, function(err, buyer) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            buyer.re_representatives.push(rep);
+            buyer.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(buyer);
+                }
+            })
+        }
+    })
+};
+
+/**
+ * Adds a new demand to the buyer object.  Returns the buyer
+ * object to the requester.
+ *
+ * @param req
+ * @param res
+ */
+exports.addNewDemand = function(req, res) {
+    var demand = new Demand(req.body);
+    demand.bu_buyer = req.params.id;
+    demand.save(function(err, item) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            res.send(item);
+        }
+    });
+};
+
+/**
+ * Retrieve buyer's demands.
+ * @param req
+ * @param res
+ */
+exports.getDemands = function(req, res) {
+    Demand.find({bu_buyer: req.params.id})
+        .populate('cr_crop bu_buyer')
+        .exec(function(err, list) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+};
+
+/**
+ * Finds all the demands that haven't yet expired.
+ * @param req
+ * @param res
+ */
+exports.searchCurrentDemands = function(req, res) {
+    var curr_date = Date.now();
+
+    if(req.query.amount) {
+        Demand.find({de_until: {$gte: curr_date}})
+            .populate('cr_crop bu_buyer')
+            .limit(req.query.amount)
+            .sort('de_posting_date bu_buyer.bu_buyer_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    } else {
+        Demand.find({de_until: {$gte: curr_date}})
+            .populate('cr_crop bu_buyer')
+            .sort('de_posting_date bu_buyer.bu_buyer_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
+};
+
+/**
+ * Find and return Commodities who's dates intersect with that of
+ * the demand.  Also must be matching based on the crop type.  Return
+ * that list sorted (desc) by the quantity.
+ * @param req
+ * @param res
+ */
+exports.findDemandMatch = function(req, res) {
+    Demand.findById(req.params.id, function(err, demand) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            Commodity.find({
+                $and :[
+                    {co_until: {$gte: demand.de_posting_date}},
+                    {co_availability_date: {$lte: demand.de_until}}
+                ],
+                cr_crop: demand.cr_crop
+            }).populate('cr_crop fa_farmer')
+                .sort({co_quantity: 'desc'})
+                .exec(function(err2, list) {
+                    if(err2) {
+                        common.handleDBError(err2, list);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        }
+    })
+};
+
+/**
+ * This function finds the demand by id and populates the
+ * associated buyer and crop.
+ *
+ * @param req
+ * @param res
+ */
+exports.getDemand = function(req, res) {
+    Demand.findById(req.params.id)
+        .populate('cr_crop bu_buyer')
+        .exec(function(err, demand) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(demand);
+            }
+        });
 };

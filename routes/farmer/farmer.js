@@ -10,6 +10,8 @@
 
 var model = require('../../models/db');
 var common = require('../common/common');
+var Commodity = model.Commodity;
+var Demand = model.Demand;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -56,7 +58,7 @@ exports.getFarmers = function(req, res) {
     }
 
     model.Farmer.find(query)
-        .populate('ad_address')
+        .populate('ad_address fr_farms.di_district')
         .exec(function(err, docs) {
             if(err) {
                 handleDBError(err, res);
@@ -89,7 +91,7 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id).populate('ad_address')
+    model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
         .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);
@@ -153,19 +155,19 @@ exports.getFarmsByFarmerId = function(req, res) {
  * @param res
  */
 exports.createFarm = function(req, res) {
-    var farm = new model.Farm(req.body);
-    model.Farmer.findById(req.params.id, function(err, item) {
+    model.Farmer.findById(req.params.id, function(err, farmer) {
         if(err) {
             handleDBError(err, res);
         } else {
-            if(item == null) {
+            if(farmer == null) {
                 res.status(404);
                 res.send("Farmer Not Found");
             } else {
-                item.fr_farms.push(farm);
-                item.save(function(err2, result) {
-                    if(err2) {
-                        handleDBError(err2, res);
+                var farm = new model.Farm(req.body);
+                farmer.fr_farms.push(farm);
+                farmer.save(function(err3, result) {
+                    if(err3) {
+                        handleDBError(err3, res);
                     } else {
                         res.send(result);
                     }
@@ -173,6 +175,51 @@ exports.createFarm = function(req, res) {
             }
         }
     });
+};
+
+/**
+ * Adds a commodity and associates by the farmer's ID.
+ * @param req
+ * @param res
+ */
+exports.addCommodity = function(req, res) {
+    var com = new Commodity(req.body);
+    com.fa_farmer = req.params.id;
+    com.save(function(err, item) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            res.send(item);
+        }
+    });
+};
+
+/**
+ * Get commodities by farmer id.
+ *
+ * @param req
+ * @param res
+ */
+exports.getCommodities = function(req, res) {
+    Commodity.find({fa_farmer: req.params.id})
+        .populate('fa_farmer cr_crop')
+        .exec(function(err, list) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+};
+
+/**
+ * Intended to be able to edit the commodity based on farmer's id
+ * @param req
+ * @param res
+ */
+exports.editCommodity = function(req, res) {
+    res.statusCode(500);
+    res.send({error: 'Not Implemented!'});
 };
 
 /**
@@ -524,6 +571,71 @@ function performTransform(membershipType, parishes, req, res) {
         })
     });
 
+};
+
+/**
+ * Find and return Demands who's dates intersect with that of
+ * the commodity.  Also must be matching based on the crop type.  Return
+ * that list sorted (asc) by the quantity.
+ * @param req
+ * @param res
+ */
+exports.findCommodityMatch = function(req, res) {
+    Commodity.findById(req.params.id, function(err, commodity) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            Demand.find({
+                $and :[
+                    {de_posting_date: {$lte: commodity.co_until}},
+                    {de_until: {$gte: commodity.co_availability_date}}
+                ],
+                cr_crop: commodity.cr_crop
+            }).populate('cr_crop bu_buyer')
+                .sort({de_quantity: 'ascending'})
+                .exec(function(err2, list) {
+                    if(err2) {
+                        common.handleDBError(err2, list);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        }
+    })
+};
+
+/**
+ * Finds all the commodies that haven't expired.
+ * @param req
+ * @param res
+ */
+exports.searchCurrentCommodities = function(req, res) {
+    var curr_date = Date.now();
+
+    if(req.query.amount) {
+        Commodity.find({co_until: {$gte: curr_date}})
+            .populate('cr_crop fa_farmer')
+            .limit(req.query.amount)
+            .sort('co_availability_date fa_farmer.fa_first_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    } else {
+        Commodity.find({co_until: {$gte: curr_date}})
+            .populate('cr_crop fa_farmer')
+            .sort('co_availability_date fa_farmer.fa_first_name')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
 };
 
 /**

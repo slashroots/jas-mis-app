@@ -31,25 +31,30 @@
                     </div>
                 </md-card-content>
                 <md-card-content layout="column">
-                    <div class="farmer_info" layout="row">
-                        <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
-                            {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
-                            <div class="label">TRN</div>
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
+                                <div class="label">TRN</div>
+                            </div>
                         </div>
-                        <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
-                            {{isValid(farmer.dob)? (farmer.fa_dob|date): 'Not Disclosed'}}
-                            <div class="label">Date of Birth</div>
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(farmer.dob)? (farmer.fa_dob|date): 'Not Disclosed'}}
+                                <div class="label">Date of Birth</div>
+                            </div>
                         </div>
-                        <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
-                        <div layout-align="center" layout="column">
-                            {{isValid(farmer.fa_deceased)? 'Unknown' : (farmer.fa_deceased ? 'Yes': 'No')}}
-
-                            <div class="label">Deceased</div>
+                        <div flex layout="row">
+                            <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
+                            <div layout-align="center" layout="column">
+                                {{isValid(farmer.fa_deceased)? 'Unknown' : (farmer.fa_deceased ? 'Yes': 'No')}}
+                                <div class="label">Deceased</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="farmer_info" layout="row">
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
                         <div layout="row" flex>
                             <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                             <div layout-align="center" layout="column">
@@ -65,8 +70,9 @@
                                 <div class="label">Email</div>
                             </div>
                         </div>
+                        <span flex></span>
                     </div>
-                    <div class="lastInfo" layout="row">
+                    <div layout-align="space-around start" class="lastInfo" layout="row">
                         <span flex></span>
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
                         <div layout-align="center" layout="column">
@@ -83,32 +89,107 @@
                 </md-card-content>
             </md-card>
             <md-card>
-                <md-card-content>
+                <md-card-content class="{{newFarm ? 'dark':'white'}}">
                     <div layout="row">
-                        <md-subheader>Supply</md-subheader>
-                    <div flex class="md-actions edge" layout="row" layout-align="end center">
-                        <md-button class="md-fab edge" aria-label="Add New Supply">
-                            <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-                        </md-button>
-                    </div>
-                    </div>
-                    <div ng-repeat="commodity in farmer.co_commodities">
-                        {{commodity.cr_crop}}
-                    </div>
-                </md-card-content>
-            </md-card>
-            <md-card>
-                <md-card-content>
-                    <div layout="row">
-                        <md-subheader>Farm</md-subheader>
+                        <h3 class="{{newFarm ? 'dark':'white'}}">Farms</h3>
                         <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button class="md-fab edge" aria-label="Add New Farm">
+                            <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>
                     </div>
-                    <div ng-repeat="farm in farmer.fr_farms">
-                        {{farm.fr_name}}
+                    <div ng-include="newFarm ? '/partials/farm_new.html':null">
+
+                    </div>
+                </md-card-content>
+                <md-card-content>
+                    <div class="farmerInfo" layout="column" layout-padding ng-repeat="farm in farmer.fr_farms">
+                        <div layout-align="space-around start" layout="row" >
+                            <md-icon flex="5" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.fr_name}}
+                                    <div class="label">Farm Name</div>
+                                </div>
+                            </div>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.fr_size}}
+                                    <div class="label">Farm Size (Acre)</div>
+                                </div>
+                            </div>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.ad_address1}}
+                                    <div class="label">Address 1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout-align="space-around start" layout-padding layout="row">
+                            <span flex="5"></span>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.ad_city}}
+                                    <div class="label">City</div>
+                                </div>
+                            </div>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.di_district.di_parish_name}}
+                                    <div class="label">Parish</div>
+                                </div>
+                            </div>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.di_district.di_extension_name}} - {{farm.di_district.di_district_name}}
+                                    <div class="label">Extension - District</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-content class="{{newCommodity ? 'dark':'white'}}">
+                    <div layout="row">
+                        <h3 class="{{newCommodity ? 'dark':'white'}}">Supplies</h3>
+                        <div flex class="md-actions edge" layout="row" layout-align="end center">
+                            <md-button ng-click="newCommodityItem()" class="md-fab edge" aria-label="Add New Supply">
+                                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
+
+                    </div>
+                </md-card-content>
+                <md-card-content>
+                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="commodity in commodities">
+                        <div layout-align="space-around start" layout="row">
+                            <div layout-align="left center" layout="column">
+                                {{commodity.cr_crop.cr_crop_name}} - {{commodity.cr_crop.cr_crop_variety}}
+                                <label>Produce/Crop</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{commodity.co_price}} per {{commodity.un_price_unit.un_unit_name}}
+                                <label>Unit Cost</label>
+                            </div>
+                        </div>
+                        <div layout-align="space-around start" layout="row">
+                            <div layout-align="left center" layout="column">
+                                {{commodity.co_payment_preference}}
+                                <label>Payout Preference</label>
+                            </div>
+                            <span></span>
+                            <div layout-align="left center" layout="column">
+                                {{commodity.co_notes}}
+                                <label>Notes</label>
+                            </div>
+                        </div>
                     </div>
                 </md-card-content>
             </md-card>

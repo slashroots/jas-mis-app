@@ -6,7 +6,11 @@ var Address = model.Address;
 var Parish = model.Parish;
 var Farmer = model.Farmer;
 var Buyer = model.Buyer;
-
+var Unit = model.Unit;
+var Demand = model.Demand;
+var Crop = model.Crop;
+var Commodity = model.Commodity;
+var District = model.District;
 
 /**
  * This is a generic helper function for MongoDB errors
@@ -24,6 +28,9 @@ exports.handleDBError = function(err, res) {
             res.send(err);
         } else if (err.name == "CastError") {
             res.status(400);
+            res.send(err);
+        } else if(err.name == "Not Found") {
+            res.status(404);
             res.send(err);
         } else {
             res.status(500);
@@ -136,13 +143,23 @@ exports.updateAddressById = function(req, res) {
 };
 
 /**
- * This function always expects the searchTerm Parameter!
+ * This function always expects the searchTerm Parameter! It searches for the following entities:
+ * farmers, buyers, crops (and their demands and commodities).  It searches for the best matches
+ * of various entity attributes.
  * @param req
  * @param res
  */
 exports.searchAll = function(req, res) {
     if("searchTerms" in req.query) {
+        /**
+         * Creates a list of regular expression terms to search by
+         */
         var list = regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
+
+        /**
+         * First search attributes (first and last names and jas number) for any matches to
+         * the regular expression
+         */
         Farmer.find({
             $or: [
                 {fa_first_name: {$in: list}},
@@ -152,8 +169,13 @@ exports.searchAll = function(req, res) {
         }).populate('ad_address').limit(10)
             .exec(function (err, farmers) {
                 if (err) {
-                    handleDBError(err, res);
+                    this.handleDBError(err, res);
                 } else {
+
+                    /**
+                     * Search for buyers who's name, phone number and/or email matches the
+                     * regex pattern in `list`
+                     */
                     Buyer.find({
                         $or: [
                             {bu_buyer_name: {$in: list}},
@@ -163,18 +185,164 @@ exports.searchAll = function(req, res) {
                     }).populate('ad_address bt_buyer_type').limit(10)
                         .exec(function(err2, buyers) {
                             if(err2) {
-                                handleDBError(err, res);
+                                this.handleDBError(err, res);
                             } else {
-                                var result = {
-                                    'farmers': farmers,
-                                    'buyers': buyers
-                                };
-                                res.send(result);
+                                var curr_date = Date.now();
+
+                                /**
+                                 * Search for all the crops who's name or variety matches
+                                 * the regex pattern supplied
+                                 */
+                                Crop.find({
+                                    $or: [
+                                        {cr_crop_name: {$in: list}},
+                                        {cr_crop_variety: {$in: list}}
+                                    ]
+                                }).select('_id')
+                                    .exec(function(crop_error, crops) {
+                                        if(crop_error) {
+                                            this.handleDBError(crop_error, res);
+                                        } else {
+
+                                            /**
+                                             * Using the crops identified display their active
+                                             * demands based on today's date.
+                                             */
+                                            Demand.find({
+                                                de_until: {$gte: curr_date},
+                                                $or: [
+                                                    {cr_crop: {$in: crops}}
+                                                ]
+                                            })
+                                                .populate('cr_crop bu_buyer')
+                                                .limit(10)
+                                                .sort('de_posting_date bu_buyer.bu_buyer_name')
+                                                .exec(function (err, demands) {
+                                                    if (err) {
+                                                        this.handleDBError(err, res);
+                                                    } else {
+
+                                                        /**
+                                                         * Using the crops identified display their
+                                                         * active Commodities based on today's date
+                                                         */
+                                                        Commodity.find({
+                                                            co_until: {$gte: curr_date},
+                                                            $or: [
+                                                                {cr_crop: {$in: crops}}
+                                                            ]
+                                                        }).populate('cr_crop fa_farmer')
+                                                            .limit(10)
+                                                            .sort('co_posting_date fa_farmer.fa_last_name')
+                                                            .exec(function (com_error, commodities) {
+                                                                if(com_error) {
+                                                                    this.handleDBError(com_error, res);
+                                                                } else {
+
+                                                                    /**
+                                                                     * Submit the matching entities to the
+                                                                     * user.
+                                                                     * @type {{farmers: *, buyers: *, demands: *, commodities: *}}
+                                                                     */
+                                                                    var result = {
+                                                                        'farmers': farmers,
+                                                                        'buyers': buyers,
+                                                                        'demands': demands,
+                                                                        'commodities': commodities
+                                                                    };
+                                                                    res.send(result);
+                                                                }
+                                                            })
+                                                    }
+                                                });
+                                        }
+                                    });
                             }
                         })
                 }
             });
     } else {
-        res.send({farmers:[],buyers:[],transaction:[], calls:[]});
+        res.send({});
     }
+};
+
+
+
+/**
+ * Captures the units and stores it to mongo.  Mongo does the validation.
+ * @param req
+ * @param res
+ */
+exports.createUnit = function(req, res) {
+    var unit = new Unit(req.body);
+    unit.save(function(err) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(unit);
+        }
+    })
+};
+
+/**
+ * Retrieves the units allows for search based on req.query.
+ * @param req
+ * @param res
+ */
+exports.findUnits = function(req, res) {
+    Unit.find(req.query, function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(list);
+        }
+    });
+};
+
+/**
+ * This allows a user to search for a district based on a given search parameter
+ * called "beginsWith" otherwise it matches based on exact names.
+ * @param req
+ * @param res
+ */
+exports.getDistricts = function(req, res) {
+    var query = req.query;
+    if("beginsWith" in req.query) {
+        query = {
+            $or: [
+                {di_extension_name: new RegExp(req.query.beginsWith,'i')},
+                {di_district_name: new RegExp(req.query.beginsWith,'i')}
+            ]
+        };
+    }
+    District.find(query)
+        .sort('di_extension_name')
+        .exec(function(err, list) {
+            if(err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+};
+
+
+/**
+ * Quick and dirty batch import. Expects JSON array.
+ * @param req
+ * @param res
+ */
+exports.batchPushDistricts = function(req, res) {
+    var districtsArray = [];
+
+    for(i in req.body) {
+        districtsArray.push(new District(req.body[i]));
+    }
+    District.create(districtsArray, function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send("Success!");
+        }
+    })
 };

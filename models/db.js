@@ -4,9 +4,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-/**
- * TODO: Need to make the .connect method read from env variables for heroku
- */
 mongoose.connect(process.env.MONGOLAB_URI);
 
 /**
@@ -16,7 +13,7 @@ mongoose.connect(process.env.MONGOLAB_URI);
 var UnitSchema = new Schema({
     un_unit_name: {type: String, required: true, unique: true},
     un_unit_desc: {type: String},
-    un_unit_conversion: {type: Number, required: true}
+    un_unit_conversion: {type: Number, required: false}
 });
 var CommentSchema = new Schema({
     us_user_id: {type: Schema.Types.ObjectId, required: true},
@@ -47,7 +44,7 @@ var AddressSchema = new Schema({
     ad_longitude: Number,
     ad_city: String,
     pa_parish: {required: true, type: String},
-    ad_country: {type: String, required: true}
+    ad_country: {type: String, default: 'Jamaica', required: true}
 });
 var RoleSchema = new Schema({
     ro_start_date: {type: Date, default: Date.now()},
@@ -75,18 +72,27 @@ var MembershipSchema = new Schema({
     mi_due_owed: {type: Number, required: true},
     mi_due_paid: {type: Number, required: true}
 });
+var DistrictSchema = new Schema({
+    di_parish_name: {type: String, required: true},
+    di_extension_name: {type: String, required: true},
+    di_district_name: {type: String, required: true, unique: true}
+});
 var FarmSchema = new Schema({
     fr_name: String,
-    fr_district_id: String,
-    fr_extension_id: String,
-    ad_address_id: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
+    di_district: {type: Schema.Types.ObjectId, required: true, ref: 'District'},
+    ad_address1: {type: String, required: false},
+    ad_address2: String,
+    ad_latitude: Number,
+    ad_longitude: Number,
+    ad_city: String,
+    ad_country: {type: String, required: true, default: 'Jamaica'},
     fr_size: {type: Number, required: true}
 });
 var CommoditySchema = new Schema({
+    fa_farmer: {type: Schema.Types.ObjectId, ref: 'Farmer', required: true},
     cr_crop: {type: Schema.Types.ObjectId, ref:'Crop', required: true},
-    fr_farm: {type: Schema.Types.ObjectId, ref: 'Farm'},
     co_quantity: {type: Number, required: true},
-    un_quantity_unit: {type: Schema.Types.ObjectId, required: true},
+    un_quantity_unit: {type: Schema.Types.Mixed, required: true},
     co_expiration_date: Date,
     co_quality: String,
     co_price: {type: Number, required: true},
@@ -101,16 +107,16 @@ var CommoditySchema = new Schema({
     ct_comments: [CommentSchema]
 });
 var DemandSchema = new Schema({
-    cr_crop: {type: Schema.Types.ObjectId, required: true},
+    bu_buyer: {type: Schema.Types.ObjectId, ref: 'Buyer', required: true},
+    cr_crop: {type: Schema.Types.ObjectId, ref: 'Crop', required: true},
     de_quantity: {type: Number, required: true},
-    un_quantity_unit: {type: Schema.Types.ObjectId, required: true},
+    un_quantity_unit: {type: Schema.Types.Mixed, required: true},
     de_price: {type: Number, required: true},
-    un_price_unit: {type: Schema.Types.ObjectId, required: true},
+    un_price_unit: {type: Schema.Types.Mixed, required: true},
     de_quality: String,
-    de_fulfillment_date: Date,
     de_expiration_period: Number,
     de_posting_date: {type: Date, default: Date.now()},
-    co_until: Date,
+    de_until: { type: Date, required: true},
     de_payment_terms: {type: String, required: true},
     de_recurring: String,
     de_parent_id: Schema.Types.ObjectId,
@@ -147,7 +153,6 @@ var FarmerSchema = new Schema({
     mi_membership: [MembershipSchema],
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
-    co_commodities: [CommoditySchema],
     in_integrity: Number,
     fa_sub_sector: String
 });
@@ -172,6 +177,14 @@ var BuyerTypeSchema = new Schema({
     bt_buyer_type_name: {type: String, required: true, unique: true},
     bt_buyer_type_desc: String
 });
+var RepresentativeSchema = new Schema({
+    re_name: {type: String, required: true},
+    re_contact: {type: String, required: true},
+    re_email: {type: String},
+    re_crop: {type: String},
+    re_security_question: {type: String, required: true},
+    re_security_answer: {type: String, required: true}
+});
 var BuyerSchema = new Schema({
     bu_buyer_name: {type: String, required: true, unique: true},
     bt_buyer_type: {type: Schema.Types.ObjectId, required: true, ref: 'BuyerType'},
@@ -181,7 +194,7 @@ var BuyerSchema = new Schema({
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    de_demands: [DemandSchema]
+    re_representatives: [RepresentativeSchema]
 });
 var InputTypeSchema = new Schema({
     it_input_type_desc: {type: String, required: true},
@@ -319,6 +332,12 @@ var Branch = mongoose.model('Branch', BranchSchema);
 exports.Membership = mongoose.model('Membership',MembershipSchema);
 
 /**
+ * These are districts and extensions as captured by RADA.
+ * @type {Model|*}
+ */
+exports.District = mongoose.model('District', DistrictSchema);
+
+/**
  * Structure captures the Farmer's Farms and their locations
  * @type {Model|*}
  */
@@ -329,19 +348,19 @@ exports.Farm = mongoose.model('Farm', FarmSchema);
  * application
  * @type {Model|*}
  */
-var Unit = mongoose.model('Unit', UnitSchema);
+exports.Unit = mongoose.model('Unit', UnitSchema);
 
 /**
  * This captures the various commodities that are seeking markets
  * @type {Model|*}
  */
-var Commodity = mongoose.model('Commodity', CommoditySchema);
+exports.Commodity = mongoose.model('Commodity', CommoditySchema);
 
 /**
  * These are the various Demands needed by buyers on the JAS platform
  * @type {Model|*}
  */
-var Demand = mongoose.model('Demand', DemandSchema);
+exports.Demand = mongoose.model('Demand', DemandSchema);
 
 var CallType = mongoose.model('CallType', CallTypeSchema);
 
@@ -358,6 +377,8 @@ var User = mongoose.model('User', UserSchema);
 var UserType = mongoose.model('UserType', UserTypeSchema);
 
 var Audit = mongoose.model('Audit', AuditSchema);
+
+exports.Representative = mongoose.model('Representative', RepresentativeSchema);
 
 exports.Buyer = mongoose.model('Buyer', BuyerSchema);
 
