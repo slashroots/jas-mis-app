@@ -20,7 +20,9 @@
                     <div flex="30" class="profilePic"></div>
                     <div flex="70" layout="column" class="farmerNames">
                         <label>Farmer</label>
+
                         <H3 class="farmerSummary">{{selectedFarmer.fa_first_name}} &nbsp;{{selectedFarmer.fa_middle_name}}</H3>
+
                         <h2 class="farmerSummary">{{selectedFarmer.fa_last_name}}</h2>
                     </div>
                 </div>
@@ -29,21 +31,21 @@
         <md-card-content>
             <div layout="column">
                 <div layout-padding layout="row">
-                    <div align-items="center" flex="20"><img src="../images/ic_contacts_24px.svg"/> </div>
+                    <div align-items="center" flex="20"><img src="../images/ic_contacts_24px.svg"/></div>
                     <div class="farmerInfo" flex="80" layout="column">
                         <label>JAS #</label>
                         {{selectedFarmer.fa_jas_number}}
                     </div>
                 </div>
                 <div layout-padding layout="row">
-                    <div flex="20"><img src="../images/ic_call_24px.svg"/> </div>
+                    <div flex="20"><img src="../images/ic_call_24px.svg"/></div>
                     <div class="farmerInfo" flex="80" layout="column">
                         <label>Contact #</label>
                         {{selectedFarmer.fa_contact}}
                     </div>
                 </div>
                 <div layout-padding layout="row">
-                    <div flex="20"><img src="../images/ic_email_24px.svg"/> </div>
+                    <div flex="20"><img src="../images/ic_email_24px.svg"/></div>
                     <div class="farmerInfo" flex="80" layout="column">
                         <label>Email</label>
                         {{selectedFarmer.fa_email}}
