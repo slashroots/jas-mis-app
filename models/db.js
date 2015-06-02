@@ -201,12 +201,13 @@ var InputTypeSchema = new Schema({
     it_input_type_name: {type: String, required: true}
 });
 var InputSchema = new Schema({
+    su_supplier: {type: Schema.Types.ObjectId, required: true, ref: 'Supplier'},
     ip_input_name: {type: String, required: true},
     ip_description: String,
     ip_last_updated: {type: Date, default: Date.now()},
     ip_price: {type: Number, required: true},
-    un_price_unit: {type: Schema.Types.ObjectId, required: true},
-    it_input_type: {type: Schema.Types.ObjectId, required: true},
+    un_price_unit: {type: Schema.Types.ObjectId, required: true, ref: 'Unit'},
+    it_input_type: {type: Schema.Types.ObjectId, required: true, ref: 'InputType'},
     ip_brand: String,
     ip_jas_discounted: String,
     ip_discount_terms: String
@@ -214,8 +215,7 @@ var InputSchema = new Schema({
 var SupplierSchema = new Schema({
     su_supplier_name: {type: String, required: true, unique: true},
     su_description: String,
-    ad_address: {type: Schema.Types.ObjectId, required: true, unique: true},
-    ip_inputs: [InputSchema]
+    ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'}
 });
 var DisputeSchema = new Schema({
     di_dispute_type: {type: String, required: true},
@@ -386,8 +386,8 @@ exports.BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
 
 exports.Comment = mongoose.model('Comment', CommentSchema);
 
-var Supplier = mongoose.model('Supplier', SupplierSchema);
+exports.Supplier = mongoose.model('Supplier', SupplierSchema);
 
-var Input = mongoose.model('Input', InputSchema);
+exports.Input = mongoose.model('Input', InputSchema);
 
-var InputType = mongoose.model('InputType', InputTypeSchema);
+exports.InputType = mongoose.model('InputType', InputTypeSchema);
