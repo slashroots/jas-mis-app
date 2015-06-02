@@ -29,3 +29,5 @@ router.get('/inputs', Supplier.searchInputs);
 
 router.get('/inputtypes', Supplier.getInputTypes);
 router.post('/inputtype', Supplier.createInputType);
+
+module.exports = router;
