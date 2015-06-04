@@ -1,0 +1,70 @@
+<ui-view>
+    <md-content layout="row" layout-fill>
+        <div layout="column" layout-fill flex-md="100" flex="60" flex-sm="100">
+            <md-card>
+                <md-card-content class="pretty5" layout-padding>
+                    <div layout="row">
+                        <div flex="10" class="profilePic"></div>
+                        <div flex="70" layout="column" class="farmerNames farmerPretty2">
+                            <label>Supplier</label>
+
+                            <h2 class="farmerSummary">{{supplier.su_supplier_name}}</h2>
+                            {{supplier.su_description}}
+                        </div>
+                        <div layout="column" flex="20">
+                            <div layout="row" >
+                                <md-button ng-click="editSupplier()" class="md-icon-button" aria-label="Edit">
+                                    <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Favourites">
+                                    <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
+                                </md-button>
+                                <md-button class="md-icon-button" aria-label="Details">
+                                    <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
+                                </md-button>
+                            </div>
+                            <span flex></span>
+                        </div>
+                    </div>
+                </md-card-content>
+                <md-card-content layout="column">
+                    <div layout-align="space-around start" class="farmer_info" layout="row">
+                        <div layout="row" flex="25">
+                            <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
+                            <div layout="column">
+                                {{isValid(supplier.su_contact)? supplier.su_contact : 'Not Disclosed'}}
+                                <div class="label">Contact</div>
+                            </div>
+                        </div>
+                        <span flex="5"></span>
+                        <div layout="row" flex="60">
+                            <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
+                            <div layout="column">
+                                {{isValid(supplier.su_email)? (supplier.su_email| lowercase): 'Not Disclosed'}}
+                                <div class="label">Email</div>
+                            </div>
+                        </div>
+                        <span flex="10"></span>
+                    </div>
+                    <div class="lastInfo" layout="row">
+                        <span flex></span>
+                        <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+                        <div layout="column">
+                            {{isValid(supplier.ad_address.ad_address1)? supplier.ad_address.ad_address1: 'Not Disclosed'}}
+                            <br/>
+                            {{isValid(supplier.ad_address.ad_address2)? supplier.ad_address.ad_address2: ''}}
+                            <br ng-if="isValid(supplier.ad_address.ad_address2)"/>
+                            {{isValid(supplier.ad_address.pa_parish) ? supplier.ad_address.pa_parish: ''}}
+                            <br ng-if="isValid(supplier.ad_address.pa_parish)"/>
+                            <div class="label">Address</div>
+                        </div>
+                        <span flex></span>
+                    </div>
+                </md-card-content>
+            </md-card>
+
+        </div>
+        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        </div>
+    </md-content>
+</ui-view>

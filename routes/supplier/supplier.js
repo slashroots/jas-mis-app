@@ -8,6 +8,7 @@
 var model = require('../../models/db');
 var common = require('../common/common');
 var Supplier = model.Supplier;
+var Address = model.Address;
 var Input = model.Input;
 var InputType = model.InputType;
 
@@ -34,12 +35,21 @@ exports.getSuppliers = function(req, res) {
 };
 
 exports.createSupplier = function(req, res) {
+    var address = new Address(req.body.ad_address);
     var supplier = new Supplier(req.body);
-    supplier.save(function(err) {
+    address.save(function(err) {
         if(err) {
+            console.log(err);
             common.handleDBError(err, res);
         } else {
-            res.send(supplier);
+            supplier.ad_address = address._id;
+            supplier.save(function(err2) {
+                if(err2) {
+                    common.handleDBError(err2, res);
+                } else {
+                    res.send(supplier);
+                }
+            });
         }
     });
 };

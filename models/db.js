@@ -215,6 +215,8 @@ var InputSchema = new Schema({
 var SupplierSchema = new Schema({
     su_supplier_name: {type: String, required: true, unique: true},
     su_description: String,
+    su_contact: String,
+    su_email: String,
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'}
 });
 var DisputeSchema = new Schema({

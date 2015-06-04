@@ -33,6 +33,8 @@ angular.module('jasmic.controllers')
                 $location.url('/call');
             } else if(entity == 'transaction') {
                 $location.url('/transaction');
+            } else if(entity == 'supplier') {
+                $location.url('/supplier');
             } else {
                 console.log('Unknown route!');
             }
