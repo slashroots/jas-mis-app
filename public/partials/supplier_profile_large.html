@@ -63,8 +63,53 @@
                 </md-card-content>
             </md-card>
 
+            <md-card>
+                <md-card-content class="{{new_input? 'dark':'white'}}">
+                    <div layout="row">
+                        <h3 class="{{new_input? 'dark':'white'}}">Inputs</h3>
+                        <div flex class="md-actions edge" layout="row" layout-align="end center">
+                            <md-button ng-click="toggleInputForm()" class="md-fab edge" aria-label="Add New Supply">
+                                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>
+                    <div ng-include="new_input ? '/partials/input_new.html':null">
+
+                    </div>
+                </md-card-content>
+                <md-card-content>
+                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="input in inputs">
+                        <div layout-align="space-around start" layout="row">
+                            <div layout-align="left center" layout="column">
+                                {{input.ip_input_name}}
+                                <label>Input Supply Name</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{input.ip_brand}}
+                                <label>Brand</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{input.ip_price | currency}} per {{input.un_price_unit.un_unit_name}}
+                                <label>Unit Cost</label>
+                            </div>
+                        </div>
+                        <div layout-align="space-around start" layout="column">
+                            <div layout-align="left center" layout="column">
+                                {{input.ip_jas_discounted}}
+                                <label>JAS Discount</label>
+                            </div>
+                            <div layout-align="left center" layout="column">
+                                {{input.ip_discount_terms}}
+                                <label>Discount Term(s)</label>
+                            </div>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+
         </div>
-        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        <div layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+            Not sure what to put here!!!
         </div>
     </md-content>
 </ui-view>

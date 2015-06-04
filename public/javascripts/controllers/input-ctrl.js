@@ -37,6 +37,13 @@ angular.module('jasmic.controllers')
             });
 
             $scope.isValid = isValid;
+
+            $scope.toggleInputForm = function() {
+                $scope.new_input = !$scope.new_input;
+                $scope.input = {};
+            };
+
+            $scope.new_input = false;
         }
     ]);
 
