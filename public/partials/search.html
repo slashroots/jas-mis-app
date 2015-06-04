@@ -144,6 +144,30 @@
             <md-card>
                 <md-content layout-padding>
                     <md-subheader class="md-no-sticky md-primary">Inputs:</md-subheader>
+                    <div class="table-responsive-vertical">
+                        <table class="table table-hover table-mc-light-blue repeated-item">
+                            <thead>
+                            <tr>
+                                <th>Input Name</th>
+                                <th>Brand</th>
+                                <th>Type</th>
+                                <th>Unit Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="input in inputs | limitTo:10" class="repeated-item" ng-click="selectedElement('input', input)">
+                                <td>{{ input.su_supplier.su_supplier_name }}</td>
+                                <td>{{ input.ip_brand }}</td>
+                                <td>{{ input.it_input_type.it_input_type_name }}</td>
+                                <td>{{ input.ip_price | currency }} per {{ input.un_price_unit.un_unit_name }}</td>
+                            </tr>
+                            <tr ng-if="inputs.length >= 10">
+                                <td style="text-align: center" colspan="4"><a ng-href="#/inputs?searchTerms={{terms}}" >More Results</a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </md-content>
             </md-card>
 

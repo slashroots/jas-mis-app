@@ -3,13 +3,16 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('SearchCtrl', ['$scope','$location','$routeParams', 'SearchAllFactory', 'DemandMatchFactory',
-        'CommodityMatchFactory',
-        function ($scope, $location, $routeParams, SearchAllFactory, DemandMatchFactory, CommodityMatchFactory) {
+    .controller('SearchCtrl', ['$scope','$location','$routeParams', 'SearchAllFactory',
+        'DemandMatchFactory', 'CommodityMatchFactory', 'SearchInputsFactory',
+        function ($scope, $location, $routeParams, SearchAllFactory, DemandMatchFactory,
+                  CommodityMatchFactory, SearchInputsFactory) {
             $scope.results = SearchAllFactory.query($routeParams);
+            $scope.inputs = SearchInputsFactory.query($routeParams);
             $scope.terms = $routeParams.searchTerms;
             $scope.farmerSelected = false;
             $scope.buyerSelected = false;
+            $scope.inputSelected = false
 
             $scope.searchAll = function() {
                 $location.url("/search?searchTerms=" + $scope.search);
@@ -45,29 +48,29 @@ angular.module('jasmic.controllers')
                 if(entityType == 'farmer') {
                     $scope.selectedFarmer = obj;
                     $scope.farmerSelected = true;
-                    $scope.buyerSelected = false;
-                    $scope.demandSelected = false;
-                    $scope.commoditySelected = false;
+                    $scope.buyerSelected = $scope.demandSelected = $scope.commoditySelected =
+                        $scope.inputSelected = false;
                 } else if(entityType == 'buyer') {
-                    $scope.farmerSelected = false;
                     $scope.buyerSelected = true;
                     $scope.selectedBuyer = obj;
-                    $scope.demandSelected = false;
-                    $scope.commoditySelected = false;
+                    $scope.farmerSelected = $scope.demandSelected = $scope.commoditySelected =
+                        $scope.inputSelected = false;
                 } else if(entityType == 'demand') {
                     $scope.selectedDemand = obj;
                     $scope.demandSelected = true;
-                    $scope.farmerSelected = false;
-                    $scope.buyerSelected = false;
-                    $scope.commoditySelected = false;
+                    $scope.farmerSelected = $scope.buyerSelected = $scope.commoditySelected = false;
                     lookupDemandMatches();
                 } else if(entityType == 'commodity') {
-                    $scope.demandSelected = false;
-                    $scope.farmerSelected = false;
-                    $scope.buyerSelected = false;
+                    $scope.demandSelected = $scope.farmerSelected = $scope.buyerSelected =
+                        $scope.inputSelected = false;
                     $scope.commoditySelected = true;
                     $scope.selectedCommodity = obj;
                     lookupCommodityMatches();
+                } else if(entityType == 'input') {
+                    $scope.demandSelected = $scope.farmerSelected = $scope.buyerSelected =
+                        $scope.commoditySelected = false;
+                    $scope.inputSelected = true;
+                    $scope.selectedInput = obj;
                 } else {
                     console.log('Mi nuh know weh you click pan boss man');
                 }

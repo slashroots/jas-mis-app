@@ -259,3 +259,72 @@ services.factory('DemandFactory', function($resource) {
         show: {method: 'GET', params: {id: '@id'}}
     });
 });
+
+/**
+ * Service used to query for all suppliers.
+ */
+services.factory('SuppliersFactory', function ($resource) {
+    return $resource('/suppliers', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Service to get, create and update a specific factory.
+ */
+services.factory('SupplierFactory', function ($resource) {
+    return $resource('/supplier/:id', {}, {
+        show: { method: 'GET', params: {id: '@id'} },
+        update: { method: 'PUT', params: {id: '@id'} },
+        create: { method: 'POST' }
+    })
+});
+
+/**
+ * Service to retrieve all inputs from a particular supplier
+ */
+services.factory('SupplierInputsFactory', function ($resource) {
+    return $resource('/supplier/:id/inputs', {}, {
+        query: { method: 'GET', params: {id: '@id'}, isArray: true }
+    })
+});
+
+/**
+ * Intended to create and update an input for a particular supplier.
+ */
+services.factory('SupplierInputFactory', function ($resource) {
+    return $resource('/supplier/:id/input', {}, {
+        create: { method: 'POST', params: {id: '@id'} },
+        update: {method: 'PUT', params:{id: '@id'}} //TODO: This is unimplemented by the server
+    })
+});
+
+/**
+ * Search for Inputs.  This can be used to do a standard query or
+ * by supplying a searchTerms key that can be used to do a keyword
+ * search on the inputs table for the DB.
+ */
+services.factory('SearchInputsFactory', function ($resource) {
+    return $resource('/inputs', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Retrieves a list of inputtypes.  Can be queried using standard
+ * query submissions.
+ */
+services.factory('InputTypesFactory', function ($resource) {
+    return $resource('/inputtypes', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
+ * Add New Input Type to the application.
+ */
+services.factory('InputTypeFactory', function ($resource) {
+    return $resource('/inputtypes', {}, {
+        create: { method: 'POST'}
+    })
+});
