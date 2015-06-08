@@ -12,6 +12,7 @@ var model = require('../../models/db');
 var common = require('../common/common');
 var Commodity = model.Commodity;
 var Demand = model.Demand;
+var Branch = model.Branch;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -459,7 +460,7 @@ exports.getMembershipTypes = function(req, res) {
 exports.batchCreateFarmers = function(req, res) {
 
     //TODO: Lookup of membership types and parishes
-    model.MembershipType.findOne({mt_type_name: "Direct"}, function(err, membershipType) {
+    model.MembershipType.find({mt_type_name: "Direct"}, function(err, directType) {
         if(err) {
             handleDBError(err, res);
         } else {
@@ -467,28 +468,96 @@ exports.batchCreateFarmers = function(req, res) {
                 if(err2) {
                     handleDBError(err2, res);
                 } else {
-                    performTransform(membershipType, parishes, req, res);
+                    model.MembershipType.find({mt_type_name: "Branch"}, function(err3, branchType) {
+                        if(err3) {
+                            handleDBError(err3, res);
+                        } else {
+                            Branch.find({}).populate('pa_parish').exec(function(err, branches) {
+                                if(err) {
+                                    handleDBError(err, res);
+                                } else {
+                                    performTransform(directType, branchType,
+                                        parishes, branches, req, res);
+                                }
+                            });
+
+                        }
+
+                    });
                 }
             });
         }
     });
 };
 
-var fs = require('fs');
+/**
+ * Create Branches in a batched way.
+ *
+ * @param req
+ * @param res
+ */
+exports.batchCreateBranches = function(req, res) {
+    function getParishId(code, list) {
+        for(var p in list) {
+            if(code == list[p].pa_parish_code) {
+                return list[p]._id;
+            }
+        }
+    };
+
+    var all_branches = [];
+    var branch;
+    model.Parish.find({}, function(err, list) {
+
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            for(var i in req.body) {
+                branch = new Branch({
+                    br_branch_name: req.body[i]["Branch Name"],
+                    pa_parish: getParishId(req.body[i]["Parish Code"], list)
+                });
+
+                all_branches.push(branch);
+            }
+            Branch.create(all_branches, function(err) {
+                res.send(err);
+            });
+        }
+    });
+};
+
+/**
+ * Sends the branches to the requester based on his query.
+ * @param req
+ * @param res
+ */
+exports.getBranches = function(req, res) {
+    Branch.find(req.query).populate('pa_parish').exec(function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(list);
+        }
+    })
+};
 
 /**
  * Does the transform from information supplied in the request
  * body to match that of this application schema.
  *
- * @param membershipType
+ * @param directType
+ * @param branchType
  * @param parishes
+ * @param branches
  * @param res
  */
-function performTransform(membershipType, parishes, req, res) {
+function performTransform(directType, branchType, parishes, branches, req, res) {
     var farmer;
     var farm_address;
     var mailing_address;
     var membership;
+    var all_membership = [];
     var d;
     var addresses = [];
     var allfarmers = [];
@@ -537,7 +606,8 @@ function performTransform(membershipType, parishes, req, res) {
         + req.body[f]["Expiry Year"]
         + req.body[f]["Member Number"];
 
-        var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011"];
+        var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011","2011-2012",
+            "2012-2013", "2013-2014", "2014-2015", "2015-2016","2016-2017"];
         for(y in histories) {
             //TODO: Create Membership and Farm Information
             if (req.body[f][histories[y]] == "A") {
@@ -547,11 +617,14 @@ function performTransform(membershipType, parishes, req, res) {
                     + req.body[f]["Member Number"],
                     mi_start: new Date("4/1/" + histories[y].split("-")[0]),
                     mi_expiration: new Date("3/31/"+ histories[y].split("-")[1]),
-                    mi_type_id: membershipType._id,
-                    mi_due_owed: 1000,
-                    mi_due_paid: 1000
+                    mi_type_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? directType._id: branchType._id,
+                    mi_due_owed: (req.body[f]["Branch"] == "DIRECT MEMBER") ? 1000: 200,
+                    mi_due_paid: (req.body[f]["Branch"] == "DIRECT MEMBER") ? 1000: 200,
+                    br_branch_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? null:
+                        lookupBranch(req.body[f]["Branch"], req.body[f]["Parish code"], branches),
+                    fa_farmer: farmer._id
                 });
-                farmer.mi_membership.push(membership);
+                all_membership.push(membership);
             }
         }
 
@@ -567,7 +640,9 @@ function performTransform(membershipType, parishes, req, res) {
      */
     model.Address.create(addresses, function(err,list) {
         model.Farmer.create(allfarmers, function(err2, list2) {
-            res.send("Done!");
+            model.Membership.create(all_membership, function(err3) {
+                res.send("Done!");
+            });
         })
     });
 
@@ -649,6 +724,23 @@ function lookupParish(code, parishes) {
     for(p in parishes) {
         if(parishes[p].pa_parish_code == code) {
             return parishes[p].pa_parish_name;
+        }
+    }
+}
+
+/**
+ * Inefficient function to search for branch by the branchName and
+ * parish and return the _id value.
+ * @param branchName
+ * @param parish
+ * @param list
+ */
+function lookupBranch(branchName, parishCode, list) {
+    for(var i in list) {
+        if(parishCode == list[i].pa_parish.pa_parish_code) {
+            if(branchName == list[i].br_branch_name) {
+                return list[i]._id;
+            }
         }
     }
 }

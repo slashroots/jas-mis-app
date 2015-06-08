@@ -49,6 +49,8 @@ router.post('/farmer/:id/comment', Farmer.createFarmerComment);
  */
 
 router.post('/farmers', Farmer.batchCreateFarmers);
+router.post('/branches', Farmer.batchCreateBranches);
+router.get('/branches', Farmer.getBranches);
 
 module.exports = router;
 //mongodb://localhost/jas-mis-app

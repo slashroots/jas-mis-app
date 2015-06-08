@@ -53,7 +53,7 @@ var RoleSchema = new Schema({
 });
 var BranchSchema = new Schema({
     br_branch_name: String,
-    ad_address: Schema.Types.ObjectId,
+    pa_parish: {required: true, type: Schema.Types.ObjectId, ref: "Parish"},
     br_branch_description: String,
     br_contact: String,
     ro_president_id: [RoleSchema],
@@ -63,6 +63,7 @@ var BranchSchema = new Schema({
     ro_absrep_id: [RoleSchema]
 });
 var MembershipSchema = new Schema({
+    fa_farmer: {type: Schema.Types.ObjectId, required: true, ref: 'Farmer'},
     mi_jas_number: {type: String, required: true},
     mi_start: {type: Date, required: true},
     mi_expiration: {type: Date, required: true},
@@ -120,7 +121,8 @@ var DemandSchema = new Schema({
     de_payment_terms: {type: String, required: true},
     de_recurring: String,
     de_parent_id: Schema.Types.ObjectId,
-    ct_comments: [CommentSchema]
+    ct_comments: [CommentSchema],
+    de_demand_met: {type: Boolean, default: false}
 });
 var TransactionSchema = new Schema({
     bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
@@ -134,7 +136,8 @@ var TransactionSchema = new Schema({
     tr_note: String,
     de_demand: {type: Schema.Types.ObjectId, ref: 'Demand'},
     co_commodity: {type: Schema.Types.ObjectId, ref: 'Commodity'},
-    ct_comments: [CommentSchema]
+    ct_comments: [CommentSchema],
+    co_sold: {type: Boolean, default: false}
 });
 var FarmerSchema = new Schema({
     fa_jas_number: {type: String, unique: true},
@@ -325,7 +328,7 @@ var Role = mongoose.model('Role', RoleSchema);
  * A structure to capture the various branches and their leadership.
  * @type {Model|*}
  */
-var Branch = mongoose.model('Branch', BranchSchema);
+exports.Branch = mongoose.model('Branch', BranchSchema);
 
 /**
  * This model is used to capture a membership record in the JAS
