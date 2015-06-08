@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var farmer_routes = require('./routes/farmer/farmer_routes');
 var buyer_routes = require('./routes/buyer/buyer_routes');
+var supplier_routes = require('./routes/supplier/supplier_routes');
 var common_routes = require('./routes/common/common_routes');
 var transaction_routes = require('./routes/transaction/transaction-routes');
 var crop_routes = require('./routes/crop/crop-routes');
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', farmer_routes);
 app.use('/', buyer_routes);
+app.use('/', supplier_routes);
 app.use('/', crop_routes);
 app.use('/', transaction_routes);
 app.use('/', routes);

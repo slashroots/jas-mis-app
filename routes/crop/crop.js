@@ -23,7 +23,7 @@ exports.findCrops = function(req, res) {
             } else {
                 res.send(list);
             }
-        })
+        });
 };
 
 
@@ -56,6 +56,27 @@ exports.updateCropById = function(req, res) {
             common.handleDBError(err, res);
         } else {
             res.send(result);
+        }
+    })
+};
+
+
+/**
+ * Quick and dirty batch import. Expects JSON array.
+ * @param req
+ * @param res
+ */
+exports.batchUpdate = function(req, res) {
+    var cropArray = [];
+
+    for(i in req.body) {
+        cropArray.push(new Crop(req.body[i]));
+    }
+    model.Crop.create(cropArray, function(err, list) {
+        if(err) {
+            common.handleDBError(err, res);
+        } else {
+            res.send("Success!")
         }
     })
 };

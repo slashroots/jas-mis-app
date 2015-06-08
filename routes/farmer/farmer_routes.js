@@ -35,6 +35,7 @@ router.post('/membershiptype', Farmer.createMembershipType);
 router.get('/membershiptypes', Farmer.getMembershipTypes);
 router.get('/farmer/:id/membership/active', Farmer.getActiveMembership);
 router.post('/farmer/:id/membership', Farmer.createMembership);
+router.get('/farmer/:id/memberships', Farmer.getMembershipByFarmer);
 router.put('/farmer/:id/membership/:member_id', Farmer.updateMembership);
 
 /**
@@ -49,5 +50,9 @@ router.post('/farmer/:id/comment', Farmer.createFarmerComment);
  */
 
 router.post('/farmers', Farmer.batchCreateFarmers);
+router.post('/branches', Farmer.batchCreateBranches);
+router.get('/branches', Farmer.getBranches);
 
 module.exports = router;
+//mongodb://localhost/jas-mis-app
+//

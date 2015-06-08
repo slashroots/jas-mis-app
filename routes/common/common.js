@@ -10,6 +10,7 @@ var Unit = model.Unit;
 var Demand = model.Demand;
 var Crop = model.Crop;
 var Commodity = model.Commodity;
+var District = model.District;
 
 /**
  * This is a generic helper function for MongoDB errors
@@ -296,4 +297,52 @@ exports.findUnits = function(req, res) {
             res.send(list);
         }
     });
+};
+
+/**
+ * This allows a user to search for a district based on a given search parameter
+ * called "beginsWith" otherwise it matches based on exact names.
+ * @param req
+ * @param res
+ */
+exports.getDistricts = function(req, res) {
+    var query = req.query;
+    if("beginsWith" in req.query) {
+        query = {
+            $or: [
+                {di_extension_name: new RegExp(req.query.beginsWith,'i')},
+                {di_district_name: new RegExp(req.query.beginsWith,'i')}
+            ]
+        };
+    }
+    District.find(query)
+        .sort('di_extension_name')
+        .exec(function(err, list) {
+            if(err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+};
+
+
+/**
+ * Quick and dirty batch import. Expects JSON array.
+ * @param req
+ * @param res
+ */
+exports.batchPushDistricts = function(req, res) {
+    var districtsArray = [];
+
+    for(i in req.body) {
+        districtsArray.push(new District(req.body[i]));
+    }
+    District.create(districtsArray, function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send("Success!");
+        }
+    })
 };

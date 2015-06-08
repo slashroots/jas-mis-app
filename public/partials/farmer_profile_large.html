@@ -88,6 +88,26 @@
                     </div>
                 </md-card-content>
             </md-card>
+            <md-card ng-if="memberships.length > 0">
+                <md-card-content>
+                    <div layout-padding layout="column" ng-repeat="membership in memberships">
+                        <div layout="row">
+                            <div flex layout-align="start center" layout="column">
+                                {{membership.mt_type_id.mt_type_name}}
+                                <div class="label">Membership Type</div>
+                            </div>
+                            <div flex layout-align="start center" layout="column">
+                                {{membership.br_branch_id.br_branch_name}} &nbsp;
+                                <div class="label">Branch</div>
+                            </div>
+                            <div flex layout-align="start center" layout="column">
+                                {{membership.mi_start | date}} - {{membership.mi_expiration | date}}
+                                <div class="label">Membership Period</div>
+                            </div>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
             <md-card>
                 <md-card-content class="{{newFarm ? 'dark':'white'}}">
                     <div layout="row">
@@ -135,11 +155,16 @@
                             </div>
                             <div layout="column" flex>
                                 <div layout-align="start center" layout="column">
-                                    {{farm.pa_parish}}
+                                    {{farm.di_district.di_parish_name}}
                                     <div class="label">Parish</div>
                                 </div>
                             </div>
-                            <span flex></span>
+                            <div layout="column" flex>
+                                <div layout-align="start center" layout="column">
+                                    {{farm.di_district.di_extension_name}} - {{farm.di_district.di_district_name}}
+                                    <div class="label">Extension - District</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </md-card-content>

@@ -4,9 +4,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-/**
- * TODO: Need to make the .connect method read from env variables for heroku
- */
 mongoose.connect(process.env.MONGOLAB_URI);
 
 /**
@@ -56,7 +53,7 @@ var RoleSchema = new Schema({
 });
 var BranchSchema = new Schema({
     br_branch_name: String,
-    ad_address: Schema.Types.ObjectId,
+    pa_parish: {required: true, type: Schema.Types.ObjectId, ref: "Parish"},
     br_branch_description: String,
     br_contact: String,
     ro_president_id: [RoleSchema],
@@ -66,25 +63,29 @@ var BranchSchema = new Schema({
     ro_absrep_id: [RoleSchema]
 });
 var MembershipSchema = new Schema({
+    fa_farmer: {type: Schema.Types.ObjectId, required: true, ref: 'Farmer'},
     mi_jas_number: {type: String, required: true},
     mi_start: {type: Date, required: true},
     mi_expiration: {type: Date, required: true},
-    mt_type_id: {type: Schema.Types.ObjectId, required: true},
-    br_branch_id: Schema.Types.ObjectId,
+    mt_type_id: {type: Schema.Types.ObjectId, required: true, ref: 'MembershipType'},
+    br_branch_id: {type: Schema.Types.ObjectId, ref: 'Branch'},
     mi_date_updated: {type: Date, default: Date.now()},
     mi_due_owed: {type: Number, required: true},
     mi_due_paid: {type: Number, required: true}
 });
+var DistrictSchema = new Schema({
+    di_parish_name: {type: String, required: true},
+    di_extension_name: {type: String, required: true},
+    di_district_name: {type: String, required: true, unique: true}
+});
 var FarmSchema = new Schema({
     fr_name: String,
-    fr_district_id: String,
-    fr_extension_id: String,
+    di_district: {type: Schema.Types.ObjectId, required: true, ref: 'District'},
     ad_address1: {type: String, required: false},
     ad_address2: String,
     ad_latitude: Number,
     ad_longitude: Number,
     ad_city: String,
-    pa_parish: {required: true, type: String},
     ad_country: {type: String, required: true, default: 'Jamaica'},
     fr_size: {type: Number, required: true}
 });
@@ -120,7 +121,8 @@ var DemandSchema = new Schema({
     de_payment_terms: {type: String, required: true},
     de_recurring: String,
     de_parent_id: Schema.Types.ObjectId,
-    ct_comments: [CommentSchema]
+    ct_comments: [CommentSchema],
+    de_demand_met: {type: Boolean, default: false}
 });
 var TransactionSchema = new Schema({
     bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
@@ -134,7 +136,8 @@ var TransactionSchema = new Schema({
     tr_note: String,
     de_demand: {type: Schema.Types.ObjectId, ref: 'Demand'},
     co_commodity: {type: Schema.Types.ObjectId, ref: 'Commodity'},
-    ct_comments: [CommentSchema]
+    ct_comments: [CommentSchema],
+    co_sold: {type: Boolean, default: false}
 });
 var FarmerSchema = new Schema({
     fa_jas_number: {type: String, unique: true},
@@ -150,7 +153,6 @@ var FarmerSchema = new Schema({
     fa_email: String,
     ad_address: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
     fa_deceased: {type: Boolean, required: true},
-    mi_membership: [MembershipSchema],
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     in_integrity: Number,
@@ -201,12 +203,13 @@ var InputTypeSchema = new Schema({
     it_input_type_name: {type: String, required: true}
 });
 var InputSchema = new Schema({
+    su_supplier: {type: Schema.Types.ObjectId, required: true, ref: 'Supplier'},
     ip_input_name: {type: String, required: true},
     ip_description: String,
     ip_last_updated: {type: Date, default: Date.now()},
     ip_price: {type: Number, required: true},
-    un_price_unit: {type: Schema.Types.ObjectId, required: true},
-    it_input_type: {type: Schema.Types.ObjectId, required: true},
+    un_price_unit: {type: Schema.Types.ObjectId, required: true, ref: 'Unit'},
+    it_input_type: {type: Schema.Types.ObjectId, required: true, ref: 'InputType'},
     ip_brand: String,
     ip_jas_discounted: String,
     ip_discount_terms: String
@@ -214,8 +217,9 @@ var InputSchema = new Schema({
 var SupplierSchema = new Schema({
     su_supplier_name: {type: String, required: true, unique: true},
     su_description: String,
-    ad_address: {type: Schema.Types.ObjectId, required: true, unique: true},
-    ip_inputs: [InputSchema]
+    su_contact: String,
+    su_email: String,
+    ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'}
 });
 var DisputeSchema = new Schema({
     di_dispute_type: {type: String, required: true},
@@ -323,13 +327,19 @@ var Role = mongoose.model('Role', RoleSchema);
  * A structure to capture the various branches and their leadership.
  * @type {Model|*}
  */
-var Branch = mongoose.model('Branch', BranchSchema);
+exports.Branch = mongoose.model('Branch', BranchSchema);
 
 /**
  * This model is used to capture a membership record in the JAS
  * @type {Model|*}
  */
 exports.Membership = mongoose.model('Membership',MembershipSchema);
+
+/**
+ * These are districts and extensions as captured by RADA.
+ * @type {Model|*}
+ */
+exports.District = mongoose.model('District', DistrictSchema);
 
 /**
  * Structure captures the Farmer's Farms and their locations
@@ -380,8 +390,8 @@ exports.BuyerType = mongoose.model('BuyerType', BuyerTypeSchema);
 
 exports.Comment = mongoose.model('Comment', CommentSchema);
 
-var Supplier = mongoose.model('Supplier', SupplierSchema);
+exports.Supplier = mongoose.model('Supplier', SupplierSchema);
 
-var Input = mongoose.model('Input', InputSchema);
+exports.Input = mongoose.model('Input', InputSchema);
 
-var InputType = mongoose.model('InputType', InputTypeSchema);
+exports.InputType = mongoose.model('InputType', InputTypeSchema);

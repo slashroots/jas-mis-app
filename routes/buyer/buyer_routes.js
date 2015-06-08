@@ -21,6 +21,7 @@ router.get('/buyer/:id/demands', Buyer.getDemands);
 router.get('/buyers/current_demands', Buyer.searchCurrentDemands);
 
 router.get('/demand/:id/match', Buyer.findDemandMatch);
+router.get('/demand/:id', Buyer.getDemand);
 
 /**
  * End Points for manipulating a buyer type

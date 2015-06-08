@@ -267,15 +267,9 @@ exports.findDemandMatch = function(req, res) {
             common.handleDBError(err, res);
         } else {
             Commodity.find({
-                $or: [
-                    {$and :[
-                        {co_until: {$gte: demand.de_posting_date}},
-                        {co_availability_date: {$lte: demand.de_posting_date}}
-                    ]},
-                    {$and :[
-                        {co_until: {$gte: demand.de_until}},
-                        {co_availability_date: {$lte: demand.de_until}}
-                    ]}
+                $and :[
+                    {co_until: {$gte: demand.de_posting_date}},
+                    {co_availability_date: {$lte: demand.de_until}}
                 ],
                 cr_crop: demand.cr_crop
             }).populate('cr_crop fa_farmer')
@@ -289,4 +283,23 @@ exports.findDemandMatch = function(req, res) {
                 });
         }
     })
+};
+
+/**
+ * This function finds the demand by id and populates the
+ * associated buyer and crop.
+ *
+ * @param req
+ * @param res
+ */
+exports.getDemand = function(req, res) {
+    Demand.findById(req.params.id)
+        .populate('cr_crop bu_buyer')
+        .exec(function(err, demand) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(demand);
+            }
+        });
 };

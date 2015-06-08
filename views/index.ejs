@@ -42,6 +42,9 @@
     <md-button ng-click="addNew('transaction')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
       Transaction
     </md-button>
+    <md-button ng-click="addNew('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
+      Farm Store
+    </md-button>
 
     <span layout="row" flex>
       <!--
@@ -81,12 +84,14 @@
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/angular-aria/angular-aria.js"></script>
 <script src="../bower_components/angular-material/angular-material.js"></script>
+<script src="../bower_components/angular-selection-model/dist/selection-model.js"></script>
 
 <script src="../javascripts/app.js"></script>
 <script src="../javascripts/services.js"></script>
 <script src="../javascripts/controllers/navigation-ctrl.js"></script>
 <script src="../javascripts/controllers/farmer-ctrl.js"></script>
 <script src="../javascripts/controllers/buyer-ctrl.js"></script>
+<script src="../javascripts/controllers/input-ctrl.js"></script>
 <script src="../javascripts/controllers/search-ctrl.js"></script>
 <script src="../javascripts/controllers/dashboard-ctrl.js"></script>
 <script src="../javascripts/controllers/demand-ctrl.js"></script>

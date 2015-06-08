@@ -110,9 +110,9 @@ angular.module('jasmic.controllers')
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'DemandFactory', 'DemandsFactory',
+        'BuyerDemandFactory', 'DemandsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  TransactionsFactory, RepFactory, CropsFactory, UnitsFactory, DemandFactory,
+                  TransactionsFactory, RepFactory, CropsFactory, UnitsFactory, BuyerDemandFactory,
                   DemandsFactory) {
 
             /**
@@ -218,7 +218,7 @@ angular.module('jasmic.controllers')
             $scope.saveDemand = function() {
 
                 $scope.demand.cr_crop = selectedCrop;
-                DemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
+                BuyerDemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
                     $scope.toggleDemandForm();
                     populateDemands();
                 }, function(error) {

@@ -12,6 +12,8 @@ var model = require('../../models/db');
 var common = require('../common/common');
 var Commodity = model.Commodity;
 var Demand = model.Demand;
+var Branch = model.Branch;
+var Membership = model.Membership;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -58,7 +60,7 @@ exports.getFarmers = function(req, res) {
     }
 
     model.Farmer.find(query)
-        .populate('ad_address')
+        .populate('ad_address fr_farms.di_district')
         .exec(function(err, docs) {
             if(err) {
                 handleDBError(err, res);
@@ -91,7 +93,7 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id).populate('ad_address')
+    model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
         .exec(function(err, item) {
         if(err) {
             handleDBError(err, res);
@@ -309,23 +311,30 @@ exports.getCommentsForFarmer = function(req, res) {
  */
 exports.createMembership = function(req, res) {
     var membership = new model.Membership(req.body);
-    model.Farmer.findById(req.params.id, function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else if(item == null) {
-            res.status(404);
-            res.send({error: "Farmer Not Found"});
+    membership.save(function(err2, result) {
+        if(err2) {
+            handleDBError(err2, res);
         } else {
-            item.ct_comments.push(membership);
-            item.save(function(err2, result) {
-                if(err2) {
-                    handleDBError(err2, res);
-                } else {
-                    res.send(result);
-                }
-            });
+            res.send(result);
         }
     });
+};
+
+/**
+ * Retrieve Membership details by Farmer ID
+ * @param req
+ * @param res
+ */
+exports.getMembershipByFarmer = function(req, res) {
+    Membership.find({fa_farmer: req.params.id}).populate('fa_farmer mt_type_id br_branch_id')
+        .sort({mi_expiration: 'desc'})
+        .exec(function(err, list) {
+            if(err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        })
 };
 
 /**
@@ -340,13 +349,13 @@ exports.createMembership = function(req, res) {
  * @param res
  */
 exports.getActiveMembership = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
+    Membership.find({fa_farmer: req.params.id}, function(err, mRecords) {
         if(err) {
             handleDBError(err, res);
         } else {
             var items = [];
             var current_date = Date.now();
-            for(var m in item.mi_membership) {
+            for(var m in mRecords) {
                 if((current_date >= m.mi_start) & (current_date <= m.mi_expiration)) {
                     items.push(m);
                 }
@@ -358,7 +367,7 @@ exports.getActiveMembership = function(req, res) {
                  * items coming back because there can be more than
                  * one membership record created for one period of time.
                  *
-                 * We therefore would required the record last created.
+                 * We therefore would require the record last created.
                  */
                 var max = new Date(0); //start this value at the minimum date
                 var v;
@@ -387,25 +396,11 @@ exports.getActiveMembership = function(req, res) {
  * @param res
  */
 exports.updateMembership = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
+    Membership.updateById(req.params.member_id, req.body, function(err, changes) {
         if(err) {
-            handleDBError(err,res);
+            handleDBError(err, res);
         } else {
-            var member_record = item.mi_membership.id(req.params.member_id);
-            //for each element in the request body modify
-            //the record in the membership record.
-            for(var key in req.body) {
-                if(req.body.hasOwnProperty(key)) {
-                    member_record[key] = req.body[key];
-                }
-            }
-            item.save(function(err2,item2) {
-                if(err2) {
-                    handleDBError(err2, res);
-                } else {
-                    res.send(item2);
-                }
-            });
+            res.send(changes);
         }
     });
 };
@@ -459,7 +454,7 @@ exports.getMembershipTypes = function(req, res) {
 exports.batchCreateFarmers = function(req, res) {
 
     //TODO: Lookup of membership types and parishes
-    model.MembershipType.findOne({mt_type_name: "Direct"}, function(err, membershipType) {
+    model.MembershipType.findOne({mt_type_name: "Direct"}, function(err, directType) {
         if(err) {
             handleDBError(err, res);
         } else {
@@ -467,28 +462,96 @@ exports.batchCreateFarmers = function(req, res) {
                 if(err2) {
                     handleDBError(err2, res);
                 } else {
-                    performTransform(membershipType, parishes, req, res);
+                    model.MembershipType.findOne({mt_type_name: "Branch"}, function(err3, branchType) {
+                        if(err3) {
+                            handleDBError(err3, res);
+                        } else {
+                            Branch.find({}).populate('pa_parish').exec(function(err, branches) {
+                                if(err) {
+                                    handleDBError(err, res);
+                                } else {
+                                    performTransform(directType, branchType,
+                                        parishes, branches, req, res);
+                                }
+                            });
+
+                        }
+
+                    });
                 }
             });
         }
     });
 };
 
-var fs = require('fs');
+/**
+ * Create Branches in a batched way.
+ *
+ * @param req
+ * @param res
+ */
+exports.batchCreateBranches = function(req, res) {
+    function getParishId(code, list) {
+        for(var p in list) {
+            if(code == list[p].pa_parish_code) {
+                return list[p]._id;
+            }
+        }
+    };
+
+    var all_branches = [];
+    var branch;
+    model.Parish.find({}, function(err, list) {
+
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            for(var i in req.body) {
+                branch = new Branch({
+                    br_branch_name: req.body[i]["Branch Name"],
+                    pa_parish: getParishId(req.body[i]["Parish Code"], list)
+                });
+
+                all_branches.push(branch);
+            }
+            Branch.create(all_branches, function(err) {
+                res.send(err);
+            });
+        }
+    });
+};
+
+/**
+ * Sends the branches to the requester based on his query.
+ * @param req
+ * @param res
+ */
+exports.getBranches = function(req, res) {
+    Branch.find(req.query).populate('pa_parish').exec(function(err, list) {
+        if(err) {
+            handleDBError(err, res);
+        } else {
+            res.send(list);
+        }
+    })
+};
 
 /**
  * Does the transform from information supplied in the request
  * body to match that of this application schema.
  *
- * @param membershipType
+ * @param directType
+ * @param branchType
  * @param parishes
+ * @param branches
  * @param res
  */
-function performTransform(membershipType, parishes, req, res) {
+function performTransform(directType, branchType, parishes, branches, req, res) {
     var farmer;
     var farm_address;
     var mailing_address;
     var membership;
+    var all_membership = [];
     var d;
     var addresses = [];
     var allfarmers = [];
@@ -537,7 +600,8 @@ function performTransform(membershipType, parishes, req, res) {
         + req.body[f]["Expiry Year"]
         + req.body[f]["Member Number"];
 
-        var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011"];
+        var histories = ["2006-2007","2007-2008","2008-2009", "2009-2010", "2010-2011","2011-2012",
+            "2012-2013", "2013-2014", "2014-2015", "2015-2016","2016-2017"];
         for(y in histories) {
             //TODO: Create Membership and Farm Information
             if (req.body[f][histories[y]] == "A") {
@@ -547,11 +611,14 @@ function performTransform(membershipType, parishes, req, res) {
                     + req.body[f]["Member Number"],
                     mi_start: new Date("4/1/" + histories[y].split("-")[0]),
                     mi_expiration: new Date("3/31/"+ histories[y].split("-")[1]),
-                    mi_type_id: membershipType._id,
-                    mi_due_owed: 1000,
-                    mi_due_paid: 1000
+                    mt_type_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? directType._id: branchType._id,
+                    mi_due_owed: (req.body[f]["Branch"] == "DIRECT MEMBER") ? 1000: 200,
+                    mi_due_paid: (req.body[f]["Branch"] == "DIRECT MEMBER") ? 1000: 200,
+                    br_branch_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? null:
+                        lookupBranch(req.body[f]["Branch"], req.body[f]["Parish code"], branches),
+                    fa_farmer: farmer._id
                 });
-                farmer.mi_membership.push(membership);
+                all_membership.push(membership);
             }
         }
 
@@ -567,7 +634,9 @@ function performTransform(membershipType, parishes, req, res) {
      */
     model.Address.create(addresses, function(err,list) {
         model.Farmer.create(allfarmers, function(err2, list2) {
-            res.send("Done!");
+            model.Membership.create(all_membership, function(err3) {
+                res.send(err3);
+            });
         })
     });
 
@@ -586,15 +655,9 @@ exports.findCommodityMatch = function(req, res) {
             common.handleDBError(err, res);
         } else {
             Demand.find({
-                $or: [
-                    {$and :[
-                        {de_until: {$gte: commodity.co_availability_date}},
-                        {de_posting_date: {$lte: commodity.co_availability_date}}
-                    ]},
-                    {$and :[
-                        {de_until: {$gte: commodity.co_until}},
-                        {de_posting_date: {$lte: commodity.co_until}}
-                    ]}
+                $and :[
+                    {de_posting_date: {$lte: commodity.co_until}},
+                    {de_until: {$gte: commodity.co_availability_date}}
                 ],
                 cr_crop: commodity.cr_crop
             }).populate('cr_crop bu_buyer')
@@ -655,6 +718,23 @@ function lookupParish(code, parishes) {
     for(p in parishes) {
         if(parishes[p].pa_parish_code == code) {
             return parishes[p].pa_parish_name;
+        }
+    }
+}
+
+/**
+ * Inefficient function to search for branch by the branchName and
+ * parish and return the _id value.
+ * @param branchName
+ * @param parish
+ * @param list
+ */
+function lookupBranch(branchName, parishCode, list) {
+    for(var i in list) {
+        if(parishCode == list[i].pa_parish.pa_parish_code) {
+            if(branchName == list[i].br_branch_name) {
+                return list[i]._id;
+            }
         }
     }
 }

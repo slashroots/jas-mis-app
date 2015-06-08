@@ -17,6 +17,14 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.happy {
+  color: green;
+}
+
+.sad {
+  color: red;
+}
+
 .globalSearchArea {
   padding-top: 70px;
 }
@@ -100,6 +108,14 @@ md-card-content.pretty2 {
   background-color: #d5e7be;
 }
 
+md-card-content.pretty5 {
+  background-color: #e7cce6;
+}
+
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+
 .farmerSummary h2 {
   font-weight: bolder;
 }
@@ -156,6 +172,11 @@ md-content.farmForm {
 .md-subheader.md-default-theme.pretty2 {
   background-color: #d5e7be;
 }
+
+.md-subheader.md-default-theme.pretty5 {
+  background-color: #e7cce6;
+}
+
 
 .completeTransStat {
   background-image: url('/images/circle.png');

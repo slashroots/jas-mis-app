@@ -9,11 +9,12 @@
                 md-search-text="searchText"
                 md-selected-item-change="selectedItemChange(item)"
                 md-items="item in queryCropSearch(searchText)"
-                md-item-text="item.cr_crop_name+' - '+item.cr_crop_variety"
+                md-item-text="item.cr_crop_name+(item.cr_crop_variety == ''? '' : ' - ')+item.cr_crop_variety"
                 md-min-length="3"
                 placeholder="Please Enter the Crop/Produce Name">
             <md-item-template>
-                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.cr_crop_name}} - {{item.cr_crop_variety}}</span>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.cr_crop_name}}
+                    {{item.cr_crop_variety == ""? "" : " - "}}{{item.cr_crop_variety}}</span>
             </md-item-template>
             <md-not-found>
                 No matches found for "{{searchText}}".
