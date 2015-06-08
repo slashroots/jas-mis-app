@@ -13,6 +13,7 @@ var common = require('../common/common');
 var Commodity = model.Commodity;
 var Demand = model.Demand;
 var Branch = model.Branch;
+var Membership = model.Membership;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -310,23 +311,30 @@ exports.getCommentsForFarmer = function(req, res) {
  */
 exports.createMembership = function(req, res) {
     var membership = new model.Membership(req.body);
-    model.Farmer.findById(req.params.id, function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else if(item == null) {
-            res.status(404);
-            res.send({error: "Farmer Not Found"});
+    membership.save(function(err2, result) {
+        if(err2) {
+            handleDBError(err2, res);
         } else {
-            item.ct_comments.push(membership);
-            item.save(function(err2, result) {
-                if(err2) {
-                    handleDBError(err2, res);
-                } else {
-                    res.send(result);
-                }
-            });
+            res.send(result);
         }
     });
+};
+
+/**
+ * Retrieve Membership details by Farmer ID
+ * @param req
+ * @param res
+ */
+exports.getMembershipByFarmer = function(req, res) {
+    Membership.find({fa_farmer: req.params.id}).populate('fa_farmer mt_type_id br_branch_id')
+        .sort({mi_expiration: 'desc'})
+        .exec(function(err, list) {
+            if(err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        })
 };
 
 /**
@@ -341,13 +349,13 @@ exports.createMembership = function(req, res) {
  * @param res
  */
 exports.getActiveMembership = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
+    Membership.find({fa_farmer: req.params.id}, function(err, mRecords) {
         if(err) {
             handleDBError(err, res);
         } else {
             var items = [];
             var current_date = Date.now();
-            for(var m in item.mi_membership) {
+            for(var m in mRecords) {
                 if((current_date >= m.mi_start) & (current_date <= m.mi_expiration)) {
                     items.push(m);
                 }
@@ -359,7 +367,7 @@ exports.getActiveMembership = function(req, res) {
                  * items coming back because there can be more than
                  * one membership record created for one period of time.
                  *
-                 * We therefore would required the record last created.
+                 * We therefore would require the record last created.
                  */
                 var max = new Date(0); //start this value at the minimum date
                 var v;
@@ -388,25 +396,11 @@ exports.getActiveMembership = function(req, res) {
  * @param res
  */
 exports.updateMembership = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
+    Membership.updateById(req.params.member_id, req.body, function(err, changes) {
         if(err) {
-            handleDBError(err,res);
+            handleDBError(err, res);
         } else {
-            var member_record = item.mi_membership.id(req.params.member_id);
-            //for each element in the request body modify
-            //the record in the membership record.
-            for(var key in req.body) {
-                if(req.body.hasOwnProperty(key)) {
-                    member_record[key] = req.body[key];
-                }
-            }
-            item.save(function(err2,item2) {
-                if(err2) {
-                    handleDBError(err2, res);
-                } else {
-                    res.send(item2);
-                }
-            });
+            res.send(changes);
         }
     });
 };

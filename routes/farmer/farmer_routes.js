@@ -35,6 +35,7 @@ router.post('/membershiptype', Farmer.createMembershipType);
 router.get('/membershiptypes', Farmer.getMembershipTypes);
 router.get('/farmer/:id/membership/active', Farmer.getActiveMembership);
 router.post('/farmer/:id/membership', Farmer.createMembership);
+router.get('/farmer/:id/memberships', Farmer.getMembershipByFarmer);
 router.put('/farmer/:id/membership/:member_id', Farmer.updateMembership);
 
 /**

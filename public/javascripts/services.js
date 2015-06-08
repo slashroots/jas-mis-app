@@ -328,3 +328,13 @@ services.factory('InputTypeFactory', function ($resource) {
         create: { method: 'POST'}
     })
 });
+
+/**
+ * End point for retrieving the membership records of a particular
+ * farmer.
+ */
+services.factory('FarmerMemberships', function ($resource) {
+    return $resource('/farmer/:id/memberships', {}, {
+        show: { method: 'GET', params: {id: '@id'}, isArray: true}
+    })
+});

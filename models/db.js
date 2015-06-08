@@ -67,8 +67,8 @@ var MembershipSchema = new Schema({
     mi_jas_number: {type: String, required: true},
     mi_start: {type: Date, required: true},
     mi_expiration: {type: Date, required: true},
-    mt_type_id: {type: Schema.Types.ObjectId, required: true},
-    br_branch_id: Schema.Types.ObjectId,
+    mt_type_id: {type: Schema.Types.ObjectId, required: true, ref: 'MembershipType'},
+    br_branch_id: {type: Schema.Types.ObjectId, ref: 'Branch'},
     mi_date_updated: {type: Date, default: Date.now()},
     mi_due_owed: {type: Number, required: true},
     mi_due_paid: {type: Number, required: true}
@@ -153,7 +153,6 @@ var FarmerSchema = new Schema({
     fa_email: String,
     ad_address: {type: Schema.Types.ObjectId, ref: 'Address', required: true},
     fa_deceased: {type: Boolean, required: true},
-    mi_membership: [MembershipSchema],
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     in_integrity: Number,
