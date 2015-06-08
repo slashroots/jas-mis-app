@@ -460,7 +460,7 @@ exports.getMembershipTypes = function(req, res) {
 exports.batchCreateFarmers = function(req, res) {
 
     //TODO: Lookup of membership types and parishes
-    model.MembershipType.find({mt_type_name: "Direct"}, function(err, directType) {
+    model.MembershipType.findOne({mt_type_name: "Direct"}, function(err, directType) {
         if(err) {
             handleDBError(err, res);
         } else {
@@ -468,7 +468,7 @@ exports.batchCreateFarmers = function(req, res) {
                 if(err2) {
                     handleDBError(err2, res);
                 } else {
-                    model.MembershipType.find({mt_type_name: "Branch"}, function(err3, branchType) {
+                    model.MembershipType.findOne({mt_type_name: "Branch"}, function(err3, branchType) {
                         if(err3) {
                             handleDBError(err3, res);
                         } else {
@@ -617,7 +617,7 @@ function performTransform(directType, branchType, parishes, branches, req, res) 
                     + req.body[f]["Member Number"],
                     mi_start: new Date("4/1/" + histories[y].split("-")[0]),
                     mi_expiration: new Date("3/31/"+ histories[y].split("-")[1]),
-                    mi_type_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? directType._id: branchType._id,
+                    mt_type_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? directType._id: branchType._id,
                     mi_due_owed: (req.body[f]["Branch"] == "DIRECT MEMBER") ? 1000: 200,
                     mi_due_paid: (req.body[f]["Branch"] == "DIRECT MEMBER") ? 1000: 200,
                     br_branch_id: (req.body[f]["Branch"] == "DIRECT MEMBER") ? null:
@@ -641,7 +641,7 @@ function performTransform(directType, branchType, parishes, branches, req, res) 
     model.Address.create(addresses, function(err,list) {
         model.Farmer.create(allfarmers, function(err2, list2) {
             model.Membership.create(all_membership, function(err3) {
-                res.send("Done!");
+                res.send(err3);
             });
         })
     });
