@@ -19,6 +19,10 @@ angular.module('jasmic.controllers')
                 lookupDemandMatches();
             };
 
+            $scope.goToDemand = function() {
+                $location.url('demand/' + $scope.selectedDemand._id);
+            };
+
             $scope.itemSelected = false;
 
             lookupDemandMatches = function() {
