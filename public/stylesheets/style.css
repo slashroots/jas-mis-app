@@ -21,6 +21,20 @@ md-content.md-default-theme {
   color: green;
 }
 
+.customTable {
+  width: 100%;
+}
+
+ul.transcart {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+ul.transcart li{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 .sad {
   color: red;
 }
@@ -87,6 +101,11 @@ body{
   padding-top: 50px;
 }
 
+.farmerPretty3 {
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
 .farmerPretty2 {
   padding-top: 100px;
   padding-bottom: 50px;
@@ -141,6 +160,11 @@ md-content.farmForm {
   border-bottom-width: thin;
   border-bottom-color: lightgray;
   background-color: ghostwhite;
+}
+
+.scale {
+  width:40px;
+  height:40px;
 }
 
 .farmerInfo {

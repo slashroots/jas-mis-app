@@ -44,11 +44,20 @@ angular.module('jasmic.controllers')
                     $scope.demand = {};
                 });
 
+            $scope.combinedSupplyAmount = 0;
+            $scope.combinedSuppyValue = 0;
+            $scope.totalPercentage = 0;
+
             $scope.checked = function(commodity) {
                 var sum = 0;
+                $scope.combinedSuppyValue = 0;
                 for(var i in $scope.m_commodities) {
                     sum += $scope.m_commodities[i].co_quantity;
+                    $scope.combinedSuppyValue +=
+                        ($scope.m_commodities[i].co_price * $scope.m_commodities[i].co_quantity);
                 }
+                $scope.combinedSupplyAmount = sum;
+                $scope.totalPercentage = (sum/$scope.demand.de_quantity) * 100;
                 if(sum >= $scope.demand.de_quantity) {
                     $scope.demandMet = true;
                 } else {
