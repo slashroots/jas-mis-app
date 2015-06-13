@@ -29,7 +29,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="farmerInfo">
+            <div layout-padding class="farmerInfo">
                 <ul class="transcart">
                     <li>Combined Supply Amount: <b>{{combinedSupplyAmount|number}}</b></li>
                     <li><md-progress-linear class="md-accent" md-mode="determinate" value="{{totalPercentage}}">
@@ -43,21 +43,54 @@
                     <md-icon md-svg-src="../images/ic_not_interested_24px.svg"></md-icon>
                     <label>No Supplies Selected</label>
                 </div>
-                <div ng-repeat="commodity in m_commodities" layout-padding layout="row">
-                    <table class="customTable">
-                        <tr>
-                            <th>{{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}</th>
-                            <th><md-progress-linear class="md-accent" md-mode="determinate" value="{{100*(commodity.co_quantity/combinedSupplyAmount)}}"></md-progress-linear></th>
-                        </tr>
-                        <tr>
-                            <td>{{commodity.co_quantity|number}} {{commodity.un_quantity_unit.un_unit_name}}</td>
-                            <td>{{commodity.co_price | currency}} per {{commodity.un_price_unit.un_unit_name}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{commodity.co_availability_date | date}}</td>
-                            <td>{{commodity.co_until | date}}</td>
-                        </tr>
-                    </table>
+                <div class="internalpadding" ng-repeat="commodity in m_commodities" layout="row">
+                    <div flex layout="column" class="customTable">
+                        <div class="header" layout-align="center center" layout="row">
+                            <div flex="40">{{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}</div>
+                            <div flex="45"><md-progress-linear class="md-accent custom" md-mode="determinate" value="{{100*(commodity.co_quantity/combinedSupplyAmount)}}"></md-progress-linear></div>
+                            <div flex="15">
+                                <md-button class="md-icon-button" aria-label="Remove">
+                                <md-icon class="scale" ng-click="remove(commodity)" md-svg-src="/images/icons/icons_remove.svg"></md-icon>
+                                </md-button>
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <div layout="row" flex="50">
+                                <md-icon class="scale" flex md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_quantity|number}} {{commodity.un_quantity_unit.un_unit_name}}
+                                    <label>Amount</label>
+                                </div>
+                            </div>
+                            <div layout="row" flex="50">
+                                <md-icon class="scale" flex md-svg-icon="/images/icons/icons_price.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_price | currency}} per {{commodity.un_price_unit.un_unit_name}}
+                                    <label>Price</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <div layout="row" flex="50">
+                                <md-icon flex md-svg-src="/images/icons/icons_date_posted.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_availability_date | date}}
+                                    <label>Available Date</label>
+                                </div>
+                            </div>
+                            <div layout="row" flex="50">
+                                <md-icon flex md-svg-src="/images/icons/icons_date_expires.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_until | date}}
+                                    <label>Expiration Date</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </md-card-content>

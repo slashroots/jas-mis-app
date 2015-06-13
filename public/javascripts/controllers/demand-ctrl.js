@@ -48,6 +48,10 @@ angular.module('jasmic.controllers')
             $scope.combinedSuppyValue = 0;
             $scope.totalPercentage = 0;
 
+            $scope.remove = function(commodity) {
+                commodity.selected = false;
+            };
+
             $scope.checked = function(commodity) {
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;

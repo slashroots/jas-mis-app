@@ -21,10 +21,6 @@ md-content.md-default-theme {
   color: green;
 }
 
-.customTable {
-  width: 100%;
-}
-
 ul.transcart {
   list-style-type: none;
   padding: 0px;
@@ -33,6 +29,28 @@ ul.transcart {
 ul.transcart li{
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+.header {
+  background-color: #eeeded;
+}
+
+.internalpadding {
+  padding: 5px;
+}
+
+md-progress-linear.md-default-theme.md-accent.custom .md-container {
+  background-color: lightgrey;
+}
+
+md-progress-linear.md-default-theme.md-accent.custom  .md-bar {
+  background-color: grey;
+}
+
+.customTable {
+  border-width: thin;
+  border-color: lightgrey;
+  border-style: solid;
 }
 
 .sad {
