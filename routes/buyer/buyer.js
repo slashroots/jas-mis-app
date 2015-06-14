@@ -28,29 +28,31 @@ var Commodity = model.Commodity;
  * @param res
  */
 exports.getBuyers = function(req, res) {
-    var query;
-    if("searchTerms" in req.query) {
-        var list = common.regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
-        query = {
-            $or: [
-                {bu_buyer_name: {$in: list}},
-                {bu_phone: {$in: list}},
-                {bu_email: {$in: list}}
-            ]
-        };
-    } else {
-        query = req.query;
-    }
+    if(common.isAuthenticated(req, res)) {
+        var query;
+        if ("searchTerms" in req.query) {
+            var list = common.regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
+            query = {
+                $or: [
+                    {bu_buyer_name: {$in: list}},
+                    {bu_phone: {$in: list}},
+                    {bu_email: {$in: list}}
+                ]
+            };
+        } else {
+            query = req.query;
+        }
 
-    Buyer.find(query)
-        .populate('ad_address bt_buyer_type')
-        .exec(function(err, docs) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(docs);
-            }
-        });
+        Buyer.find(query)
+            .populate('ad_address bt_buyer_type')
+            .exec(function (err, docs) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(docs);
+                }
+            });
+    }
 };
 
 /**
@@ -60,23 +62,25 @@ exports.getBuyers = function(req, res) {
  * @param res
  */
 exports.createBuyer = function(req, res) {
-    console.log(req.body);
-    var address = new model.Address(req.body.ad_address);
-    address.save(function(err) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            var buyer = new Buyer(req.body);
-            buyer.ad_address = address._id;
-            buyer.save(function(err2) {
-                if(err2) {
-                    common.handleDBError(err2, res);
-                } else {
-                    res.send(buyer);
-                }
-            })
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        console.log(req.body);
+        var address = new model.Address(req.body.ad_address);
+        address.save(function (err) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                var buyer = new Buyer(req.body);
+                buyer.ad_address = address._id;
+                buyer.save(function (err2) {
+                    if (err2) {
+                        common.handleDBError(err2, res);
+                    } else {
+                        res.send(buyer);
+                    }
+                })
+            }
+        });
+    }
 };
 
 /**
@@ -85,20 +89,22 @@ exports.createBuyer = function(req, res) {
  * @param res
  */
 exports.getBuyerById = function(req, res) {
-    Buyer.findById(req.params.id)
-        .populate('ad_address bt_buyer_type')
-        .exec(function(err, item) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                if(item) {
-                    res.send(item);
+    if(common.isAuthenticated(req, res)) {
+        Buyer.findById(req.params.id)
+            .populate('ad_address bt_buyer_type')
+            .exec(function (err, item) {
+                if (err) {
+                    common.handleDBError(err, res);
                 } else {
-                    res.status(404);
-                    res.send({error: "Not Found"});
+                    if (item) {
+                        res.send(item);
+                    } else {
+                        res.status(404);
+                        res.send({error: "Not Found"});
+                    }
                 }
-            }
-        })
+            });
+    }
 };
 
 
@@ -111,21 +117,23 @@ exports.getBuyerById = function(req, res) {
  * @param res
  */
 exports.updateBuyerById = function(req, res) {
-    Buyer.update({_id: req.params.id}, req.body, function(err, response) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            //update the address
-            model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
-                function(err2, response2) {
-                    if(err2) {
-                        common.handleDBError(err2, res);
-                    } else {
-                        res.send(req.body);
-                    }
-                });
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        Buyer.update({_id: req.params.id}, req.body, function (err, response) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                //update the address
+                model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
+                    function (err2, response2) {
+                        if (err2) {
+                            common.handleDBError(err2, res);
+                        } else {
+                            res.send(req.body);
+                        }
+                    });
+            }
+        });
+    }
 };
 
 /**
@@ -134,14 +142,16 @@ exports.updateBuyerById = function(req, res) {
  * @param res
  */
 exports.createBuyerType = function(req, res) {
-    var bt = new BuyerType(req.body);
-    bt.save(function(err, item) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var bt = new BuyerType(req.body);
+        bt.save(function (err, item) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -151,13 +161,15 @@ exports.createBuyerType = function(req, res) {
  * @param res
  */
 exports.getBuyerTypes = function(req, res) {
-    BuyerType.find(req.query, function(err, list) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(list);
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        BuyerType.find(req.query, function (err, list) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+    }
 };
 
 /**
@@ -167,21 +179,23 @@ exports.getBuyerTypes = function(req, res) {
  * @param res
  */
 exports.addNewRep = function(req, res) {
-    var rep = new Representative(req.body);
-    Buyer.findById(req.params.id, function(err, buyer) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            buyer.re_representatives.push(rep);
-            buyer.save(function(err2) {
-                if(err2) {
-                    common.handleDBError(err2, res);
-                } else {
-                    res.send(buyer);
-                }
-            })
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        var rep = new Representative(req.body);
+        Buyer.findById(req.params.id, function (err, buyer) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                buyer.re_representatives.push(rep);
+                buyer.save(function (err2) {
+                    if (err2) {
+                        common.handleDBError(err2, res);
+                    } else {
+                        res.send(buyer);
+                    }
+                })
+            }
+        });
+    }
 };
 
 /**
@@ -192,15 +206,17 @@ exports.addNewRep = function(req, res) {
  * @param res
  */
 exports.addNewDemand = function(req, res) {
-    var demand = new Demand(req.body);
-    demand.bu_buyer = req.params.id;
-    demand.save(function(err, item) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var demand = new Demand(req.body);
+        demand.bu_buyer = req.params.id;
+        demand.save(function (err, item) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -209,41 +225,9 @@ exports.addNewDemand = function(req, res) {
  * @param res
  */
 exports.getDemands = function(req, res) {
-    Demand.find({bu_buyer: req.params.id})
-        .populate('cr_crop bu_buyer')
-        .exec(function(err, list) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(list);
-            }
-        });
-};
-
-/**
- * Finds all the demands that haven't yet expired.
- * @param req
- * @param res
- */
-exports.searchCurrentDemands = function(req, res) {
-    var curr_date = Date.now();
-
-    if(req.query.amount) {
-        Demand.find({de_until: {$gte: curr_date}})
+    if(common.isAuthenticated(req, res)) {
+        Demand.find({bu_buyer: req.params.id})
             .populate('cr_crop bu_buyer')
-            .limit(req.query.amount)
-            .sort('de_posting_date bu_buyer.bu_buyer_name')
-            .exec(function (err, list) {
-                if (err) {
-                    common.handleDBError(err, res);
-                } else {
-                    res.send(list);
-                }
-            });
-    } else {
-        Demand.find({de_until: {$gte: curr_date}})
-            .populate('cr_crop bu_buyer')
-            .sort('de_posting_date bu_buyer.bu_buyer_name')
             .exec(function (err, list) {
                 if (err) {
                     common.handleDBError(err, res);
@@ -255,6 +239,42 @@ exports.searchCurrentDemands = function(req, res) {
 };
 
 /**
+ * Finds all the demands that haven't yet expired.
+ * @param req
+ * @param res
+ */
+exports.searchCurrentDemands = function(req, res) {
+    if(common.isAuthenticated(req, res)) {
+        var curr_date = Date.now();
+
+        if (req.query.amount) {
+            Demand.find({de_until: {$gte: curr_date}})
+                .populate('cr_crop bu_buyer')
+                .limit(req.query.amount)
+                .sort('de_posting_date bu_buyer.bu_buyer_name')
+                .exec(function (err, list) {
+                    if (err) {
+                        common.handleDBError(err, res);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        } else {
+            Demand.find({de_until: {$gte: curr_date}})
+                .populate('cr_crop bu_buyer')
+                .sort('de_posting_date bu_buyer.bu_buyer_name')
+                .exec(function (err, list) {
+                    if (err) {
+                        common.handleDBError(err, res);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        }
+    }
+};
+
+/**
  * Find and return Commodities who's dates intersect with that of
  * the demand.  Also must be matching based on the crop type.  Return
  * that list sorted (desc) by the quantity.
@@ -262,27 +282,29 @@ exports.searchCurrentDemands = function(req, res) {
  * @param res
  */
 exports.findDemandMatch = function(req, res) {
-    Demand.findById(req.params.id, function(err, demand) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            Commodity.find({
-                $and :[
-                    {co_until: {$gte: demand.de_posting_date}},
-                    {co_availability_date: {$lte: demand.de_until}}
-                ],
-                cr_crop: demand.cr_crop
-            }).populate('cr_crop fa_farmer')
-                .sort({co_quantity: 'desc'})
-                .exec(function(err2, list) {
-                    if(err2) {
-                        common.handleDBError(err2, list);
-                    } else {
-                        res.send(list);
-                    }
-                });
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        Demand.findById(req.params.id, function (err, demand) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                Commodity.find({
+                    $and: [
+                        {co_until: {$gte: demand.de_posting_date}},
+                        {co_availability_date: {$lte: demand.de_until}}
+                    ],
+                    cr_crop: demand.cr_crop
+                }).populate('cr_crop fa_farmer')
+                    .sort({co_quantity: 'desc'})
+                    .exec(function (err2, list) {
+                        if (err2) {
+                            common.handleDBError(err2, list);
+                        } else {
+                            res.send(list);
+                        }
+                    });
+            }
+        });
+    }
 };
 
 /**
@@ -293,13 +315,15 @@ exports.findDemandMatch = function(req, res) {
  * @param res
  */
 exports.getDemand = function(req, res) {
-    Demand.findById(req.params.id)
-        .populate('cr_crop bu_buyer')
-        .exec(function(err, demand) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(demand);
-            }
-        });
+    if(common.isAuthenticated(req, res)) {
+        Demand.findById(req.params.id)
+            .populate('cr_crop bu_buyer')
+            .exec(function (err, demand) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(demand);
+                }
+            });
+    }
 };

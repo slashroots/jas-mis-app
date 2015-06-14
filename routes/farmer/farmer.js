@@ -79,14 +79,16 @@ exports.getFarmers = function(req, res) {
  * @param res
  */
 exports.createFarmer = function(req, res) {
-    var farmer = new model.Farmer(req.body);
-    farmer.save(function(err) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(farmer);
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        var farmer = new model.Farmer(req.body);
+        farmer.save(function (err) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(farmer);
+            }
+        });
+    }
 };
 
 /**
@@ -95,19 +97,21 @@ exports.createFarmer = function(req, res) {
  * @param res
  */
 exports.getFarmerById = function(req, res) {
-    model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
-        .exec(function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            if(item) {
-                res.send(item);
-            } else {
-                res.status(404);
-                res.send({error: "Not Found"});
-            }
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
+            .exec(function (err, item) {
+                if (err) {
+                    handleDBError(err, res);
+                } else {
+                    if (item) {
+                        res.send(item);
+                    } else {
+                        res.status(404);
+                        res.send({error: "Not Found"});
+                    }
+                }
+            });
+    }
 };
 
 /**
@@ -116,21 +120,23 @@ exports.getFarmerById = function(req, res) {
  * @param res
  */
 exports.updateFarmerById = function(req, res) {
-    model.Farmer.update({_id: req.params.id}, req.body, function(err, response) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            //update the address
-            model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
-                function(err2, response2) {
-                    if(err2) {
-                        handleDBError(err, res);
-                    } else {
-                        res.send(req.body);
-                    }
-                });
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        model.Farmer.update({_id: req.params.id}, req.body, function (err, response) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                //update the address
+                model.Address.update({_id: req.body.ad_address._id}, req.body.ad_address,
+                    function (err2, response2) {
+                        if (err2) {
+                            handleDBError(err, res);
+                        } else {
+                            res.send(req.body);
+                        }
+                    });
+            }
+        });
+    }
 };
 
 /**
@@ -139,18 +145,20 @@ exports.updateFarmerById = function(req, res) {
  * @param res
  */
 exports.getFarmsByFarmerId = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            if(item == null) {
-                res.status(404);
-                res.send("Farmer Not Found");
+    if(common.isAuthenticated(req, res)) {
+        model.Farmer.findById(req.params.id, function (err, item) {
+            if (err) {
+                handleDBError(err, res);
             } else {
-                res.send(item.fr_farms);
+                if (item == null) {
+                    res.status(404);
+                    res.send("Farmer Not Found");
+                } else {
+                    res.send(item.fr_farms);
+                }
             }
-        }
-    });
+        });
+    }
 };
 
 /**
@@ -159,26 +167,28 @@ exports.getFarmsByFarmerId = function(req, res) {
  * @param res
  */
 exports.createFarm = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, farmer) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            if(farmer == null) {
-                res.status(404);
-                res.send("Farmer Not Found");
+    if(common.isAuthenticated(req, res)) {
+        model.Farmer.findById(req.params.id, function (err, farmer) {
+            if (err) {
+                handleDBError(err, res);
             } else {
-                var farm = new model.Farm(req.body);
-                farmer.fr_farms.push(farm);
-                farmer.save(function(err3, result) {
-                    if(err3) {
-                        handleDBError(err3, res);
-                    } else {
-                        res.send(result);
-                    }
-                });
+                if (farmer == null) {
+                    res.status(404);
+                    res.send("Farmer Not Found");
+                } else {
+                    var farm = new model.Farm(req.body);
+                    farmer.fr_farms.push(farm);
+                    farmer.save(function (err3, result) {
+                        if (err3) {
+                            handleDBError(err3, res);
+                        } else {
+                            res.send(result);
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
+    }
 };
 
 /**
@@ -187,15 +197,17 @@ exports.createFarm = function(req, res) {
  * @param res
  */
 exports.addCommodity = function(req, res) {
-    var com = new Commodity(req.body);
-    com.fa_farmer = req.params.id;
-    com.save(function(err, item) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var com = new Commodity(req.body);
+        com.fa_farmer = req.params.id;
+        com.save(function (err, item) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -205,15 +217,17 @@ exports.addCommodity = function(req, res) {
  * @param res
  */
 exports.getCommodities = function(req, res) {
-    Commodity.find({fa_farmer: req.params.id})
-        .populate('fa_farmer cr_crop')
-        .exec(function(err, list) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(list);
-            }
-        });
+    if(common.isAuthenticated(req, res)) {
+        Commodity.find({fa_farmer: req.params.id})
+            .populate('fa_farmer cr_crop')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
 };
 
 /**
@@ -237,19 +251,21 @@ exports.editCommodity = function(req, res) {
  * @param res
  */
 exports.updateFarmById = function(req, res) {
-    model.Farm.update({_id: req.params.farm_id}, req.body, function(err, response) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            //check if any document got modified
-            if(response.nModified != 0) {
-                res.send(response);
+    if(common.isAuthenticated(req, res)) {
+        model.Farm.update({_id: req.params.farm_id}, req.body, function (err, response) {
+            if (err) {
+                handleDBError(err, res);
             } else {
-                res.status(404);
-                res.send({error: "Not Found"});
+                //check if any document got modified
+                if (response.nModified != 0) {
+                    res.send(response);
+                } else {
+                    res.status(404);
+                    res.send({error: "Not Found"});
+                }
             }
-        }
-    });
+        });
+    }
 };
 
 /**
@@ -261,24 +277,26 @@ exports.updateFarmById = function(req, res) {
  * @param res
  */
 exports.createFarmerComment = function(req, res) {
-    var comment = new model.Comment(req.body);
-    model.Farmer.findById(req.params.id, function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else if(item == null) {
-            res.status(404);
-            res.send({error: "Farmer Not Found"});
-        } else {
-            item.ct_comments.push(comment);
-            item.save(function(err2, result) {
-                if(err2) {
-                    handleDBError(err2, res);
-                } else {
-                    res.send(result);
-                }
-            });
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var comment = new model.Comment(req.body);
+        model.Farmer.findById(req.params.id, function(err, item) {
+            if(err) {
+                handleDBError(err, res);
+            } else if(item == null) {
+                res.status(404);
+                res.send({error: "Farmer Not Found"});
+            } else {
+                item.ct_comments.push(comment);
+                item.save(function(err2, result) {
+                    if(err2) {
+                        handleDBError(err2, res);
+                    } else {
+                        res.send(result);
+                    }
+                });
+            }
+        });
+    }
 };
 
 /**
@@ -289,18 +307,20 @@ exports.createFarmerComment = function(req, res) {
  * @param res
  */
 exports.getCommentsForFarmer = function(req, res) {
-    model.Farmer.findById(req.params.id, function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            if(item == null) {
-                res.status(404);
-                res.send("Farmer Not Found");
+    if(common.isAuthenticated(req, res)) {
+        model.Farmer.findById(req.params.id, function (err, item) {
+            if (err) {
+                handleDBError(err, res);
             } else {
-                res.send(item.ct_comments);
+                if (item == null) {
+                    res.status(404);
+                    res.send("Farmer Not Found");
+                } else {
+                    res.send(item.ct_comments);
+                }
             }
-        }
-    });
+        });
+    }
 };
 
 /**
@@ -312,14 +332,16 @@ exports.getCommentsForFarmer = function(req, res) {
  * @param res
  */
 exports.createMembership = function(req, res) {
-    var membership = new model.Membership(req.body);
-    membership.save(function(err2, result) {
-        if(err2) {
-            handleDBError(err2, res);
-        } else {
-            res.send(result);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var membership = new model.Membership(req.body);
+        membership.save(function (err2, result) {
+            if (err2) {
+                handleDBError(err2, res);
+            } else {
+                res.send(result);
+            }
+        });
+    }
 };
 
 /**
@@ -328,15 +350,17 @@ exports.createMembership = function(req, res) {
  * @param res
  */
 exports.getMembershipByFarmer = function(req, res) {
-    Membership.find({fa_farmer: req.params.id}).populate('fa_farmer mt_type_id br_branch_id')
-        .sort({mi_expiration: 'desc'})
-        .exec(function(err, list) {
-            if(err) {
-                handleDBError(err, res);
-            } else {
-                res.send(list);
-            }
-        })
+    if(common.isAuthenticated(req, res)) {
+        Membership.find({fa_farmer: req.params.id}).populate('fa_farmer mt_type_id br_branch_id')
+            .sort({mi_expiration: 'desc'})
+            .exec(function (err, list) {
+                if (err) {
+                    handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
 };
 
 /**
@@ -351,41 +375,43 @@ exports.getMembershipByFarmer = function(req, res) {
  * @param res
  */
 exports.getActiveMembership = function(req, res) {
-    Membership.find({fa_farmer: req.params.id}, function(err, mRecords) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            var items = [];
-            var current_date = Date.now();
-            for(var m in mRecords) {
-                if((current_date >= m.mi_start) & (current_date <= m.mi_expiration)) {
-                    items.push(m);
-                }
-            }
-
-            if(items.length > 0) {
-                /**
-                 * There is a possibility that there are multiple
-                 * items coming back because there can be more than
-                 * one membership record created for one period of time.
-                 *
-                 * We therefore would require the record last created.
-                 */
-                var max = new Date(0); //start this value at the minimum date
-                var v;
-                for(i in items) {
-                    if(i.mi_date_updated > max) {
-                        max = i.mi_date_updated;
-                        v = i;
+    if(common.isAuthenticated(req, res)) {
+        Membership.find({fa_farmer: req.params.id}, function (err, mRecords) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                var items = [];
+                var current_date = Date.now();
+                for (var m in mRecords) {
+                    if ((current_date >= m.mi_start) & (current_date <= m.mi_expiration)) {
+                        items.push(m);
                     }
                 }
-                res.send(v);
-            } else {
-                res.send({});
-            }
 
-        }
-    });
+                if (items.length > 0) {
+                    /**
+                     * There is a possibility that there are multiple
+                     * items coming back because there can be more than
+                     * one membership record created for one period of time.
+                     *
+                     * We therefore would require the record last created.
+                     */
+                    var max = new Date(0); //start this value at the minimum date
+                    var v;
+                    for (i in items) {
+                        if (i.mi_date_updated > max) {
+                            max = i.mi_date_updated;
+                            v = i;
+                        }
+                    }
+                    res.send(v);
+                } else {
+                    res.send({});
+                }
+
+            }
+        });
+    }
 };
 
 /**
@@ -398,13 +424,15 @@ exports.getActiveMembership = function(req, res) {
  * @param res
  */
 exports.updateMembership = function(req, res) {
-    Membership.updateById(req.params.member_id, req.body, function(err, changes) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(changes);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        Membership.updateById(req.params.member_id, req.body, function (err, changes) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(changes);
+            }
+        });
+    }
 };
 
 /**
@@ -413,14 +441,16 @@ exports.updateMembership = function(req, res) {
  * @param res
  */
 exports.createMembershipType = function(req, res) {
-    var mt = new model.MembershipType(req.body);
-    mt.save(function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var mt = new model.MembershipType(req.body);
+        mt.save(function (err, item) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -430,13 +460,15 @@ exports.createMembershipType = function(req, res) {
  * @param res
  */
 exports.getMembershipTypes = function(req, res) {
-    model.MembershipType.find(req.query, function(err, list) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(list);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        model.MembershipType.find(req.query, function (err, list) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+    }
 };
 
 /**
@@ -529,13 +561,15 @@ exports.batchCreateBranches = function(req, res) {
  * @param res
  */
 exports.getBranches = function(req, res) {
-    Branch.find(req.query).populate('pa_parish').exec(function(err, list) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(list);
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        Branch.find(req.query).populate('pa_parish').exec(function (err, list) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+    }
 };
 
 /**
@@ -652,27 +686,29 @@ function performTransform(directType, branchType, parishes, branches, req, res) 
  * @param res
  */
 exports.findCommodityMatch = function(req, res) {
-    Commodity.findById(req.params.id, function(err, commodity) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            Demand.find({
-                $and :[
-                    {de_posting_date: {$lte: commodity.co_until}},
-                    {de_until: {$gte: commodity.co_availability_date}}
-                ],
-                cr_crop: commodity.cr_crop
-            }).populate('cr_crop bu_buyer')
-                .sort({de_quantity: 'ascending'})
-                .exec(function(err2, list) {
-                    if(err2) {
-                        common.handleDBError(err2, list);
-                    } else {
-                        res.send(list);
-                    }
-                });
-        }
-    })
+    if(common.isAuthenticated(req, res)) {
+        Commodity.findById(req.params.id, function (err, commodity) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                Demand.find({
+                    $and: [
+                        {de_posting_date: {$lte: commodity.co_until}},
+                        {de_until: {$gte: commodity.co_availability_date}}
+                    ],
+                    cr_crop: commodity.cr_crop
+                }).populate('cr_crop bu_buyer')
+                    .sort({de_quantity: 'ascending'})
+                    .exec(function (err2, list) {
+                        if (err2) {
+                            common.handleDBError(err2, list);
+                        } else {
+                            res.send(list);
+                        }
+                    });
+            }
+        });
+    }
 };
 
 /**
@@ -681,31 +717,33 @@ exports.findCommodityMatch = function(req, res) {
  * @param res
  */
 exports.searchCurrentCommodities = function(req, res) {
-    var curr_date = Date.now();
+    if(common.isAuthenticated(req, res)) {
+        var curr_date = Date.now();
 
-    if(req.query.amount) {
-        Commodity.find({co_until: {$gte: curr_date}})
-            .populate('cr_crop fa_farmer')
-            .limit(req.query.amount)
-            .sort('co_availability_date fa_farmer.fa_first_name')
-            .exec(function (err, list) {
-                if (err) {
-                    common.handleDBError(err, res);
-                } else {
-                    res.send(list);
-                }
-            });
-    } else {
-        Commodity.find({co_until: {$gte: curr_date}})
-            .populate('cr_crop fa_farmer')
-            .sort('co_availability_date fa_farmer.fa_first_name')
-            .exec(function (err, list) {
-                if (err) {
-                    common.handleDBError(err, res);
-                } else {
-                    res.send(list);
-                }
-            });
+        if (req.query.amount) {
+            Commodity.find({co_until: {$gte: curr_date}})
+                .populate('cr_crop fa_farmer')
+                .limit(req.query.amount)
+                .sort('co_availability_date fa_farmer.fa_first_name')
+                .exec(function (err, list) {
+                    if (err) {
+                        common.handleDBError(err, res);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        } else {
+            Commodity.find({co_until: {$gte: curr_date}})
+                .populate('cr_crop fa_farmer')
+                .sort('co_availability_date fa_farmer.fa_first_name')
+                .exec(function (err, list) {
+                    if (err) {
+                        common.handleDBError(err, res);
+                    } else {
+                        res.send(list);
+                    }
+                });
+        }
     }
 };
 
