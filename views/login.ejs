@@ -1,13 +1,29 @@
-<form action="/login" method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%=title%></title>
+  <link rel='stylesheet' href="../stylesheets/table.css"/>
+  <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
+  <link rel='stylesheet' href="../stylesheets/style.css"/>
+</head>
+<body ng-app="jasmic" layout="column" layout-fill>
+<form method="POST" action="/login">
     <div>
         <label>Username:</label>
         <input type="text" name="username"/>
     </div>
     <div>
         <label>Password:</label>
-        <input type="password" name="password"/>
+        <input type="password" name="blank" id="blank"/>
     </div>
+       <input type="hidden" id="password" name="password" />
     <div>
         <input type="submit" value="Log In"/>
     </div>
 </form>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+<script src="../javascripts/login.js"></script>
+</body>
+</html>
