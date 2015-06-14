@@ -43,17 +43,34 @@ passport.use(new LocalStrategy(
 ));
 
 /**
- * TODO: Need to ensure that user has the right privileges to do this
+ * If the user is an authenticated administrator, he or she has the ability to create
+ * a user.
  */
 router.post('/user', function(req, res) {
-    var user = User(req.body);
-    user.save(function(err, user) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(user);
-        }
-    })
+    if(common.isAdmin(req, res)) {
+        var user = User(req.body);
+        user.save(function (err, user) {
+            if (err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(user);
+            }
+        });
+    }
 });
+
+/**
+ * The intention is to use this as a "who am I..."
+ * After the user logs in. They can get their profile
+ * based on just the session!
+ */
+router.get('/user', function(req, res) {
+    if(common.isAuthenticated(req, res)) {
+        userValue = req.user;
+        userValue.password = "";
+        res.send(userValue);
+    }
+});
+
 
 module.exports = router;

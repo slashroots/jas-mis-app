@@ -33,8 +33,19 @@ angular.module('jasmic.controllers')
         }
     ])
     .controller('DemandProfileCtrl', ['$scope','$location','$routeParams', 'DemandFactory',
-        'DemandMatchFactory',
-        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory) {
+        'DemandMatchFactory', 'UserProfileFactory',
+        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory) {
+            /**
+             * Display user profile based on authenticated
+             * session information.
+             */
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
+
+            /**
+             * Lookup Demand information based on ID supplied in the URL.
+             */
             DemandFactory.show({id:$routeParams.id}, function(demand) {
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;

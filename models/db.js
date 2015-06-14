@@ -259,8 +259,8 @@ var UserSchema = new Schema({
     us_username: {type: String, unique: true, required: true},
     us_password: {type: String, required: true},
     ut_user_type: {type: String, required: true},
-    us_email_address: String,
-    us_contact: String,
+    us_email_address: {type: String, required: true},
+    us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()}
 });
 

@@ -20,7 +20,8 @@ exports.isAuthenticated = function(req, res) {
         return true;
     }
     res.status(401);
-    res.send({error: 'Unauthorized'});
+    res.send({error: 'Not Authenticated'});
+    return false;
 };
 
 exports.isAdmin = function(req, res) {
@@ -29,6 +30,8 @@ exports.isAdmin = function(req, res) {
             return true;
         }
     }
+    res.status(401);
+    res.send({error: 'Not authorized'});
     return false;
 };
 

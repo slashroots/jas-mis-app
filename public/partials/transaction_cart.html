@@ -21,7 +21,7 @@
                 <div class="farmerInfo">
                     <ul class="transcart">
                         <li>To: <b>{{selectedDemand.bu_buyer.bu_email}}</b></li>
-                        <li>From: <b>Call center user email</b><br/></li>
+                        <li>From: <b>{{user.us_email_address}}</b><br/></li>
                         <li>Subject: <b>{{selectedDemand.de_quantity|number}}{{selectedDemand.un_quantity_unit.un_unit_name}} of
                             {{selectedDemand.cr_crop.cr_crop_name}}
                             {{selectedDemand.cr_crop.cr_crop_variety == ""?"":" - " + selectedDemand.cr_crop.cr_crop_variety}}</b>

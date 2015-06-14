@@ -38,10 +38,10 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMemberships',
+        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMemberships) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -68,7 +68,7 @@ angular.module('jasmic.controllers')
                     console.log(fail);
                 });
             };
-            FarmerMemberships.show({id: $routeParams.id}, function(memberships) {
+            FarmerMembershipsFactory.show({id: $routeParams.id}, function(memberships) {
                 $scope.memberships = memberships;
             });
             loadAll();
