@@ -3,8 +3,10 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var session = require('express-session');
+var passport = require('passport');
 var routes = require('./routes/index');
+var users = require('./routes/users');
 var farmer_routes = require('./routes/farmer/farmer_routes');
 var buyer_routes = require('./routes/buyer/buyer_routes');
 var supplier_routes = require('./routes/supplier/supplier_routes');
@@ -26,6 +28,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', farmer_routes);
@@ -34,6 +43,7 @@ app.use('/', supplier_routes);
 app.use('/', crop_routes);
 app.use('/', transaction_routes);
 app.use('/', routes);
+app.use('/', users);
 app.use('/common', common_routes);
 
 // catch 404 and forward to error handler
@@ -65,6 +75,14 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
+});
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
 });
 
 

@@ -45,29 +45,31 @@ handleDBError = function(err, res) {
  * @param res
  */
 exports.getFarmers = function(req, res) {
-    var query;
-    if("searchTerms" in req.query) {
-        var list = common.regexSearchTermCreator(req.query.searchTerms.split(" "));
-        query = {
-            $or: [
-                {fa_first_name: {$in: list}},
-                {fa_last_name: {$in: list}},
-                {fa_jas_number: {$in: list}}
-            ]
-        };
-    } else {
-        query = req.query;
-    }
+    if(common.isAuthenticated(req, res)) {
+        var query;
+        if ("searchTerms" in req.query) {
+            var list = common.regexSearchTermCreator(req.query.searchTerms.split(" "));
+            query = {
+                $or: [
+                    {fa_first_name: {$in: list}},
+                    {fa_last_name: {$in: list}},
+                    {fa_jas_number: {$in: list}}
+                ]
+            };
+        } else {
+            query = req.query;
+        }
 
-    model.Farmer.find(query)
-        .populate('ad_address fr_farms.di_district')
-        .exec(function(err, docs) {
-            if(err) {
-                handleDBError(err, res);
-            } else {
-                res.send(docs);
-            }
-        });
+        model.Farmer.find(query)
+            .populate('ad_address fr_farms.di_district')
+            .exec(function (err, docs) {
+                if (err) {
+                    handleDBError(err, res);
+                } else {
+                    res.send(docs);
+                }
+            });
+    }
 };
 
 /**

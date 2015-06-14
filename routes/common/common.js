@@ -13,6 +13,17 @@ var Commodity = model.Commodity;
 var District = model.District;
 
 /**
+ *  Check if user is logged in.
+ */
+exports.isAuthenticated = function(req, res) {
+    if(req.user) {
+        return true;
+    }
+    res.status(401);
+    res.send({error: 'Unauthorized'});
+};
+
+/**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
  *
