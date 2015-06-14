@@ -14,9 +14,12 @@ Cheers!
 ## Environment Config Variables
 
 It is necessary to setup the database URI for the application.  To do this run the following:
-
 ```
 export MONGOLAB_URI="mongodb://username:password@hostname:port/database_name"
+```
+Also in order to initialize session, ensure that you have an environment variable called ```SESSION_SECRET``` for the application.  So run the following:
+```
+export SESSION_SECRET="384732874EF232934898A01E"
 ```
 
 ## Importing Data
