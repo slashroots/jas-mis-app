@@ -8,7 +8,7 @@ angular.module('jasmic.controllers')
      *  This controller is used to handle the displaying of information on the
      *  Farmer Listing Page.
      */
-    .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams', 'FarmersFactory',
+    .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory',
         function ($scope, $mdDialog, $location, $routeParams, FarmersFactory) {
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
@@ -195,10 +195,14 @@ angular.module('jasmic.controllers')
      * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
      * edit farmer view
      */
-    .controller('NewFarmerCtrl', ['$scope', '$routeParams', 'FarmerFactory',
-        function ($scope, $routeParams, FarmerFactory) {
+    .controller('NewFarmerCtrl', ['$scope', '$routeParams', '$window', 'FarmerFactory',
+        function ($scope, $routeParams, $window, FarmerFactory) {
             $scope.save = function() {
                 console.log($scope.farmer);
+            };
+
+            $scope.cancel = function(){
+                $window.history.back();
             };
         }
     ])

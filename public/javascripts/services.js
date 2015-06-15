@@ -1,7 +1,7 @@
 /**
  * Created by matjames007 on 4/29/15.
  */
-var services = angular.module('jasmic.services', ['ngResource', "$window"]);
+var services = angular.module('jasmic.services', ['ngResource']);
 
 /**
  * Factory to be used to retrieve the farmers listing.
