@@ -21,6 +21,8 @@ Also in order to initialize session, ensure that you have an environment variabl
 ```
 export SESSION_SECRET="384732874EF232934898A01E"
 ```
+In order to initially setup the system.  You must have a ```DEFAULT_USER="admin"``` and a ```DEFAULT_PASS="21232f297a57a5a743894a0e4a801fc3"``` or username: admin and password: admin.
+Create a new administrator and remove ```DEFAULT_USER and DEFAULT_PASS``` from the command line!
 
 ## Importing Data
 

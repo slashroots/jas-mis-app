@@ -26,19 +26,36 @@ router.post('/login',
  * This is a simple check... first do a lookup for the user based
  * on the username. Compare the password store on the db with that
  * of the incoming password.
+ *
+ * The function also has a default admin password that can only be
+ * set if a user has physical access to the infrastructure's
+ * environmental variables.
  */
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        User.findOne({ us_username: username }, function(err, user) {
-            if (err) { return done(err); }
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (user.us_password != password) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
+        if((username == process.env.DEFAULT_USER) && (password == process.env.DEFAULT_PASS)) {
+            var user = {
+                us_user_first_name: "Easter",
+                us_user_last_name: "Bunny",
+                us_username: "admin",
+                us_password: "21232f297a57a5a743894a0e4a801fc3",
+                ut_user_type: "Administrator",
+                us_email_address: "admin@admin.com",
+                us_contact: "NONE"
+            };
             return done(null, user);
-        });
+        } else {
+            User.findOne({ us_username: username }, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) {
+                    return done(null, false, { message: 'Incorrect username.' });
+                }
+                if (user.us_password != password) {
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+                return done(null, user);
+            });
+        }
     }
 ));
 
