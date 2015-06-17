@@ -19,9 +19,15 @@ exports.isAuthenticated = function(req, res) {
     if(req.user) {
         return true;
     }
+    //res.status(401);
+    //res.redirect('/login');
+    //return false;
+};
+
+exports.redirect = function(req, res, location){
     res.status(401);
-    res.send({error: 'Not Authenticated'});
-    return false;
+    res.redirect('/'+location);
+    return true;
 };
 
 exports.isAdmin = function(req, res) {
