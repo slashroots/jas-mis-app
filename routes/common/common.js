@@ -19,11 +19,14 @@ exports.isAuthenticated = function(req, res) {
     if(req.user) {
         return true;
     }
-    //res.status(401);
-    //res.redirect('/login');
-    //return false;
 };
-
+/**
+*
+* Redirects user to login page if user 
+* not logged in. 
+* @param location - route name for redirection.
+*
+**/
 exports.redirect = function(req, res, location){
     res.status(401);
     res.redirect('/'+location);
