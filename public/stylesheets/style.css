@@ -21,6 +21,20 @@ md-content.md-default-theme {
   background-color: white;
 }
 
+.userLogin {
+  background: url("/images/ic_account_box_24px.svg") no-repeat;
+  background-position: center right;
+}
+
+.loginHeader h1{
+  padding-left: 10px;
+}
+
+.pass {
+  background: url("/images/ic_pass_key.svg") no-repeat;
+  background-position: center right;
+}
+
 .happy {
   color: green;
 }
@@ -199,6 +213,11 @@ md-content.farmForm {
 .scale {
   width:40px;
   height:40px;
+}
+
+.scale2 {
+  width:70px;
+  height:70px;
 }
 
 .farmerInfo {
