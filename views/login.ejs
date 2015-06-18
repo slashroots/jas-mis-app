@@ -1,26 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title><%=title%></title>
-  <link rel='stylesheet' href="../stylesheets/table.css"/>
-  <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
-  <link rel='stylesheet' href="../stylesheets/style.css"/>
+    <title><%=title%></title>
+    <link rel="stylesheet" href="../bower_components/bootstrap-material-design/dist/css/material.min.css"/>
+    <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
+    <link rel='stylesheet' href="../stylesheets/style.css"/>
 </head>
-<body layout="column" layout-fill>
-<form method="POST" action="/login">
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username"/>
+<body class="whitebg" layout="column" layout-fill>
+
+<md-content  layout="row" layout-fill>
+    <div layout-fill hide-sm hide-md class="imageLeft" flex="50" layout="column">
+        <div flex="5">
+
+        </div>
+        <div flex="30" class="loginBlurb">
+            Building meaningful relationships between organizations and the farming community
+        </div>
+        <div flex="65">
+
+        </div>
     </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="blank" id="blank"/>
+    <div layout="column" flex="50" flex-md="100" flex-sm="100">
+        <div layout-padding layout="row" class="loginHeader" layout-align="start center" flex>
+            <h1>Login</h1>
+        </div>
+        <div layout-padding layout="column" flex>
+            <form layout="column" layout="center center" method="POST" action="/login">
+                <div layout="column" layout-align="center center" layout-padding>
+                    <input class="loginEntry" placeholder="Username" type="text" name="username"/>
+                </div>
+                <div layout="column" layout-align="center center" layout-padding>
+                    <input class="loginEntry" placeholder="Password" type="password" name="blank" id="blank"/>
+                </div>
+                <input type="hidden" id="password" name="password" />
+                <div layout-padding layout-align="center">
+                    <input class="btn btn-primary" type="submit" value="Login"/>
+                </div>
+            </form>
+        </div>
+        <div flex>
+
+        </div>
     </div>
-       <input type="hidden" id="password" name="password" />
-    <div>
-        <input type="submit" value="Log In"/>
-    </div>
-</form>
+</md-content>
+
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>

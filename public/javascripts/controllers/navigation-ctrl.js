@@ -10,7 +10,11 @@ angular.module('jasmic.controllers')
         function ($scope, $location, UserProfileFactory) {
             $scope.add_clicked = false;
 
-            $scope.loggedUser = UserProfileFactory.show();
+            UserProfileFactory.show(function(user) {
+                $scope.loggedUser = user;
+            }, function(fail) {
+                console.log(fail);
+            });
 
             $scope.goTo = function() {
 

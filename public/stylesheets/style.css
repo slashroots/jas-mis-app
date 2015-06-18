@@ -17,6 +17,10 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.whitebg{
+  background-color: white;
+}
+
 .happy {
   color: green;
 }
@@ -33,6 +37,18 @@ ul.transcart li{
 
 .header {
   background-color: #eeeded;
+}
+
+.loginEntry {
+  height: 40px;
+  padding-left: 20px;
+  width: 80%;
+}
+
+.imageLeft{
+  background-color: whitesmoke;
+  background: url("../images/farmer-login.jpg") no-repeat;
+  background-size: 100%;
 }
 
 .internalpadding {
