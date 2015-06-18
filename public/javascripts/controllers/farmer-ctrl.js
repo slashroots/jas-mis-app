@@ -8,13 +8,15 @@ angular.module('jasmic.controllers')
      *  This controller is used to handle the displaying of information on the
      *  Farmer Listing Page.
      */
-    .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory',
-        function ($scope, $mdDialog, $location, $routeParams, FarmersFactory) {
+    .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory','UserLoggedinFactory',
+        function ($scope, $mdDialog, $location, $routeParams, FarmersFactory, UserLoggedinFactory) {
+    
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
             }, function(error) {
                 showDialog($mdDialog, error, true);
             });
+            
             $scope.selected = false;
 
             $scope.selectedElement = function(farmer) {

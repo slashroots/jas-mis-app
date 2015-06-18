@@ -4,6 +4,33 @@
 var services = angular.module('jasmic.services', ['ngResource']);
 
 /**
+*
+* Factory to intercept HTTP responses from service and 
+* call functions appropriately.
+*
+**/
+services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
+        return {
+            response: function(response){
+                if(response.status === 401)
+                    $location.url('/login');
+             
+                return response || $q.when(response);
+            }
+        };
+}]);
+/**
+*
+* Factory to be used to determine if the user 
+* is logged in.
+*
+**/
+services.factory('UserLoggedInFactory', function ($resource) {
+    return $resource('/user', {}, {
+        query: {method: 'GET'}
+    });
+});
+/**
  * Factory to be used to retrieve the farmers listing.
  */
 services.factory('FarmersFactory', function ($resource) {

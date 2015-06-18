@@ -3,8 +3,9 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        function ($scope, $location, $routeParams, CurrentDemandsFactory) {
+    .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory', 'UserProfileFactory',
+        function ($scope, $location, $routeParams, CurrentDemandsFactory, UserProfileFactory) {
+           
             CurrentDemandsFactory.query({amount: 5}, function(demands) {
                     $scope.demands = demands;
                 },

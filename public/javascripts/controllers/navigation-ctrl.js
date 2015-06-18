@@ -43,4 +43,4 @@ angular.module('jasmic.controllers')
                     console.log('Unknown route!');
                 }
             }
-        }]);
+        }]);//end of controller

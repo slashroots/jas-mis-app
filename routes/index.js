@@ -6,9 +6,9 @@ var common = require('./common/common');
 router.get('/home', function(req, res, next) {
 	if(common.isAuthenticated(req, res)){
 		res.render('index', { title: 'JASMIC' });
-	}else{
-		common.redirect(req, res, 'login');
-	}
+	}//else{
+	// 	common.redirect(req, res, 'login');
+	// }
 });
 
 module.exports = router;

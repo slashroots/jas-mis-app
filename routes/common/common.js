@@ -17,20 +17,12 @@ var District = model.District;
  */
 exports.isAuthenticated = function(req, res) {
     if(req.user) {
+        //res.send({message: "Success"});
         return true;
     }
-};
-/**
-*
-* Redirects user to login page if user 
-* not logged in. 
-* @param location - route name for redirection.
-*
-**/
-exports.redirect = function(req, res, location){
     res.status(401);
-    res.redirect('/'+location);
-    return true;
+    res.send({error: "Not Authenticated"})
+    return false;
 };
 
 exports.isAdmin = function(req, res) {
