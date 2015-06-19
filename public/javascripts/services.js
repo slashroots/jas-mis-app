@@ -3,6 +3,17 @@
  */
 var services = angular.module('jasmic.services', ['ngResource']);
 
+
+services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
+    return {
+        responseError: function(response){
+            if(response.status == 401) {
+                window.location = '/login';
+            }
+        }
+    };
+}]);
+
 /**
  * Factory to be used to retrieve the farmers listing.
  */
