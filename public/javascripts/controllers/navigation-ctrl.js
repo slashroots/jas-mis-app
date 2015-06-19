@@ -16,17 +16,8 @@ angular.module('jasmic.controllers')
                 console.log(fail);
             });
 
-            $scope.goTo = function() {
-
-                if($scope.nav == 'Search') {
-                    $location.url('/search');
-                } else if($scope.nav == 'Supply Data') {
-                    $location.url('/supplies');
-                } else if($scope.nav == 'Demand Data') {
-                    $location.url('/demands');
-                } else {
-                    $location.url('/dashboard');
-                }
+            $scope.goTo = function(l) {
+                $location.url('/' + l);
             };
             $scope.addNewButtonClick = function() {
                 $scope.add_clicked=!$scope.add_clicked;

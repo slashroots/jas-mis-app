@@ -12,10 +12,10 @@
   <md-toolbar>
     <div class="md-toolbar-tools" >
       <md-select class="navigation" aria-label="Navigation" ng-model="nav" placeholder="Navigation" flex="15">
-        <md-option ng-click="goTo()" value="Dashboard"><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon> Dashboard</md-option>
-        <md-option ng-click="goTo()" value="Search"><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon> Search</md-option>
-        <md-option ng-click="goTo()" value="Demand Data"><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon> Demand Data</md-option>
-        <md-option ng-click="goTo()" value="Supply Data"><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon> Supply Data</md-option>
+        <md-option ng-click="goTo('dashboard')" value="Dashboard"><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon> Dashboard</md-option>
+        <md-option ng-click="goTo('search')" value="Search"><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon> Search</md-option>
+        <md-option ng-click="goTo('demand')" value="Demand Data"><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon> Demand Data</md-option>
+        <md-option ng-click="goTo('supply')" value="Supply Data"><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon> Supply Data</md-option>
       </md-select>
       <span flex></span>
 
