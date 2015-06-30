@@ -23,6 +23,15 @@ router.post('/login',
 );
 
 /**
+ * Endpoint for logging out.
+ * TODO: Revisit the info message!
+ */
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.send({info: "Complete!"});
+});
+
+/**
  * This is a simple check... first do a lookup for the user based
  * on the username. Compare the password store on the db with that
  * of the incoming password.
@@ -38,7 +47,6 @@ passport.use(new LocalStrategy(
                 us_user_first_name: "Easter",
                 us_user_last_name: "Bunny",
                 us_username: "admin",
-                us_password: "21232f297a57a5a743894a0e4a801fc3",
                 ut_user_type: "Administrator",
                 us_email_address: "admin@admin.com",
                 us_contact: "NONE"

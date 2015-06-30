@@ -360,3 +360,9 @@ services.factory('UserProfileFactory', function($resource) {
         create: { method: 'POST'}
     });
 });
+
+services.factory('UserSessionDestroyFactory', function($resource) {
+    return $resource('/logout', {}, {
+        killSession: { method: 'GET'}
+    });
+});
