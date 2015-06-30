@@ -16,6 +16,11 @@ angular.module('jasmic.controllers')
              */
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
+                try {
+                    $scope.isAdmin = (user.ut_user_type == "Administrator");
+                } catch(error) {
+                    $scope.isAdmin = false;
+                }
             }, function(fail) {
                 console.log(fail);
             });
@@ -29,14 +34,6 @@ angular.module('jasmic.controllers')
             };
             $scope.addNewButtonClick = function() {
                 $scope.add_clicked=!$scope.add_clicked;
-            };
-
-            /**
-             * If the user is of type "Administrator"
-             * then return true;
-             */
-            $scope.isAdmin = function() {
-                return ($scope.loggedUser.ut_user_type == "Administrator");
             };
 
             /**

@@ -19,6 +19,7 @@ angular.module('jasmic', [
     $routeProvider.when('/buyer/:id/edit', {templateUrl: '../partials/buyer_new.html', controller: 'EditBuyerCtrl'});
     $routeProvider.when('/farmer', {templateUrl: '../partials/farmer_new.html', controller: 'NewFarmerCtrl'});
     $routeProvider.when('/buyer', {templateUrl: '../partials/buyer_new.html', controller: 'NewBuyerCtrl'});
+    $routeProvider.when('/user', {templateUrl: '../partials/user_new.html', controller: 'NewUserCtrl'});
     $routeProvider.when('/supplier', {templateUrl: '../partials/supplier_new.html', controller: 'NewSupplierCtrl'});
     $routeProvider.when('/search', {templateUrl: '../partials/search.html', controller: 'SearchCtrl'});
     $routeProvider.when('/demands', {templateUrl: '../partials/demand_listing.html', controller: 'DemandListingCtrl'});

@@ -48,10 +48,10 @@
     <md-button ng-click="goTo('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
       Farm Store
     </md-button>
-    <md-button ng-if="isAdmin()" ng-click="goTo('user')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New User">
+    <md-button ng-if="isAdmin" ng-click="goTo('user')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New User">
       User
     </md-button>
-    <md-button ng-click="goTo('crop')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Crop/Variety">
+    <md-button ng-if="isAdmin" ng-click="goTo('crop')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Crop/Variety">
       Crop
     </md-button>
 
@@ -117,6 +117,7 @@
 <script src="../javascripts/controllers/search-ctrl.js"></script>
 <script src="../javascripts/controllers/dashboard-ctrl.js"></script>
 <script src="../javascripts/controllers/demand-ctrl.js"></script>
+<script src="../javascripts/controllers/user-ctrl.js"></script>
 <script src="../javascripts/controllers/commodity-ctrl.js"></script>
 <script src="../javascripts/filters.js"></script>
 <script src="../javascripts/directives.js"></script>
