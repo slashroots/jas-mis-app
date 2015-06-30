@@ -37,5 +37,13 @@ angular.module('jasmic.controllers')
                 } else {
                     console.log('Unknown route!');
                 }
-            }
+            };
+
+            /**
+             * If the user is of type "Administrator"
+             * then return true;
+             */
+            $scope.isAdmin = function() {
+                return ($scope.loggedUser.ut_user_type == "Administrator");
+            };
         }]);

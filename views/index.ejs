@@ -48,6 +48,14 @@
     <md-button ng-click="addNew('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
       Farm Store
     </md-button>
+    <md-button ng-if="isAdmin()" ng-click="goTo('user')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New User">
+      User
+    </md-button>
+    <md-button ng-click="goTo('crop')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Crop/Variety">
+      Crop
+    </md-button>
+
+
 
     <span layout="row" flex>
       <!--
