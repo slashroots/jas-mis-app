@@ -14,16 +14,22 @@ Cheers!
 ## Environment Config Variables
 
 It is necessary to setup the database URI for the application.  To do this run the following:
-
 ```
 export MONGOLAB_URI="mongodb://username:password@hostname:port/database_name"
 ```
+Also in order to initialize session, ensure that you have an environment variable called ```SESSION_SECRET``` for the application.  So run the following:
+```
+export SESSION_SECRET="384732874EF232934898A01E"
+```
+In order to initially setup the system.  You must have a ```DEFAULT_USER="admin"``` and a ```DEFAULT_PASS="21232f297a57a5a743894a0e4a801fc3"``` or username: admin and password: admin.
+Create a new administrator and remove ```DEFAULT_USER and DEFAULT_PASS``` from the command line!
 
 ## Importing Data
 
 1.	Create all parishes with parish code and parish names ```[POST /common/parishes]```
 2.  Import District and Extensions with matching parish names ```[POST /common/districts]```
-2.	Create all membership Types with distinct values (direct/branch etc)
+3.  Import Branches and their Parish Code with ```[POST /branches]```
+2.	Create all membership Types with distinct values (direct/branch etc) ```[POST /membershipType]```
 3.	Create JSON array that matches the fields in the function ```performTransform()``` in the ```farmer.js``` file.
 4.  Load JSON array in request body and send the request to the ```[POST /farmers]```.
 5.  Insert crop names and varieties ```[POST /crops]```

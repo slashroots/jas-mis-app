@@ -8,7 +8,7 @@ angular.module('jasmic.controllers')
      *  This controller is used to handle the displaying of information on the
      *  Farmer Listing Page.
      */
-    .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams', 'FarmersFactory',
+    .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory',
         function ($scope, $mdDialog, $location, $routeParams, FarmersFactory) {
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
@@ -38,10 +38,10 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMemberships',
+        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
         function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMemberships) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -68,7 +68,7 @@ angular.module('jasmic.controllers')
                     console.log(fail);
                 });
             };
-            FarmerMemberships.show({id: $routeParams.id}, function(memberships) {
+            FarmerMembershipsFactory.show({id: $routeParams.id}, function(memberships) {
                 $scope.memberships = memberships;
             });
             loadAll();
@@ -195,10 +195,14 @@ angular.module('jasmic.controllers')
      * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
      * edit farmer view
      */
-    .controller('NewFarmerCtrl', ['$scope', '$routeParams', 'FarmerFactory',
-        function ($scope, $routeParams, FarmerFactory) {
+    .controller('NewFarmerCtrl', ['$scope', '$routeParams', '$window', 'FarmerFactory',
+        function ($scope, $routeParams, $window, FarmerFactory) {
             $scope.save = function() {
                 console.log($scope.farmer);
+            };
+
+            $scope.cancel = function(){
+                $window.history.back();
             };
         }
     ])
@@ -207,8 +211,8 @@ angular.module('jasmic.controllers')
      * then creation of the farmer object for the view to render.  It also
      * populates the parishes combo box for user interaction.
      */
-    .controller('EditFarmerCtrl', ['$scope', '$location', '$mdDialog','$routeParams', 'FarmerFactory', 'ParishesFactory',
-        function ($scope, $location, $mdDialog, $routeParams, FarmerFactory, ParishesFactory) {
+    .controller('EditFarmerCtrl', ['$scope', '$location', '$mdDialog','$routeParams', '$window', 'FarmerFactory', 'ParishesFactory',
+        function ($scope, $location, $mdDialog, $routeParams, $window, FarmerFactory, ParishesFactory) {
             FarmerFactory.show({id:$routeParams.id},
                 function(farmer) {
                     $scope.farmer = farmer;
@@ -237,6 +241,10 @@ angular.module('jasmic.controllers')
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 });
+            };
+
+            $scope.cancel = function(){
+                $window.history.back();
             };
 
         }

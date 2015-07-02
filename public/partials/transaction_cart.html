@@ -1,49 +1,94 @@
 <div layout="column" layout-fill>
     <md-card>
-        <md-card-content class="pretty3">
-            <div layout-fill layout-align="center" layout="column">
-                <div layout="row">
-                    <span flex layout-fill></span>
-                    <md-button class="md-icon-button" aria-label="Share">
-                        <md-icon md-svg-icon="../images/ic_share_24px.svg"></md-icon>
-                        <md-tooltip>Share with Buyer</md-tooltip>
+        <md-card-content >
+            <div layout-padding layout-fill layout-align="center" layout="column">
+                <div layout="row" class="farmerInfo">
+                    <h4>Share with Buyer</h4>
+                    <span flex></span>
+                    <md-button class="md-icon-button" aria-label="Print">
+                        <md-icon class="scale" md-svg-icon="/images/icons/icons_print.svg"></md-icon>
+                        <md-tooltip>Print</md-tooltip>
                     </md-button>
-                    <md-button class="md-icon-button" aria-label="Details">
-                        <md-icon md-svg-icon="../images/ic_more_vert_24px.svg"></md-icon>
+                    <md-button class="md-icon-button" aria-label="Download">
+                        <md-icon class="scale" md-svg-icon="/images/icons/icons_download.svg"></md-icon>
+                        <md-tooltip>Download</md-tooltip>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Email">
+                        <md-icon class="scale" md-svg-icon="../images/icons/icons_email.svg"></md-icon>
+                        <md-tooltip>Email</md-tooltip>
                     </md-button>
                 </div>
-                <div layout="row" class="farmerPretty">
-                    <div flex="10" class="profilePic"></div>
-                    <div flex="85" layout="column" class="farmerNames">
-                        <label>Demand</label>
-                        <h2 class="{{demandMet?'happy':'sad'}}">{{selectedDemand.cr_crop.cr_crop_name}}
-                            {{selectedDemand.cr_crop.cr_crop_variety == ""?"":" - " + selectedDemand.cr_crop.cr_crop_variety}}</h2>
-                        <h4>{{selectedDemand.de_posting_date|date}} - {{selectedDemand.de_until|date}}</h4>
-                        Value: {{(selectedDemand.de_price * selectedDemand.de_quantity)|currency}} - {{selectedDemand.de_payment_terms}}
-                    </div>
-                    <div layout="column" layout-align="center center" flex="5">
-                        <md-icon class="{{demandMet?'happy':'sad'}}"
-                                 md-svg-icon="../images/ic_mood{{demandMet?'':'_bad'}}_24px.svg"></md-icon>
-                    </div>
+                <div class="farmerInfo">
+                    <ul class="transcart">
+                        <li>To: <b>{{selectedDemand.bu_buyer.bu_email}}</b></li>
+                        <li>From: <b>{{user.us_email_address}}</b><br/></li>
+                        <li>Subject: <b>{{selectedDemand.de_quantity|number}}{{selectedDemand.un_quantity_unit.un_unit_name}} of
+                            {{selectedDemand.cr_crop.cr_crop_name}}
+                            {{selectedDemand.cr_crop.cr_crop_variety == ""?"":" - " + selectedDemand.cr_crop.cr_crop_variety}}</b>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </md-card-content>
-        <md-card-content>
+            <div layout-padding class="farmerInfo">
+                <ul class="transcart">
+                    <li>Combined Supply Amount: <b>{{combinedSupplyAmount|number}}</b></li>
+                    <li><md-progress-linear class="md-accent" md-mode="determinate" value="{{totalPercentage}}">
+
+                    </md-progress-linear></li>
+                    <li>Combined Supply Value: <b>{{combinedSuppyValue | currency}}</b><br/></li>
+                </ul>
+            </div>
             <div layout="column">
                 <div layout="column" layout-align="center center" ng-if="m_commodities.length == 0">
                     <md-icon md-svg-src="../images/ic_not_interested_24px.svg"></md-icon>
                     <label>No Supplies Selected</label>
                 </div>
-                <div ng-repeat="commodity in m_commodities" layout-padding layout="row">
-                    <div flex="10"><img src="../images/ic_label_outline_24px.svg"/></div>
-                    <div flex="90" layout="row">
-                        <div layout="column" flex>
-                            {{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}<br/>
-                            {{commodity.co_quantity|number}} {{commodity.un_quantity_unit.un_unit_name}}
+                <div class="internalpadding" ng-repeat="commodity in m_commodities" layout="row">
+                    <div flex layout="column" class="customTable">
+                        <div class="header" layout-align="center center" layout="row">
+                            <div flex="40">{{commodity.fa_farmer.fa_first_name}} {{commodity.fa_farmer.fa_last_name}}</div>
+                            <div flex="45"><md-progress-linear class="md-accent custom" md-mode="determinate" value="{{100*(commodity.co_quantity/combinedSupplyAmount)}}"></md-progress-linear></div>
+                            <div flex="15">
+                                <md-button class="md-icon-button" aria-label="Remove">
+                                <md-icon class="scale" ng-click="remove(commodity)" md-svg-src="/images/icons/icons_remove.svg"></md-icon>
+                                </md-button>
+                            </div>
                         </div>
-                        <div layout="column" flex>
-                            {{commodity.co_availability_date | date}} - {{commodity.co_until | date}}<br/>
-                            {{commodity.co_price | currency}} per {{commodity.un_price_unit.un_unit_name}}
+                        <div layout="row">
+                            <div layout="row" flex="50">
+                                <md-icon class="scale" flex md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_quantity|number}} {{commodity.un_quantity_unit.un_unit_name}}
+                                    <label>Amount</label>
+                                </div>
+                            </div>
+                            <div layout="row" flex="50">
+                                <md-icon class="scale" flex md-svg-icon="/images/icons/icons_price.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_price | currency}} per {{commodity.un_price_unit.un_unit_name}}
+                                    <label>Price</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div layout="row">
+                            <div layout="row" flex="50">
+                                <md-icon flex md-svg-src="/images/icons/icons_date_posted.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_availability_date | date}}
+                                    <label>Available Date</label>
+                                </div>
+                            </div>
+                            <div layout="row" flex="50">
+                                <md-icon flex md-svg-src="/images/icons/icons_date_expires.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div flex="85" layout="column">
+                                    {{commodity.co_until | date}}
+                                    <label>Expiration Date</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

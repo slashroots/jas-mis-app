@@ -13,6 +13,29 @@ var Commodity = model.Commodity;
 var District = model.District;
 
 /**
+ *  Check if user is logged in.
+ */
+exports.isAuthenticated = function(req, res) {
+    if(req.user) {
+        return true;
+    }
+    res.status(401);
+    res.send({error: 'Not Authenticated'});
+    return false;
+};
+
+exports.isAdmin = function(req, res) {
+    if(req.user) {
+        if(req.user.ut_user_type == 'Administrator') {
+            return true;
+        }
+    }
+    res.status(401);
+    res.send({error: 'Not authorized'});
+    return false;
+};
+
+/**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
  *
@@ -79,14 +102,16 @@ exports.createAddress = function(req, res) {
  * @param res
  */
 exports.createParish = function(req, res) {
-    var parish = new Parish(req.body);
-    parish.save(function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    });
+    if(exports.isAdmin(req, res)) {
+        var parish = new Parish(req.body);
+        parish.save(function (err, item) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -95,13 +120,15 @@ exports.createParish = function(req, res) {
  * @param res
  */
 exports.getParishes = function(req, res) {
-    Parish.find(req.query).sort('-pa_parish_code').exec( function(err, items) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(items);
-        }
-    });
+    if(exports.isAuthenticated(req, res)) {
+        Parish.find(req.query).sort('-pa_parish_code').exec(function (err, items) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(items);
+            }
+        });
+    }
 };
 
 /**
@@ -111,13 +138,15 @@ exports.getParishes = function(req, res) {
  * @param res
  */
 exports.getAddressById = function(req, res) {
-    Address.findById(req.params.id, function(err, item) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    })
+    if(exports.isAuthenticated(req, res)) {
+        Address.findById(req.params.id, function (err, item) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -128,18 +157,20 @@ exports.getAddressById = function(req, res) {
  * @param res
  */
 exports.updateAddressById = function(req, res) {
-    Address.update({_id: req.params.id}, req.body, function(err, status) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            if(status.nModified != 0) {
-                res.send(status);
+    if(exports.isAuthenticated(req, res)) {
+        Address.update({_id: req.params.id}, req.body, function (err, status) {
+            if (err) {
+                handleDBError(err, res);
             } else {
-                res.status(404);
-                res.send({error: "Not Found"});
+                if (status.nModified != 0) {
+                    res.send(status);
+                } else {
+                    res.status(404);
+                    res.send({error: "Not Found"});
+                }
             }
-        }
-    });
+        });
+    }
 };
 
 /**
@@ -150,119 +181,121 @@ exports.updateAddressById = function(req, res) {
  * @param res
  */
 exports.searchAll = function(req, res) {
-    if("searchTerms" in req.query) {
-        /**
-         * Creates a list of regular expression terms to search by
-         */
-        var list = regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
+    if(exports.isAuthenticated(req, res)) {
+        if ("searchTerms" in req.query) {
+            /**
+             * Creates a list of regular expression terms to search by
+             */
+            var list = regexSearchTermCreator(req.query.searchTerms.toUpperCase().split(" "));
 
-        /**
-         * First search attributes (first and last names and jas number) for any matches to
-         * the regular expression
-         */
-        Farmer.find({
-            $or: [
-                {fa_first_name: {$in: list}},
-                {fa_last_name: {$in: list}},
-                {fa_jas_number: {$in: list}}
-            ]
-        }).populate('ad_address').limit(10)
-            .exec(function (err, farmers) {
-                if (err) {
-                    this.handleDBError(err, res);
-                } else {
+            /**
+             * First search attributes (first and last names and jas number) for any matches to
+             * the regular expression
+             */
+            Farmer.find({
+                $or: [
+                    {fa_first_name: {$in: list}},
+                    {fa_last_name: {$in: list}},
+                    {fa_jas_number: {$in: list}}
+                ]
+            }).populate('ad_address').limit(10)
+                .exec(function (err, farmers) {
+                    if (err) {
+                        this.handleDBError(err, res);
+                    } else {
 
-                    /**
-                     * Search for buyers who's name, phone number and/or email matches the
-                     * regex pattern in `list`
-                     */
-                    Buyer.find({
-                        $or: [
-                            {bu_buyer_name: {$in: list}},
-                            {bu_phone: {$in: list}},
-                            {bu_email: {$in: list}}
-                        ]
-                    }).populate('ad_address bt_buyer_type').limit(10)
-                        .exec(function(err2, buyers) {
-                            if(err2) {
-                                this.handleDBError(err, res);
-                            } else {
-                                var curr_date = Date.now();
+                        /**
+                         * Search for buyers who's name, phone number and/or email matches the
+                         * regex pattern in `list`
+                         */
+                        Buyer.find({
+                            $or: [
+                                {bu_buyer_name: {$in: list}},
+                                {bu_phone: {$in: list}},
+                                {bu_email: {$in: list}}
+                            ]
+                        }).populate('ad_address bt_buyer_type').limit(10)
+                            .exec(function (err2, buyers) {
+                                if (err2) {
+                                    this.handleDBError(err, res);
+                                } else {
+                                    var curr_date = Date.now();
 
-                                /**
-                                 * Search for all the crops who's name or variety matches
-                                 * the regex pattern supplied
-                                 */
-                                Crop.find({
-                                    $or: [
-                                        {cr_crop_name: {$in: list}},
-                                        {cr_crop_variety: {$in: list}}
-                                    ]
-                                }).select('_id')
-                                    .exec(function(crop_error, crops) {
-                                        if(crop_error) {
-                                            this.handleDBError(crop_error, res);
-                                        } else {
+                                    /**
+                                     * Search for all the crops who's name or variety matches
+                                     * the regex pattern supplied
+                                     */
+                                    Crop.find({
+                                        $or: [
+                                            {cr_crop_name: {$in: list}},
+                                            {cr_crop_variety: {$in: list}}
+                                        ]
+                                    }).select('_id')
+                                        .exec(function (crop_error, crops) {
+                                            if (crop_error) {
+                                                this.handleDBError(crop_error, res);
+                                            } else {
 
-                                            /**
-                                             * Using the crops identified display their active
-                                             * demands based on today's date.
-                                             */
-                                            Demand.find({
-                                                de_until: {$gte: curr_date},
-                                                $or: [
-                                                    {cr_crop: {$in: crops}}
-                                                ]
-                                            })
-                                                .populate('cr_crop bu_buyer')
-                                                .limit(10)
-                                                .sort('de_posting_date bu_buyer.bu_buyer_name')
-                                                .exec(function (err, demands) {
-                                                    if (err) {
-                                                        this.handleDBError(err, res);
-                                                    } else {
+                                                /**
+                                                 * Using the crops identified display their active
+                                                 * demands based on today's date.
+                                                 */
+                                                Demand.find({
+                                                    de_until: {$gte: curr_date},
+                                                    $or: [
+                                                        {cr_crop: {$in: crops}}
+                                                    ]
+                                                })
+                                                    .populate('cr_crop bu_buyer')
+                                                    .limit(10)
+                                                    .sort('de_posting_date bu_buyer.bu_buyer_name')
+                                                    .exec(function (err, demands) {
+                                                        if (err) {
+                                                            this.handleDBError(err, res);
+                                                        } else {
 
-                                                        /**
-                                                         * Using the crops identified display their
-                                                         * active Commodities based on today's date
-                                                         */
-                                                        Commodity.find({
-                                                            co_until: {$gte: curr_date},
-                                                            $or: [
-                                                                {cr_crop: {$in: crops}}
-                                                            ]
-                                                        }).populate('cr_crop fa_farmer')
-                                                            .limit(10)
-                                                            .sort('co_posting_date fa_farmer.fa_last_name')
-                                                            .exec(function (com_error, commodities) {
-                                                                if(com_error) {
-                                                                    this.handleDBError(com_error, res);
-                                                                } else {
+                                                            /**
+                                                             * Using the crops identified display their
+                                                             * active Commodities based on today's date
+                                                             */
+                                                            Commodity.find({
+                                                                co_until: {$gte: curr_date},
+                                                                $or: [
+                                                                    {cr_crop: {$in: crops}}
+                                                                ]
+                                                            }).populate('cr_crop fa_farmer')
+                                                                .limit(10)
+                                                                .sort('co_posting_date fa_farmer.fa_last_name')
+                                                                .exec(function (com_error, commodities) {
+                                                                    if (com_error) {
+                                                                        this.handleDBError(com_error, res);
+                                                                    } else {
 
-                                                                    /**
-                                                                     * Submit the matching entities to the
-                                                                     * user.
-                                                                     * @type {{farmers: *, buyers: *, demands: *, commodities: *}}
-                                                                     */
-                                                                    var result = {
-                                                                        'farmers': farmers,
-                                                                        'buyers': buyers,
-                                                                        'demands': demands,
-                                                                        'commodities': commodities
-                                                                    };
-                                                                    res.send(result);
-                                                                }
-                                                            })
-                                                    }
-                                                });
-                                        }
-                                    });
-                            }
-                        })
-                }
-            });
-    } else {
-        res.send({});
+                                                                        /**
+                                                                         * Submit the matching entities to the
+                                                                         * user.
+                                                                         * @type {{farmers: *, buyers: *, demands: *, commodities: *}}
+                                                                         */
+                                                                        var result = {
+                                                                            'farmers': farmers,
+                                                                            'buyers': buyers,
+                                                                            'demands': demands,
+                                                                            'commodities': commodities
+                                                                        };
+                                                                        res.send(result);
+                                                                    }
+                                                                })
+                                                        }
+                                                    });
+                                            }
+                                        });
+                                }
+                            })
+                    }
+                });
+        } else {
+            res.send({});
+        }
     }
 };
 
@@ -274,14 +307,16 @@ exports.searchAll = function(req, res) {
  * @param res
  */
 exports.createUnit = function(req, res) {
-    var unit = new Unit(req.body);
-    unit.save(function(err) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(unit);
-        }
-    })
+    if(exports.isAdmin(req, res)) {
+        var unit = new Unit(req.body);
+        unit.save(function (err) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(unit);
+            }
+        });
+    }
 };
 
 /**
@@ -290,13 +325,15 @@ exports.createUnit = function(req, res) {
  * @param res
  */
 exports.findUnits = function(req, res) {
-    Unit.find(req.query, function(err, list) {
-        if(err) {
-            handleDBError(err, res);
-        } else {
-            res.send(list);
-        }
-    });
+    if(exports.isAuthenticated(req, res)) {
+        Unit.find(req.query, function (err, list) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
+    }
 };
 
 /**
@@ -306,24 +343,26 @@ exports.findUnits = function(req, res) {
  * @param res
  */
 exports.getDistricts = function(req, res) {
-    var query = req.query;
-    if("beginsWith" in req.query) {
-        query = {
-            $or: [
-                {di_extension_name: new RegExp(req.query.beginsWith,'i')},
-                {di_district_name: new RegExp(req.query.beginsWith,'i')}
-            ]
-        };
+    if(exports.isAuthenticated(req, res)) {
+        var query = req.query;
+        if ("beginsWith" in req.query) {
+            query = {
+                $or: [
+                    {di_extension_name: new RegExp(req.query.beginsWith, 'i')},
+                    {di_district_name: new RegExp(req.query.beginsWith, 'i')}
+                ]
+            };
+        }
+        District.find(query)
+            .sort('di_extension_name')
+            .exec(function (err, list) {
+                if (err) {
+                    handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
     }
-    District.find(query)
-        .sort('di_extension_name')
-        .exec(function(err, list) {
-            if(err) {
-                handleDBError(err, res);
-            } else {
-                res.send(list);
-            }
-        });
 };
 
 

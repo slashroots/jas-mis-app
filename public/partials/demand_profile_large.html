@@ -4,53 +4,88 @@
             <md-card>
                 <md-card-content class="pretty2" layout-padding>
                     <div layout="row">
-                        <div flex="10" class="profilePic"></div>
-                        <div flex="70" layout="column" class="farmerNames farmerPretty2">
-                            <label>Buyer</label>
-
-                            <h2 class="farmerSummary">{{demand.bu_buyer.bu_buyer_name}}</h2>
-                        </div>
-                        <div layout="column" flex="20">
-                            <div layout="row" >
-                                <md-button ng-click="editBuyer()" class="md-icon-button" aria-label="Edit">
-                                    <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="Favourites">
-                                    <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="Details">
-                                    <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
-                                </md-button>
+                        <div flex="30" class="profilePic"></div>
+                        <div layout-padding flex="70" layout="column" class="farmerNames">
+                            <div layout="column" layout-align="start end">
+                                <div layout="row" >
+                                    <md-button ng-click="editBuyer()" class="md-icon-button" aria-label="Edit">
+                                        <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Favourites">
+                                        <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Details">
+                                        <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
+                                    </md-button>
+                                </div>
+                                <span flex></span>
                             </div>
-                            <span flex></span>
+                            <div class="farmerPretty3">
+                            <label>Buyer</label>
+                            <h2 class="farmerSummary"><a href="/home/#/buyer/{{demand.bu_buyer._id}}"> {{demand.bu_buyer.bu_buyer_name}}</a></h2>
+                            </div>
                         </div>
+
                     </div>
                 </md-card-content>
             </md-card>
 
             <md-card>
                 <md-card-content>
-                    <md-subheader>Supplies</md-subheader>
+                    <md-subheader>Demand</md-subheader>
                     <div layout-padding layout="column">
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{demand.cr_crop.cr_crop_name}} - {{demand.cr_crop.cr_crop_variety}}
-                                <label>Produce/Crop</label>
+                        <div layout-padding class="farmerInfo" layout="row">
+                            <div flex="33" layout="row">
+                                <md-icon class="scale" md-svg-icon="/images/icons/icons_crop.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div layout-align="left center" layout="column">
+                                    {{demand.cr_crop.cr_crop_name}}
+                                    <label>Produce/Crop</label>
+                                </div>
+                                <span flex></span>
                             </div>
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}
-                                <label>Amount</label>
+
+                            <div flex="33" layout="row">
+                                <md-icon class="scale" md-svg-icon="/images/icons/icons_variety.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div layout-align="left center" layout="column">
+                                    {{demand.cr_crop.cr_crop_variety}}
+                                    <label>Variety</label>
+                                </div>
+                                <span flex></span>
                             </div>
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_price}} per {{demand.un_price_unit.un_unit_name}}
-                                <label>Unit Cost</label>
+
+                            <div flex="33" layout="row">
+                                <md-icon class="scale" md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div layout-align="left center" layout="column">
+                                    {{demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}
+                                    <label>Amount</label>
+                                </div>
+                                <span flex></span>
                             </div>
+
                         </div>
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_payment_terms}}
-                                <label>Payout Term(s)</label>
+                        <div layout-padding layout="row">
+                            <div flex="33" layout="start center" layout="row">
+                                <md-icon class="scale" md-svg-icon="/images/icons/icons_price.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div layout-align="left center" layout="column">
+                                    {{demand.de_price | currency}} per {{demand.un_price_unit.un_unit_name}}
+                                    <label>Unit Cost</label>
+                                </div>
+                                <span flex></span>
                             </div>
+                            <div flex="66" layout="start center" layout="row">
+                                <md-icon class="scale" md-svg-icon="/images/icons/icons_payment terms.svg"></md-icon>
+                                <span flex="5"></span>
+                                <div layout-align="left center" layout="column">
+                                    {{demand.de_payment_terms}}
+                                    <label>Payout Term(s)</label>
+                                </div>
+                                <span flex></span>
+                            </div>
+
                         </div>
                     </div>
                 </md-card-content>

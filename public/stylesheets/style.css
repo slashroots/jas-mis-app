@@ -17,8 +17,70 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.whitebg{
+  background-color: white;
+}
+
+.userLogin {
+  background: url("/images/ic_account_box_24px.svg") no-repeat;
+  background-position: center right;
+}
+
+.loginHeader h1{
+  padding-left: 10px;
+}
+
+.pass {
+  background: url("/images/ic_pass_key.svg") no-repeat;
+  background-position: center right;
+}
+
 .happy {
   color: green;
+}
+
+ul.transcart {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+ul.transcart li{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.header {
+  background-color: #eeeded;
+}
+
+.loginEntry {
+  height: 40px;
+  padding-left: 20px;
+  width: 80%;
+}
+
+.imageLeft{
+  background-color: whitesmoke;
+  background: url("../images/farmer-login.jpg") no-repeat;
+  background-size: 100%;
+}
+
+.internalpadding {
+  padding: 5px;
+}
+
+md-progress-linear.md-default-theme.md-accent.custom .md-container {
+  background-color: lightgrey;
+}
+
+md-progress-linear.md-default-theme.md-accent.custom  .md-bar {
+  background-color: grey;
+}
+
+.customTable {
+  border-width: thin;
+  border-color: lightgrey;
+  border-style: solid;
 }
 
 .sad {
@@ -87,6 +149,11 @@ body{
   padding-top: 50px;
 }
 
+.farmerPretty3 {
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
 .farmerPretty2 {
   padding-top: 100px;
   padding-bottom: 50px;
@@ -141,6 +208,16 @@ md-content.farmForm {
   border-bottom-width: thin;
   border-bottom-color: lightgray;
   background-color: ghostwhite;
+}
+
+.scale {
+  width:40px;
+  height:40px;
+}
+
+.scale2 {
+  width:70px;
+  height:70px;
 }
 
 .farmerInfo {

@@ -3,6 +3,17 @@
  */
 var services = angular.module('jasmic.services', ['ngResource']);
 
+
+services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
+    return {
+        responseError: function(response){
+            if(response.status == 401) {
+                window.location = '/login';
+            }
+        }
+    };
+}]);
+
 /**
  * Factory to be used to retrieve the farmers listing.
  */
@@ -333,8 +344,25 @@ services.factory('InputTypeFactory', function ($resource) {
  * End point for retrieving the membership records of a particular
  * farmer.
  */
-services.factory('FarmerMemberships', function ($resource) {
+services.factory('FarmerMembershipsFactory', function ($resource) {
     return $resource('/farmer/:id/memberships', {}, {
         show: { method: 'GET', params: {id: '@id'}, isArray: true}
-    })
+    });
+});
+
+/**
+ * Use this factory to lookup profile of user or create a user.  Requires
+ * administrative privileges.
+ */
+services.factory('UserProfileFactory', function($resource) {
+    return $resource('/user', {}, {
+        show: { method: 'GET'},
+        create: { method: 'POST'}
+    });
+});
+
+services.factory('UserSessionDestroyFactory', function($resource) {
+    return $resource('/logout', {}, {
+        killSession: { method: 'GET'}
+    });
 });

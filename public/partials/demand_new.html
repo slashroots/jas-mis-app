@@ -22,7 +22,7 @@
         </md-autocomplete>
         <div layout-align="center center" layout="row">
             <md-input-container flex>
-                <label>Quantity</label><input ng-required="true" ng-model="demand.de_quantity" type="number"/>
+                <label>Quantity</label><input min="0" ng-required="true" ng-model="demand.de_quantity" type="number"/>
             </md-input-container>
 
             <md-select ng-required="true" ng-model="demand.un_quantity_unit" placeholder="Unit">
@@ -32,7 +32,7 @@
         <div layout-align="center center" layout="row">
             <md-input-container flex>
                 <label>Unit Price</label>
-                <input ng-required="true" ng-model="demand.de_price" type="number"/>
+                <input min="0" ng-required="true" ng-model="demand.de_price" type="number"/>
             </md-input-container>
             per
             <md-select ng-required="true" ng-model="demand.un_price_unit" placeholder="Unit">

@@ -33,8 +33,19 @@ angular.module('jasmic.controllers')
         }
     ])
     .controller('DemandProfileCtrl', ['$scope','$location','$routeParams', 'DemandFactory',
-        'DemandMatchFactory',
-        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory) {
+        'DemandMatchFactory', 'UserProfileFactory',
+        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory) {
+            /**
+             * Display user profile based on authenticated
+             * session information.
+             */
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
+
+            /**
+             * Lookup Demand information based on ID supplied in the URL.
+             */
             DemandFactory.show({id:$routeParams.id}, function(demand) {
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
@@ -44,11 +55,24 @@ angular.module('jasmic.controllers')
                     $scope.demand = {};
                 });
 
+            $scope.combinedSupplyAmount = 0;
+            $scope.combinedSuppyValue = 0;
+            $scope.totalPercentage = 0;
+
+            $scope.remove = function(commodity) {
+                commodity.selected = false;
+            };
+
             $scope.checked = function(commodity) {
                 var sum = 0;
+                $scope.combinedSuppyValue = 0;
                 for(var i in $scope.m_commodities) {
                     sum += $scope.m_commodities[i].co_quantity;
+                    $scope.combinedSuppyValue +=
+                        ($scope.m_commodities[i].co_price * $scope.m_commodities[i].co_quantity);
                 }
+                $scope.combinedSupplyAmount = sum;
+                $scope.totalPercentage = (sum/$scope.demand.de_quantity) * 100;
                 if(sum >= $scope.demand.de_quantity) {
                     $scope.demandMet = true;
                 } else {

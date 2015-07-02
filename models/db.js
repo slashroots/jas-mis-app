@@ -253,16 +253,14 @@ var AuditSchema = new Schema({
     au_date: {type: Date, default: Date.now()},
     au_type: {type: String, required: true}
 });
-var UserTypeSchema = new Schema({
-    ut_user_type_name: {type: String, required: true},
-    ut_user_type_desc: {type: String, required: true}
-});
 var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
-    ut_user_type: {type: Schema.Types.ObjectId, required: true},
-    us_email_address: String,
-    us_contact: String,
+    us_username: {type: String, unique: true, required: true},
+    us_password: {type: String, required: true},
+    ut_user_type: {type: String, required: true},
+    us_email_address: {type: String, required: true},
+    us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()}
 });
 
@@ -376,9 +374,7 @@ var Dispute = mongoose.model('Dispute', DisputeSchema);
 
 var Event = mongoose.model('Event', EventSchema);
 
-var User = mongoose.model('User', UserSchema);
-
-var UserType = mongoose.model('UserType', UserTypeSchema);
+exports.User = mongoose.model('User', UserSchema);
 
 var Audit = mongoose.model('Audit', AuditSchema);
 

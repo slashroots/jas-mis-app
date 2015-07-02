@@ -6,37 +6,35 @@ angular.module('jasmic.controllers')
  * navigationCtrl is intended to provide quick page changes and should appear on
  * all screens.
  */
-    .controller('NavigationCtrl', ['$scope', '$location', function ($scope, $location) {
-        $scope.add_clicked = false;
-        $scope.goTo = function() {
+    .controller('NavigationCtrl', ['$scope', '$location', 'UserProfileFactory', 'UserSessionDestroyFactory',
+        function ($scope, $location, UserProfileFactory, UserSessionDestroyFactory) {
+            $scope.add_clicked = false;
 
-            if($scope.nav == 'Search') {
-                $location.url('/search');
-            } else if($scope.nav == 'Supply Data') {
-                $location.url('/supplies');
-            } else if($scope.nav == 'Demand Data') {
-                $location.url('/demands');
-            } else {
-                $location.url('/dashboard');
-            }
-        };
-        $scope.addNewButtonClick = function() {
-            $scope.add_clicked=!$scope.add_clicked;
-        };
+            /**
+             * Used to display the user currently active in the
+             * session.
+             */
+            UserProfileFactory.show(function(user) {
+                $scope.loggedUser = user;
+            }, function(fail) {
+                console.log(fail);
+            });
 
-        $scope.addNew = function(entity) {
-            if(entity == 'farmer') {
-                $location.url('/farmer');
-            } else if(entity == 'buyer') {
-                $location.url('/buyer');
-            } else if(entity == 'call'){
-                $location.url('/call');
-            } else if(entity == 'transaction') {
-                $location.url('/transaction');
-            } else if(entity == 'supplier') {
-                $location.url('/supplier');
-            } else {
-                console.log('Unknown route!');
-            }
-        }
-    }]);
+            /**
+             * Go to another section of the angular application
+             * @param l
+             */
+            $scope.goTo = function(l) {
+                $location.url('/' + l);
+            };
+            $scope.addNewButtonClick = function() {
+                $scope.add_clicked=!$scope.add_clicked;
+            };
+
+            $scope.logout = function() {
+                UserSessionDestroyFactory.killSession(function(res) {
+                    window.location = "/login";
+                });
+            };
+
+        }]);
