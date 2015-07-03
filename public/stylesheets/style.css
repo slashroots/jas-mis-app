@@ -17,33 +17,6 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
-.expanded {
-  border-width: thin;
-  border-color: grey;
-  border-style: solid;
-}
-
-.active {
-  border-bottom-width: thick;
-  border-bottom-color: grey;
-  border-bottom-style: solid;
-}
-
-.statistic {
-  padding: 25px;
-}
- .textLabel {
-  font-weight: bold;
-}
-.infoStat {
-  border-top-width: thin;
-  border-top-color: black;
-  border-top-style: solid;
-  border-bottom-width: thin;
-  border-bottom-color: black;
-  border-bottom-style: solid;
-}
-
 .whitebg{
   background-color: white;
 }
