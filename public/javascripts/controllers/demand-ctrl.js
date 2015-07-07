@@ -89,5 +89,10 @@ angular.module('jasmic.controllers')
                     $scope.commodities = list;
                 })
             }
+
+            $scope.printReport = function(){
+                window.location = '/report';
+                // console.log('Scope' + $scope.m_commodities);
+            }
         }
     ]);

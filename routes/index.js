@@ -6,5 +6,10 @@ router.get('/home', function(req, res, next) {
   res.render('index', { title: 'JASMIC' });
 });
 
+//get report page 
+router.get('/report', function(req, res, next){
+	res.render('report', {title: 'Report'});
+});
+
 
 module.exports = router;

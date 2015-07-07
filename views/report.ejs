@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%=title%></title>
+    <style type="text/css">
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,500,700,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/report.css">
+</head>
+<body ng-app="jasmic">
+
+<div class="container test">
+    <div class="container">
+    <div class="report-title">
+        <img src="/images/report-icons/jas_logo_knockout-01.png">
+         <!-- <p>Market Information Center</p> -->
+    </div>
+</div>
+
+<div class="report-start">
+    <div class="container">
+        <div class="col-md-8 buyer-info">
+            <div class="buyer-text">                
+                <h1><small>Buyer</small></br>Campbell's Greens <br> Inc Limited</h1>
+            </div>          
+        </div>
+            <div class="col-md-4">
+
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                    <td>Attn:</td>
+                    <td>{{test}}</td>
+                    </tr>
+                    <tr>
+                    <td>Rep:</td>
+                    <td>Jannice Simpson</td>
+                    </tr>
+                    <tr>
+                    <td>Date:</td>
+                    <td>14/2/15</td>
+                    </tr>
+                    <tr>
+                    <td>Subject:</td>
+                    <td>800lbs of Pimento</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end of report head -->
+
+<div class="report-summary">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-2">
+                <div class="media">
+                    <div class="media-left">
+                        <img height="50px" width="50px" src="/images/report-icons/icons_crop.svg">                       
+                </div>
+                    <div class="media-body">
+                        <p><strong>Pimento</strong><br>Produce</p>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="media">
+                    <div class="media-left">
+                        <img height="50px" width="50px" src="/images/report-icons/icons_variety.svg">                        
+                </div>
+                    <div class="media-body">
+                        <p><strong>General</strong><br>variety</p>  
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img height="50px" width="50px" src="/images/report-icons/icons_amount.svg"> 
+                        </a>
+                </div>
+                    <div class="media-body">
+                        <p><strong>800lbs</strong><br>Demand</p>  
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img height="50px" width="50px" src="/images/report-icons/icons_total_supply.svg"> 
+                        </a>
+                </div>
+                    <div class="media-body">
+                        <p><strong>1100lbs</strong><br>Total Supply</p>  
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img height="50px" width="40px" src="/images/report-icons/icons_prince.svg"> 
+                        </a>
+                </div>
+                    <div class="media-body">
+                        <p><strong>$31,000</strong><br>Total Value</p>  
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="farmer-section">
+    <div class="container">
+        <!-- <div class="row farmer"> -->
+            <div class="col-md-8 farmer"><p><strong>Milton James </strong><br> <small>Farmer</small></p>
+            </div>
+            <div class="col-md-4 date-available">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <img height="30px" width="30px" src="/images/report-icons/icons_date_posted.svg"> 
+                            </div>
+                            <div class="media-body">
+                                <p>14/2/15<br>Available</p>
+                            </div>                          
+                        </div>                  
+                    </div>
+                    <div class="col-md-6">
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <img height="30px" width="30px" src="/images/report-icons/icons_date_posted.svg"> 
+                            </div>
+                            <div class="media-body">
+                                <p>26/2/15<br>Available</p>
+                            </div>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+<div class="details">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 det">
+                <div class="media">
+                    <div class="media-left media-top">
+                    <img height="30px" width="30px" src="/images/report-icons/icons_amount.svg">
+                    </div>
+                    <div class="media-body">
+                        <p><strong>3000lbs</strong><br>Amount</p>
+                    </div>
+                </div>
+
+                    <div class="media">
+                    <div class="media-left media-top">
+                    <img height="30px" width="30px" src="/images/report-icons/icons_prince.svg">
+                    </div>
+                    <div class="media-body">
+                        <p><strong>$9,000</strong><br>Total Price</p>
+                    </div>
+                </div>
+
+                    <div class="media">
+                    <div class="media-left media-top">
+                    <img height="30px" width="30px" src="/images/report-icons/icons_unit_price.svg">
+                    </div>
+                    <div class="media-body">
+                        <p><strong>$30/lb</strong><br>Unit Price</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 det">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="media">
+                    <div class="media-left media-top">
+                    <img height="30px" width="30px" src="/images/report-icons/icons_address_pin.svg">
+                    </div>
+                    <div class="media-body">
+                        <p>Lot 21 Albert Road<br>Two Sisters Bend<br>Linstead<br>St Catherine</p>
+                    </div>
+                </div>
+                    </div>
+                    <div class="col-md-6">
+
+                                <div class="media">
+                            <div class="media-left media-top">
+                            <img height="30px" width="30px" src="/images/report-icons/icons_phone.svg">
+                            </div>
+                            <div class="media-body">
+                                <p>(876) 725-3792<br>Mobile</p>
+                            </div>
+                        </div>
+
+                            <div class="media">
+                            <div class="media-left media-top">
+                            <img height="30px" width="30px" src="/images/report-icons/icons_phone.svg">
+                            </div>
+                            <div class="media-body">
+                                <p>(876) 725-3792<br>Mobile</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="media">
+                            <div class="media-left media-top">
+                                <img height="30px" width="30px" src="/images/report-icons/icons_email_address.svg">
+                            </div>
+                            <div class="media-body">
+                                <p>milton.james@example.com <br> Personal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+                <div class="col-md-4"><p>Notes<br><strong>Pimento dried in outhouse. No transportation available to deliver goods</strong></p></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script src="../bower_components/angular/angular.min.js"></script>
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../bower_components/angular-route/angular-route.min.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="../bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="../bower_components/angular-material/angular-material.min.js"></script>
+<script src="../bower_components/angular-selection-model/dist/selection-model.min.js"></script>
+
+<script src="../javascripts/app.js"></script>
+<script src="../javascripts/services.js"></script>
+<script src="../javascripts/controllers/demand-ctrl.js"></script>
+<script src="../javascripts/directives.js"></script>
+</body> 
+</html>
