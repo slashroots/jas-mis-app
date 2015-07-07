@@ -4,13 +4,30 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        function ($scope, $location, $routeParams, CurrentDemandsFactory) {
+        'OpenTransactionsFactory', 'TransactionsFactory',
+        function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
+        TransactionsFactory) {
+
+            /**
+             * looks up current demands
+             */
             CurrentDemandsFactory.query( function(demands) {
                     $scope.demands = demands;
                 },
                 function(error) {
                     $scope.demands = [];
                 });
+
+            /**
+             * Looks up all opened transactions
+             */
+            OpenTransactionsFactory.query(function (o_trans) {
+                $scope.open_transactions = o_trans;
+            },
+            function(err) {
+                $scope.open_transactions = [];
+            });
+
 
             /**
              * States of the drop down - false = closed

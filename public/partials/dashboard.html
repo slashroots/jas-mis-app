@@ -18,7 +18,7 @@
                             <div flex="20"><md-icon md-svg-src="/images/ic_money_off_24px.svg"></md-icon></div>
                             <div class="textLabel" flex>Pending Transactions</div>
                             <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
-                            <div><h1>125</h1></div>
+                            <div><h1>{{open_transactions.length}}</h1></div>
                         </div>
                     </div>
                     <div class="statistic" layout-align="end end" layout="column" flex>
@@ -42,6 +42,9 @@
 
                 </md-content>
                 <div class="expanded" ng-if="states.demand" ng-include="'/partials/demand_listing_small.html'">
+
+                </div>
+                <div class="expanded" ng-if="states.transactions" ng-include="'/partials/open_trans_listing_small.html'">
 
                 </div>
             </md-card>

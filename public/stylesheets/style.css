@@ -24,13 +24,13 @@ md-content.md-default-theme {
 }
 
 .active {
-  border-bottom-width: thick;
-  border-bottom-color: grey;
-  border-bottom-style: solid;
+  background: url('/images/icons_triangle_tab.svg') no-repeat bottom center;
+  background-size: 24px 24px;
+  background-color: lightgrey;
 }
 
 .statistic {
-  padding: 25px;
+  padding: 15px;
 }
  .textLabel {
   font-weight: bold;
