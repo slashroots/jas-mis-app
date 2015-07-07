@@ -7,11 +7,11 @@ angular.module('jasmic.controllers')
         'DemandMatchFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, DemandMatchFactory) {
             CurrentDemandsFactory.query({}, function(demands) {
-                $scope.demands = demands;
-            },
-            function(error) {
-                $scope.demands = [];
-            });
+                    $scope.demands = demands;
+                },
+                function(error) {
+                    $scope.demands = [];
+                });
 
             $scope.selectedItem = function(demand) {
                 $scope.selectedDemand = demand;
@@ -32,9 +32,10 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-    .controller('DemandProfileCtrl', ['$scope','$location','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory',
-        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory) {
+    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location','$routeParams', 'DemandFactory',
+        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory',
+        function ($scope, $mdToast, $location, $routeParams, DemandFactory, DemandMatchFactory,
+                  UserProfileFactory, TransactionFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -55,14 +56,63 @@ angular.module('jasmic.controllers')
                     $scope.demand = {};
                 });
 
+            /**
+             * Function to run when download pdf button is clicked.
+             * This creates a transaction based on items in the
+             * transaction cart and triggers download of pdf.
+             */
+            $scope.downloadPDF = function() {
+                //create transaction(s)
+                if($scope.m_commodities.length > 0) {
+                    createTransactions();
+                } else {
+                    $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
+                }
+            };
+
+            createTransactions = function() {
+                for(var i in $scope.m_commodities) {
+                    TransactionFactory.create({
+                            bu_buyer: $scope.demand.bu_buyer,
+                            fr_farmer: $scope.m_commodities[i].fa_farmer,
+                            cr_crop: $scope.demand.cr_crop,
+                            tr_status: 'Pending',
+                            us_user_id: $scope.user._id,
+                            de_demand: $scope.demand._id,
+                            tr_value: ($scope.m_commodities[i].co_price * $scope.m_commodities[i].co_quantity),
+                            co_commodity: $scope.m_commodities[i]._id
+                        },
+                        function(success) {
+                            console.log(success);
+                        },
+                        function(fail) {
+                            console.log(fail);
+                        });
+                }
+            };
+
+            /**
+             * Default/initial variable states
+             */
             $scope.combinedSupplyAmount = 0;
             $scope.combinedSuppyValue = 0;
             $scope.totalPercentage = 0;
+            $scope.demandMet = false;
+            $scope.allSelected = false;
+            $scope.m_commodities = [];
 
+            /**
+             * Deselect item from the cart.
+             * @param commodity
+             */
             $scope.remove = function(commodity) {
                 commodity.selected = false;
             };
 
+            /**
+             * Triggered when an item is checked/unchecked.
+             * @param commodity
+             */
             $scope.checked = function(commodity) {
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;
@@ -79,10 +129,6 @@ angular.module('jasmic.controllers')
                     $scope.demandMet = false;
                 }
             };
-
-            $scope.demandMet = false;
-            $scope.allSelected = false;
-            $scope.m_commodities = [];
 
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.demand._id}, function(list) {

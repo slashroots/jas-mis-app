@@ -22,7 +22,7 @@ var Transaction = model.Transaction;
  */
 exports.searchTransaction = function(req, res) {
     Transaction.find(req.query)
-        .populate('bu_buyer fr_farmer')
+        .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
         if(err) {
             common.handleDBError(err, res);
@@ -42,7 +42,7 @@ exports.searchOpenTransaction = function(req, res) {
     Transaction.find({
         $or: [{tr_status: 'Pending'},
             {tr_status: 'Waiting'}]})
-        .populate('bu_buyer fr_farmer')
+        .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
             if(err) {
                 common.handleDBError(err, res);

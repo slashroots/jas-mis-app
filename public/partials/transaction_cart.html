@@ -2,7 +2,7 @@
     <md-card>
         <md-card-content >
             <div layout-padding layout-fill layout-align="center" layout="column">
-                <div layout="row" class="farmerInfo">
+                <div id="buttonsArea" layout="row" class="farmerInfo">
                     <h4>Share with Buyer</h4>
                     <span flex></span>
                     <md-button class="md-icon-button" aria-label="Print">
@@ -10,7 +10,7 @@
                         <md-tooltip>Print</md-tooltip>
                     </md-button>
                     <md-button class="md-icon-button" aria-label="Download">
-                        <md-icon class="scale" md-svg-icon="/images/icons/icons_download.svg"></md-icon>
+                        <md-icon class="scale" ng-click="downloadPDF()" md-svg-icon="/images/icons/icons_download.svg"></md-icon>
                         <md-tooltip>Download</md-tooltip>
                     </md-button>
                     <md-button class="md-icon-button" aria-label="Email">
