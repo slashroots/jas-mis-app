@@ -8,6 +8,7 @@ router.get('/home', function(req, res, next) {
 
 //get report page 
 router.get('/report', function(req, res, next){
+	console.log("Body " + req.query.demand);
 	res.render('report', {title: 'Report'});
 });
 

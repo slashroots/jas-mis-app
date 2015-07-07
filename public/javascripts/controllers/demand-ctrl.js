@@ -90,9 +90,8 @@ angular.module('jasmic.controllers')
                 })
             }
 
-            $scope.printReport = function(){
-                window.location = '/report';
-                // console.log('Scope' + $scope.m_commodities);
+            $scope.printReport = function(demand_id){
+               window.location = '/report?demand='+ demand_id;
             }
         }
     ]);
