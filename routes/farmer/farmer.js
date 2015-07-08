@@ -601,7 +601,7 @@ function performTransform(directType, branchType, parishes, branches, req, res) 
 
         farmer = new model.Farmer({
             fa_first_name: req.body[f]["First Name"],
-            fa_middle_name: req.body[f]["Middle "],
+            fa_middle_name: req.body[f]["Middle"],
             fa_last_name: req.body[f]["Last Name"],
             fa_gender: req.body[f]["Gender"],
             fa_contact: req.body[f]["Contact Number"],
