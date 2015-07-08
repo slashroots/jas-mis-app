@@ -300,6 +300,10 @@ md-content.farmForm {
   color:orange;
 }
 
+.pendingStat {
+  color:orange;
+}
+
 .disputeStat {
   background-image: url('/images/circle3.png');
   background-repeat: no-repeat;

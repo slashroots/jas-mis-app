@@ -17,11 +17,12 @@
                     </md-button>
                 </div>
                 <div layout="row" class="farmerPretty">
-                    <div flex="30" class="profilePic"></div>
-                    <div flex="70" layout="column" class="farmerNames">
+                    <div flex="10" class="profilePic"></div>
+                    <div flex="90" layout="column" class="farmerNames">
                         <label>Farmer</label>
-                        <H3 class="farmerSummary">{{selectedFarmer.fa_first_name}} &nbsp;{{selectedFarmer.fa_middle_name}}</H3>
-                        <h2 class="farmerSummary">{{selectedFarmer.fa_last_name}}</h2>
+                        <div layout="row">
+                            <H3 class="farmerSummary">{{selectedFarmer.fa_first_name}} {{selectedFarmer.fa_middle_name}} {{selectedFarmer.fa_last_name}}</h3>
+                        </div>
                     </div>
                 </div>
             </div>

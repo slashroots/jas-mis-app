@@ -39,9 +39,10 @@ exports.searchTransaction = function(req, res) {
  * @param res
  */
 exports.searchOpenTransaction = function(req, res) {
-    Transaction.find({
-        $or: [{tr_status: 'Pending'},
-            {tr_status: 'Waiting'}]})
+    var query = req.query;
+    query['$or'] = [{tr_status: 'Pending'},
+        {tr_status: 'Waiting'}];
+    Transaction.find(query)
         .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
             if(err) {
