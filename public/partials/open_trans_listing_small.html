@@ -1,0 +1,23 @@
+<md-card-content>
+    <table class="table table-hover table-mc-light-blue">
+        <thead>
+        <tr>
+            <th>Buyer Name</th>
+            <th>Farmer Name</th>
+            <th>Value</th>
+            <th>Crop</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="transaction in open_transactions | limitTo:3">
+            <td flex>{{transaction.bu_buyer.bu_buyer_name}}</td>
+            <td flex>{{transaction.fr_farmer.fa_first_name}} {{transaction.fr_farmer.fa_last_name}}</td>
+            <td flex>{{transaction.tr_value | currency}}</td>
+            <td flex>{{ transaction.cr_crop.cr_crop_name }}{{ transaction.cr_crop.cr_crop_variety?" - "+transaction.cr_crop.cr_crop_variety:"" }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="text-align: center" layout-align="center center" ng-if="open_transactions.length >= 3">
+        <a ng-href="#/demands" >More Results</a>
+    </div>
+</md-card-content>

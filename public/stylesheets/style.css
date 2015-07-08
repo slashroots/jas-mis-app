@@ -17,6 +17,33 @@ md-content.md-default-theme {
   background-color: transparent;
 }
 
+.expanded {
+  border-width: thin;
+  border-color: grey;
+  border-style: solid;
+}
+
+.active {
+  background: url('/images/icons_triangle_tab.svg') no-repeat bottom center;
+  background-size: 24px 24px;
+  background-color: lightgrey;
+}
+
+.statistic {
+  padding: 15px;
+}
+ .textLabel {
+  font-weight: bold;
+}
+.infoStat {
+  border-top-width: thin;
+  border-top-color: black;
+  border-top-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: black;
+  border-bottom-style: solid;
+}
+
 .whitebg{
   background-color: white;
 }
@@ -270,6 +297,10 @@ md-content.farmForm {
   background-size: contain;
   background-position: center;
   height: 80px;
+  color:orange;
+}
+
+.pendingStat {
   color:orange;
 }
 

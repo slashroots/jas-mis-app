@@ -1,31 +1,156 @@
 <div layout="column" layout-fill>
     <md-card>
-        <md-subheader>Statistics</md-subheader>
+        <md-subheader>Transaction Statistics</md-subheader>
         <md-card-content layout="column">
             <div layout="row">
                 <div layout="column" flex layout-align="center center" class="completeTransStat">
                     <span flex></span>
-                    <label>{{completedTransactions.length}}</label>
+                    <h4>{{completedTransactions.length}}</h4>
                     <span flex></span>
                 </div>
                 <div layout="column" flex layout-align="center center" class="pendingTransStat">
                     <span flex></span>
-                    <label>{{pendingTransactions.length}}</label>
+                    <h4>{{openTransactions.length}}</h4>
                     <span flex></span>
                 </div>
                 <div layout="column" flex layout-align="center center" class="disputeStat">
                     <span flex></span>
-                    <label>{{disputes.length}}</label>
+                    <h4>{{disputes.length}}</h4>
                     <span flex></span>
                 </div>
             </div>
             <div class="statLabels" layout-align="center center" layout="row">
                 <div style="text-align: center" flex>Completed</div>
-                <div style="text-align: center" flex>Pending</div>
+                <div style="text-align: center" flex>Opened</div>
                 <div style="text-align: center" flex>Disputes</div>
             </div>
         </md-card-content>
         <md-card-content>
+            <div class="internalpadding" ng-repeat="t in openTransactions" layout="row">
+                <div flex layout="column" class="customTable">
+                    <div layout-padding class="header" layout-align="center center" layout="row">
+                        <div ng-if="!isBuyerContext" flex="70">{{t.bu_buyer.bu_buyer_name}}</div>
+                        <div ng-if="isBuyerContext" flex="70">{{t.fr_farmer.fa_first_name}} {{t.fr_farmer.fa_last_name}}</div>
+                        <div flex="30" layout="row" class="pendingStat" layout-align="end end">{{t.tr_status}}</div>
+                    </div>
+                    <div layout="row">
+                        <div layout="row" flex="50">
+                            <md-icon class="scale" flex md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_quantity|number}} {{t.de_demand.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_quantity|number}} {{t.co_commodity.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                        </div>
+                        <div layout="row" flex="50">
+                            <md-icon class="scale" flex md-svg-icon="/images/icons/icons_price.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_price | currency}} per {{t.de_demand.un_price_unit.un_unit_name}}
+                                <label>Price</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_price | currency}} per {{t.co_commodity.un_price_unit.un_unit_name}}
+                                <label>Price</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div layout="row" flex="50">
+                            <md-icon flex md-svg-src="/images/icons/icons_date_posted.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_posting_date | date}}
+                                <label>Available Date</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_availability_date | date}}
+                                <label>Available Date</label>
+                            </div>
+                        </div>
+                        <div layout="row" flex="50">
+                            <md-icon flex md-svg-src="/images/icons/icons_date_expires.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_until | date}}
+                                <label>Expiration Date</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_until | date}}
+                                <label>Expiration Date</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </md-card-content>
+        <md-card-content>
+            <div class="internalpadding" ng-repeat="t in completedTransactions" layout="row">
+                <div flex layout="column" class="customTable">
+                    <div layout-padding class="header" layout-align="center center" layout="row">
+                        <div ng-if="!isBuyerContext" flex="70">{{t.bu_buyer.bu_buyer_name}}</div>
+                        <div ng-if="isBuyerContext" flex="70">{{t.fr_farmer.fa_first_name}} {{t.fr_farmer.fa_last_name}}</div>
+                        <div flex="30" layout="row" style="color:green;" layout-align="end end">{{t.tr_status}}</div>
+                    </div>
+                    <div layout="row">
+                        <div layout="row" flex="50">
+                            <md-icon class="scale" flex md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_quantity|number}} {{t.de_demand.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_quantity|number}} {{t.co_commodity.un_quantity_unit.un_unit_name}}
+                                <label>Amount</label>
+                            </div>
+                        </div>
+                        <div layout="row" flex="50">
+                            <md-icon class="scale" flex md-svg-icon="/images/icons/icons_price.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_price | currency}} per {{t.de_demand.un_price_unit.un_unit_name}}
+                                <label>Price</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_price | currency}} per {{t.co_commodity.un_price_unit.un_unit_name}}
+                                <label>Price</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div layout="row" flex="50">
+                            <md-icon flex md-svg-src="/images/icons/icons_date_posted.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_posting_date | date}}
+                                <label>Available Date</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_availability_date | date}}
+                                <label>Available Date</label>
+                            </div>
+                        </div>
+                        <div layout="row" flex="50">
+                            <md-icon flex md-svg-src="/images/icons/icons_date_expires.svg"></md-icon>
+                            <span flex="5"></span>
+                            <div ng-if="!isBuyerContext" flex="85" layout="column">
+                                {{t.de_demand.de_until | date}}
+                                <label>Expiration Date</label>
+                            </div>
+                            <div ng-if="isBuyerContext" flex="85" layout="column">
+                                {{t.co_commodity.co_until | date}}
+                                <label>Expiration Date</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </md-card-content>
     </md-card>

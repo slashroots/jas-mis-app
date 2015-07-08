@@ -109,11 +109,11 @@ angular.module('jasmic.controllers')
      *  TODO: Document this controller!
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
+        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
         'BuyerDemandFactory', 'DemandsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  TransactionsFactory, RepFactory, CropsFactory, UnitsFactory, BuyerDemandFactory,
-                  DemandsFactory) {
+                  OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
+                  BuyerDemandFactory, DemandsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -129,8 +129,8 @@ angular.module('jasmic.controllers')
                         $scope.completedTransactions = TransactionsFactory.query({
                             bu_buyer: buyer._id, tr_status: 'Completed'
                         });
-                        $scope.pendingTransactions = TransactionsFactory.query({
-                            bu_buyer: buyer._id, tr_status: 'Pending'
+                        $scope.openTransactions = OpenTransactionsFactory.query({
+                            bu_buyer: buyer._id
                         });
                         $scope.disputes = [];
                     },
@@ -154,6 +154,7 @@ angular.module('jasmic.controllers')
             $scope.units = UnitsFactory.query({});
 
             $scope.isValid = isValid;
+            $scope.isBuyerContext = true;
 
             /**
              * Move to the edit page for the buyer from profile

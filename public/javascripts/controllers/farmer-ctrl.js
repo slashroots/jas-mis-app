@@ -36,10 +36,10 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog',
+    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        function ($scope, $location, $routeParams, $mdDialog, TransactionsFactory,
+        function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
             /**
@@ -53,8 +53,8 @@ angular.module('jasmic.controllers')
                     $scope.completedTransactions = TransactionsFactory.query({
                         fr_farmer: farmer._id, tr_status: 'Completed'
                     });
-                    $scope.pendingTransactions = TransactionsFactory.query({
-                        fr_farmer: farmer._id, tr_status: 'Pending'
+                    $scope.openTransactions = OpenTransactionsFactory.query({
+                        fr_farmer: farmer._id
                     });
                     $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
                 }, function(err) {

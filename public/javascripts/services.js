@@ -108,6 +108,15 @@ services.factory('TransactionsFactory', function ($resource) {
 });
 
 /**
+ * Retrieves open transactions
+ */
+services.factory('OpenTransactionsFactory', function($resource) {
+    return $resource('/open_transactions', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
  * Factory to be used to create and modify a transaction
  */
 services.factory('TransactionFactory', function($resource) {

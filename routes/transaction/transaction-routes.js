@@ -13,7 +13,8 @@ dummyfunction = function(req, res) {
  * End Points relevant to Transactions
  */
 router.get('/transactions', Transaction.searchTransaction);
+router.get('/open_transactions', Transaction.searchOpenTransaction);
 router.post('/transaction', Transaction.createTransaction);
-router.put('/transaction/:id', Transaction.updateTransactionById)
+router.put('/transaction/:id', Transaction.updateTransactionById);
 
 module.exports = router;

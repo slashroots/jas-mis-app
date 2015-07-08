@@ -130,6 +130,7 @@ var TransactionSchema = new Schema({
     tr_quantity: {type: Number, required: false},
     tr_value: {type: Number, required: false},
     tr_date: Date,
+    cr_crop: {type: Schema.Types.ObjectId, required: true, ref: 'Crop'},
     tr_date_created: {type: Date, default: Date.now()},
     tr_status: {type:String, required: true},
     us_user_id: Schema.Types.ObjectId,
@@ -139,6 +140,7 @@ var TransactionSchema = new Schema({
     ct_comments: [CommentSchema],
     co_sold: {type: Boolean, default: false}
 });
+TransactionSchema.index({de_demand: 1, co_commodity: 1}, {unique: true});
 var FarmerSchema = new Schema({
     fa_jas_number: {type: String, unique: true},
     fa_first_name: {type: String, required: true},

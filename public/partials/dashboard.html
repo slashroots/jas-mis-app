@@ -1,18 +1,60 @@
 <ui-view>
     <md-content layout="row" layout-fill>
         <div layout="column" class="repeated-item" layout-fill flex="{{selected ? 60: 100}}">
-            <md-card>
-                <md-subheader class="md-no-sticky md-primary">Price Trends Module</md-subheader>
-            </md-card>
+            <md-card layout-padding>
+                <md-content layout-fill layout="row">
+                    <div ng-click="setSelected('demand')" class="{{states.demand ? 'active': ''}} statistic" layout-align="end end" layout="column" flex>
+                        <div flex="20"></div>
+                        <div class="infoStat" layout-align="center center" flex="80" layout-fill layout="row">
+                            <div flex="20"><md-icon md-svg-src="/images/ic_shopping_cart_24px.svg"></md-icon></div>
+                            <div class="textLabel" flex>Opened Demands</div>
+                            <div><md-icon md-svg-src="/images/ic_arrow_up_24px.svg"></md-icon></div>
+                            <div><h1>{{demands.length}}</h1></div>
+                        </div>
+                    </div>
+                    <div ng-click="setSelected('transactions')" class="{{states.transactions ? 'active': ''}} statistic" layout-align="end end" layout="column" flex>
+                        <div flex="20">&nbsp;</div>
+                        <div class="infoStat" layout-align="center center" flex="80" layout-fill layout="row">
+                            <div flex="20"><md-icon md-svg-src="/images/ic_money_off_24px.svg"></md-icon></div>
+                            <div class="textLabel" flex>Pending Transactions</div>
+                            <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
+                            <div><h1>{{open_transactions.length}}</h1></div>
+                        </div>
+                    </div>
+                    <div class="statistic" layout-align="end end" layout="column" flex>
+                        <div flex="20">This Week</div>
+                        <div class="infoStat" layout-align="center center" flex="80" layout-fill layout="row">
+                            <div flex="20"><md-icon md-svg-src="/images/ic_attach_money_24px.svg"></md-icon></div>
+                            <div class="textLabel" flex>Closed Transactions</div>
+                            <div><md-icon md-svg-src="/images/ic_arrow_up_24px.svg"></md-icon></div>
+                            <div><h1>85</h1></div>
+                        </div>
+                    </div>
+                    <div ng-click="setSelected('calls')" class="{{states.calls ? 'active': ''}} statistic" layout-align="end end" layout="column" flex>
+                        <div flex="20">Today</div>
+                        <div class="infoStat" layout-align="center center" flex="80" layout-fill layout="row">
+                            <div flex="20"><md-icon md-svg-src="/images/ic_call_24px.svg"></md-icon></div>
+                            <div class="textLabel" flex>Calls Made</div>
+                            <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
+                            <div><h1>15</h1></div>
+                        </div>
+                    </div>
 
-            <md-card>
-                <div ng-include="'/partials/demand_listing_small.html'">
+                </md-content>
+                <div class="expanded" ng-if="states.demand" ng-include="'/partials/demand_listing_small.html'">
+
+                </div>
+                <div class="expanded" ng-if="states.transactions" ng-include="'/partials/open_trans_listing_small.html'">
 
                 </div>
             </md-card>
 
             <md-card>
                 <md-subheader class="md-no-sticky md-primary">Price Trends Supply</md-subheader>
+            </md-card>
+
+            <md-card>
+
             </md-card>
 
             <md-card>
