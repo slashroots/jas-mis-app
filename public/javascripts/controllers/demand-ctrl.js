@@ -33,8 +33,8 @@ angular.module('jasmic.controllers')
         }
     ])
     .controller('DemandProfileCtrl', ['$scope','$location','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory',
-        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory) {
+        'DemandMatchFactory', 'UserProfileFactory', 'BuyerReportFactory',
+        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory, BuyerReportFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -64,6 +64,7 @@ angular.module('jasmic.controllers')
             };
 
             $scope.checked = function(commodity) {
+                // console.log(commodity);
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;
                 for(var i in $scope.m_commodities) {
@@ -78,6 +79,7 @@ angular.module('jasmic.controllers')
                 } else {
                     $scope.demandMet = false;
                 }
+               // console.log($scope.m_commodities);
             };
 
             $scope.demandMet = false;
@@ -91,7 +93,22 @@ angular.module('jasmic.controllers')
             }
 
             $scope.printReport = function(demand_id){
-               window.location = '/report?demand='+ demand_id;
+              var url = "/report/buyer_report?";
+              var commodity_tag= "co=";
+              var ampersand = "&"
+              for(var i in $scope.m_commodities){
+                    url = url.concat(commodity_tag,$scope.m_commodities[i]._id,ampersand);
+                }
+                //console.log(url);
+                var report_url = url + "demand_id=" + demand_id;
+                console.log(report_url);
+               // BuyerReportFactory.show({demand_id:'Testing', co: ['co', 'c2']}, function(success){
+               //      window.location = '/report/buyer_report';
+               //     // console.log('Render Page');
+               // });
+                window.location = report_url;
+               //window.location = '/report/buyer_report?demand_id='+demand_id;
+               
             }
         }
     ]);
