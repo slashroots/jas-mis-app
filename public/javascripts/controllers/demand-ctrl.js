@@ -32,9 +32,9 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-    .controller('DemandProfileCtrl', ['$scope','$location','$routeParams', 'DemandFactory',
+    .controller('DemandProfileCtrl', ['$scope','$location', '$mdDialog','$routeParams', 'DemandFactory',
         'DemandMatchFactory', 'UserProfileFactory', 'BuyerReportFactory',
-        function ($scope, $location, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory, BuyerReportFactory) {
+        function ($scope, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory, BuyerReportFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -79,7 +79,6 @@ angular.module('jasmic.controllers')
                 } else {
                     $scope.demandMet = false;
                 }
-               // console.log($scope.m_commodities);
             };
 
             $scope.demandMet = false;
@@ -94,21 +93,24 @@ angular.module('jasmic.controllers')
 
             $scope.printReport = function(demand_id){
               var url = "/report/buyer_report?";
-              var commodity_tag= "co=";
-              var ampersand = "&"
-              for(var i in $scope.m_commodities){
-                    url = url.concat(commodity_tag,$scope.m_commodities[i]._id,ampersand);
+              var commodity_id= "comm_id=";
+              var ampersand = "&";
+                if ($scope.m_commodities.length > 0){
+                    for(var i in $scope.m_commodities){
+                        url = url.concat(commodity_id,$scope.m_commodities[i]._id,ampersand);
+                    }
+                    var report_url = url + "demand_id=" + demand_id + "&supply_value=" + $scope.combinedSuppyValue + "&supply_amount=" + $scope.combinedSupplyAmount;
+                    window.location = report_url; 
+                }else{
+                    $mdDialog.show(
+                        $mdDialog.alert()
+                            .parent(angular.element(document.body))
+                            .title('Error Detected')
+                            .content('No Supply matched')
+                            .ariaLabel('Alert')
+                            .ok('Ok')
+                        );          
                 }
-                //console.log(url);
-                var report_url = url + "demand_id=" + demand_id;
-                console.log(report_url);
-               // BuyerReportFactory.show({demand_id:'Testing', co: ['co', 'c2']}, function(success){
-               //      window.location = '/report/buyer_report';
-               //     // console.log('Render Page');
-               // });
-                window.location = report_url;
-               //window.location = '/report/buyer_report?demand_id='+demand_id;
-               
-            }
+            }             
         }
     ]);
