@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 var Demand = require('../models/db').Demand;
 var Buyer = require('../models/db').Buyer;
@@ -29,6 +30,7 @@ router.get('/report/buyer_report', function(req, res, next){
                         } else {
                         	var matched_commodities = getMatchCommodities(list, req.query.comm_id);
                         	var total_prices = getTotalPrices(list, req.query.comm_id);
+                        	var crop_avail_dates = getCropAvailabilityDates(list, req.query.comm_id);
                         	console.log(matched_commodities);
                             res.render('report', 
                             	{	title: 'Report',
@@ -36,7 +38,9 @@ router.get('/report/buyer_report', function(req, res, next){
                             	 	supply_amount: req.query.supply_amount,
                             	 	supply_value: req.query.supply_value,
                             	 	commodities: matched_commodities,
-                            	 	prices: total_prices
+                            	 	prices: total_prices,
+                            	 	report_date: moment().format('DD/MM/YY'),
+                            	 	crop_dates: crop_avail_dates 
                             	 });
                         }
                     });
@@ -44,8 +48,20 @@ router.get('/report/buyer_report', function(req, res, next){
             });	
 });
 
+function getCropAvailabilityDates(list, commodity_ids){
+	var crop_expiry_dates = [];	
+	list.forEach(function(list_item){
+		if(commodity_ids.toString() === list_item._id.toString()){
+			crop_expiry_dates.push(moment(list_item.co_availability_date).format('DD/MM/YY'));
+			crop_expiry_dates.push(moment(list_item.co_until).format('DD/MM/YY'));
+		}
+	});
+	return crop_expiry_dates;
+}
+
 function getMatchCommodities(list, commodity_ids){
-	var matched_commodities = [];	
+	var matched_commodities = [];
+	
 	list.forEach(function(list_item){
 		if(commodity_ids.toString() === list_item._id.toString()){
 			matched_commodities.push(list_item);

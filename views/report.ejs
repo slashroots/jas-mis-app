@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                     <td>Date:</td>
-                    <td></td>
+                    <td><%= report_date %></td>
                     </tr>
                     <tr>
                     <td>Subject:</td>
@@ -136,7 +136,7 @@
                                 <img height="30px" width="30px" src="/images/report-icons/icons_date_posted.svg"> 
                             </div>
                             <div class="media-body">
-                                <p>14/2/15<br>Available</p>
+                                <p><%= crop_dates[0] %><br>Available</p>
                             </div>                          
                         </div>                  
                     </div>
@@ -146,7 +146,7 @@
                                 <img height="30px" width="30px" src="/images/report-icons/icons_date_posted.svg"> 
                             </div>
                             <div class="media-body">
-                                <p>26/2/15<br>Available</p>
+                                <p><%= crop_dates[1] %><br>Expires</p>
                             </div>                          
                         </div>
                     </div>
@@ -267,18 +267,5 @@
     </div>
 <% } %>
 </div>
-<!-- <script src="../bower_components/angular/angular.min.js"></script>
-<script src="../bower_components/moment/min/moment.min.js"></script>
-<script src="../bower_components/angular-route/angular-route.min.js"></script>
-<script src="../bower_components/angular-resource/angular-resource.min.js"></script>
-<script src="../bower_components/angular-animate/angular-animate.min.js"></script>
-<script src="../bower_components/angular-aria/angular-aria.min.js"></script>
-<script src="../bower_components/angular-material/angular-material.min.js"></script>
-<script src="../bower_components/angular-selection-model/dist/selection-model.min.js"></script>
-
-<script src="../javascripts/app.js"></script>
-<script src="../javascripts/services.js"></script>
-<script src="../javascripts/controllers/demand-ctrl.js"></script>
-<script src="../javascripts/directives.js"></script> -->
 </body> 
 </html>
