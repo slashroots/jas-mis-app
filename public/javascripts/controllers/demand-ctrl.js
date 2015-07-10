@@ -32,9 +32,9 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-    .controller('DemandProfileCtrl', ['$scope','$location', '$mdDialog','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'BuyerReportFactory',
-        function ($scope, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory, BuyerReportFactory) {
+    .controller('DemandProfileCtrl', ['$scope', '$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
+        'DemandMatchFactory', 'UserProfileFactory', 'BuyerReportFactory', 'TransactionFactory',
+        function ($scope, '$mdToast',$location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory, TransactionFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
