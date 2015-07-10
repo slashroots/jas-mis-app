@@ -33,7 +33,7 @@ angular.module('jasmic.controllers')
         }
     ])
     .controller('DemandProfileCtrl', ['$scope', '$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'BuyerReportFactory', 'TransactionFactory',
+        'DemandMatchFactory', 'UserProfileFactory','TransactionFactory',
         function ($scope, '$mdToast',$location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory, UserProfileFactory, TransactionFactory) {
             /**
              * Display user profile based on authenticated
