@@ -1,0 +1,129 @@
+/*.buyer-info{
+	margin-top: 30px;
+}*/
+
+body{
+	background-color: #fff;
+	font-family: 'Roboto', sans-serif;
+	width: 8in;
+	height: 10in;
+	padding-top: 30px;
+/*	margin: 0 auto;*/
+}
+
+.container{
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 900px;
+}
+
+.test{
+	border: 2px solid #000;
+	padding-left: 0px;
+	overflow: hidden;
+	margin-left: 20px;
+}
+
+.report-title{
+	height:0.6in; 
+	background-color: #424242;
+	padding: 0px; 
+	margin: 0px;
+	color: #fff;
+	text-align: center;
+	padding-top: 5px;
+	font-size: 20px;
+}
+
+.report-title img{
+	float: left;
+	padding-top: 0px;
+	height: 50px;
+	padding-left: 10px;
+}
+
+.buyer-text{
+	padding-top: 40px;
+}
+
+.buyer{
+	border-style: dotted;
+	border-width: 1px;
+}
+
+.buyer-info, .farmer{
+	background-color: #95a5a6;
+}
+
+.email{
+	margin-top: 10px;
+}
+
+.navbar.navbar, .navbar-default.navbar
+{
+	margin-bottom: 0px;
+}
+
+.farmer, .date-available{
+	border-top: 2px solid #B5B5B5;;
+	border-bottom: 2px dotted #B5B5B5;
+	
+	/*border-right: 1px solid #000;*/
+	margin-bottom: 10px;
+	background-color: #EDECED;	
+}
+
+.farmer{
+	font-size: 16px;
+	padding-top: 5px;
+	border-left-style: none;
+}
+.date-available{
+	font-size: 16px;
+	padding-top: 5px;
+	border-left: 2px dotted #B5B5B5;
+	/*padding-bottom: 5px;*/
+	border-right: 2px solid #B5B5B5;
+}
+
+.buyer-info{
+	border-top-style: none;
+	border-left: none;
+	border-right: 2px dotted #ddd;
+	border-bottom: 2px dotted #ddd;
+	background-color: #EDECED;
+}
+
+.report-subject{
+	border-top-style: none;
+	border-right: 2px dotted #000;
+	border-bottom: 2px dotted #000;
+}
+
+.report-summary{
+	padding-bottom: 5px;
+}
+.report-summary, .details{
+	font-size: 16px;
+}
+/*
+.det{
+	border-right: 2px dotted #000;
+}*/
+
+.report-sec{
+	border-bottom: 2px dotted #000;
+	text-align: center;
+}
+
+.report-summ{
+	float: left;
+}
+
+.table-bordered{
+	border-top-style: none;
+	
+}
+
+
+
