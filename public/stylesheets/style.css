@@ -405,3 +405,7 @@ md-content.farmForm {
 .light-font>thead>tr>th{
   font-weight: normal;
 }
+
+.parishes{
+  margin-right: 20px;
+}

@@ -1,27 +1,63 @@
 <md-card-content>
     <div layout="row">
         <div layout="column" flex="20">
+        <div class="parishes">
              <table class="table table-hover table-mc-light-blue light-font">
                 <tbody>
-               <tr><td>St Catherine</td></tr>
-               <tr><td>St Andrew</td></tr>
-               <tr><td>St Thomas</td></tr>
-               <tr><td>St Catherine</td></tr>
-               <tr><td>St Catherine</td></tr>
-               <tr><td>St Andrew</td></tr>
-               <tr><td>St Thomas</td></tr>
-               <tr><td>St Catherine</td></tr>
-               <tr><td>St Catherine</td></tr>
-               <tr><td>St Andrew</td></tr>            
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>
+                   <tr><td>St Thomas</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>
+                   <tr><td>St Thomas</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>  
+                   <tr><td>St Thomas</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>            
                 </tbody>
             </table>
-          <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 3">
-                <a ng-href="#/demands" >More Results</a>
             </div>
         </div>
 
-        <div layout="column" flex="40">
+        <div layout="column" flex="40" class="vertical-line">
+             <!-- <table class="table table-hover table-mc-light-blue light-font">
+                <tbody>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>
+                   <tr><td>St Thomas</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>
+                   <tr><td>St Thomas</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Catherine</td></tr>
+                   <tr><td>St Andrew</td></tr>            
+                </tbody>
+            </table> -->
+    <md-list>
+           <md-list-item class="md-3-line">
+            <img ng-src="http://placehold.it/200" class="md-avatar" alt="" />
+            <div class="md-list-item-text store-details">
+              <h3>Tools Hardware & Supplies</h3>
+              <p>Hardware Store</p>
+              <p>279 Spanish Town Road, Kingston</p>
+            </div>
+      </md-list-item>
+
         <md-list-item class="md-3-line">
+            <img ng-src="http://placehold.it/200" class="md-avatar" alt="" />
+            <div class="md-list-item-text store-details">
+              <h3>Tools Hardware & Supplies</h3>
+              <p>Hardware Store</p>
+              <p>279 Spanish Town Road, Kingston</p>
+            </div>
+      </md-list-item>
+
+       <md-list-item class="md-3-line">
             <img ng-src="http://placehold.it/200" class="md-avatar" alt="" />
             <div class="md-list-item-text store-details">
               <h3>Tools Hardware & Supplies</h3>
@@ -39,7 +75,7 @@
             </div>
       </md-list-item>
 
-        <md-list-item class="md-3-line">
+       <md-list-item class="md-3-line">
             <img ng-src="http://placehold.it/200" class="md-avatar" alt="" />
             <div class="md-list-item-text store-details">
               <h3>Tools Hardware & Supplies</h3>
@@ -47,15 +83,10 @@
               <p>279 Spanish Town Road, Kingston</p>
             </div>
       </md-list-item>
+    </md-list>
+   
 
-        <md-list-item class="md-3-line">
-            <img ng-src="http://placehold.it/200" class="md-avatar" alt="" />
-            <div class="md-list-item-text store-details">
-              <h3>Tools Hardware & Supplies</h3>
-              <p>Hardware Store</p>
-              <p>279 Spanish Town Road, Kingston</p>
-            </div>
-      </md-list-item>
+      
 
           <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 3">
                 <a ng-href="#/demands" >More Results</a>
@@ -72,9 +103,16 @@
                           <p>01/02/15</p>
                         </div>
                   </md-list-item>
-              </md-list>
 
-               <md-list>
+                   <md-list-item class="md-3-line">
+                        <img ng-src="http://placehold.it/100" class="md-avatar" alt="" />
+                        <div class="md-list-item-text">
+                          <h3>Product Name</h3>
+                          <p>$550.00</p>
+                          <p>01/02/15</p>
+                        </div>
+                  </md-list-item>
+
                     <md-list-item class="md-3-line">
                         <img ng-src="http://placehold.it/100" class="md-avatar" alt="" />
                         <div class="md-list-item-text">
@@ -83,9 +121,8 @@
                           <p>01/02/15</p>
                         </div>
                   </md-list-item>
-              </md-list>
 
-              <md-list>
+
                     <md-list-item class="md-3-line">
                         <img ng-src="http://placehold.it/100" class="md-avatar" alt="" />
                         <div class="md-list-item-text">
@@ -94,10 +131,8 @@
                           <p>01/02/15</p>
                         </div>
                   </md-list-item>
-              </md-list>
 
-              <md-list>
-                    <md-list-item class="md-3-line">
+                  <md-list-item class="md-3-line">
                         <img ng-src="http://placehold.it/100" class="md-avatar" alt="" />
                         <div class="md-list-item-text">
                           <h3>Product Name</h3>
@@ -105,7 +140,8 @@
                           <p>01/02/15</p>
                         </div>
                   </md-list-item>
-              </md-list>
+
+              </md-list>             
 
             <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 3">
                 <a ng-href="#/demands" >More Results</a>
