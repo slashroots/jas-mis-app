@@ -57,12 +57,32 @@
 
             </md-card>
 
-            <md-card>
-                <md-subheader class="md-no-sticky md-primary">Calls</md-subheader>
+            <md-card>  
+                <div layout="row">
+                    <div layout="column" flex="75">
+                        <md-subheader class="md-no-sticky md-primary">Calls</md-subheader>
+                    </div>
+                    <div flex>
+                        <div class="call-report-btns">
+                            <md-button ng-click="editBuyer()" class="md-icon-button" aria-label="Edit">
+                                 <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
+                            </md-button>
+                        </div>
+                    </div>                     
+                </div>            
+               
+                <md-content>
+                    <div class="call-report-content" ng-include="'/partials/call_report_listing_small.html'"></div>
+                </md-content>
             </md-card>
 
             <md-card>
                 <md-subheader class="md-no-sticky md-primary">Inputs</md-subheader>
+
+                <md-content>
+                    <div class="call-report-content" ng-include="'/partials/input_listing_small.html'"></div>
+                </md-content>
+
             </md-card>
         </div>
     </md-content>

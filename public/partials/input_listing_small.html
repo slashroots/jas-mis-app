@@ -1,0 +1,33 @@
+<md-card-content>
+        <div layout="row">
+        <div layout="column" flex="75">
+            <table class="table table-hover table-mc-light-blue light-font">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date/Time</th>
+                    <th>Call Duration</th>
+                    <th>Phone #</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="demand in demands | limitTo:3" ng-click="selectedDemand(demand)">
+                    <td flex>{{ demand.cr_crop.cr_crop_name }}{{ demand.cr_crop.cr_crop_variety?" - "+demand.cr_crop.cr_crop_variety:"" }}</td>
+                    <td flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}} @ ${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</td>
+                    <td flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</td>
+                    <td flex>{{demand.bu_buyer.bu_buyer_name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div layout="column" flex>
+            <div class="notes">
+                <p>Notes</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 3">
+        <a ng-href="#/demands" >More Results</a>
+    </div>
+</md-card-content>

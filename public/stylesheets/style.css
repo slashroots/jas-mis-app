@@ -389,3 +389,19 @@ md-content.farmForm {
   from { opacity:1; }
   to { opacity:0; }
 }
+
+.call-report-content{
+  margin-left: 10px;
+}
+
+.notes{
+  border-left: 2px solid #ddd;
+  padding-left: 20px;
+  padding-top: 10px;
+  margin-left: 30px;
+  height: 150px;
+}
+
+.light-font>thead>tr>th{
+  font-weight: normal;
+}
