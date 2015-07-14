@@ -77,10 +77,18 @@
             </md-card>
 
             <md-card>
-                <md-subheader class="md-no-sticky md-primary">Inputs</md-subheader>
+                <div layout="row">
+                    <div layout="column" flex="75">
+                        <md-subheader class="md-no-sticky md-primary">Raw Material Locations</md-subheader>
+                    </div>
+                    <div flex>
+                     
+                    </div>
+                </div>              
 
                 <md-content>
-                    <div class="call-report-content" ng-include="'/partials/input_listing_small.html'"></div>
+                    <div class="call-report-content" ng-include="'/partials/input_listing_small.html'">
+                    </div>
                 </md-content>
 
             </md-card>
