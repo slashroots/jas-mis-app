@@ -32,10 +32,10 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-   .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory',
+    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
+        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', '$http',
         function ($scope, $mdToast, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory) {
+                  UserProfileFactory, TransactionFactory, ReportFactory, $http) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -135,28 +135,22 @@ angular.module('jasmic.controllers')
                 DemandMatchFactory.query({id: $scope.demand._id}, function(list) {
                     $scope.commodities = list;
                 })
-            }
+            };
 
-            $scope.printReport = function(demand_id){
-              var url = "/report/buyer_report?";
-              var commodity_id= "comm_id=";
-              var ampersand = "&";
-                if ($scope.m_commodities.length > 0){
-                    for(var i in $scope.m_commodities){
-                        url = url.concat(commodity_id,$scope.m_commodities[i]._id,ampersand);
-                    }
-                    var report_url = url + "demand_id=" + demand_id + "&supply_value=" + $scope.combinedSuppyValue + "&supply_amount=" + $scope.combinedSupplyAmount;
-                    window.location = report_url; 
-                }else{
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .parent(angular.element(document.body))
-                            .title('Error Detected')
-                            .content('No Supply matched')
-                            .ariaLabel('Alert')
-                            .ok('Ok')
-                        );          
-                }
-            }             
+            /**
+             *
+             */
+            $scope.printReport = function() {
+                var myWindow = window.open('', '_blank', 'toolbar=0,location=0,menubar=0');
+                $http.post('report/buyer_report', {
+                    demand_id: $scope.demand._id,
+                    m_commodities: $scope.m_commodities
+                }).success( function(success) {
+                    myWindow.document.write(success);
+                }).error(function(fail) {
+                    console.log(fail);
+                });
+
+            }
         }
     ]);

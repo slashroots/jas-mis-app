@@ -387,8 +387,20 @@ services.factory('UserProfileFactory', function($resource) {
     });
 });
 
+/**
+ * This service allows for logout functionality
+ */
 services.factory('UserSessionDestroyFactory', function($resource) {
     return $resource('/logout', {}, {
         killSession: { method: 'GET'}
+    });
+});
+
+/**
+ * The default path to create and publish a report
+ */
+services.factory('ReportFactory', function($resource) {
+    return $resource('/report/:name', {}, {
+        create: { method: 'POST', params: {name: '@name'}}
     });
 });
