@@ -3,13 +3,22 @@
  */
 var services = angular.module('jasmic.services', ['ngResource']);
 
-
+/**
+*
+* Factory to be used to create a new call.
+*
+**/
 services.factory('CallLogFactory',function($resource){
     return $resource('/call', {}, {
         create: {method: 'POST'}
     });
 });
+/**
 
+    TODO:
+    - End point not completed
+
+**/
 services.factory('CallsListingFactory',function($resource){
      return $resource('/calls/:id', {}, {
         query: { method: 'GET', params: {id: '@id'} }

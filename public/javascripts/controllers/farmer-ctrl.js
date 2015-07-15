@@ -198,7 +198,7 @@ angular.module('jasmic.controllers')
             };
             /**
             *
-            * Creates a farmer and associates it with the farmer
+            * Creates a farmer and associates call with the farmer
             * and logged in user. 
             * @param farmer - Farmer Object 
             *
@@ -209,6 +209,7 @@ angular.module('jasmic.controllers')
                                          cc_entity_type: "farmer",
                                          us_user_id : $scope.user._id }, 
                     function(success){
+                        console.log(success);
                          showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
                     }, function(fail){
                         showDialog($mdDialog, error, true);

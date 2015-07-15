@@ -9,8 +9,15 @@ exports.getCallsByUserId = function(req, res){
 
 exports.createCall = function(req, res){
 	console.log(req.body);
-	var call_log = new CallLog(req.body);
-	console.log("=====");
-	console.log(call_log);
-	res.send(call_log);
+	var call = new CallLog(req.body);
+	call.save(function(err){
+		if(err){
+			common.handleDBError(err, res);
+		}else{
+			res.send(call);
+		}
+	});
+	// console.log("=====");
+	// console.log(call_log);
+	// res.send(call_log);
 }
