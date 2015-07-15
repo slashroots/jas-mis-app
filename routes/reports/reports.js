@@ -31,13 +31,15 @@ exports.createReport = function(req, res) {
  * @param res
  */
 exports.searchReports = function(req, res) {
-    Report.find(req.query, function(err, list) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(list);
-        }
-    })
+    Report.find(req.query)
+        .populate('de_demand us_user co_commodities.fa_farmer')
+        .exec(function(err, list) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(list);
+            }
+        });
 };
 
 /**

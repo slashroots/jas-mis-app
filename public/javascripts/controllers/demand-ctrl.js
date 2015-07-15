@@ -33,9 +33,9 @@ angular.module('jasmic.controllers')
         }
     ])
     .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', '$http',
+        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory',
         function ($scope, $mdToast, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory, ReportFactory, $http) {
+                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -44,13 +44,17 @@ angular.module('jasmic.controllers')
                 $scope.user = user;
             });
 
+
+
             /**
              * Lookup Demand information based on ID supplied in the URL.
              */
-            DemandFactory.show({id:$routeParams.id}, function(demand) {
+            DemandFactory.show({id:$routeParams.id},
+                function(demand) {
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
+                    lookupReports();
                 },
                 function(error) {
                     $scope.demand = {};
@@ -131,10 +135,27 @@ angular.module('jasmic.controllers')
                 }
             };
 
+            /**
+             * Function attempts to match details based on the demand parameters of
+             * the demand ID supplied
+             */
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.demand._id}, function(list) {
                     $scope.commodities = list;
                 })
+            };
+
+            /**
+             * Searches for the reports previously generated on this demand.
+             */
+            lookupReports = function() {
+                ReportsFactory.search({
+                    de_demand: $scope.demand._id
+                }, function(reports) {
+                    $scope.reports = reports;
+                }, function(fail) {
+                    console.log(fail);
+                });
             };
 
             /**
