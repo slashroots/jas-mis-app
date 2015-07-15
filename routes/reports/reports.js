@@ -14,15 +14,17 @@ var common = require('../common/common');
  * @param res
  */
 exports.createReport = function(req, res) {
-    var report = new Report(req.body);
-    report.save(function(err, item) {
-        console.log(err);
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(item);
-        }
-    });
+    if(common.isAuthenticated(req, res)) {
+        var report = new Report(req.body);
+        report.save(function(err, item) {
+            console.log(err);
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(item);
+            }
+        });
+    }
 };
 
 /**
@@ -31,15 +33,17 @@ exports.createReport = function(req, res) {
  * @param res
  */
 exports.searchReports = function(req, res) {
-    Report.find(req.query)
-        .populate('de_demand us_user co_commodities.fa_farmer')
-        .exec(function(err, list) {
-            if(err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(list);
-            }
-        });
+    if(common.isAuthenticated(req, res)) {
+        Report.find(req.query)
+            .populate('de_demand us_user co_commodities.fa_farmer')
+            .exec(function (err, list) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(list);
+                }
+            });
+    }
 };
 
 /**
@@ -52,43 +56,46 @@ exports.searchReports = function(req, res) {
  * @param res
  */
 exports.renderReport = function(req, res) {
-    Report.findById(req.params.id)
-        .populate('de_demand us_user co_commodities.fa_farmer')
-        .exec(function(err, item) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            Buyer.findById(item.de_demand.bu_buyer, function(err2, buyer) {
-                if(err2) {
-                    common.handleDBError(err2, res);
+    if(common.isAuthenticated(req, res)) {
+        Report.findById(req.params.id)
+            .populate('de_demand us_user co_commodities.fa_farmer')
+            .exec(function (err, item) {
+                if (err) {
+                    common.handleDBError(err, res);
                 } else {
-                    Crop.findById(item.de_demand.cr_crop, function(err3, crop) {
-                        if(err3) {
-                            common.handleDBError(err3, res);
+                    Buyer.findById(item.de_demand.bu_buyer, function (err2, buyer) {
+                        if (err2) {
+                            common.handleDBError(err2, res);
                         } else {
-                            item.de_demand.cr_crop = crop;
-                            item.de_demand.bu_buyer = buyer;
-                            var matched_commodities = item.co_commodities;
-                            var total_prices = getTotalPrices(item.co_commodities);
-                            var crop_avail_dates = getCropAvailabilityDates(item.co_commodities);
-                            res.render('report',
-                                {	title: 'Report',
-                                    buyer_info: item.de_demand,
-                                    supply_amount: 0, //TODO: revist this and calculate
-                                    supply_value: 0, //TODO: revist this and calculate
-                                    commodities: matched_commodities,
-                                    prices: total_prices,
-                                    report_date: moment(item.re_report_date).format('MMMM DD YYYY hh:mm a'),
-                                    crop_dates: crop_avail_dates,
-                                    us_user: req.user
-                                });
+                            Crop.findById(item.de_demand.cr_crop, function (err3, crop) {
+                                if (err3) {
+                                    common.handleDBError(err3, res);
+                                } else {
+                                    item.de_demand.cr_crop = crop;
+                                    item.de_demand.bu_buyer = buyer;
+                                    var matched_commodities = item.co_commodities;
+                                    var total_prices = getTotalPrices(item.co_commodities);
+                                    var crop_avail_dates = getCropAvailabilityDates(item.co_commodities);
+                                    res.render('report',
+                                        {
+                                            title: 'Report',
+                                            buyer_info: item.de_demand,
+                                            supply_amount: 0, //TODO: revist this and calculate
+                                            supply_value: 0, //TODO: revist this and calculate
+                                            commodities: matched_commodities,
+                                            prices: total_prices,
+                                            report_date: moment(item.re_report_date).format('MMMM DD YYYY hh:mm a'),
+                                            crop_dates: crop_avail_dates,
+                                            us_user: req.user
+                                        });
+                                }
+                            });
                         }
                     });
-                }
-            });
 
-        }
-    })
+                }
+            })
+    }
 };
 
 
