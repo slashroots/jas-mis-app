@@ -389,3 +389,26 @@ md-content.farmForm {
   from { opacity:1; }
   to { opacity:0; }
 }
+
+tr:nth-child(1) {
+  left:0%;
+  width:25%;
+}
+
+tr:nth-child(2) {
+  left:25%;
+  width:25%;
+}
+
+tr:nth-child(3) {
+  left:50%;
+  width:25%;
+}
+
+tr:nth-child(4) {
+  left:75%;
+  width:25%;
+}
+
+table { table-layout: fixed; }
+
