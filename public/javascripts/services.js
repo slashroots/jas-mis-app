@@ -4,11 +4,18 @@
 var services = angular.module('jasmic.services', ['ngResource']);
 
 
-services.factory('CallsLogFactory',function($resource){
+services.factory('CallLogFactory',function($resource){
     return $resource('/call', {}, {
         create: {method: 'POST'}
     });
 });
+
+services.factory('CallsListingFactory',function($resource){
+     return $resource('/calls/:id', {}, {
+        query: { method: 'GET', params: {id: '@id'} }
+    });
+});
+
 /**
 *
 * Factory to be used to generate buyer report.
