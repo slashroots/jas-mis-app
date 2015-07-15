@@ -1,4 +1,4 @@
-lolo/**
+/**
  * Created by matjames007 on 5/20/15.
  */
 
