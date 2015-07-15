@@ -4,10 +4,15 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'OpenTransactionsFactory', 'TransactionsFactory',
+        'OpenTransactionsFactory', 'TransactionsFactory','CallsLogFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
-        TransactionsFactory) {
+        TransactionsFactory, CallsLogFactory) {
 
+            CallsLogFactory.create({name: "Test"}, function(data){
+                console.log('Works');
+            }, function(err){
+                console.log(fail);
+            });
             /**
              * looks up current demands
              */
