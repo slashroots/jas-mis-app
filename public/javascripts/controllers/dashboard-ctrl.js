@@ -4,21 +4,15 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'OpenTransactionsFactory', 'TransactionsFactory','CallLogFactory', 'CallsListingFactory',
+        'OpenTransactionsFactory', 'TransactionsFactory','CallLogFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
-        TransactionsFactory, CallLogFactory, CallsListingFactory) {
+        TransactionsFactory, CallsListingFactory) {
 
-            CallLogFactory.create({name: "Test"}, function(data){
-                console.log('Works');
-            }, function(err){
-                console.log(fail);
-            });
-
-            CallsListingFactory.query({id: "1234"}, function(calls){
-                console.log('Works');
-            }, function(error){
-                console.log('Error');
-            });
+            // CallsListingFactory.query({id: "1234"}, function(calls){
+            //     console.log('Works');
+            // }, function(error){
+            //     console.log('Error');
+            // });
             /**
              * looks up current demands
              */
@@ -61,6 +55,6 @@ angular.module('jasmic.controllers')
                 }
                 $scope.states[item] = temp;
                 $scope.states[item] = !$scope.states[item];
-            }
+            }            
         }
     ]);

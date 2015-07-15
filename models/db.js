@@ -169,13 +169,13 @@ var CallLogSchema = new Schema({
     cc_caller_id: String,
     cc_entity_type: String,
     cc_entity_id: Schema.Types.ObjectId,
-    ct_call_type: Schema.Types.ObjectId,
-    cc_date: Date,
-    cc_duration: Number,
-    cc_quality: Number,
-    cc_note: String,
+    // ct_call_type: Schema.Types.ObjectId,
+    cc_date: {type: Date, default: Date.now()},
+    // cc_duration: Number,
+    // cc_quality: Number,
+    cc_note: {type: String, default: "None"},
     us_user_id: Schema.Types.ObjectId,
-    cc_incoming: Boolean
+    cc_incoming: {type: Boolean, default: true}
 });
 var BuyerTypeSchema = new Schema({
     bt_buyer_type_name: {type: String, required: true, unique: true},
@@ -376,7 +376,7 @@ exports.Demand = mongoose.model('Demand', DemandSchema);
 
 var CallType = mongoose.model('CallType', CallTypeSchema);
 
-var CallLog = mongoose.model('CallLog', CallLogSchema);
+exports.CallLog = mongoose.model('CallLog', CallLogSchema);
 
 exports.Transaction = mongoose.model('Transaction', TransactionSchema);
 

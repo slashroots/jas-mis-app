@@ -39,9 +39,16 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
+        'UserProfileFactory','CallLogFactory',
         function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory,
+                UserProfileFactory, CallLogFactory) {
+           
+           UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
+
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -189,6 +196,24 @@ angular.module('jasmic.controllers')
             $scope.selectedDistrictChange = function(item) {
                 selectedDistrict = item._id;
             };
+            /**
+            *
+            * Creates a farmer and associates it with the farmer
+            * and logged in user. 
+            * @param farmer - Farmer Object 
+            *
+            **/            
+            $scope.createCall = function(farmer){    
+                 CallLogFactory.create({ cc_caller_id: farmer.fa_contact,
+                                         cc_entity_id : farmer._id,
+                                         cc_entity_type: "farmer",
+                                         us_user_id : $scope.user._id }, 
+                    function(success){
+                         showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
+                    }, function(fail){
+                        showDialog($mdDialog, error, true);
+                    });
+            }
         }
     ])
     /**

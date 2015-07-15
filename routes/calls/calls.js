@@ -1,6 +1,6 @@
 var common = require('../common/common');
 var model = require('../../models/db');
-var CallLog = model.CallLogSchema;
+var CallLog = model.CallLog;
 
 exports.getCallsByUserId = function(req, res){
 	console.log(req.params.id);
@@ -9,5 +9,8 @@ exports.getCallsByUserId = function(req, res){
 
 exports.createCall = function(req, res){
 	console.log(req.body);
-	res.end();
+	var call_log = new CallLog(req.body);
+	console.log("=====");
+	console.log(call_log);
+	res.send(call_log);
 }
