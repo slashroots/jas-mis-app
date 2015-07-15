@@ -400,7 +400,17 @@ services.factory('UserSessionDestroyFactory', function($resource) {
  * The default path to create and publish a report
  */
 services.factory('ReportFactory', function($resource) {
-    return $resource('/report/:name', {}, {
-        create: { method: 'POST', params: {name: '@name'}}
+    return $resource('/report', {}, {
+        create: { method: 'POST'}
+    });
+});
+
+/**
+ * This path can be used to search for reports matching
+ * the relevant parameters
+ */
+services.factory('ReportsFactory', function ($resource) {
+    return $resource('/reports', {}, {
+        search: { method: 'GET', isArray: true}
     });
 });

@@ -64,7 +64,7 @@ angular.module('jasmic.controllers')
             $scope.downloadPDF = function() {
                 //create transaction(s)
                 if($scope.m_commodities.length > 0) {
-                    createTransactions();
+                    //createTransactions();
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
@@ -138,19 +138,28 @@ angular.module('jasmic.controllers')
             };
 
             /**
-             *
+             * Create the transactions first then record the generation
+             * of the report and then render the report to a new window.
              */
-            $scope.printReport = function() {
-                var myWindow = window.open('', '_blank', 'toolbar=0,location=0,menubar=0');
-                $http.post('report/buyer_report', {
-                    demand_id: $scope.demand._id,
-                    m_commodities: $scope.m_commodities
-                }).success( function(success) {
-                    myWindow.document.write(success);
-                }).error(function(fail) {
-                    console.log(fail);
-                });
+            $scope.createReport = function() {
+                if($scope.m_commodities.length > 0) {
+                    createTransactions();
 
-            }
+                    //This will create the report for the system
+                    ReportFactory.create({
+                        de_demand: $scope.demand._id,
+                        co_commodities: $scope.m_commodities,
+                        us_user: $scope.user._id,
+                        re_report_name: 'Buyer Report'
+                    }, function(success) {
+                        var newWindow = window.open('/report/' + success._id);
+                    }, function(fail) {
+                        console.log(fail);
+                    });
+                } else {
+                    $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
+                }
+            };
+
         }
     ]);
