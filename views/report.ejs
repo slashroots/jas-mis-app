@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                     <td>Rep:</td>
-                    <td>Jannice Simpson</td>
+                    <td><%=us_user.us_user_first_name%> <%=us_user.us_user_last_name%></td>
                     </tr>
                     <tr>
                     <td>Date:</td>
@@ -45,7 +45,7 @@
                     </tr>
                     <tr>
                     <td>Subject:</td>
-                    <td><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_desc%> of <%=buyer_info.cr_crop.cr_crop_name%></td>
+                    <td><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%> of <%=buyer_info.cr_crop.cr_crop_name%></td>
                     </tr>
                 </tbody>
             </table>
@@ -212,7 +212,8 @@
                             </div>
                             <div class="media-body">
                                 <% if(commodities[i].fa_farmer.fa_contact){ %>
-                                   <p><br>Personal</p>
+                                   <p><strong><%=commodities[i].fa_farmer.fa_contact%></strong><br>
+                                       Personal</p>
                                  <% } else{ %>  
                                    <p>N/A<br>Mobile</p>
                                 <% } %>  
@@ -256,7 +257,7 @@
                 <div class="col-md-4">
                 <p>Notes</p>
                 <% if(commodities[i].ct_comments){ %>
-                    <p><strong><%= commodities[i].ct_comments%></strong></p>
+                    <p><strong><%= commodities[i].co_notes%></strong></p>
                 <% } else{ %>  
                      <p>N/A</p>
               <% } %>  
