@@ -13,15 +13,15 @@ services.factory('CallLogFactory',function($resource){
         create: {method: 'POST'}
     });
 });
+
 /**
-
-    TODO:
-    - End point not completed
-
-**/
-services.factory('CallsListingFactory',function($resource){
-     return $resource('/calls/:id', {}, {
-        query: { method: 'GET', params: {id: '@id'} }
+ *  Factory to be used to list all or search for
+ *  call logs.  Returns an array based on search
+ *  params.
+ */
+services.factory('CallLogsFactory',function($resource){
+     return $resource('/calls', {}, {
+        query: { method: 'GET', isArray: true}
     });
 });
 

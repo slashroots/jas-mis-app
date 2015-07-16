@@ -198,7 +198,7 @@ angular.module('jasmic.controllers')
             };
             /**
             *
-            * Creates a farmer and associates call with the farmer
+            * Creates a call and associates call with the farmer
             * and logged in user. 
             * @param farmer - Farmer Object 
             *

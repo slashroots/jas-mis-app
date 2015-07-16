@@ -5,7 +5,7 @@ var router = express.Router();
 /**
  * End Points relevant to CallLogs
  */
-router.get('/calls/:id', CallLogs.getCallsByUserId);
+router.get('/calls', CallLogs.searchCalls);
 router.post('/call', CallLogs.createCall);
 
 module.exports = router;

@@ -4,15 +4,19 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'OpenTransactionsFactory', 'TransactionsFactory','CallLogFactory',
+        'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
-        TransactionsFactory, CallsListingFactory) {
+                  TransactionsFactory, CallLogsFactory) {
 
-            // CallsListingFactory.query({id: "1234"}, function(calls){
-            //     console.log('Works');
-            // }, function(error){
-            //     console.log('Error');
-            // });
+            /**
+             * TODO:  Complete this stub!
+             */
+            CallLogsFactory.query({us_user_id: "1234"}, function(calls){
+                console.log(calls);
+            }, function(error){
+                console.log(error);
+            });
+
             /**
              * looks up current demands
              */
@@ -27,11 +31,11 @@ angular.module('jasmic.controllers')
              * Looks up all opened transactions
              */
             OpenTransactionsFactory.query(function (o_trans) {
-                $scope.open_transactions = o_trans;
-            },
-            function(err) {
-                $scope.open_transactions = [];
-            });
+                    $scope.open_transactions = o_trans;
+                },
+                function(err) {
+                    $scope.open_transactions = [];
+                });
 
 
             /**
@@ -55,6 +59,6 @@ angular.module('jasmic.controllers')
                 }
                 $scope.states[item] = temp;
                 $scope.states[item] = !$scope.states[item];
-            }            
+            }
         }
     ]);
