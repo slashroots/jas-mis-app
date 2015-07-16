@@ -23,7 +23,7 @@ exports.searchCalls = function(req, res){
 	}
 };
 /**
- * Create a call based on the body of the
+ * Creates a call based on the body of the
  * POST request
  *
  * @param req

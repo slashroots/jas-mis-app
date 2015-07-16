@@ -11,7 +11,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="call in calls | limitTo:5">
+                <tr ng-repeat="call in calls | limitTo: 20" ng-click="setSelectedNote(call);">
                     <td flex>{{call.cc_entity_id.fa_first_name}} {{call.cc_entity_id.fa_last_name}} </td>
                     <td flex>{{call.cc_date | date }}</td>
                     <td flex>{{call.ct_call_type.ct_call_type_name}}</td>
@@ -23,7 +23,7 @@
         <div layout="column" flex>
             <div class="notes">
                 <p>Notes</p>
-                <p><strong>{{calls[0].cc_note}}</strong></p>
+                <p><strong>{{note}}</strong></p>
             </div>
         </div>
     </div>

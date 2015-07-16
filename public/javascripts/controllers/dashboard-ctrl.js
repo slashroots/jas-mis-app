@@ -16,6 +16,7 @@ angular.module('jasmic.controllers')
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
                     $scope.calls = calls;
+                    $scope.note = calls[0].cc_note;
                 }, function(error){
                     $scope.calls = [];
                 });
@@ -62,6 +63,15 @@ angular.module('jasmic.controllers')
                 }
                 $scope.states[item] = temp;
                 $scope.states[item] = !$scope.states[item];
+            }
+            /**
+            *
+            * Gets the note from a call record
+            * and renders it. 
+            * @param CallLog Object 
+            **/            
+            $scope.setSelectedNote = function(call){
+                $scope.note = call.cc_note;
             }
         }
     ]);

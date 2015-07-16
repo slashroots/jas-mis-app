@@ -10,6 +10,7 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory',
         function ($scope, $mdDialog, $location, $routeParams, FarmersFactory) {
+           
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
             }, function(error) {
@@ -28,6 +29,10 @@ angular.module('jasmic.controllers')
 
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.selectedFarmer._id+'/edit');
+            };
+
+            $scope.logToConsole = function(){
+                console.log("Done");
             };
         }
     ])
@@ -211,8 +216,8 @@ angular.module('jasmic.controllers')
             **/            
             $scope.createCall = function(farmer){    
                  var call_type_obj = {
-                     ct_call_type_name: "Defaults",
-                     ct_call_type_desc: "Defaults",
+                     ct_call_type_name: "Clifton ",
+                     ct_call_type_desc: "Foo",
                      us_user_id: $scope.user._id
                  };
                  CallLogFactory.create({ cc_caller_id: farmer.fa_contact,
@@ -226,7 +231,7 @@ angular.module('jasmic.controllers')
                         showDialog($mdDialog, error, true);
                     });
             }
-        }
+        }        
     ])
     /**
      * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
