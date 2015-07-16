@@ -31,17 +31,13 @@ exports.searchCalls = function(req, res){
  */
 exports.createCall = function(req, res){
 	if(common.isAuthenticated(req, res)) {
-		var call_type = new CallType(req.body.call_type);
-		call_type.save(function(err){
-			var call = new CallLog(req.body);
-			call.ct_call_type = call_type._id;
-			call.save(function(err){
-				if(err){
-					common.handleDBError(err, res);
-				}else{
-					res.send(call);
-				}
-			})
+		var call = new CallLog(req.body);
+		call.save(function(err){
+			if(err){
+				common.handleDBError(err, res);
+			}else{
+				res.send(call);
+			}
 		});
 	}
 };
