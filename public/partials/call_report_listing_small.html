@@ -6,16 +6,16 @@
                 <tr>
                     <th>Name</th>
                     <th>Date/Time</th>
-                    <th>Call Duration</th>
+                    <th>Incoming/Outgoing</th>
                     <th>Phone #</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="demand in demands | limitTo:3" ng-click="selectedDemand(demand)">
-                    <td flex>{{ demand.cr_crop.cr_crop_name }}{{ demand.cr_crop.cr_crop_variety?" - "+demand.cr_crop.cr_crop_variety:"" }}</td>
-                    <td flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}} @ ${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</td>
-                    <td flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</td>
-                    <td flex>{{demand.bu_buyer.bu_buyer_name}}</td>
+                <tr ng-repeat="call in calls | limitTo:5">
+                    <td flex>Farmer Joe</td>
+                    <td flex>{{call.cc_date | date }}</td>
+                    <td flex>{{call.cc_incoming}}</td>
+                    <td flex>{{call.cc_caller_id}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -23,6 +23,7 @@
         <div layout="column" flex>
             <div class="notes">
                 <p>Notes</p>
+                <p><strong>{{calls[0].cc_note}}</strong></p>
             </div>
         </div>
     </div>

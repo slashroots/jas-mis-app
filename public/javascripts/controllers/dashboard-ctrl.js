@@ -4,17 +4,22 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory',
+        'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory', 
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
-                  TransactionsFactory, CallLogsFactory) {
-
+                  TransactionsFactory, CallLogsFactory, UserProfileFactory) {                     
             /**
-             * TODO:  Complete this stub!
+             * Gets all calls associated with the logged in
+             * user id. 
              */
-            CallLogsFactory.query({us_user_id: "1234"}, function(calls){
-                console.log(calls);
+             UserProfileFactory.show(function(user){
+                CallLogsFactory.query({us_user_id: user._id}, function(calls){
+                    console.log(calls);
+                    $scope.calls = calls;
+                }, function(error){
+                    console.log(error);
+                });
             }, function(error){
-                console.log(error);
+
             });
 
             /**

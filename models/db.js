@@ -173,8 +173,9 @@ var CallLogSchema = new Schema({
     cc_date: {type: Date, default: Date.now()},
     // cc_duration: Number,
     // cc_quality: Number,
+    us_user_id: Schema.Types.ObjectId,
     cc_note: {type: String, default: "None"},
-    us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+    // us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
     cc_incoming: {type: Boolean, default: true}
 });
 var BuyerTypeSchema = new Schema({

@@ -209,7 +209,6 @@ angular.module('jasmic.controllers')
                                          cc_entity_type: "farmer",
                                          us_user_id : $scope.user._id }, 
                     function(success){
-                        console.log(success);
                          showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
                     }, function(fail){
                         showDialog($mdDialog, error, true);
