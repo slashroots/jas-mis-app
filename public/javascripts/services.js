@@ -47,7 +47,9 @@ services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
     return {
         responseError: function(response){
             if(response.status == 401) {
-                window.location = '/login';
+                var encodedURL = encodeURIComponent($location.absUrl());
+                window.location = "/login?goTo=" + encodedURL;
+
             }
         }
     };
