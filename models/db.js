@@ -161,20 +161,23 @@ var FarmerSchema = new Schema({
     fa_sub_sector: String
 });
 var CallTypeSchema = new Schema({
-    us_user_id: {type: Schema.Types.ObjectId, required: true},
-    ct_date: {type: Date, default: Date.now()},
-    ct_message: {type: String, required: true}
+  ct_call_type_name: {type: String, required: true, unique: true},
+  ct_call_type_desc: {type: String, required: true },
+  ct_date: {type: Date, default: Date.now(), required: true},
+  us_user_id: {type: Schema.Types.ObjectId, ref: 'User', required: true}
+
 });
+
 var CallLogSchema = new Schema({
     cc_caller_id: String,
     cc_entity_type: String,
-    cc_entity_id: Schema.Types.ObjectId,
-    // ct_call_type: Schema.Types.ObjectId,
+    cc_entity_id: {type: Schema.Types.ObjectId, ref:'Farmer' },
+    ct_call_type: {type: Schema.Types.ObjectId, ref: 'CallType'},
     cc_date: {type: Date, default: Date.now()},
     // cc_duration: Number,
     // cc_quality: Number,
     us_user_id: Schema.Types.ObjectId,
-    cc_note: {type: String, default: "None"},
+    cc_note: {type: String, default: ""},
     // us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
     cc_incoming: {type: Boolean, default: true}
 });
@@ -375,7 +378,7 @@ exports.Commodity = mongoose.model('Commodity', CommoditySchema);
  */
 exports.Demand = mongoose.model('Demand', DemandSchema);
 
-var CallType = mongoose.model('CallType', CallTypeSchema);
+exports.CallType = mongoose.model('CallType', CallTypeSchema);
 
 exports.CallLog = mongoose.model('CallLog', CallLogSchema);
 

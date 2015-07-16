@@ -10,18 +10,16 @@ angular.module('jasmic.controllers')
             /**
              * Gets all calls associated with the logged in
              * user id. 
+             * TODO - New user objects will have a us_user_id field and the function 
+             * will be updated to reflect this change.
              */
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                    console.log(calls);
                     $scope.calls = calls;
                 }, function(error){
-                    console.log(error);
+                    $scope.calls = [];
                 });
-            }, function(error){
-
             });
-
             /**
              * looks up current demands
              */

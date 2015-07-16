@@ -6,15 +6,15 @@
                 <tr>
                     <th>Name</th>
                     <th>Date/Time</th>
-                    <th>Incoming/Outgoing</th>
+                    <th>Call Type</th>
                     <th>Phone #</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="call in calls | limitTo:5">
-                    <td flex>Farmer Joe</td>
+                    <td flex>{{call.cc_entity_id.fa_first_name}} {{call.cc_entity_id.fa_last_name}} </td>
                     <td flex>{{call.cc_date | date }}</td>
-                    <td flex>{{call.cc_incoming}}</td>
+                    <td flex>{{call.ct_call_type.ct_call_type_name}}</td>
                     <td flex>{{call.cc_caller_id}}</td>
                 </tr>
                 </tbody>
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div style="text-align: center" layout-align="center center" ng-if="demands.length >= 3">
-        <a ng-href="#/demands" >More Results</a>
+    <div style="text-align: center" layout-align="center center" ng-if="calls.length >= 5">
+        <a ng-href="#/" >More Results</a>
     </div>
 </md-card-content>

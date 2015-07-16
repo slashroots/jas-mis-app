@@ -44,7 +44,11 @@ angular.module('jasmic.controllers')
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory,
                 UserProfileFactory, CallLogFactory) {
-           
+           /**
+           *
+           * Gets the currently logged in user.
+           *
+           **/           
            UserProfileFactory.show(function(user) {
                 $scope.user = user;
             });
@@ -201,13 +205,21 @@ angular.module('jasmic.controllers')
             * Creates a call and associates call with the farmer
             * and logged in user. 
             * @param farmer - Farmer Object 
-            *
+            * TODO - Create form to accept call type details and 
+            * pass data from $scope variable. To test function
+            * change ct_call_type_name.
             **/            
             $scope.createCall = function(farmer){    
+                 var call_type_obj = {
+                     ct_call_type_name: "Defaults",
+                     ct_call_type_desc: "Defaults",
+                     us_user_id: $scope.user._id
+                 };
                  CallLogFactory.create({ cc_caller_id: farmer.fa_contact,
                                          cc_entity_id : farmer._id,
                                          cc_entity_type: "farmer",
-                                         us_user_id : $scope.user._id }, 
+                                         us_user_id : $scope.user._id,
+                                         call_type: call_type_obj }, 
                     function(success){
                          showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
                     }, function(fail){
