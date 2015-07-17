@@ -57,16 +57,11 @@ angular.module('jasmic.controllers')
             * change ct_call_type_name.
             **/            
             $scope.createCall = function(){    
-                 var call_type_obj = {
-                     ct_call_type_name: "Search",
-                     ct_call_type_desc: "Foo",
-                     us_user_id: $scope.user._id
-                 };
                  CallLogFactory.create({ cc_caller_id: $scope.selectedFarmer.fa_contact,
                                          cc_entity_id : $scope.selectedFarmer._id,
                                          cc_entity_type: "farmer",
                                          us_user_id : $scope.user._id,
-                                         call_type: call_type_obj }, 
+                                        }, 
                     function(success){
                          showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
                     }, function(fail){
