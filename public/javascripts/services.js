@@ -438,3 +438,24 @@ services.factory('ReportsFactory', function ($resource) {
         search: { method: 'GET', isArray: true}
     });
 });
+
+/**
+*
+* Factory to create a call type.
+*
+**/
+services.factory('CallTypeFactory', function($resource){
+    return $resource('/calltype', {}, {
+        create: { method: 'POST'},
+    });
+});
+/**
+*
+* Factory to get all call types
+*
+**/
+services.factory('CallTypesFactory', function($resource){
+    return $resource('/calltypes', {}, {
+        show: {method: 'GET', isArray: true}
+    });
+});
