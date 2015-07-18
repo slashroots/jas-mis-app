@@ -224,7 +224,13 @@ var SupplierSchema = new Schema({
     su_description: String,
     su_contact: String,
     su_email: String,
-    ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'}
+    ad_address1: {type: String, required: false},
+    ad_address2: String,
+    ad_latitude: Number,
+    ad_longitude: Number,
+    ad_city: String,
+    pa_parish: {required: true, type: String},
+    ad_country: {type: String, default: 'Jamaica', required: true}
 });
 var DisputeSchema = new Schema({
     di_dispute_type: {type: String, required: true},

@@ -331,6 +331,15 @@ services.factory('SuppliersFactory', function ($resource) {
 });
 
 /**
+ * Query based on all the inputs for all the suppliers.
+ */
+services.factory('InputsFactory', function ($resource) {
+    return $resource('/inputs', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
  * Service to get, create and update a specific factory.
  */
 services.factory('SupplierFactory', function ($resource) {
