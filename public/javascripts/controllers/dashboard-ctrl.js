@@ -5,9 +5,10 @@
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory', 
-        'CallTypesFactory',
+        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
-                  TransactionsFactory, CallLogsFactory, UserProfileFactory) {                     
+                  TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
+                  ParishesFactory, SuppliersFactory, InputsFactory) {
             /**
              * Gets all calls associated with the logged in
              * user id. 
@@ -64,7 +65,7 @@ angular.module('jasmic.controllers')
                 }
                 $scope.states[item] = temp;
                 $scope.states[item] = !$scope.states[item];
-            }
+            };
             /**
             *
             * Gets the note from a call record
@@ -73,6 +74,50 @@ angular.module('jasmic.controllers')
             **/            
             $scope.setSelectedNote = function(call){
                 $scope.note = call.cc_note;
-            }
+            };
+
+            /**
+             * Populate parishes with information for the
+             * dashboard
+             */
+            ParishesFactory.query(function(parishes) {
+                $scope.parishes = parishes;
+            });
+
+            /**
+             * Populate all the suppliers to the dashboard
+             * interface TODO: This query isn't restricted!
+             */
+            SuppliersFactory.query(function(suppliers) {
+                $scope.suppliers = suppliers;
+            });
+
+            /**
+             * Parish based supplier search
+             * @param parish
+             */
+            $scope.supplierSearch = function(parish) {
+                SuppliersFactory.query({pa_parish: parish.pa_parish_name}, function(suppliers) {
+                    $scope.suppliers = suppliers;
+                    $scope.inputs = [];
+                });
+            };
+
+            /**
+             *
+             */
+            $scope.inputSearch = function(supplier) {
+                InputsFactory.query({su_supplier:supplier._id}, function(inputs) {
+                    $scope.inputs = inputs;
+                });
+            };
+
+            /**
+             * Populate all the inputs to the dashboard
+             * interface. TODO: This query isn't restricted!
+             */
+            InputsFactory.query(function(inputs) {
+                $scope.inputs = inputs;
+            })
         }
     ]);
