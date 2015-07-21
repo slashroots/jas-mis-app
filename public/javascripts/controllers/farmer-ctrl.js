@@ -208,11 +208,11 @@ angular.module('jasmic.controllers')
             /**
              * Creates a call and associates call with the farmer
              * and logged in user.
-             *
+             * TODO - Revisit implementation of call feature on farmer page
              **/
-            $scope.createCall = function(){
-                showCallInputDialog($mdDialog, $scope);
-            };
+            // $scope.createCall = function(){
+            //     showCallInputDialog($mdDialog, $scope);
+            // };
         }
     ])
 /**
@@ -315,7 +315,7 @@ function showCallInputDialog($mdDialog, $scope){
      * @param CallTypesFactory
      * @param CallLogFactory
      */
-    controller: function DialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
+    controller: function FarmerDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
       CallTypesFactory.show(function(calltypes){
           $scope.calltypes = calltypes;
       }, function(error){
@@ -357,4 +357,4 @@ function showCallInputDialog($mdDialog, $scope){
       }//end of saveCall function
     }//end of controller
   });
-}
+};
