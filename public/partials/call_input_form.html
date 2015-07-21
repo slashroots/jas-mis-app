@@ -1,20 +1,18 @@
 <md-dialog>
-
-  <!-- <md-toolbar>
-    <div class="md-toolbar-tools">
-      <h2>Farmer<br>{{farmer.fa_first_name}} {{farmer.fa_last_name}}</h2>
-    </div>
-  </md-toolbar> -->
-
   <md-dialog-content>
-    <div style="width:300px;">
-      <div layout="flex">
+    <div style="width:400px;">
+      <div layout="row">
+        <md-input-container flex>
+               <label>First Name</label>
+               <input disabled ng-model="farmer.fa_first_name">
+        </md-input-container>
 
+        <md-input-container flex>
+               <label>Last Name</label>
+               <input disabled ng-model="farmer.fa_last_name">
+        </md-input-container>
       </div>
-      <md-input-container>
-             <label>{{farmer.fa_first_name}}</label>
-             <input disabled>
-      </md-input-container>
+
     <md-input-container flex>
     <md-select placeholder="Call Type" ng-model="call.ct_call_type_name">
         <md-option ng-value="calltype.ct_call_type_name" ng-repeat="calltype in calltypes" ng-click="selectedCallType(calltype);">
@@ -36,7 +34,3 @@
     </div>
 </div>
 </md-dialog>
-
-<!-- <md-select placeholder="Parish" ng-model="buyer.ad_address.pa_parish">
-    <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
-</md-select> -->

@@ -206,30 +206,12 @@ angular.module('jasmic.controllers')
                 selectedDistrict = item._id;
             };
             /**
-             *
              * Creates a call and associates call with the farmer
              * and logged in user.
-             * @param farmer - Farmer Object
-             * TODO - Create form to accept call type details and
-             * pass data from $scope variable. To test function
-             * change ct_call_type_name.
+             *
              **/
-            $scope.createCall = function(farmer){
-                CallLogFactory.create({
-                        cc_caller_id: farmer.fa_contact,
-                        cc_entity_id : farmer._id,
-                        cc_entity_type: "farmer",
-                        us_user_id : $scope.user._id,
-                        ct_call_type: $scope.ct_call_type_id },
-                    function(success){
-                        showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
-                    }, function(fail){
-                        showDialog($mdDialog, error, true);
-                    });
-            };
-
-            $scope.showTestDialog = function(){
-                showNewDialog($mdDialog, $scope);
+            $scope.createCall = function(){
+                showCallInputDialog($mdDialog, $scope);
             };
         }
     ])
@@ -319,17 +301,25 @@ function showDialog($mdDialog, message, isError) {
  * @param $scope
  * TODO - Annotate function accordingly.
  */
-function showNewDialog($mdDialog, $scope){
+function showCallInputDialog($mdDialog, $scope){
   $mdDialog.show({
     scope: $scope,
     clickOutsideToClose: true,
     preserveScope: true,
     templateUrl: '/partials/call_input_form.html',
+    /**
+     * This controller is responsible for all actions
+     * done on the Call Input Dialog.
+     * @param $scope
+     * @param $mdDialog
+     * @param CallTypesFactory
+     * @param CallLogFactory
+     */
     controller: function DialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
       CallTypesFactory.show(function(calltypes){
           $scope.calltypes = calltypes;
       }, function(error){
-          console.log('Error');
+          showDialog($mdDialog, error, true);
       });
       /*
       *  Gets the selected call type from
@@ -347,7 +337,7 @@ function showNewDialog($mdDialog, $scope){
       /**
        * Creates a call and associates call with the farmer
        * and logged in user.
-       * TODO - Handle action after user saves
+       * TODO - Handle action after user saves call.
        **/
       $scope.saveCall = function(){
         CallLogFactory.create({
