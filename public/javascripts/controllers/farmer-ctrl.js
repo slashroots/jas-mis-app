@@ -226,7 +226,11 @@ angular.module('jasmic.controllers')
                     }, function(fail){
                         showDialog($mdDialog, error, true);
                     });
-            }
+            };
+
+            $scope.showTestDialog = function(){
+                showNewDialog($mdDialog, $scope);
+            };
         }
     ])
 /**
@@ -307,3 +311,60 @@ function showDialog($mdDialog, message, isError) {
             .ok('Ok')
     );
 };
+/**
+ * Dialog to accept call notes, select call type
+ * and save a call.
+ *
+ * @param $mdDialog
+ * @param $scope
+ * TODO - Annotate function accordingly.
+ */
+function showNewDialog($mdDialog, $scope){
+  $mdDialog.show({
+    scope: $scope,
+    clickOutsideToClose: true,
+    preserveScope: true,
+    templateUrl: '/partials/call_input_form.html',
+    controller: function DialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
+      CallTypesFactory.show(function(calltypes){
+          $scope.calltypes = calltypes;
+      }, function(error){
+          console.log('Error');
+      });
+      /*
+      *  Gets the selected call type from
+      *  drop down menu.
+      */
+      $scope.selectedCallType = function(call_type){
+        $scope.selectedCallType = call_type;
+      };
+      /*
+      *  Dismisses the dialog box.
+      */
+      $scope.cancel = function(){
+        $mdDialog.hide();
+      };
+      /**
+       * Creates a call and associates call with the farmer
+       * and logged in user.
+       * TODO - Handle action after user saves
+       **/
+      $scope.saveCall = function(){
+        CallLogFactory.create({
+                cc_caller_id: $scope.farmer.fa_contact,
+                cc_entity_id : $scope.farmer._id,
+                cc_entity_type: "farmer",
+                us_user_id : $scope.user._id,
+                ct_call_type: $scope.selectedCallType._id,
+                cc_note: $scope.call.cc_note },
+            function(success){
+                $mdDialog.hide();
+                showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
+            }, function(fail){
+                $mdDialog.hide();
+                showDialog($mdDialog, error, true);
+            });
+      }//end of saveCall function
+    }//end of controller
+  });
+}
