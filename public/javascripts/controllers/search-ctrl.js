@@ -60,6 +60,7 @@ angular.module('jasmic.controllers')
                 $scope.cc_entity_type = "farmer";
               }
               if($scope.buyerSelected){
+
                 $scope.buyer = $scope.selectedBuyer;
                 $scope.cc_caller_id = $scope.selectedBuyer.bu_phone;
                 $scope.cc_entity_id = $scope.selectedBuyer._id;
