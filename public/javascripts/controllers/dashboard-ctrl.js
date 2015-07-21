@@ -4,19 +4,20 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory', 
+        'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
         'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
                   ParishesFactory, SuppliersFactory, InputsFactory) {
             /**
              * Gets all calls associated with the logged in
-             * user id. 
-             * TODO - New user objects will have a us_user_id field and the function 
+             * user id.
+             * TODO - New user objects will have a us_user_id field and the function
              * will be updated to reflect this change.
              */
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
+                    console.log(calls);
                     $scope.calls = calls;
                     $scope.note = calls[0].cc_note;
                 }, function(error){
@@ -69,9 +70,9 @@ angular.module('jasmic.controllers')
             /**
             *
             * Gets the note from a call record
-            * and renders it. 
-            * @param CallLog Object 
-            **/            
+            * and renders it.
+            * @param CallLog Object
+            **/
             $scope.setSelectedNote = function(call){
                 $scope.note = call.cc_note;
             };

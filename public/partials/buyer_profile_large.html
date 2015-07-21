@@ -80,6 +80,10 @@
                 </md-card-content>
             </md-card>
 
+            <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
+
+            </md-card>
+
             <md-card>
                 <md-card-content class="{{new_rep ? 'dark':'white'}}">
                     <div layout="row">

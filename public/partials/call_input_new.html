@@ -1,25 +1,6 @@
 <md-dialog>
   <md-dialog-content>
     <div style="width:400px;">
-      <div layout="row" ng-if="buyer">
-        <md-input-container flex>
-               <label>Buyer Name</label>
-               <input disabled ng-model="buyer.bu_buyer_name">
-        </md-input-container>
-      </div>
-
-      <div layout="row" ng-if="farmer">
-        <md-input-container flex>
-               <label>First Name</label>
-               <input disabled ng-model="farmer.fa_first_name">
-        </md-input-container>
-
-        <md-input-container flex>
-               <label>Last Name</label>
-               <input disabled ng-model="farmer.fa_last_name">
-        </md-input-container>
-      </div>
-
     <md-input-container flex>
     <md-select placeholder="Call Type" ng-model="call.ct_call_type_name">
         <md-option ng-value="calltype.ct_call_type_name" ng-repeat="calltype in calltypes" ng-click="selectedCallType(calltype);">

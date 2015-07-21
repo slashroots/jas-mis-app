@@ -3,8 +3,8 @@ var model = require('../../models/db');
 var CallLog = model.CallLog;
 var CallType = model.CallType;
 /**
- * Search calls by query parameters. 
- * Each call is populated with a farmer 
+ * Search calls by query parameters.
+ * Each call is populated with a farmer
  * object referenced by the cc_entity_id.
  * @param req
  * @param res
@@ -31,6 +31,7 @@ exports.searchCalls = function(req, res){
  */
 exports.createCall = function(req, res){
 	if(common.isAuthenticated(req, res)) {
+		console.log(req.body);
 		var call = new CallLog(req.body);
 		call.save(function(err){
 			if(err){
@@ -70,7 +71,6 @@ exports.createCallType = function(req, res){
 exports.getCallTypes = function(req, res){
 	if(common.isAuthenticated(req, res)){
 		CallType.find()
-			//.populate('us_user_id')
 			.exec(function(err, list){
 				if(err){
 					common.handleDBError(err, res);
@@ -80,4 +80,3 @@ exports.getCallTypes = function(req, res){
 		});
 	}
 };
-

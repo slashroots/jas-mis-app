@@ -110,10 +110,10 @@ angular.module('jasmic.controllers')
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory','UserProfileFactory',
+        'BuyerDemandFactory', 'DemandsFactory','UserProfileFactory','CallLogsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandsFactory, UserProfileFactory) {
+                  BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -134,6 +134,13 @@ angular.module('jasmic.controllers')
                             bu_buyer: buyer._id
                         });
                         $scope.disputes = [];
+
+                        CallLogsFactory.query({cc_entity_id: buyer._id}, function(calls){
+                            console.log(calls);
+                            $scope.calls = calls;
+                        }, function(error){
+                            $scope.calls = [];
+                        });
                     },
                     function (error) {
                         showDialog($mdDialog, error, true);

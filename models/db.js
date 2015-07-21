@@ -176,7 +176,7 @@ var CallLogSchema = new Schema({
     cc_date: {type: Date, default: Date.now()},
     // cc_duration: Number,
     // cc_quality: Number,
-    cc_note: {type: String, default: ""},
+    cc_note: {type: String, default: "-"},
     us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
     cc_incoming: {type: Boolean, default: true}
 });

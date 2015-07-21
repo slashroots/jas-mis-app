@@ -44,11 +44,11 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'UserProfileFactory','CallLogFactory',
+        'UserProfileFactory','CallLogFactory','CallLogsFactory',
         function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                   FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                   CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory,
-                  UserProfileFactory, CallLogFactory) {
+                  UserProfileFactory, CallLogFactory, CallLogsFactory) {
             /**
              *
              * Gets the currently logged in user.
@@ -73,6 +73,12 @@ angular.module('jasmic.controllers')
                         fr_farmer: farmer._id
                     });
                     $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+
+                    CallLogsFactory.query({cc_entity_id: farmer._id}, function(calls){
+                        $scope.calls = calls;
+                    }, function(error){
+                        $scope.calls = [];
+                    });
                 }, function(err) {
                     console.log(err);
                 });
