@@ -171,11 +171,10 @@ var CallTypeSchema = new Schema({
 var CallLogSchema = new Schema({
     cc_caller_id: String,
     cc_entity_type: String,
-    cc_entity_id: {type: Schema.Types.ObjectId, ref:'Farmer' },
+    cc_entity_id: Schema.Types.ObjectId,
+    cc_entity_name: String,
     ct_call_type: {type: Schema.Types.ObjectId, ref: 'CallType'},
     cc_date: {type: Date, default: Date.now()},
-    // cc_duration: Number,
-    // cc_quality: Number,
     cc_note: {type: String, default: "-"},
     us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
     cc_incoming: {type: Boolean, default: true}

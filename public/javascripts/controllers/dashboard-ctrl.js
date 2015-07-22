@@ -17,7 +17,6 @@ angular.module('jasmic.controllers')
              */
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                    console.log(calls);
                     $scope.calls = calls;
                     $scope.note = calls[0].cc_note;
                 }, function(error){

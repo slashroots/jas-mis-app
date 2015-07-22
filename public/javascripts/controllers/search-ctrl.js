@@ -58,13 +58,14 @@ angular.module('jasmic.controllers')
                 $scope.cc_caller_id = $scope.selectedFarmer.fa_contact;
                 $scope.cc_entity_id = $scope.selectedFarmer._id;
                 $scope.cc_entity_type = "farmer";
+                $scope.cc_entity_name = $scope.selectedFarmer.fa_first_name + " " + $scope.selectedFarmer.fa_last_name;
               }
               if($scope.buyerSelected){
-
                 $scope.buyer = $scope.selectedBuyer;
                 $scope.cc_caller_id = $scope.selectedBuyer.bu_phone;
                 $scope.cc_entity_id = $scope.selectedBuyer._id;
                 $scope.cc_entity_type = "buyer";
+                $scope.cc_entity_name = $scope.selectedBuyer.bu_buyer_name;
               }
               showCallInputDialog($mdDialog, $scope);
             };
@@ -187,6 +188,7 @@ function showCallInputDialog($mdDialog, $scope){
                 cc_caller_id: $scope.cc_caller_id,
                 cc_entity_id : $scope.cc_entity_id,
                 cc_entity_type: $scope.cc_entity_type,
+                cc_entity_name: $scope.cc_entity_name,
                 us_user_id : $scope.user._id,
                 ct_call_type: $scope.selectedCallType._id,
                 cc_note: $scope.call.cc_note },

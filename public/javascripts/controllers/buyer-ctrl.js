@@ -134,9 +134,10 @@ angular.module('jasmic.controllers')
                             bu_buyer: buyer._id
                         });
                         $scope.disputes = [];
-
+                        /**
+                         * Retrieves all calls associated with buyer by id.
+                         */
                         CallLogsFactory.query({cc_entity_id: buyer._id}, function(calls){
-                            console.log(calls);
                             $scope.calls = calls;
                         }, function(error){
                             $scope.calls = [];
