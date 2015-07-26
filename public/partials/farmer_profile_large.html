@@ -28,7 +28,7 @@
                             <span flex></span>
                         </div>
                     </div>
-                </md-card-content>
+                </md-card-content><!--- start of trn data on card -->
                 <md-card-content layout="column">
                     <div layout-align="space-around start" class="farmer_info" layout="row">
                         <div flex layout="row">
@@ -86,7 +86,7 @@
                         <span flex></span>
                     </div>
                 </md-card-content>
-            </md-card>
+            </md-card><!--
             <md-card ng-if="memberships.length > 0">
                 <md-card-content>
                     <div layout-padding layout="column" ng-repeat="membership in memberships">
@@ -106,7 +106,17 @@
                         </div>
                     </div>
                 </md-card-content>
+            </md-card>-->
+
+            <md-card>
+
+                <md-card-content ng-include="'/partials/membership_card.html'">
+
+
+                </md-card-content>
+
             </md-card>
+
             <md-card>
                 <md-card-content class="{{newFarm ? 'dark':'white'}}">
                     <div layout="row">
