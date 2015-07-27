@@ -165,7 +165,6 @@ var CallTypeSchema = new Schema({
   ct_call_type_desc: {type: String, required: true },
   ct_date: {type: Date, default: Date.now(), required: true},
   us_user_id: {type: Schema.Types.ObjectId, ref: 'User', required: true}
-
 });
 
 var CallLogSchema = new Schema({

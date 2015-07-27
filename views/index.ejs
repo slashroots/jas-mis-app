@@ -6,6 +6,7 @@
   <link rel='stylesheet' href="../stylesheets/table.css"/>
   <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
   <link rel='stylesheet' href="../stylesheets/style.css"/>
+<base href="/">
 </head>
 <body ng-app="jasmic" layout="column" layout-fill>
 <div ng-controller="NavigationCtrl">
@@ -47,6 +48,10 @@
     </md-button>
     <md-button ng-click="goTo('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
       Farm Store
+    </md-button>
+
+    <md-button ng-click="createInput();" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store Input">
+      Input
     </md-button>
 
     <span layout="row" flex>

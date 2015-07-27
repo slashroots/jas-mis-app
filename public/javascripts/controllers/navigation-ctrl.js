@@ -43,6 +43,13 @@ angular.module('jasmic.controllers')
             $scope.createCall = function(){
               showInputDialog($mdDialog, $scope);
             };
+            /**
+             * Create an input for an existing supplier
+             */
+
+            $scope.createInput = function(){
+                showNewInputDialog($mdDialog,$scope);
+            };
         }]);
 /**
  * Dialog to accept call notes, select call type
@@ -57,7 +64,7 @@ function showInputDialog($mdDialog, $scope){
     scope: $scope,
     clickOutsideToClose: true,
     preserveScope: true,
-    templateUrl: '/partials/call_input_form_new.html',
+    templateUrl: '/partials/input_new_dialog.html',
     /**
      * This controller is responsible for all actions
      * done on the Call Input Dialog.
@@ -109,4 +116,41 @@ function showInputDialog($mdDialog, $scope){
       }//end of saveCall function
     }//end of controller
   });
+};
+
+/**
+ * Dialog to accept call notes, select call type
+ * and save a call.
+ *
+ * @param $mdDialog
+ * @param $scope
+ */
+function showNewInputDialog($mdDialog, $scope){
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/input_new_dialog.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         */
+        controller: function InputController($scope, $mdDialog){
+            /*
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
+                $mdDialog.hide();
+            };
+            /**
+             * Creates a call and associates call with the farmer
+             * and logged in user.
+             **/
+            $scope.saveInput = function(){
+                console.log('In Input');
+            }//end of
+        }//end of controller
+    });
 };

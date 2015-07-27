@@ -121,3 +121,4 @@ angular.module('jasmic.controllers')
             })
         }
     ]);
+

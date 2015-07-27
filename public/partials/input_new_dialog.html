@@ -1,0 +1,52 @@
+<!-- TODO 1: Fix alignment issue with select box-->
+<md-dialog>
+    <md-dialog-content>
+        <div style="width: 700px;">
+            <div layout="row">
+                <md-select placeholder="Supplier Name" ng-model="input.su_supplier" flex >
+                    <md-option ng-repeat="state in ctrl.states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
+                </md-select>
+                <md-input-container flex>
+                    <label>Input Name</label>
+                    <input type="text" ng-model="input.ip_input_name"/>
+                </md-input-container>
+                <md-input-container flex>
+                <label>Brand</label>
+                <input type="text" ng-model="input.ip_brand"/>
+                </md-input-container>
+            </div>
+            <md-input-container>
+                <label>Description</label>
+                <input type="text" ng-model="input.ip_description"/>
+            </md-input-container>
+            <div layout="row">
+                <md-input-container>
+                    <label>Price</label>
+                    <input type="text" ng-model="input.ip_price"/>
+                </md-input-container>
+
+                <md-select placeholder="Unit" ng-model="input.ip_price_unit" flex>
+                    <md-option ng-repeat="state in ctrl.states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
+                </md-select>
+                <md-select placeholder="Input Type" ng-model="ctrl.userState" flex>
+                    <md-option ng-repeat="state in ctrl.states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
+                </md-select>
+                <md-select placeholder="JAS Discounted" ng-model="ctrl.userState" flex>
+                    <md-option ng-repeat="state in ctrl.states" value="{{state.abbrev}}">{{state.abbrev}}</md-option>
+                </md-select>
+            </div>
+            <md-input-container>
+                <label>Terms of Discount</label>
+                <input type="text" ng-model="input.ip_discount_terms"/>
+            </md-input-container>
+        </div>
+        </md-dialog-content>
+        <div class="md-actions">
+            <md-button ng-click="save()" class="md-primary">
+                Save
+            </md-button>
+            <md-button ng-click="cancel()" class="md-primary">
+                Cancel
+            </md-button>
+        </div>
+</md-dialog>
