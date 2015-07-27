@@ -158,7 +158,8 @@ var FarmerSchema = new Schema({
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    fa_sub_sector: String
+    fa_sub_sector: String,
+    calls: [{type: Schema.Types.ObjectId, ref: 'CallLog'}]
 });
 var CallTypeSchema = new Schema({
   ct_call_type_name: {type: String, required: true, unique: true},
@@ -199,7 +200,8 @@ var BuyerSchema = new Schema({
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    re_representatives: [RepresentativeSchema]
+    re_representatives: [RepresentativeSchema],
+    calls: [{type: Schema.Types.ObjectId, ref: 'CallLog'}]
 });
 var InputTypeSchema = new Schema({
     it_input_type_desc: {type: String, required: true},

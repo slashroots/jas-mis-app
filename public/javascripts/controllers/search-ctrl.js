@@ -185,22 +185,21 @@ function showCallInputDialog($mdDialog, $scope){
        * and logged in user.
        **/
       $scope.saveCall = function(){
-        console.log($scope.cc_entity_type);
-        // CallLogFactory.create({
-        //         cc_caller_id: $scope.cc_caller_id,
-        //         cc_entity_id : $scope.cc_entity_id,
-        //         cc_entity_type: $scope.cc_entity_type,
-        //         cc_entity_name: $scope.cc_entity_name,
-        //         us_user_id : $scope.user._id,
-        //         ct_call_type: $scope.selectedCallType._id,
-        //         cc_note: $scope.call.cc_note },
-        //     function(success){
-        //         $mdDialog.hide();
-        //         showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
-        //     }, function(fail){
-        //         $mdDialog.hide();
-        //         showDialog($mdDialog, error, true);
-        //     });
+         CallLogFactory.create({
+                 cc_caller_id: $scope.cc_caller_id,
+                 cc_entity_id : $scope.cc_entity_id,
+                 cc_entity_type: $scope.cc_entity_type,
+                 cc_entity_name: $scope.cc_entity_name,
+                 us_user_id : $scope.user._id,
+                 ct_call_type: $scope.selectedCallType._id,
+                 cc_note: $scope.call.cc_note },
+             function(success){
+                 $mdDialog.hide();
+                 showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
+             }, function(fail){
+                 $mdDialog.hide();
+                 showDialog($mdDialog, error, true);
+             });
       }//end of saveCall function
     }//end of controller
   });
