@@ -3,24 +3,7 @@
  */
 var services = angular.module('jasmic.services', ['ngResource']);
 
-/**
-*
-* Factory to be used to generate buyer report.
-*
-**/
-services.factory('BuyerReportFactory', function($resource) {
-    return $resource('/report/buyer_report', {}, {
-        show: { method: 'GET' },
-        create: { method: 'POST'}
-    });
-});
 
-/**
-*
-* Factory to be used intercept all 401 error messages
-* and direct user to login page.
-*
-**/
 services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
     return {
         responseError: function(response){

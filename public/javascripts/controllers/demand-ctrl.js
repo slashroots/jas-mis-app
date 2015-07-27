@@ -32,9 +32,9 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-   .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
+    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location','$routeParams', 'DemandFactory',
         'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory',
-        function ($scope, $mdToast, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory,
+        function ($scope, $mdToast, $location, $routeParams, DemandFactory, DemandMatchFactory,
                   UserProfileFactory, TransactionFactory) {
             /**
              * Display user profile based on authenticated
@@ -114,7 +114,6 @@ angular.module('jasmic.controllers')
              * @param commodity
              */
             $scope.checked = function(commodity) {
-                // console.log(commodity);
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;
                 for(var i in $scope.m_commodities) {
@@ -136,27 +135,5 @@ angular.module('jasmic.controllers')
                     $scope.commodities = list;
                 })
             }
-
-            $scope.printReport = function(demand_id){
-              var url = "/report/buyer_report?";
-              var commodity_id= "comm_id=";
-              var ampersand = "&";
-                if ($scope.m_commodities.length > 0){
-                    for(var i in $scope.m_commodities){
-                        url = url.concat(commodity_id,$scope.m_commodities[i]._id,ampersand);
-                    }
-                    var report_url = url + "demand_id=" + demand_id + "&supply_value=" + $scope.combinedSuppyValue + "&supply_amount=" + $scope.combinedSupplyAmount;
-                    window.location = report_url; 
-                }else{
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                            .parent(angular.element(document.body))
-                            .title('Error Detected')
-                            .content('No Supply matched')
-                            .ariaLabel('Alert')
-                            .ok('Ok')
-                        );          
-                }
-            }             
         }
     ]);
