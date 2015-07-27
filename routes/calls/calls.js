@@ -20,21 +20,17 @@ exports.searchCalls = function(req, res){
 				if(err){
 					common.handleDBError(err, res);
 				}else{
+					console.log(list);
 					res.send(list);
 				}
 			});
 	}
 };
-
-//exports.searchCalls = function(req, res){
-//	if(common.isAuthenticated(req, res)) {
-//
-//	}
-//};
 /**
  * Creates a call based on the body of the
  * POST request
- *
+ * TODO - Modularize the below function. The res object can be passed to another function.
+ * TODO - Return success outcome of saving call entity type 'other'
  * @param req
  * @param res
  */
@@ -48,11 +44,17 @@ exports.createCall = function(req, res){
 							}else{
 								var call_log = new CallLog(req.body);
 								farmer.calls.push(call_log._id);
-								farmer.save(function(err){
+								call_log.save(function(err){
 									if(err){
 										common.handleDBError(err, res);
 									}else{
-										res.send(call_log);
+										farmer.save(function(err){
+											if(err){
+												common.handleDBError(err, res);
+											}else{
+												res.send(call_log);
+											}
+										});
 									}
 								});
 							}
@@ -64,11 +66,17 @@ exports.createCall = function(req, res){
 							}else{
 								var call_log = new CallLog(req.body);
 								buyer.calls.push(call_log._id);
-								buyer.save(function(err){
+								call_log.save(function(err){
 									if(err){
 										common.handleDBError(err, res);
 									}else{
-										res.send(call_log);
+										buyer.save(function(err){
+											if(err){
+												common.handleDBError(err, res);
+											}else{
+												res.send(call_log);
+											}
+										});
 									}
 								});
 							}
@@ -78,7 +86,7 @@ exports.createCall = function(req, res){
 								if(err){
 									common.handleDBError(err, res);
 								}else{
-									res.send(call_log);
+									res.end();
 								}
 							});
 				break;

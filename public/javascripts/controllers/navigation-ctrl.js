@@ -41,7 +41,7 @@ angular.module('jasmic.controllers')
              * or buyer.
              */
             $scope.createCall = function(){
-              showInputDialog($mdDialog, $scope);
+              showNewCallInputDialog($mdDialog, $scope);
             };
             /**
              * Create an input for an existing supplier
@@ -59,12 +59,12 @@ angular.module('jasmic.controllers')
  * @param $scope
  * @param selectedFarmer
  */
-function showInputDialog($mdDialog, $scope){
+function showNewCallInputDialog($mdDialog, $scope){
   $mdDialog.show({
     scope: $scope,
     clickOutsideToClose: true,
     preserveScope: true,
-    templateUrl: '/partials/input_new_dialog.html',
+    templateUrl: '/partials/call_input_form_new.html',
     /**
      * This controller is responsible for all actions
      * done on the Call Input Dialog.
@@ -148,7 +148,7 @@ function showNewInputDialog($mdDialog, $scope){
              * Creates a call and associates call with the farmer
              * and logged in user.
              **/
-            $scope.saveInput = function(){
+            $scope.save = function(){
                 console.log('In Input');
             }//end of
         }//end of controller

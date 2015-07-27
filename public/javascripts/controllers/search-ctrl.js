@@ -54,11 +54,13 @@ angular.module('jasmic.controllers')
             **/
             $scope.createCall = function(){
               if($scope.farmerSelected){
+
                 $scope.farmer = $scope.selectedFarmer;
                 $scope.cc_caller_id = $scope.selectedFarmer.fa_contact;
                 $scope.cc_entity_id = $scope.selectedFarmer._id;
                 $scope.cc_entity_type = "farmer";
                 $scope.cc_entity_name = $scope.selectedFarmer.fa_first_name + " " + $scope.selectedFarmer.fa_last_name;
+                  console.log( $scope.farmer);
               }
               if($scope.buyerSelected){
                 $scope.buyer = $scope.selectedBuyer;
