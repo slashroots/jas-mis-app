@@ -8,9 +8,15 @@ a {
   color: #00B7FF;
 }
 */
+
 md-toolbar.md-default-theme {
-  background-color: white;
+  background-color: #ffffff;
   color: rgba(116, 117, 41, 1);
+}
+
+.md-toolbar-tools.dialog-box-header{
+  background-color:#d8e4f1;
+  color:#000000;
 }
 
 md-content.md-default-theme {
