@@ -1,28 +1,38 @@
-<md-card-content layout="column">
+<md-card-content layout="column" style="text-align: left!important;">
+
+    <style>
+
+        md-icon.no-margin {
+
+            margin:0;
+            margin-right:20px;
+
+        }
+
+    </style>
 
     <div layout="row">
         <h3 class="white">Membership</h3>
     </div>
-
     <div layout-align="space-around start" class="farmer_info" layout="row">
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
-            <div layout-align="center" layout="column">
+            <md-icon class="no-margin" md-svg-icon="/images/icons/icons_farmer_active.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
                 Active
                 <div class="label">Status</div>
             </div>
         </div>
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(memberships[0].mt_type_id.mt_type_name)? memberships[0].mt_type_id.mt_type_name:  'Not Found'}}
+            <md-icon class="no-margin" md-svg-icon="/images/icons/icons_farmer_type.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(memberships[0].mt_type_id.mt_type_name)? memberships[0].mt_type_id.mt_type_name:  'N/A'}}
                 <div class="label">Membership Type</div>
             </div>
         </div>
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(farmer.fa_sub_sector)? farmer.fa_sub_sector:  'Subsector Not Found'}}
+            <md-icon class="no-margin" md-svg-icon="/images/icons/icons_farmer_subsector.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(farmer.fa_sub_sector)? farmer.fa_sub_sector:  'N/A'}}
                 <div class="label">Subsector</div>
             </div>
         </div>
@@ -30,16 +40,16 @@
 
     <div layout-align="space-around start" class="farmer_info" layout="row">
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(farmer.fa_jas_number)? farmer.fa_jas_number:  'ID Number Not Found'}}
+            <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(farmer.fa_jas_number)? farmer.fa_jas_number:  'N/A'}}
                 <div class="label">JAS ID#</div>
             </div>
         </div>
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(farmer.fa_rada_id)? farmer.fa_rada_id:  'ID Number Not Found'}}
+            <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_ID.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(farmer.fa_rada_id)? farmer.fa_rada_id:  'N/A'}}
                 <div class="label">RADA ID#</div>
             </div>
         </div>
@@ -49,9 +59,9 @@
 
     <div layout-align="space-around start" class="farmer_info" layout="row">
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(memberships[0].br_branch_id.br_branch_name)? memberships[0].br_branch_id.br_branch_name:  'Branch Not Found'}}
+            <md-icon class="no-margin" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(memberships[0].br_branch_id.br_branch_name)? memberships[0].br_branch_id.br_branch_name:  'N/A'}}
                 <div class="label">Branch</div>
             </div>
         </div>
@@ -60,18 +70,19 @@
     </div>
 
     <div layout-align="space-around start" class="farmer_info" layout="row">
+
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_date_expires.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(memberships[0].mi_expiration)? memberships[0].mi_expiration.split("T")[0]:  'Not Found'}}
-                <div class="label">Exp Date</div>
+            <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(memberships[0].mi_start)? memberships[0].mi_start.split("T")[0]:  'N/A'}}
+                <div class="label">Reg Date</div>
             </div>
         </div>
         <div flex layout="row">
-            <md-icon md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
-            <div layout-align="center" layout="column">
-                {{isValid(memberships[0].mi_start)? memberships[0].mi_start.split("T")[0]:  'Not Found'}}
-                <div class="label">Reg Date</div>
+            <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_expires.svg"></md-icon>
+            <div layout-align="center" style="text-align: center;" layout="column">
+                {{isValid(memberships[0].mi_expiration)? memberships[0].mi_expiration.split("T")[0]:  'N/A'}}
+                <div class="label">Exp Date</div>
             </div>
         </div>
         <div flex layout="row">
