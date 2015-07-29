@@ -31,7 +31,7 @@
 <div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex>
   <div class="addNew" layout="column" flex="10" layout-align="start center" flex-sm="0">
 
-    <md-fab-speed-dial md-open="false" md-direction="down" ng-class="md-fling">
+    <md-fab-speed-dial md-open="false" md-trigger="click" md-direction="down" layout-align="center" ng-class="md-fling">
 
     <md-fab-trigger>
       <md-button aria-label="menu" class="md-fab md-warn">
@@ -39,7 +39,7 @@
       </md-button>
     </md-fab-trigger>
 
-    <md-fab-actions>
+    <md-fab-actions style="text-align:center;">
       <md-button ng-click="goTo('farmer')" class="md-fab-top-left" aria-label="Add New Farmer">
         Farmer
       </md-button>
