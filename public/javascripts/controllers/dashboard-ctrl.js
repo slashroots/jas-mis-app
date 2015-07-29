@@ -16,7 +16,8 @@ angular.module('jasmic.controllers')
              * will be updated to reflect this change.
              */
              UserProfileFactory.show(function(user){
-                CallLogsFactory.query({us_user_id: user._id}, function(calls){
+                $scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
+                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
                     $scope.calls = calls;
                     $scope.note = calls[0].cc_note;
                 }, function(error){
