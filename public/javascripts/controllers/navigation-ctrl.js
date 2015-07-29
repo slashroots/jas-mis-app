@@ -136,8 +136,25 @@ function showNewInputDialog($mdDialog, $scope){
          * done on the Call Input Dialog.
          * @param $scope
          * @param $mdDialog
+         * @param SuppliersFactory
+         * @param UnitsFactory
+         * @param InputsFactory
+         *
          */
-        controller: function InputController($scope, $mdDialog){
+        controller: function InputController($scope, $mdDialog, SuppliersFactory, UnitsFactory, InputsFactory){
+            $scope.discounts = ['Yes', 'No'];
+            SuppliersFactory.query(function(suppliers){
+                console.log(suppliers);
+                $scope.suppliers = suppliers;
+            });
+
+            UnitsFactory.query(function(units){
+                $scope.units = units;
+            });
+
+            InputsFactory.query(function(input_types){
+                $scope.input_types = input_types;
+            })
             /*
              *  Dismisses the dialog box.
              */
