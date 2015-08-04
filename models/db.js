@@ -267,8 +267,8 @@ var AuditSchema = new Schema({
 var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
-    us_username: {type: String, unique: true, required: true},
-    us_password: {type: String, required: true},
+    us_username: {type: String, unique: true},
+    us_password: {type: String},
     ut_user_type: {type: String, required: true},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},

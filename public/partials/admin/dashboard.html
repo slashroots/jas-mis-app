@@ -1,64 +1,119 @@
 <div layout="column" layout-fill flex-md="100" flex="60" flex-sm="100">
 
     <md-card>
-        <md-card-content class="{{newFarm ? 'dark':'white'}}">
+        <md-card-content class="{{newUser ? 'dark':'white'}}">
             <div layout="row">
-                <h3 class="{{newFarm ? 'dark':'white'}}">Crop Types</h3>
+                <h3 class="{{newUser ? 'dark':'white'}}">Users</h3>
                 <div flex class="md-actions edge" layout="row" layout-align="end center">
-                    <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
+                    <md-button ng-click="create('user');" class="md-fab edge" aria-label="Add New Farm">
                         <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                     </md-button>
                 </div>
             </div>
-            <div ng-include="newFarm ? '/partials/farm_new.html':null">
+            <div>
+                <table class="table table-hover table-mc-light-blue" ng-if="!hideList">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="user in users">
+                        <td>{{user.us_user_first_name}} {{user.us_user_last_name}}</td>
+                        <td>{{user.us_username}}</td>
+                        <td>{{user.us_email_address}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-include="newUser ? '/partials/admin/user_new.html':null">
 
             </div>
         </md-card-content>
     </md-card>
 
     <md-card>
-        <md-card-content class="{{newFarm ? 'dark':'white'}}">
+        <md-card-content class="{{newCropType ? 'dark':'white'}}">
             <div layout="row">
-                <h3 class="{{newFarm ? 'dark':'white'}}">Users</h3>
+                <h3 class="{{newCropType ? 'dark':'white'}}">Crop Types</h3>
                 <div flex class="md-actions edge" layout="row" layout-align="end center">
-                    <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
+                    <md-button ng-click="create('croptype')" class="md-fab edge" aria-label="Add New Farm">
                         <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                     </md-button>
                 </div>
             </div>
-            <div ng-include="newFarm ? '/partials/farm_new.html':null">
+            <!--<div>-->
+                <!--<table class="table table-hover table-mc-light-blue">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                        <!--<th>Crop Name</th>-->
+                        <!--<th>Variety</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr ng-repeat="crop in crops">-->
+                        <!--<td>{{crop.cr_crop_name}}</td>-->
+                        <!--<td>{{crop.cr_crop_variety}}</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</div>-->
+            <div ng-include="newCropType ? '/partials/admin/crop_type_new.html':null">
+
+            </div>
+        </md-card-content>
+    </md-card>
+
+
+
+    <md-card>
+        <md-card-content class="{{newSupplier ? 'dark':'white'}}">
+            <div layout="row">
+                <h3 class="{{newSupplier ? 'dark':'white'}}">Farm Stores</h3>
+
+                <div flex class="md-actions edge" layout="row" layout-align="end center">
+                    <md-button ng-click="create('supplier')" class="md-fab edge" aria-label="Add New Farm">
+                        <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+            <div>
+            <table class="table table-hover table-mc-light-blue" ng-if="!hideList">
+                <thead>
+                        <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                         <th>Parish</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="supplier in suppliers">
+                    <td>{{supplier.su_supplier_name}}</td>
+                    <td>{{supplier.su_description}}</td>
+                        <td>{{supplier.su_parish}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div ng-include="newSupplier ? '/partials/admin/supplier_new.html':null">
 
             </div>
         </md-card-content>
     </md-card>
 
     <md-card>
-        <md-card-content class="{{newFarm ? 'dark':'white'}}">
+        <md-card-content class="{{newUnit ? 'dark':'white'}}">
             <div layout="row">
-                <h3 class="{{newFarm ? 'dark':'white'}}">Farm Stores</h3>
+                <h3 class="{{newUnit ? 'dark':'white'}}">Units</h3>
                 <div flex class="md-actions edge" layout="row" layout-align="end center">
-                    <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
+                    <md-button ng-click="create('unit')" class="md-fab edge" aria-label="Add New Farm">
                         <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                     </md-button>
                 </div>
             </div>
-            <div ng-include="newFarm ? '/partials/farm_new.html':null">
-
-            </div>
-        </md-card-content>
-    </md-card>
-
-    <md-card>
-        <md-card-content class="{{newFarm ? 'dark':'white'}}">
-            <div layout="row">
-                <h3 class="{{newFarm ? 'dark':'white'}}">Units</h3>
-                <div flex class="md-actions edge" layout="row" layout-align="end center">
-                    <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
-                        <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-                    </md-button>
-                </div>
-            </div>
-            <div ng-include="newFarm ? '/partials/farm_new.html':null">
+            <div ng-include="newUnit ? '/partials/farm_new.html':null">
 
             </div>
         </md-card-content>

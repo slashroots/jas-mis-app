@@ -219,10 +219,19 @@ services.factory('RepFactory', function($resource) {
  */
 services.factory('CropsFactory', function($resource) {
     return $resource('/crops', {}, {
-        query: { method: 'GET', isArray: true}
+        query: { method: 'GET', isArray: true},
+        show: {method: 'GET', isArray: true}
     });
 });
-
+/**
+ * This factory is used to create a crop by an
+ * Admin User.
+ */
+services.factory('CropFactory', function($resource){
+   return $resource('/crop',{},{
+       create: { method: 'POST'}
+   });
+});
 services.factory('DistrictsFactory', function($resource) {
     return $resource('/common/districts', {}, {
         query: { method: 'GET', isArray: true}
@@ -320,13 +329,21 @@ services.factory('DemandFactory', function($resource) {
         show: {method: 'GET', params: {id: '@id'}}
     });
 });
-
+/**
+ * Service used to create a supplier.
+ */
+services.factory('SupplierFactory', function($resource){
+   return $resource('/supplier', {}, {
+      create: {method: 'POST'}
+   });
+});
 /**
  * Service used to query for all suppliers.
  */
 services.factory('SuppliersFactory', function ($resource) {
     return $resource('/suppliers', {}, {
-        query: { method: 'GET', isArray: true }
+        query: { method: 'GET', isArray: true },
+        show: { method: 'GET', isArray: true}
     })
 });
 
@@ -427,6 +444,14 @@ services.factory('UserSessionDestroyFactory', function($resource) {
     return $resource('/logout', {}, {
         killSession: { method: 'GET'}
     });
+});
+/**
+ * Service used to retrieve all users.
+ */
+services.factory('UsersFactory', function($resource){
+   return $resource('/users', {}, {
+      show: {method: 'GET', isArray: true}
+   });
 });
 
 /**

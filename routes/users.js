@@ -76,10 +76,14 @@ passport.use(new LocalStrategy(
 /**
  * If the user is an authenticated administrator, he or she has the ability to create
  * a user.
+ * TODO - confirm workflow for creating user.
+ * TODO - Newly created user is unable to login.
  */
 router.post('/user', function(req, res) {
     if(common.isAdmin(req, res)) {
         var user = User(req.body);
+        user.us_username = user.us_email_address.substring(0,user.us_email_address.indexOf('@'));
+        user.us_password = 'default';
         user.save(function (err, user) {
             if (err) {
                 common.handleDBError(err, res);
@@ -89,7 +93,6 @@ router.post('/user', function(req, res) {
         });
     }
 });
-
 /**
  * The intention is to use this as a "who am I..."
  * After the user logs in. They can get their profile
@@ -101,6 +104,22 @@ router.get('/user', function(req, res) {
         userValue.password = "";
         res.send(userValue);
     }
+});
+/**
+ * Retrieves all users.
+ * @param req
+ * @param res
+ */
+router.get('/users', function(req, res){
+   if(common.isAdmin(req, res)){
+       User.find(function(err, users){
+           if(err || !users){
+                common.handleDBError(err, res);
+           }else{
+               res.send(users);
+           }
+       });
+   }
 });
 
 
