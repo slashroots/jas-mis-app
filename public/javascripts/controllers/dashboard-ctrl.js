@@ -122,95 +122,94 @@ angular.module('jasmic.controllers')
             InputsFactory.query(function(inputs) {
                 $scope.inputs = inputs;
             });
-
             /**
              * Admin Functions
              * TODO - Create controller for admin functions
              */
-            UsersFactory.show(function(users){
-                $scope.users = users;
-            }, function(error){
-                $scope.users = [];
-            });
-            CropsFactory.show(function(crops){
-                $scope.crops = crops;
-            }, function(error){
-                $scope.crops = [];
-            });
-            SuppliersFactory.show(function(suppliers){
-                $scope.suppliers = suppliers;
-            }, function(error){
-               $scope.suppliers = [];
-            });
-            $scope.new_user = {};
-            $scope.new_crop_type = {};
-            $scope.usertypes = ['Administrator', 'Call Representative'];
-            $scope.hideList = false;
-            $scope.create = function(entity){
-                if(entity === 'user'){
-                    $scope.newUser = !$scope.newUser;
-                    $scope.new_user = {};
-                    $scope.hideList = !$scope.hideList;
-                }else if(entity === 'croptype'){
-                    $scope.newCropType = !$scope.newCropType;
-                    $scope.new_crop_type = {};
-                    $scope.hideList = !$scope.hideList;
-                }else if(entity === 'supplier'){
-                    $scope.newSupplier = !$scope.newSupplier;
-                    $scope.new_supplier = {};
-                    $scope.hideList = !$scope.hideList;
-                }
-            };
-            /**
-             * Closes form once user clicks the cancel button
-             * @param entity
-             */
-            $scope.cancel = function(entity){
-               if(entity === 'user'){
-                   $scope.new_user = {};
-                   $scope.newUser = !$scope.newUser;
-               }else if(entity === 'croptype'){
-                   $scope.new_crop_type = {};
-                   $scope.newCropType = !$scope.newCropType;
-               }else if(entity === 'supplier'){
-                   $scope.new_supplier = {};
-                   $scope.newSupplier = !$scope.newSupplier;
-               }
-            };
-
-            /**
-             * Creates and saves an entity i.e. user or crop type
-             *  @param entity
-             *
-             */
-            $scope.save = function(entity){
-                if(entity === 'user'){
-                    UserProfileFactory.create($scope.new_user, function(success){
-                        $scope.new_user = {};
-                        $scope.newUser = !$scope.newUser;
-                        showDialog($mdDialog, {statusText:" New User Created!"}, false);
-                    }, function(error){
-                        showDialog($mdDialog, error, false);
-                    });
-                }else if(entity === 'croptype'){
-                    CropFactory.create($scope.new_crop_type, function(success){
-                        $scope.new_crop_type = {};
-                        $scope.newCropType = !$scope.newCropType;
-                        showDialog($mdDialog, {statusText:" New Crop Created!"}, false);
-                    }, function(error){
-                        showDialog($mdDialog, error, false);
-                    });
-                }else if(entity === 'supplier'){
-                    SupplierFactory.create($scope.new_supplier, function(success){
-                        $scope.new_supplier = {};
-                        $scope.newSupplier = !$scope.newSupplier;
-                        showDialog($mdDialog,{statusText: "New Supplier Created!"}, false);
-                    }, function(error){
-                       showDialog($mdDialog, error, false);
-                    });
-                }
-            };
-
+           if($scope.isAdmin){
+               UsersFactory.show(function(users){
+                   $scope.users = users;
+               }, function(error){
+                   $scope.users = [];
+               });
+               CropsFactory.show(function(crops){
+                   $scope.crops = crops;
+               }, function(error){
+                   $scope.crops = [];
+               });
+               SuppliersFactory.show(function(suppliers){
+                   $scope.suppliers = suppliers;
+               }, function(error){
+                   $scope.suppliers = [];
+               });
+               $scope.new_user = {};
+               $scope.new_crop_type = {};
+               $scope.usertypes = ['Administrator', 'Call Representative'];
+               $scope.hideList = false;
+               $scope.create = function(entity){
+                   if(entity === 'user'){
+                       $scope.newUser = !$scope.newUser;
+                       $scope.new_user = {};
+                       $scope.hideList = !$scope.hideList;
+                   }else if(entity === 'croptype'){
+                       $scope.newCropType = !$scope.newCropType;
+                       $scope.new_crop_type = {};
+                       $scope.hideList = !$scope.hideList;
+                   }else if(entity === 'supplier'){
+                       $scope.newSupplier = !$scope.newSupplier;
+                       $scope.new_supplier = {};
+                       $scope.hideList = !$scope.hideList;
+                   }
+               };
+               /**
+                * Closes form once user clicks the cancel button
+                * @param entity
+                */
+               $scope.cancel = function(entity){
+                   if(entity === 'user'){
+                       $scope.new_user = {};
+                       $scope.newUser = !$scope.newUser;
+                   }else if(entity === 'croptype'){
+                       $scope.new_crop_type = {};
+                       $scope.newCropType = !$scope.newCropType;
+                   }else if(entity === 'supplier'){
+                       $scope.new_supplier = {};
+                       $scope.newSupplier = !$scope.newSupplier;
+                   }
+               };
+               /**
+                * Creates and saves an entity i.e. user or crop type
+                *  @param entity
+                *
+                */
+               $scope.save = function(entity){
+                   if(entity === 'user'){
+                       UserProfileFactory.create($scope.new_user, function(success){
+                           $scope.new_user = {};
+                           $scope.newUser = !$scope.newUser;
+                           showDialog($mdDialog, {statusText:" New User Created!"}, false);
+                       }, function(error){
+                           showDialog($mdDialog, error, false);
+                       });
+                   }else if(entity === 'croptype'){
+                       CropFactory.create($scope.new_crop_type, function(success){
+                           $scope.new_crop_type = {};
+                           $scope.newCropType = !$scope.newCropType;
+                           showDialog($mdDialog, {statusText:" New Crop Created!"}, false);
+                       }, function(error){
+                           showDialog($mdDialog, error, false);
+                       });
+                   }else if(entity === 'supplier'){
+                       SupplierFactory.create($scope.new_supplier, function(success){
+                           $scope.new_supplier = {};
+                           $scope.newSupplier = !$scope.newSupplier;
+                           showDialog($mdDialog,{statusText: "New Supplier Created!"}, false);
+                       }, function(error){
+                           showDialog($mdDialog, error, false);
+                       });
+                   }
+               };
+           }
             /**
              * End of Admin Functions
              */
