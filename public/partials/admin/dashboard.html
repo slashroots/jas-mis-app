@@ -1,6 +1,6 @@
 <div layout="column" layout-fill flex-md="100" flex="60" flex-sm="100">
 
-    <md-card>
+    <md-card class="admin-cards">
         <md-card-content class="{{newUser ? 'dark':'white'}}">
             <div layout="row">
                 <h3 class="{{newUser ? 'dark':'white'}}">Users</h3>
@@ -11,11 +11,12 @@
                 </div>
             </div>
             <div>
-                <table class="table table-hover table-mc-light-blue" ng-if="!hideList">
+                <table class="table table-hover table-mc-light-blue" ng-if="!hideList.user">
                     <thead>
                     <tr>
                         <th>Name</th>
                         <th>Username</th>
+                        <th>User Type</th>
                         <th>Email</th>
                     </tr>
                     </thead>
@@ -23,6 +24,7 @@
                     <tr ng-repeat="user in users">
                         <td>{{user.us_user_first_name}} {{user.us_user_last_name}}</td>
                         <td>{{user.us_username}}</td>
+                        <td>{{user.ut_user_type}}</td>
                         <td>{{user.us_email_address}}</td>
                     </tr>
                     </tbody>
@@ -34,7 +36,7 @@
         </md-card-content>
     </md-card>
 
-    <md-card>
+    <md-card class="admin-cards">
         <md-card-content class="{{newCropType ? 'dark':'white'}}">
             <div layout="row">
                 <h3 class="{{newCropType ? 'dark':'white'}}">Crop Types</h3>
@@ -44,22 +46,26 @@
                     </md-button>
                 </div>
             </div>
-            <!--<div>-->
-                <!--<table class="table table-hover table-mc-light-blue">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                        <!--<th>Crop Name</th>-->
-                        <!--<th>Variety</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr ng-repeat="crop in crops">-->
-                        <!--<td>{{crop.cr_crop_name}}</td>-->
-                        <!--<td>{{crop.cr_crop_variety}}</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
-            <!--</div>-->
+            <div>
+                <table class="table table-hover table-mc-light-blue" ng-if="!hideList.croptype">
+                    <thead>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Variety</th>
+                        <th>Average Size</th>
+                        <th>Crop Season</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="crop in crops | limitTo: 5">
+                        <td>{{crop.cr_crop_name}}</td>
+                        <td>{{crop.cr_crop_variety}}</td>
+                        <td>{{crop.cr_crop_avg_size}}</td>
+                        <td>{{crop.cr_crop_season}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <div ng-include="newCropType ? '/partials/admin/crop_type_new.html':null">
 
             </div>
@@ -68,7 +74,7 @@
 
 
 
-    <md-card>
+    <md-card class="admin-cards">
         <md-card-content class="{{newSupplier ? 'dark':'white'}}">
             <div layout="row">
                 <h3 class="{{newSupplier ? 'dark':'white'}}">Farm Stores</h3>
@@ -80,19 +86,21 @@
                 </div>
             </div>
             <div>
-            <table class="table table-hover table-mc-light-blue" ng-if="!hideList">
+            <table class="table table-hover table-mc-light-blue" ng-if="!hideList.supplier">
                 <thead>
                         <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                         <th>Parish</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Parish</th>
+                            <th>Contact</th>
                         </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="supplier in suppliers">
-                    <td>{{supplier.su_supplier_name}}</td>
-                    <td>{{supplier.su_description}}</td>
+                        <td>{{supplier.su_supplier_name}}</td>
+                        <td>{{supplier.su_description}}</td>
                         <td>{{supplier.su_parish}}</td>
+                        <td>{{supplier.su_contact}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -103,7 +111,7 @@
         </md-card-content>
     </md-card>
 
-    <md-card>
+    <md-card class="admin-cards">
         <md-card-content class="{{newUnit ? 'dark':'white'}}">
             <div layout="row">
                 <h3 class="{{newUnit ? 'dark':'white'}}">Units</h3>

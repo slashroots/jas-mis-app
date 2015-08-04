@@ -18,13 +18,19 @@ angular.module('jasmic.controllers')
              * will be updated to reflect this change.
              */
              UserProfileFactory.show(function(user){
+                 //Used to determine which user is logged in to render appropriate
+                 //dashboard.
                 $scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
-                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                    $scope.calls = calls;
-                    $scope.note = calls[0].cc_note;
-                }, function(error){
-                    $scope.calls = [];
-                });
+
+                 if(!$scope.isAdmin)
+                 {
+                     CallLogsFactory.query({us_user_id: user._id}, function(calls){
+                         $scope.calls = calls;
+                         $scope.note = calls[0].cc_note;
+                     }, function(error){
+                         $scope.calls = [];
+                     });
+                 }
             });
             /**
              * looks up current demands
@@ -45,8 +51,6 @@ angular.module('jasmic.controllers')
                 function(err) {
                     $scope.open_transactions = [];
                 });
-
-
             /**
              * States of the drop down - false = closed
              * @type {{demand: boolean, calls: boolean, transactions: boolean}}
@@ -56,7 +60,6 @@ angular.module('jasmic.controllers')
                 calls: false,
                 transactions: false
             };
-
             /**
              * sets the states of the drop down menus
              * @param item
@@ -105,7 +108,6 @@ angular.module('jasmic.controllers')
                     $scope.inputs = [];
                 });
             };
-
             /**
              *
              */
@@ -114,7 +116,6 @@ angular.module('jasmic.controllers')
                     $scope.inputs = inputs;
                 });
             };
-
             /**
              * Populate all the inputs to the dashboard
              * interface. TODO: This query isn't restricted!
@@ -124,19 +125,30 @@ angular.module('jasmic.controllers')
             });
             /**
              * Admin Functions
-             * TODO - Create controller for admin functions
+             * If the user is an Administrator,
+             * give the user access to admin functions
+             * of the dashboard.
              */
            if($scope.isAdmin){
+               /**
+                * Get all users from the database.
+                */
                UsersFactory.show(function(users){
                    $scope.users = users;
                }, function(error){
                    $scope.users = [];
                });
+               /**
+                * Get all crops from the database
+                */
                CropsFactory.show(function(crops){
                    $scope.crops = crops;
                }, function(error){
                    $scope.crops = [];
                });
+               /**
+                * Get all suppliers from the database
+                */
                SuppliersFactory.show(function(suppliers){
                    $scope.suppliers = suppliers;
                }, function(error){
@@ -145,20 +157,24 @@ angular.module('jasmic.controllers')
                $scope.new_user = {};
                $scope.new_crop_type = {};
                $scope.usertypes = ['Administrator', 'Call Representative'];
-               $scope.hideList = false;
+               $scope.hideList = { user: false, croptype: false, supplier: false};
+               /**
+                * Displays form specific to each entity i.e. user, crop or supplier.
+                * @param entity
+                */
                $scope.create = function(entity){
                    if(entity === 'user'){
                        $scope.newUser = !$scope.newUser;
                        $scope.new_user = {};
-                       $scope.hideList = !$scope.hideList;
+                       $scope.hideList.user = !$scope.hideList.user;
                    }else if(entity === 'croptype'){
                        $scope.newCropType = !$scope.newCropType;
                        $scope.new_crop_type = {};
-                       $scope.hideList = !$scope.hideList;
+                       $scope.hideList.croptype = !$scope.hideList.croptype;
                    }else if(entity === 'supplier'){
                        $scope.newSupplier = !$scope.newSupplier;
                        $scope.new_supplier = {};
-                       $scope.hideList = !$scope.hideList;
+                       $scope.hideList.supplier = !$scope.hideList.supplier;
                    }
                };
                /**
