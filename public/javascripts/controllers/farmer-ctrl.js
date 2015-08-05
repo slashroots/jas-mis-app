@@ -4,12 +4,13 @@
 
 angular.module('jasmic.controllers')
 
-    /**
-     *  This controller is used to handle the displaying of information on the
-     *  Farmer Listing Page.
-     */
+/**
+ *  This controller is used to handle the displaying of information on the
+ *  Farmer Listing Page.
+ */
     .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory',
         function ($scope, $mdDialog, $location, $routeParams, FarmersFactory) {
+
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
             }, function(error) {
@@ -29,19 +30,34 @@ angular.module('jasmic.controllers')
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.selectedFarmer._id+'/edit');
             };
+
+            $scope.logToConsole = function(){
+                console.log("Done");
+            };
         }
     ])
 
-    /**
-     * This controller does a query to retrieve the farmer by the specified ID in the
-     * routeParameter.  It then creates the $scope.farmer object for the view to consume
-     */
+/**
+ * This controller does a query to retrieve the farmer by the specified ID in the
+ * routeParameter.  It then creates the $scope.farmer object for the view to consume
+ */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
+        'UserProfileFactory','CallLogFactory','CallLogsFactory',
         function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
-                FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
+                  FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
+                  CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory,
+                  UserProfileFactory, CallLogFactory, CallLogsFactory) {
+            /**
+             *
+             * Gets the currently logged in user.
+             *
+             **/
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
+
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -57,6 +73,12 @@ angular.module('jasmic.controllers')
                         fr_farmer: farmer._id
                     });
                     $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+
+                    CallLogsFactory.query({cc_entity_id: farmer._id}, function(calls){
+                        $scope.calls = calls;
+                    }, function(error){
+                        $scope.calls = [];
+                    });
                 }, function(err) {
                     console.log(err);
                 });
@@ -189,12 +211,23 @@ angular.module('jasmic.controllers')
             $scope.selectedDistrictChange = function(item) {
                 selectedDistrict = item._id;
             };
+            /**
+             * Creates a call and associates call with the farmer
+             * and logged in user.
+             * TODO - Revisit implementation of call feature on farmer page
+             **/
+            $scope.createCall = function(){
+              $scope.cc_caller_id = $scope.farmer.fa_contact;
+              $scope.cc_entity_id = $scope.farmer._id;
+              $scope.cc_entity_type = "farmer";
+              showCallInputDialog($mdDialog, $scope);
+            };
         }
     ])
-    /**
-     * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
-     * edit farmer view
-     */
+/**
+ * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
+ * edit farmer view
+ */
     .controller('NewFarmerCtrl', ['$scope', '$routeParams', '$window', 'FarmerFactory',
         function ($scope, $routeParams, $window, FarmerFactory) {
             $scope.save = function() {
@@ -206,11 +239,11 @@ angular.module('jasmic.controllers')
             };
         }
     ])
-    /**
-     * This controller is responsible for the querying of the farmer by id,
-     * then creation of the farmer object for the view to render.  It also
-     * populates the parishes combo box for user interaction.
-     */
+/**
+ * This controller is responsible for the querying of the farmer by id,
+ * then creation of the farmer object for the view to render.  It also
+ * populates the parishes combo box for user interaction.
+ */
     .controller('EditFarmerCtrl', ['$scope', '$location', '$mdDialog','$routeParams', '$window', 'FarmerFactory', 'ParishesFactory',
         function ($scope, $location, $mdDialog, $routeParams, $window, FarmerFactory, ParishesFactory) {
             FarmerFactory.show({id:$routeParams.id},

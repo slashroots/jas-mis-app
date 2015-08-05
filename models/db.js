@@ -158,24 +158,26 @@ var FarmerSchema = new Schema({
     fr_farms: [FarmSchema],
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    fa_sub_sector: String
+    fa_sub_sector: String,
+    calls: [{type: Schema.Types.ObjectId, ref: 'CallLog'}]
 });
 var CallTypeSchema = new Schema({
-    us_user_id: {type: Schema.Types.ObjectId, required: true},
-    ct_date: {type: Date, default: Date.now()},
-    ct_message: {type: String, required: true}
+  ct_call_type_name: {type: String, required: true, unique: true},
+  ct_call_type_desc: {type: String, required: true },
+  ct_date: {type: Date, default: Date.now(), required: true},
+  us_user_id: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 });
+
 var CallLogSchema = new Schema({
     cc_caller_id: String,
     cc_entity_type: String,
     cc_entity_id: Schema.Types.ObjectId,
-    ct_call_type: Schema.Types.ObjectId,
-    cc_date: Date,
-    cc_duration: Number,
-    cc_quality: Number,
-    cc_note: String,
-    us_user_id: Schema.Types.ObjectId,
-    cc_incoming: Boolean
+    cc_entity_name: String,
+    ct_call_type: {type: Schema.Types.ObjectId, ref: 'CallType'},
+    cc_date: {type: Date, default: Date.now()},
+    cc_note: {type: String, default: "-"},
+    us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+    cc_incoming: {type: Boolean, default: true}
 });
 var BuyerTypeSchema = new Schema({
     bt_buyer_type_name: {type: String, required: true, unique: true},
@@ -198,7 +200,8 @@ var BuyerSchema = new Schema({
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
-    re_representatives: [RepresentativeSchema]
+    re_representatives: [RepresentativeSchema],
+    calls: [{type: Schema.Types.ObjectId, ref: 'CallLog'}]
 });
 var InputTypeSchema = new Schema({
     it_input_type_desc: {type: String, required: true},
@@ -221,7 +224,13 @@ var SupplierSchema = new Schema({
     su_description: String,
     su_contact: String,
     su_email: String,
-    ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'}
+    ad_address1: {type: String, required: false},
+    ad_address2: String,
+    ad_latitude: Number,
+    ad_longitude: Number,
+    ad_city: String,
+    pa_parish: {required: true, type: String},
+    ad_country: {type: String, default: 'Jamaica', required: true}
 });
 var DisputeSchema = new Schema({
     di_dispute_type: {type: String, required: true},
@@ -265,6 +274,14 @@ var UserSchema = new Schema({
     us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()}
 });
+var ReportSchema = new Schema({
+    re_report_date: {type: Date, default: Date.now()},
+    de_demand: {type: Schema.Types.ObjectId, required: true, ref: 'Demand'},
+    co_commodities: [CommoditySchema],
+    us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},
+    re_report_name: {type:String, required: true}
+});
+
 
 /**
  * Farmer model.  This model is made up of personal information as well as
@@ -366,9 +383,9 @@ exports.Commodity = mongoose.model('Commodity', CommoditySchema);
  */
 exports.Demand = mongoose.model('Demand', DemandSchema);
 
-var CallType = mongoose.model('CallType', CallTypeSchema);
+exports.CallType = mongoose.model('CallType', CallTypeSchema);
 
-var CallLog = mongoose.model('CallLog', CallLogSchema);
+exports.CallLog = mongoose.model('CallLog', CallLogSchema);
 
 exports.Transaction = mongoose.model('Transaction', TransactionSchema);
 
@@ -393,3 +410,5 @@ exports.Supplier = mongoose.model('Supplier', SupplierSchema);
 exports.Input = mongoose.model('Input', InputSchema);
 
 exports.InputType = mongoose.model('InputType', InputTypeSchema);
+
+exports.Report = mongoose.model('Report', ReportSchema);

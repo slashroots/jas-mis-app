@@ -1,0 +1,49 @@
+<md-card-content>
+    <div layout="row">
+        <div layout="column" flex="20">
+            <div class="parishes">
+                <table class="table table-hover table-mc-light-blue light-font">
+                    <tbody>
+                    <tr ng-repeat="parish in parishes" ng-click="supplierSearch(parish);">
+                        <td>{{parish.pa_parish_name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div layout="column" flex="40" class="vertical-line">
+            <md-list>
+                <md-list-item ng-repeat="supplier in suppliers | limitTo: 5" ng-click="inputSearch(supplier)" class="md-3-line">
+                    <img ng-src="https://placehold.it/200" class="md-avatar" alt="" />
+                    <div class="md-list-item-text store-details">
+                        <h3>{{supplier.su_supplier_name}}</h3>
+                        <p>{{supplier.su_description}}</p>
+                        <p>{{supplier.ad_address1}}, {{supplier.pa_parish}}</p>
+                    </div>
+                </md-list-item>
+            </md-list>
+
+            <div style="text-align: center" layout-align="center center" ng-if="suppliers.length >= 5">
+                <a ng-href="#/suppliers">More Results</a>
+            </div>
+        </div>
+
+        <div layout="column" flex="40">
+            <md-list>
+                <md-list-item ng-repeat="input in inputs | limitTo: 5" class="md-3-line">
+                    <img ng-src="https://placehold.it/100" class="md-avatar" alt="" />
+                    <div class="md-list-item-text">
+                        <h3>{{input.ip_input_name}}</h3>
+                        <p>{{input.ip_price | currency}} per {{input.un_price_unit.un_unit_name}}</p>
+                        <p>{{input.ip_last_updated | date}}</p>
+                    </div>
+                    <md-tooltip>{{input.ip_description}}</md-tooltip>
+                </md-list-item>
+            </md-list>
+            <div style="text-align: center" layout-align="center center" ng-if="inputs.length >= 5">
+                <a ng-href="#/inputs" >More Results</a>
+            </div>
+        </div>
+    </div>
+</md-card-content>

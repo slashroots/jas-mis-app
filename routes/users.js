@@ -10,17 +10,23 @@ var User = require('../models/db').User;
  * Renders the login page.
  */
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'JASMIC' });
+    res.render('login', { title: 'JASMIC', goTo: req.query.goTo });
 });
 
 /**
  * The endpoint to use to authenticate.
  */
-router.post('/login',
-    passport.authenticate('local', { successRedirect: '/home',
-            failureRedirect: '/login' }
-    )
-);
+router.post('/login', function(req, res, next){
+    if(req.query.goTo) {
+        passport.authenticate('local', { successRedirect: req.query.goTo,
+                failureRedirect: '/login' }
+        )(req, res, next);
+    } else {
+        passport.authenticate('local', { successRedirect: '/home',
+                failureRedirect: '/login' }
+        )(req, res, next);
+    }
+});
 
 /**
  * Endpoint for logging out.

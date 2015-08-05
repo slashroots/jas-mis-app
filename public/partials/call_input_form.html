@@ -1,0 +1,53 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools dialog-box-header">
+            <h2>Add New Call</h2>
+            <span flex></span>
+            <md-button class="md-icon-button">
+                <md-icon md-svg-src="" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+  <md-dialog-content>
+    <div style="width:400px;">
+      <div layout="row" ng-if="buyer">
+        <md-input-container flex>
+               <label>Buyer Name</label>
+               <input disabled ng-model="buyer.bu_buyer_name">
+        </md-input-container>
+      </div>
+
+      <div layout="row" ng-if="farmer">
+        <md-input-container flex>
+               <label>First Name</label>
+               <input disabled ng-model="farmer.fa_first_name">
+        </md-input-container>
+
+        <md-input-container flex>
+               <label>Last Name</label>
+               <input disabled ng-model="farmer.fa_last_name">
+        </md-input-container>
+      </div>
+
+
+    <md-input-container flex>
+    <md-select placeholder="Call Type" ng-model="call.ct_call_type_name">
+        <md-option ng-value="calltype.ct_call_type_name" ng-repeat="calltype in calltypes" ng-click="selectedCallType(calltype);">
+          {{calltype.ct_call_type_name}}</md-option>
+    </md-select>
+  </md-input-container>
+    <md-input-container flex>
+      <label>Notes</label>
+      <textarea ng-model="call.cc_note" columns="4"></textarea>
+    </md-input-container>
+  </md-dialog-content>
+    <div class="md-actions">
+      <md-button ng-click="saveCall()" class="md-primary">
+          Save
+      </md-button>
+        <md-button ng-click="cancel()" class="md-primary">
+           Cancel
+        </md-button>
+    </div>
+</div>
+</md-dialog>

@@ -32,10 +32,10 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory',
-        function ($scope, $mdToast, $location, $routeParams, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory) {
+    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
+        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory',
+        function ($scope, $mdToast, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory,
+                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -44,13 +44,17 @@ angular.module('jasmic.controllers')
                 $scope.user = user;
             });
 
+
+
             /**
              * Lookup Demand information based on ID supplied in the URL.
              */
-            DemandFactory.show({id:$routeParams.id}, function(demand) {
+            DemandFactory.show({id:$routeParams.id},
+                function(demand) {
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
+                    lookupReports();
                 },
                 function(error) {
                     $scope.demand = {};
@@ -64,7 +68,7 @@ angular.module('jasmic.controllers')
             $scope.downloadPDF = function() {
                 //create transaction(s)
                 if($scope.m_commodities.length > 0) {
-                    createTransactions();
+                    //createTransactions();
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
@@ -114,6 +118,7 @@ angular.module('jasmic.controllers')
              * @param commodity
              */
             $scope.checked = function(commodity) {
+                // console.log(commodity);
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;
                 for(var i in $scope.m_commodities) {
@@ -130,10 +135,52 @@ angular.module('jasmic.controllers')
                 }
             };
 
+            /**
+             * Function attempts to match details based on the demand parameters of
+             * the demand ID supplied
+             */
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.demand._id}, function(list) {
                     $scope.commodities = list;
                 })
-            }
+            };
+
+            /**
+             * Searches for the reports previously generated on this demand.
+             */
+            lookupReports = function() {
+                ReportsFactory.search({
+                    de_demand: $scope.demand._id
+                }, function(reports) {
+                    $scope.reports = reports;
+                }, function(fail) {
+                    console.log(fail);
+                });
+            };
+
+            /**
+             * Create the transactions first then record the generation
+             * of the report and then render the report to a new window.
+             */
+            $scope.createReport = function() {
+                if($scope.m_commodities.length > 0) {
+                    createTransactions();
+
+                    //This will create the report for the system
+                    ReportFactory.create({
+                        de_demand: $scope.demand._id,
+                        co_commodities: $scope.m_commodities,
+                        us_user: $scope.user._id,
+                        re_report_name: 'Buyer Report'
+                    }, function(success) {
+                        var newWindow = window.open('/report/' + success._id);
+                    }, function(fail) {
+                        console.log(fail);
+                    });
+                } else {
+                    $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
+                }
+            };
+
         }
     ]);
