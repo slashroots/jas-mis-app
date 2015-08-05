@@ -8,11 +8,12 @@ var router = express.Router();
 router.get('/home', function(req, res, next) {
   res.render('index', { title: 'JASMIC' });
 });
+
 /**
  * Redirects user to login page.
  */
 router.get('/', function(req, res){
-    res.redirect('/login');
+  res.redirect('/login');
 });
 
 
