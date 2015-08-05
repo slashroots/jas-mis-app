@@ -1,0 +1,33 @@
+<md-content layout-padding layout="column">
+
+    <md-select placeholder="Type of User" ng-model="new_user.ut_user_type">
+        <md-option ng-repeat="usertype in usertypes" value="{{usertype}}">{{usertype}}</md-option>
+    </md-select>
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>First Name</label>
+            <input type="text" ng-model="new_user.us_user_first_name">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Last Name</label>
+            <input type="text" ng-model="new_user.us_user_last_name">
+        </md-input-container>
+    </div>
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Email Address</label>
+            <input type="text" ng-model="new_user.us_email_address">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Contact</label>
+            <input type="text" ng-model="new_user.us_contact">
+        </md-input-container>
+    </div>
+
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="cancel('user')">Cancel</md-button>
+        <md-button ng-click="save('user')">Save</md-button>
+    </md-input-container>
+</md-content>

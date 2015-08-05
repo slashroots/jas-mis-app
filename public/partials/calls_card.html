@@ -1,0 +1,20 @@
+<div layout-padding layout="column" ng-repeat="call in calls">
+            <div layout="row">
+                <div flex layout-align="start center" layout="column">
+                    {{call.cc_date | date }}
+                    <div class="label">Date</div>
+                </div>
+                <div flex layout-align="start center" layout="column">
+                     {{call.ct_call_type.ct_call_type_name}}
+                    <div class="label">Call Type</div>
+                </div>
+                <div flex layout-align="start center" layout="column" ng-if="call.cc_note">
+                    {{call.cc_note}}
+                    <div class="label">Notes</div>
+                </div>
+                <div flex layout-align="start center" layout="column" ng-if="!call.cc_note">
+                    -
+                    <div class="label">Notes</div>
+                </div>
+            </div>
+</div>

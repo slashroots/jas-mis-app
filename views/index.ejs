@@ -28,8 +28,9 @@
     </div>
   </md-toolbar>
 </div>
-<div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex>
+<div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex >
   <div class="addNew" layout="column" flex="10" layout-align="start center" flex-sm="0">
+
     <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
       <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
     </md-button>
@@ -39,7 +40,7 @@
     <md-button ng-click="goTo('buyer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
       Buyer
     </md-button>
-    <md-button ng-click="goTo('call')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
+    <md-button ng-click="createCall();" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
       Call
     </md-button>
     <md-button ng-click="goTo('transaction')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
@@ -47,6 +48,10 @@
     </md-button>
     <md-button ng-click="goTo('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
       Farm Store
+    </md-button>
+
+    <md-button ng-click="createInput();" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store Input">
+      Input
     </md-button>
 
     <span layout="row" flex>

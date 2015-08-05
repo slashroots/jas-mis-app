@@ -124,7 +124,12 @@
             </md-card>
 
         </div>
-        <div ng-include="'/partials/transaction_cart.html'" layout="column" flex="40">
+        <div flex="40" layout="column">
+            <div ng-include="'/partials/transaction_cart.html'">
+            </div>
+            <div ng-include="'/partials/report_listing_small.html'">
+            </div>
         </div>
+
     </md-content>
 </ui-view>

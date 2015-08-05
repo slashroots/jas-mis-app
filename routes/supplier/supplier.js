@@ -20,12 +20,11 @@ var InputType = model.InputType;
  * @param req
  * @param res
  */
-exports.getSuppliers = function(req, res) {
+exports.findSuppliers = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var query = req.query;
-
+        console.log(query);
         Supplier.find(query)
-            .populate('ad_address')
             .exec(function (err, docs) {
                 if (err) {
                     common.handleDBError(err, res);
@@ -33,34 +32,54 @@ exports.getSuppliers = function(req, res) {
                     res.send(docs);
                 }
             });
+
     }
 };
+/**
+ * Retrieves all suppliers
+ * @param req
+ * @param res
+ */
 
+exports.getSuppliers = function(req, res){
+  if(common.isAdmin(req, res)){
+      Supplier.find(function(err, suppliers){
+         if(err){
+             common.handleDBError(err,res);
+         } else{
+             res.send(suppliers);
+         }
+      });
+  };
+};
+
+/**
+ * Creates a supplier based on the request body.
+ * @param req
+ * @param res
+ */
 exports.createSupplier = function(req, res) {
-    if(common.isAuthenticated(req, res)) {
-        var address = new Address(req.body.ad_address);
+    if(common.isAdmin(req, res)) {
         var supplier = new Supplier(req.body);
-        address.save(function (err) {
-            if (err) {
-                console.log(err);
-                common.handleDBError(err, res);
+        supplier.save(function (err2) {
+            if (err2) {
+                common.handleDBError(err2, res);
             } else {
-                supplier.ad_address = address._id;
-                supplier.save(function (err2) {
-                    if (err2) {
-                        common.handleDBError(err2, res);
-                    } else {
-                        res.send(supplier);
-                    }
-                });
+                res.send(supplier);
             }
         });
     }
 };
 
+/**
+ * Retrieves a supplier based on the provided
+ * id in the parameter body labeled `id`
+ * @param req
+ * @param res
+ */
 exports.getSupplierById = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        Supplier.findById(req.params.id).populate('ad_address')
+        Supplier.findById(req.params.id)
             .exec(function (err, item) {
                 if (err) {
                     common.handleDBError(err, res);
@@ -71,10 +90,18 @@ exports.getSupplierById = function(req, res) {
     }
 };
 
+/**
+ * Creates an input based on the supplier id
+ * found in the url and the request body.
+ * @param req
+ * @param res
+ */
 exports.createInput = function(req, res) {
     if(common.isAuthenticated(req, res)) {
+        console.log(req.body);
+        //res.end();
         var input = new Input(req.body);
-        input.su_supplier = req.params.id;
+        //input.su_supplier = req.params.id;
         input.save(function (err, result) {
             if (err) {
                 common.handleDBError(err, res);
@@ -86,7 +113,7 @@ exports.createInput = function(req, res) {
 };
 
 exports.createInputType = function(req, res) {
-    if(common.isAuthenticated(req, res)) {
+    if(common.isAdmin(req, res)) {
         var inputtype = new InputType(req.body);
         inputtype.save(function (err, result) {
             if (err) {

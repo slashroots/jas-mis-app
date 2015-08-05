@@ -8,9 +8,15 @@ a {
   color: #00B7FF;
 }
 */
+
 md-toolbar.md-default-theme {
-  background-color: white;
+  background-color: #ffffff;
   color: rgba(116, 117, 41, 1);
+}
+
+.md-toolbar-tools.dialog-box-header{
+  background-color:#d8e4f1;
+  color:#000000;
 }
 
 md-content.md-default-theme {
@@ -185,7 +191,9 @@ body{
   padding-top: 100px;
   padding-bottom: 50px;
 }
-
+md-card.admin-cards{
+  width: 800px;
+}
 md-card-content.pretty {
   background-color: #d8e4f1;
 }
@@ -388,4 +396,24 @@ md-content.farmForm {
 @-o-keyframes my_animation {
   from { opacity:1; }
   to { opacity:0; }
+}
+
+.call-report-content{
+  margin-left: 10px;
+}
+
+.notes{
+  border-left: 2px solid #ddd;
+  padding-left: 20px;
+  padding-top: 10px;
+  margin-left: 30px;
+  height: 150px;
+}
+
+.light-font>thead>tr>th{
+  font-weight: normal;
+}
+
+.parishes{
+  margin-right: 20px;
 }

@@ -5,6 +5,28 @@ var services = angular.module('jasmic.services', ['ngResource']);
 
 /**
 *
+* Factory to be used to create a new call.
+*
+**/
+services.factory('CallLogFactory',function($resource){
+    return $resource('/call', {}, {
+        create: {method: 'POST'}
+    });
+});
+
+/**
+ *  Factory to be used to list all or search for
+ *  call logs.  Returns an array based on search
+ *  params.
+ */
+services.factory('CallLogsFactory',function($resource){
+     return $resource('/calls', {}, {
+        query: { method: 'GET', isArray: true}
+    });
+});
+
+/**
+*
 * Factory to be used to generate buyer report.
 *
 **/
@@ -25,7 +47,9 @@ services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
     return {
         responseError: function(response){
             if(response.status == 401) {
-                window.location = '/login';
+                var encodedURL = encodeURIComponent($location.absUrl());
+                window.location = "/login?goTo=" + encodedURL;
+
             }
         }
     };
@@ -195,10 +219,19 @@ services.factory('RepFactory', function($resource) {
  */
 services.factory('CropsFactory', function($resource) {
     return $resource('/crops', {}, {
-        query: { method: 'GET', isArray: true}
+        query: { method: 'GET', isArray: true},
+        show: {method: 'GET', isArray: true}
     });
 });
-
+/**
+ * This factory is used to create a crop by an
+ * Admin User.
+ */
+services.factory('CropFactory', function($resource){
+   return $resource('/crop',{},{
+       create: { method: 'POST'}
+   });
+});
 services.factory('DistrictsFactory', function($resource) {
     return $resource('/common/districts', {}, {
         query: { method: 'GET', isArray: true}
@@ -296,12 +329,29 @@ services.factory('DemandFactory', function($resource) {
         show: {method: 'GET', params: {id: '@id'}}
     });
 });
-
+/**
+ * Service used to create a supplier.
+ */
+services.factory('SupplierFactory', function($resource){
+   return $resource('/supplier', {}, {
+      create: {method: 'POST'}
+   });
+});
 /**
  * Service used to query for all suppliers.
  */
 services.factory('SuppliersFactory', function ($resource) {
     return $resource('/suppliers', {}, {
+        query: { method: 'GET', isArray: true },
+        show: { method: 'GET', isArray: true}
+    })
+});
+
+/**
+ * Query based on all the inputs for all the suppliers.
+ */
+services.factory('InputsFactory', function ($resource) {
+    return $resource('/inputs', {}, {
         query: { method: 'GET', isArray: true }
     })
 });
@@ -387,8 +437,58 @@ services.factory('UserProfileFactory', function($resource) {
     });
 });
 
+/**
+ * This service allows for logout functionality
+ */
 services.factory('UserSessionDestroyFactory', function($resource) {
     return $resource('/logout', {}, {
         killSession: { method: 'GET'}
+    });
+});
+/**
+ * Service used to retrieve all users.
+ */
+services.factory('UsersFactory', function($resource){
+   return $resource('/users', {}, {
+      show: {method: 'GET', isArray: true}
+   });
+});
+
+/**
+ * The default path to create and publish a report
+ */
+services.factory('ReportFactory', function($resource) {
+    return $resource('/report', {}, {
+        create: { method: 'POST'}
+    });
+});
+
+/**
+ * This path can be used to search for reports matching
+ * the relevant parameters
+ */
+services.factory('ReportsFactory', function ($resource) {
+    return $resource('/reports', {}, {
+        search: { method: 'GET', isArray: true}
+    });
+});
+/**
+*
+* Factory to create a call type.
+*
+**/
+services.factory('CallTypeFactory', function($resource){
+    return $resource('/calltype', {}, {
+        create: { method: 'POST'}
+    });
+});
+/**
+*
+* Factory to get all call types.
+*
+**/
+services.factory('CallTypesFactory', function($resource){
+    return $resource('/calltypes', {}, {
+        show: {method: 'GET', isArray: true}
     });
 });
