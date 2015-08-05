@@ -142,33 +142,35 @@ function showNewInputDialog($mdDialog, $scope){
          * @param InputsFactory
          *
          */
-        controller: function InputController($scope, $mdDialog, SuppliersFactory, UnitsFactory, InputsFactory){
+        controller: function InputController($scope, $mdDialog, SuppliersFactory, UnitsFactory, InputTypesFactory,SupplierInputFactory){
             $scope.discounts = ['Yes', 'No'];
             SuppliersFactory.query(function(suppliers){
-                console.log(suppliers);
                 $scope.suppliers = suppliers;
             });
-
             UnitsFactory.query(function(units){
                 $scope.units = units;
             });
-
-            InputsFactory.query(function(input_types){
+            InputTypesFactory.query(function(input_types){
                 $scope.input_types = input_types;
-            })
-            /*
+            });
+            /**
              *  Dismisses the dialog box.
              */
             $scope.cancel = function(){
                 $mdDialog.hide();
             };
             /**
-             * Creates a call and associates call with the farmer
-             * and logged in user.
+             * Saves a new input for a supplier.
              **/
             $scope.save = function(){
-                console.log('In Input');
-            }//end of
+                SupplierInputFactory.create({id:$scope.input.su_supplier},$scope.input, function(success){
+                    $mdDialog.hide();
+                    showDialog($mdDialog, {statusText:"New Input Added!"}, false);
+                }, function(error){
+                    $mdDialog.hide();
+                    showDialog($mdDialog, error, false);
+                });
+            };
         }//end of controller
     });
 };
