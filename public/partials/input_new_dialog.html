@@ -1,4 +1,3 @@
-<!-- TODO 1: Fix alignment issue with select box-->
 <md-dialog>
     <md-toolbar>
         <div class="md-toolbar-tools dialog-box-header">
@@ -13,7 +12,7 @@
         <div style="width: 700px;">
             <div layout="row">
                 <md-select placeholder="Supplier Name" ng-model="input.su_supplier" flex >
-                    <md-option ng-repeat="supplier in suppliers" ng-value="supplier.su_supplier">
+                    <md-option ng-repeat="supplier in suppliers" ng-value="supplier._id">
                         {{supplier.su_supplier_name}}</md-option>
                 </md-select>
                 <md-input-container flex>
@@ -35,12 +34,12 @@
                     <input type="text" ng-model="input.ip_price"/>
                 </md-input-container>
 
-                <md-select placeholder="Unit" ng-model="input.ip_price_unit" flex>
+                <md-select placeholder="Unit" ng-model="input.un_price_unit" flex>
                     <md-option ng-repeat="unit in units" ng-value="unit._id">{{unit.un_unit_name}}</md-option>
                 </md-select>
-                <md-select placeholder="Input Type" ng-model="ctrl.userState" flex>
-                    <md-option ng-repeat="input in input_types" ng-value="input.it_input_type">
-                        {{input.it_input_type_name}}</md-option>
+                <md-select placeholder="Input Type" ng-model="input.it_input_type" flex>
+                    <md-option ng-repeat="input_type in input_types" ng-value="input_type._id">
+                        {{input_type.it_input_type_name}}</md-option>
                 </md-select>
                 <md-select placeholder="JAS Discounted" ng-model="input.ip_jas_discounted" flex>
                     <md-option ng-repeat="discount in discounts" ng-value="discount">{{discount}}</md-option>

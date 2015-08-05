@@ -20,7 +20,6 @@ exports.searchCalls = function(req, res){
 				if(err){
 					common.handleDBError(err, res);
 				}else{
-					console.log(list);
 					res.send(list);
 				}
 			});
