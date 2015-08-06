@@ -7,7 +7,7 @@
                         <md-subheader>All Calls</md-subheader>
                         <div layout-padding layout="row" ng-repeat="call in calls">
                             <div flex>{{call.cc_entity_name}}</div>
-                            <div flex>{{call.cc_date | date }}</div>
+                            <div flex>{{call.cc_date | date: 'medium' }}</div>
                             <div flex>{{call.ct_call_type.ct_call_type_name}}</div>
                             <div flex>{{call.cc_caller_id}}</div>
                             <div class="md-subheader" flex>{{call.cc_note}}</div>
