@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/slashroots/jas-mis-app.png?label=ready&title=Ready)](https://waffle.io/slashroots/jas-mis-app)
 #Jamaica Agriculture Society - Marketing Information System
 [![Build Status](https://travis-ci.org/slashroots/jas-mis-app.svg?branch=master)](https://travis-ci.org/slashroots/jas-mis-app) [![Build Status](https://travis-ci.org/slashroots/jas-mis-app.svg?branch=develop)](https://travis-ci.org/slashroots/jas-mis-app) [![Coverage Status](https://coveralls.io/repos/slashroots/jas-mis-app/badge.svg)](https://coveralls.io/r/slashroots/jas-mis-app)
 
