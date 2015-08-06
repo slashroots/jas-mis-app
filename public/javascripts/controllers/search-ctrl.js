@@ -14,12 +14,12 @@ angular.module('jasmic.controllers')
             $scope.farmerSelected = false;
             $scope.buyerSelected = false;
             $scope.inputSelected = false
-             /**
-           *
-           * Gets the currently logged in user.
-           *
-           **/
-           UserProfileFactory.show(function(user) {
+            /**
+             *
+             * Gets the currently logged in user.
+             *
+             **/
+            UserProfileFactory.show(function(user) {
                 $scope.user = user;
             });
 
@@ -47,30 +47,30 @@ angular.module('jasmic.controllers')
                 $location.url('buyer/'+$scope.selectedBuyer._id+'/edit');
             };
             /**
-            *
-            * Creates a call and associates call with the farmer
-            * and logged in user.
-            *
-            **/
+             *
+             * Creates a call and associates call with the farmer
+             * and logged in user.
+             *
+             **/
             $scope.createCall = function(){
-              if($scope.farmerSelected){
+                if($scope.farmerSelected){
 
-                $scope.farmer = $scope.selectedFarmer;
-                $scope.cc_caller_id = $scope.selectedFarmer.fa_contact;
-                $scope.cc_entity_id = $scope.selectedFarmer._id;
-                $scope.cc_entity_type = "farmer";
-                $scope.cc_entity_name = $scope.selectedFarmer.fa_first_name + " " + $scope.selectedFarmer.fa_last_name;
-                  console.log( $scope.farmer);
-              }
-              if($scope.buyerSelected){
-                $scope.buyer = $scope.selectedBuyer;
-                $scope.cc_caller_id = $scope.selectedBuyer.bu_phone;
-                $scope.cc_entity_id = $scope.selectedBuyer._id;
-                $scope.cc_entity_type = "buyer";
-                $scope.cc_entity_name = $scope.selectedBuyer.bu_buyer_name;
-              }
-            
-              showCallInputDialog($mdDialog, $scope);
+                    $scope.farmer = $scope.selectedFarmer;
+                    $scope.cc_caller_id = $scope.selectedFarmer.fa_contact;
+                    $scope.cc_entity_id = $scope.selectedFarmer._id;
+                    $scope.cc_entity_type = "farmer";
+                    $scope.cc_entity_name = $scope.selectedFarmer.fa_first_name + " " + $scope.selectedFarmer.fa_last_name;
+                    console.log( $scope.farmer);
+                }
+                if($scope.buyerSelected){
+                    $scope.buyer = $scope.selectedBuyer;
+                    $scope.cc_caller_id = $scope.selectedBuyer.bu_phone;
+                    $scope.cc_entity_id = $scope.selectedBuyer._id;
+                    $scope.cc_entity_type = "buyer";
+                    $scope.cc_entity_name = $scope.selectedBuyer.bu_buyer_name;
+                }
+
+                showCallInputDialog($mdDialog, $scope);
             };
             /**
              * TODO: This is a such a BAD function. Need to revisit.
@@ -150,59 +150,62 @@ function showDialog($mdDialog, message, isError) {
  * @param selectedFarmer
  */
 function showCallInputDialog($mdDialog, $scope){
-  $mdDialog.show({
-    scope: $scope,
-    clickOutsideToClose: true,
-    preserveScope: true,
-    templateUrl: '/partials/call_input_form.html',
-    /**
-     * This controller is responsible for all actions
-     * done on the Call Input Dialog.
-     * @param $scope
-     * @param $mdDialog
-     * @param CallTypesFactory
-     * @param CallLogFactory
-     */
-    controller: function SearchDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
-      CallTypesFactory.show(function(calltypes){
-          $scope.calltypes = calltypes;
-      }, function(error){
-          showDialog($mdDialog, error, true);
-      });
-      /*
-      *  Gets the selected call type from
-      *  drop down menu.
-      */
-      $scope.selectedCallType = function(call_type){
-        $scope.selectedCallType = call_type;
-      };
-      /*
-      *  Dismisses the dialog box.
-      */
-      $scope.cancel = function(){
-        $mdDialog.hide();
-      };
-      /**
-       * Creates a call and associates call with the farmer
-       * and logged in user.
-       **/
-      $scope.saveCall = function(){
-         CallLogFactory.create({
-                 cc_caller_id: $scope.cc_caller_id,
-                 cc_entity_id : $scope.cc_entity_id,
-                 cc_entity_type: $scope.cc_entity_type,
-                 cc_entity_name: $scope.cc_entity_name,
-                 us_user_id : $scope.user._id,
-                 ct_call_type: $scope.selectedCallType._id,
-                 cc_note: $scope.call.cc_note },
-             function(success){
-                 $mdDialog.hide();
-                 showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
-             }, function(fail){
-                 $mdDialog.hide();
-                 showDialog($mdDialog, error, true);
-             });
-      }//end of saveCall function
-    }//end of controller
-  });
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/call_input_form.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         * @param CallTypesFactory
+         * @param CallLogFactory
+         */
+        controller: function SearchDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
+            CallTypesFactory.show(function(calltypes){
+                $scope.calltypes = calltypes;
+            }, function(error){
+                showDialog($mdDialog, error, true);
+            });
+            /*
+             *  Gets the selected call type from
+             *  drop down menu.
+             */
+            $scope.selectedCallType = function(call_type){
+                $scope.selectedCallType = call_type;
+            };
+            /*
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
+                $mdDialog.hide();
+            };
+            /**
+             * Creates a call and associates call with the farmer
+             * and logged in user.
+             **/
+            $scope.saveCall = function(){
+                var call = {
+                    cc_caller_id: $scope.cc_caller_id,
+                    cc_entity_id : $scope.cc_entity_id,
+                    cc_entity_type: $scope.cc_entity_type,
+                    cc_entity_name: $scope.cc_entity_name,
+                    us_user_id : $scope.user._id,
+                    ct_call_type: $scope.selectedCallType._id,
+                    cc_note: $scope.call.cc_note };
+                //TODO:  console log should be removed from code.
+                console.log(call);
+                CallLogFactory.create(call,
+                    function(success){
+                        $mdDialog.hide();
+                        showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
+                    }, function(fail){
+                        $mdDialog.hide();
+                        showDialog($mdDialog, error, true);
+                    });
+            }//end of saveCall function
+        }//end of controller
+    });
 };

@@ -16,6 +16,7 @@ exports.searchCalls = function(req, res){
 	if(common.isAuthenticated(req, res)) {
 		CallLog.find(req.query)
 			.populate('ct_call_type')
+			.sort('-cc_date')
 			.exec(function(err, list){
 				if(err){
 					common.handleDBError(err, res);
@@ -35,59 +36,58 @@ exports.searchCalls = function(req, res){
  */
 exports.createCall = function(req, res){
 	if(common.isAuthenticated(req, res)) {
-		switch(req.body.cc_entity_type)
-		{
+		var call_log = new CallLog(req.body);
+
+		switch(req.body.cc_entity_type) {
 			case 'farmer': Farmer.findById(req.body.cc_entity_id, function(err, farmer){
-							if(err || !farmer){
-								common.handleDBError(err, res);
-							}else{
-								var call_log = new CallLog(req.body);
-								farmer.calls.push(call_log._id);
-								call_log.save(function(err){
-									if(err){
-										common.handleDBError(err, res);
-									}else{
-										farmer.save(function(err){
-											if(err){
-												common.handleDBError(err, res);
-											}else{
-												res.send(call_log);
-											}
-										});
-									}
-								});
-							}
-						});
-				break;
-			case 'buyer': Buyer.findById(req.body.cc_entity_id, function(err, buyer){
-							if(err || !buyer){
-								common.handleDBError(err, res);
-							}else{
-								var call_log = new CallLog(req.body);
-								buyer.calls.push(call_log._id);
-								call_log.save(function(err){
-									if(err){
-										common.handleDBError(err, res);
-									}else{
-										buyer.save(function(err){
-											if(err){
-												common.handleDBError(err, res);
-											}else{
-												res.send(call_log);
-											}
-										});
-									}
-								});
-							}
-						});
-				break;
-			case 'other': new CallLog(req.body).save(function(err){
+				if(err || !farmer){
+					common.handleDBError(err, res);
+				}else{
+					farmer.calls.push(call_log._id);
+					call_log.save(function(err){
+						if(err){
+							common.handleDBError(err, res);
+						}else{
+							farmer.save(function(err){
 								if(err){
 									common.handleDBError(err, res);
 								}else{
-									res.end();
+									res.send(call_log);
 								}
 							});
+						}
+					});
+				}
+			});
+				break;
+			case 'buyer': Buyer.findById(req.body.cc_entity_id, function(err, buyer){
+				if(err || !buyer){
+					common.handleDBError(err, res);
+				} else {
+					buyer.calls.push(call_log._id);
+					call_log.save(function(err){
+						if(err){
+							common.handleDBError(err, res);
+						}else{
+							buyer.save(function(err){
+								if(err){
+									common.handleDBError(err, res);
+								}else{
+									res.send(call_log);
+								}
+							});
+						}
+					});
+				}
+			});
+				break;
+			case 'other': call_log.save(function(err) {
+				if(err){
+					common.handleDBError(err, res);
+				}else{
+					res.end();
+				}
+			});
 				break;
 			default: console.log('Error');
 				break;
@@ -95,13 +95,13 @@ exports.createCall = function(req, res){
 	}
 };
 /**
-*
-* Creates a call type based on the body of the
-* POST request
-* @param req
-* @param res
-*
-**/
+ *
+ * Creates a call type based on the body of the
+ * POST request
+ * @param req
+ * @param res
+ *
+ **/
 exports.createCallType = function(req, res){
 	if(common.isAdmin(req, res)){
 		new CallType(req.body).save(function(err){
@@ -114,12 +114,12 @@ exports.createCallType = function(req, res){
 	}
 };
 /**
-*
-* Gets all call types
-* @param req
-* @param res
-*
-**/
+ *
+ * Gets all call types
+ * @param req
+ * @param res
+ *
+ **/
 exports.getCallTypes = function(req, res){
 	if(common.isAuthenticated(req, res)){
 		CallType.find()
@@ -129,6 +129,6 @@ exports.getCallTypes = function(req, res){
 				}else{
 					res.send(list);
 				}
-		});
+			});
 	}
 };
