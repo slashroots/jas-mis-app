@@ -12,7 +12,7 @@ deploy:
   provider: heroku
   strategy: api
   on:
-    all_branches: true
+    all_branches: false
   app:
     master: jas-mis-app-staging
     production: jas-mis-app-prod
