@@ -80,10 +80,6 @@
                 </md-card-content>
             </md-card>
 
-            <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
-
-            </md-card>
-
             <md-card>
                 <md-card-content class="{{new_rep ? 'dark':'white'}}">
                     <div layout="row">
@@ -170,7 +166,11 @@
             </md-card>
 
         </div>
-        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        <div layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        <div ng-include="'/partials/statistics_small.html'" >
+        </div>
+        <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
+        </md-card>
         </div>
     </md-content>
 </ui-view>

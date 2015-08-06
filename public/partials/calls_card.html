@@ -1,8 +1,8 @@
 <md-subheader>Call Log</md-subheader>
 <div layout-padding layout="column" ng-repeat="call in calls">
     <div layout="column">
-        <div style="background-color: #d8e4f1" flex layout-align="start center" layout="column">
-            {{call.cc_date | date: 'medium' }}
+        <div style="background-color: #eeeded" flex layout-align="start center" layout="column">
+            <label>{{call.cc_date | date: 'medium' }}</label>
         </div>
         <div layout="row">
             <div flex="20" layout-align="start center" layout="column">
