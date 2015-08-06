@@ -133,7 +133,7 @@ md-option {
 }
 
 .addNew{
-  padding-top: 180px;
+  padding-top: 220px;
 }
 
 .md-button.md-default-theme.md-fab{
@@ -418,4 +418,7 @@ table { table-layout: fixed; }
 
 }
 
-md-fab-speed-dial { overflow : visible !important; height : 0 !important; }
+md-fab-speed-dial {
+  overflow : visible !important;
+  height : 0 !important;
+}
