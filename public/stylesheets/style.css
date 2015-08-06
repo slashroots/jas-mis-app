@@ -133,7 +133,7 @@ md-option {
 }
 
 .addNew{
-  padding-top: 180px;
+  padding-top: 220px;
 }
 
 .md-button.md-default-theme.md-fab{
@@ -388,4 +388,37 @@ md-content.farmForm {
 @-o-keyframes my_animation {
   from { opacity:1; }
   to { opacity:0; }
+}
+
+tr:nth-child(1) {
+  left:0%;
+  width:25%;
+}
+
+tr:nth-child(2) {
+  left:25%;
+  width:25%;
+}
+
+tr:nth-child(3) {
+  left:50%;
+  width:25%;
+}
+
+tr:nth-child(4) {
+  left:75%;
+  width:25%;
+}
+
+table { table-layout: fixed; }
+
+.md-subheader-inner {
+
+  padding-left:1% !important;
+
+}
+
+md-fab-speed-dial {
+  overflow : visible !important;
+  height : 0 !important;
 }
