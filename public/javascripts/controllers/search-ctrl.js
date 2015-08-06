@@ -13,7 +13,7 @@ angular.module('jasmic.controllers')
             $scope.terms = $routeParams.searchTerms;
             $scope.farmerSelected = false;
             $scope.buyerSelected = false;
-            $scope.inputSelected = false
+            $scope.inputSelected = false;
             /**
              *
              * Gets the currently logged in user.
@@ -163,7 +163,7 @@ function showCallInputDialog($mdDialog, $scope){
          * @param CallTypesFactory
          * @param CallLogFactory
          */
-        controller: function SearchDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
+        controller: function SearchDialogController($scope, $route, $mdDialog, CallTypesFactory, CallLogFactory){
             CallTypesFactory.show(function(calltypes){
                 $scope.calltypes = calltypes;
             }, function(error){
@@ -193,14 +193,19 @@ function showCallInputDialog($mdDialog, $scope){
                     cc_entity_type: $scope.cc_entity_type,
                     cc_entity_name: $scope.cc_entity_name,
                     us_user_id : $scope.user._id,
+                    cc_date: Date.now(),
                     ct_call_type: $scope.selectedCallType._id,
                     cc_note: $scope.call.cc_note };
-                //TODO:  console log should be removed from code.
-                console.log(call);
+                if($scope.farmer) {
+                    call.cc_entity_name = $scope.farmer.fa_first_name + " " + $scope.farmer.fa_last_name;
+                } else if($scope.buyer) {
+                    call.cc_entity_name = $scope.buyer.bu_buyer_name;
+                }
                 CallLogFactory.create(call,
                     function(success){
                         $mdDialog.hide();
-                        showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
+                        showDialog($mdDialog, {statusText:"New Call Added!"}, false);
+                        $route.reload();
                     }, function(fail){
                         $mdDialog.hide();
                         showDialog($mdDialog, error, true);
