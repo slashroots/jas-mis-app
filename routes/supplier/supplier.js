@@ -77,16 +77,13 @@ exports.getSupplierById = function(req, res) {
 
 /**
  * Creates an input based on the supplier id
- * found in the url and the request body.
+ * found in the request body.
  * @param req
  * @param res
  */
 exports.createInput = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        console.log(req.body);
-        //res.end();
         var input = new Input(req.body);
-        //input.su_supplier = req.params.id;
         input.save(function (err, result) {
             if (err) {
                 common.handleDBError(err, res);

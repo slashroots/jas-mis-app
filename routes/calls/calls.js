@@ -27,73 +27,97 @@ exports.searchCalls = function(req, res){
 	}
 };
 /**
- * Creates a call based on the body of the
- * POST request
- * TODO - Modularize the below function. The res object can be passed to another function.
- * TODO - Return success outcome of saving call entity type 'other'
+ * Routes call creation based on an
+ * entity type.
  * @param req
  * @param res
  */
 exports.createCall = function(req, res){
 	if(common.isAuthenticated(req, res)) {
 		var call_log = new CallLog(req.body);
-
 		switch(req.body.cc_entity_type) {
-			case 'farmer': Farmer.findById(req.body.cc_entity_id, function(err, farmer){
-				if(err || !farmer){
-					common.handleDBError(err, res);
-				}else{
-					farmer.calls.push(call_log._id);
-					call_log.save(function(err){
-						if(err){
-							common.handleDBError(err, res);
-						}else{
-							farmer.save(function(err){
-								if(err){
-									common.handleDBError(err, res);
-								}else{
-									res.send(call_log);
-								}
-							});
-						}
-					});
-				}
-			});
+			case 'farmer': createFarmerCall(res,call_log);
 				break;
-			case 'buyer': Buyer.findById(req.body.cc_entity_id, function(err, buyer){
-				if(err || !buyer){
-					common.handleDBError(err, res);
-				} else {
-					buyer.calls.push(call_log._id);
-					call_log.save(function(err){
-						if(err){
-							common.handleDBError(err, res);
-						}else{
-							buyer.save(function(err){
-								if(err){
-									common.handleDBError(err, res);
-								}else{
-									res.send(call_log);
-								}
-							});
-						}
-					});
-				}
-			});
+			case 'buyer': createBuyerCall(res, call_log);
 				break;
-			case 'other': call_log.save(function(err) {
-				if(err){
-					common.handleDBError(err, res);
-				}else{
-					res.end();
-				}
-			});
+			case 'other': createOtherCall(res, call_log);
 				break;
 			default: console.log('Error');
 				break;
-		}//end of switch
+		}
 	}
 };
+/**
+ * Creates a call for a farmer based on the
+ * body of the POST request.
+ * @param res
+ * @param call_log
+ */
+function createFarmerCall(res, call_log){
+	Farmer.findById(call_log.cc_entity_id, function(err, farmer){
+		if(err || !farmer){
+			common.handleDBError(err, res);
+		}else{
+			farmer.calls.push(call_log._id);
+			call_log.save(function(err){
+				if(err){
+					common.handleDBError(err, res);
+				}else{
+					farmer.save(function(err){
+						if(err){
+							common.handleDBError(err, res);
+						}else{
+							res.send(call_log);
+						}
+					});
+				}
+			});
+		}
+	});
+}
+/**
+ * Creates call for a buyer based on body of
+ * POST request.
+ * @param res
+ * @param call_log
+ */
+function createBuyerCall(res,call_log){
+	Buyer.findById(call_log.cc_entity_id, function(err, buyer){
+		if(err || !buyer){
+			common.handleDBError(err, res);
+		} else {
+			buyer.calls.push(call_log._id);
+			call_log.save(function(err){
+				if(err){
+					common.handleDBError(err, res);
+				}else{
+					buyer.save(function(err){
+						if(err){
+							common.handleDBError(err, res);
+						}else{
+							res.send(call_log);
+						}
+					});
+				}
+			});
+		}
+	});
+}
+/**
+ * Creates a call for an entity other than
+ * a farmer or buyer.
+ * @param res
+ * @param call_log
+ */
+function createOtherCall(res, call_log){
+  call_log.save(function(err){
+	 if(err){
+		 common.handleDBError(err, res);
+	 }else{
+		 res.send(call_log);
+	 }
+  });
+}
 /**
  *
  * Creates a call type based on the body of the
