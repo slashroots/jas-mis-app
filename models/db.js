@@ -273,6 +273,23 @@ var ReportSchema = new Schema({
     re_report_name: {type:String, required: true}
 });
 
+var EmailTypeSchema = new Schema({
+    et_email_type_name: {type: String, required: true},
+    et_email_type_desc: {type: String, required: true}
+});
+
+var EmailSchema = new Schema({
+    et_email_type: {type: Schema.Types.ObjectId, required: true, ref:'EmailType'},
+    em_to: {type: String, required: true},
+    em_from: {type: String, required: true},
+    em_subject: {type: String, required: true},
+    em_body: {type: String, required: true},
+    em_cc: {type: String},
+    em_bcc: {type: String},
+    em_date_sent:{type: String, required: true, default:Date.now()},
+    em_attachments: {type: String} //path to file.
+});
+
 
 /**
  * Farmer model.  This model is made up of personal information as well as
@@ -403,3 +420,7 @@ exports.Input = mongoose.model('Input', InputSchema);
 exports.InputType = mongoose.model('InputType', InputTypeSchema);
 
 exports.Report = mongoose.model('Report', ReportSchema);
+
+exports.Email = mongoose.model('Email', EmailSchema);
+
+exports.EmailType = mongoose.model('EmailType', EmailTypeSchema);

@@ -22,3 +22,11 @@ exports.sendEmail = function(req, res){
         });
     }
 };
+/**
+ * TODO - Determine queries on endpoint.
+ * @param req
+ * @param res
+ */
+exports.getEmails = function(req, res){
+
+};
