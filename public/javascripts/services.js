@@ -3,7 +3,24 @@
  */
 var services = angular.module('jasmic.services', ['ngResource']);
 
+/**
+*
+* Factory to be used to generate buyer report.
+*
+**/
+services.factory('BuyerReportFactory', function($resource) {
+    return $resource('/report/buyer_report', {}, {
+        show: { method: 'GET' },
+        create: { method: 'POST'}
+    });
+});
 
+/**
+*
+* Factory to be used intercept all 401 error messages
+* and direct user to login page.
+*
+**/
 services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
     return {
         responseError: function(response){
@@ -370,8 +387,30 @@ services.factory('UserProfileFactory', function($resource) {
     });
 });
 
+/**
+ * This service allows for logout functionality
+ */
 services.factory('UserSessionDestroyFactory', function($resource) {
     return $resource('/logout', {}, {
         killSession: { method: 'GET'}
+    });
+});
+
+/**
+ * The default path to create and publish a report
+ */
+services.factory('ReportFactory', function($resource) {
+    return $resource('/report', {}, {
+        create: { method: 'POST'}
+    });
+});
+
+/**
+ * This path can be used to search for reports matching
+ * the relevant parameters
+ */
+services.factory('ReportsFactory', function ($resource) {
+    return $resource('/reports', {}, {
+        search: { method: 'GET', isArray: true}
     });
 });

@@ -265,6 +265,14 @@ var UserSchema = new Schema({
     us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()}
 });
+var ReportSchema = new Schema({
+    re_report_date: {type: Date, default: Date.now()},
+    de_demand: {type: Schema.Types.ObjectId, required: true, ref: 'Demand'},
+    co_commodities: [CommoditySchema],
+    us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},
+    re_report_name: {type:String, required: true}
+});
+
 
 /**
  * Farmer model.  This model is made up of personal information as well as
@@ -393,3 +401,5 @@ exports.Supplier = mongoose.model('Supplier', SupplierSchema);
 exports.Input = mongoose.model('Input', InputSchema);
 
 exports.InputType = mongoose.model('InputType', InputTypeSchema);
+
+exports.Report = mongoose.model('Report', ReportSchema);
