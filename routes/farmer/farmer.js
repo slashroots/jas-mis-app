@@ -231,13 +231,20 @@ exports.getCommodities = function(req, res) {
 };
 
 /**
- * Intended to be able to edit the commodity based on farmer's id
+ * Edits a commodity based on commodity's id.
  * @param req
  * @param res
  */
 exports.editCommodity = function(req, res) {
-    res.statusCode(500);
-    res.send({error: 'Not Implemented!'});
+   if(common.isAuthenticated(res, req)){
+       Commodity.update({_id:req.params.comID}, req.body, function(err, response){
+           if(err || response.nModified != 0){
+               common.handleDBError(err, res);
+           }else{
+               res.send(response);
+           }
+       });
+   }
 };
 
 /**

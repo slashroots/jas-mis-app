@@ -174,7 +174,7 @@ var CallLogSchema = new Schema({
     cc_entity_id: Schema.Types.ObjectId,
     cc_entity_name: String,
     ct_call_type: {type: Schema.Types.ObjectId, ref: 'CallType'},
-    cc_date: {type: Date, default: Date.now()},
+    cc_date: {type: Date},
     cc_note: {type: String, default: "-"},
     us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
     cc_incoming: {type: Boolean, default: true}

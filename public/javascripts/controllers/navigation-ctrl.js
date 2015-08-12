@@ -74,11 +74,11 @@ function showNewCallInputDialog($mdDialog, $scope){
          * @param CallLogFactory
          */
         controller: function NewCallDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
-            CallTypesFactory.show(function(calltypes){
-                $scope.calltypes = calltypes;
-            }, function(error){
-                showDialog($mdDialog, error, true);
-            });
+                CallTypesFactory.show(function(calltypes){
+                    $scope.calltypes = calltypes;
+                }, function(error){
+                    showDialog($mdDialog, error, true);
+                });
             /*
              *  Gets the selected call type from
              *  drop down menu.
@@ -115,17 +115,12 @@ function showNewCallInputDialog($mdDialog, $scope){
                         ct_call_type: $scope.selectedCallType._id,
                         cc_note: $scope.cc_note,
                         cc_date: Date.now()
-                        /**
-                         * I experienced issues with the default date.  I started setting the dates
-                         * from the client end.  I suspect something is off with mongolab's database.
-                         *
-                         * TODO: Please verify!
-                         */
                     },
                     function(success){
                         $mdDialog.hide();
                         showDialog($mdDialog, {statusText:"New Call Added!"}, false);
                         clearCallFormData();
+                        loadCalls();
                     }, function(fail){
                         $mdDialog.hide();
                         showDialog($mdDialog, error, true);
