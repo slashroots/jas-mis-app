@@ -27,10 +27,10 @@ Create a new administrator and remove ```DEFAULT_USER and DEFAULT_PASS``` from t
 The system uses SendGrid to send emails. Like the above, run the following commands to ensure the application will be able to send
 emails:
 ```
-export SENDGRID_USERNAME=app37118553@heroku.com
+export SENDGRID_USERNAME=<username>
 ```
 ```
-export SENDGRID_PASSWORD=vaebtdxo3585
+export SENDGRID_PASSWORD=<password>
 ```
 
 ## Importing Data
