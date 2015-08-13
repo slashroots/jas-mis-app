@@ -4,10 +4,18 @@
 
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'OpenTransactionsFactory', 'TransactionsFactory',
+        'OpenTransactionsFactory', 'TransactionsFactory', 'SendEmailFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
-        TransactionsFactory) {
-
+        TransactionsFactory, SendEmailFactory) {
+            //SendEmailFactory.create({
+            //    to:       '@33334#@gmail.com',
+            //    from:     'tremainebuchanan@gmail.com',
+            //    subject:  'Success',
+            //    text:     'Hello world'}, function(success){
+            //    console.log(success);
+            //}, function(error){
+            //   console.log('Error');
+            //});
             /**
              * looks up current demands
              */

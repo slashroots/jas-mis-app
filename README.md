@@ -24,6 +24,15 @@ export SESSION_SECRET="384732874EF232934898A01E"
 In order to initially setup the system.  You must have a ```DEFAULT_USER="admin"``` and a ```DEFAULT_PASS="21232f297a57a5a743894a0e4a801fc3"``` or username: admin and password: admin.
 Create a new administrator and remove ```DEFAULT_USER and DEFAULT_PASS``` from the command line!
 
+The system uses SendGrid to send emails. Like the above, run the following commands to ensure the application will be able to send
+emails:
+```
+export SENDGRID_USERNAME=app37118553@heroku.com
+```
+```
+export SENDGRID_PASSWORD=vaebtdxo3585
+```
+
 ## Importing Data
 
 1.	Create all parishes with parish code and parish names ```[POST /common/parishes]```

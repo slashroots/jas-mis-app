@@ -15,9 +15,9 @@ exports.sendEmail = function(req, res){
         var email = new sendgrid.Email(req.body);
         sendgrid.send(email, function(err,json){
             if(err){
-                console.log(err);
+               common.handleEmailError(err, res);
             }else{
-                res.send(json);
+                res.send({message : 'Email Sent Successfully.'});
             }
         });
     }
