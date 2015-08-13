@@ -18,12 +18,12 @@
                                 <md-button ng-click="editFarmer()" class="md-icon-button" aria-label="Edit">
                                     <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
                                 </md-button>
-                                <md-button class="md-icon-button" aria-label="Favourites">
-                                    <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
+                                <md-button class="md-icon-button" aria-label="New Call" ng-click="createCall();">
+                                    <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                                 </md-button>
-                                <md-button class="md-icon-button" aria-label="Details">
-                                    <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
-                                </md-button>
+                                <!--<md-button class="md-icon-button" aria-label="Details" ng-click="showTestDialog();">-->
+                                    <!--<md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>-->
+                                <!--</md-button>-->
                             </div>
                             <span flex></span>
                         </div>
@@ -107,6 +107,7 @@
                     </div>
                 </md-card-content>
             </md-card>
+
             <md-card>
                 <md-card-content class="{{newFarm ? 'dark':'white'}}">
                     <div layout="row">
@@ -213,7 +214,10 @@
                 </md-card-content>
             </md-card>
         </div>
-        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+
+        <div flex="40" flex-md="0" flex-sm="0" hide-sm>
+            <div ng-include="'/partials/statistics_small.html'" layout="column"></div>
+            <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'"></md-card>
         </div>
     </md-content>
 </ui-view>

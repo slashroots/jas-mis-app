@@ -1,0 +1,22 @@
+<md-subheader>Call Log</md-subheader>
+<div layout-padding layout="column" ng-repeat="call in calls">
+    <div layout="column">
+        <div style="background-color: #eeeded" flex layout-align="start center" layout="column">
+            <label>{{call.cc_date | date: 'medium' }}</label>
+        </div>
+        <div layout="row">
+            <div flex="20" layout-align="start center" layout="column">
+                <div class="label">Call Type</div>
+                {{call.ct_call_type.ct_call_type_name}}
+            </div>
+            <div flex="80" layout-align="start center" layout="column" ng-if="call.cc_note">
+                <div class="label">Notes</div>
+                {{call.cc_note}}
+            </div>
+            <div flex="80" layout-align="start center" layout="column" ng-if="!call.cc_note">
+                <div class="label">Notes</div>
+                -
+            </div>
+        </div>
+    </div>
+</div>

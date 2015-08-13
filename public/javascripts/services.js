@@ -5,6 +5,28 @@ var services = angular.module('jasmic.services', ['ngResource']);
 
 /**
 *
+* Factory to be used to create a new call.
+*
+**/
+services.factory('CallLogFactory',function($resource){
+    return $resource('/call', {}, {
+        create: {method: 'POST'}
+    });
+});
+
+/**
+ *  Factory to be used to list all or search for
+ *  call logs.  Returns an array based on search
+ *  params.
+ */
+services.factory('CallLogsFactory',function($resource){
+     return $resource('/calls', {}, {
+        query: { method: 'GET', isArray: true}
+    });
+});
+
+/**
+*
 * Factory to be used to generate buyer report.
 *
 **/
@@ -25,7 +47,9 @@ services.factory('HTTPInterceptor', ['$q','$location', function($q,$location){
     return {
         responseError: function(response){
             if(response.status == 401) {
-                window.location = '/login';
+                var encodedURL = encodeURIComponent($location.absUrl());
+                window.location = "/login?goTo=" + encodedURL;
+
             }
         }
     };
@@ -307,6 +331,15 @@ services.factory('SuppliersFactory', function ($resource) {
 });
 
 /**
+ * Query based on all the inputs for all the suppliers.
+ */
+services.factory('InputsFactory', function ($resource) {
+    return $resource('/inputs', {}, {
+        query: { method: 'GET', isArray: true }
+    })
+});
+
+/**
  * Service to get, create and update a specific factory.
  */
 services.factory('SupplierFactory', function ($resource) {
@@ -412,5 +445,25 @@ services.factory('ReportFactory', function($resource) {
 services.factory('ReportsFactory', function ($resource) {
     return $resource('/reports', {}, {
         search: { method: 'GET', isArray: true}
+    });
+});
+/**
+*
+* Factory to create a call type.
+*
+**/
+services.factory('CallTypeFactory', function($resource){
+    return $resource('/calltype', {}, {
+        create: { method: 'POST'}
+    });
+});
+/**
+*
+* Factory to get all call types.
+*
+**/
+services.factory('CallTypesFactory', function($resource){
+    return $resource('/calltypes', {}, {
+        show: {method: 'GET', isArray: true}
     });
 });

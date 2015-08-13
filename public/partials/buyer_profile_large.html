@@ -15,8 +15,8 @@
                                 <md-button ng-click="editBuyer()" class="md-icon-button" aria-label="Edit">
                                     <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
                                 </md-button>
-                                <md-button class="md-icon-button" aria-label="Favourites">
-                                    <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
+                                <md-button ng-click="createBuyerCall();"class="md-icon-button" aria-label="New Call">
+                                    <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                                 </md-button>
                                 <md-button class="md-icon-button" aria-label="Details">
                                     <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
@@ -166,7 +166,11 @@
             </md-card>
 
         </div>
-        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        <div layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
+        <div ng-include="'/partials/statistics_small.html'" >
+        </div>
+        <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
+        </md-card>
         </div>
     </md-content>
 </ui-view>

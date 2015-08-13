@@ -110,10 +110,10 @@ angular.module('jasmic.controllers')
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory',
+        'BuyerDemandFactory', 'DemandsFactory','UserProfileFactory','CallLogsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandsFactory) {
+                  BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -122,6 +122,7 @@ angular.module('jasmic.controllers')
              *
              * TODO:  Create and Generate Endpoints and Functions for disputes
              */
+
             function loadAll() {
                 BuyerFactory.show({id: $routeParams.id},
                     function (buyer) {
@@ -133,6 +134,14 @@ angular.module('jasmic.controllers')
                             bu_buyer: buyer._id
                         });
                         $scope.disputes = [];
+                        /**
+                         * Retrieves all calls associated with buyer by id.
+                         */
+                        CallLogsFactory.query({cc_entity_id: buyer._id}, function(calls){
+                            $scope.calls = calls;
+                        }, function(error){
+                            $scope.calls = [];
+                        });
                     },
                     function (error) {
                         showDialog($mdDialog, error, true);
@@ -163,6 +172,15 @@ angular.module('jasmic.controllers')
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.buyer._id+'/edit');
             };
+
+            /**
+             *
+             * Gets the currently logged in user.
+             *
+             **/
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
 
 
             /**
@@ -226,6 +244,13 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, error, true);
                 })
             }
+
+            $scope.createBuyerCall = function(){
+              $scope.cc_caller_id = $scope.buyer.bu_phone;
+              $scope.cc_entity_id = $scope.buyer._id;
+              $scope.cc_entity_type = "buyer";
+              showCallInputDialog($mdDialog, $scope);
+            };
         }
     ]);
 
