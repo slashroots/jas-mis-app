@@ -5,6 +5,7 @@ var passport = require('passport'),
 var common = require('./common/common');
 
 var User = require('../models/db').User;
+var NewUser = require('../models/db').NewUser;
 
 /**
  * Renders the login page.
@@ -81,9 +82,8 @@ passport.use(new LocalStrategy(
  */
 router.post('/user', function(req, res) {
     if(common.isAdmin(req, res)) {
-        var user = User(req.body);
+        var user = NewUser(req.body);
         user.us_username = user.us_email_address.substring(0,user.us_email_address.indexOf('@'));
-        user.us_password = 'default';
         user.save(function (err, user) {
             if (err) {
                 common.handleDBError(err, res);
@@ -106,7 +106,7 @@ router.get('/user', function(req, res) {
     }
 });
 /**
- * Retrieves all users.
+ * Retrieves all users from database.
  * @param req
  * @param res
  */
@@ -121,6 +121,23 @@ router.get('/users', function(req, res){
        });
    }
 });
+/**
+ * Updates a user's record. Requires administrative privileges.
+ * @param req
+ * @param res
+ */
+router.put('/user/:id', function(req, res){
+    if(common.isAdmin(req, res)){
+        User.findByIdAndUpdate(req.params.id, req.body,function(err,doc){
+            if(err || !doc){
+                common.handleDBError(err, res);
+            }else{
+                res.send(doc);
+            }
+        });
+    }
+});
+
 
 
 module.exports = router;

@@ -224,14 +224,19 @@ services.factory('CropsFactory', function($resource) {
     });
 });
 /**
- * This factory is used to create a crop by an
+ * This factory is used to create and update a crop by an
  * Admin User.
  */
 services.factory('CropFactory', function($resource){
-   return $resource('/crop',{},{
+   return $resource('/crop/:id', {}, {
+       update: { method: 'PUT', params: {id: '@id'} },
        create: { method: 'POST'}
+
    });
 });
+
+services.factory('CropFac')
+
 services.factory('DistrictsFactory', function($resource) {
     return $resource('/common/districts', {}, {
         query: { method: 'GET', isArray: true}
@@ -333,8 +338,9 @@ services.factory('DemandFactory', function($resource) {
  * Service used to create a supplier.
  */
 services.factory('SupplierFactory', function($resource){
-   return $resource('/supplier', {}, {
-      create: {method: 'POST'}
+   return $resource('/supplier/:id', {}, {
+       update: {method: 'PUT', params: {id: '@id'} },
+       create: {method: 'POST'}
    });
 });
 /**
@@ -357,7 +363,7 @@ services.factory('InputsFactory', function ($resource) {
 });
 
 /**
- * Service to get, create and update a specific factory.
+ * Service to get, create and update a specific supplier.
  */
 services.factory('SupplierFactory', function ($resource) {
     return $resource('/supplier/:id', {}, {
@@ -434,6 +440,15 @@ services.factory('UserProfileFactory', function($resource) {
     return $resource('/user', {}, {
         show: { method: 'GET'},
         create: { method: 'POST'}
+    });
+});
+/**
+ * Updates a user's record. Requires administrative privileges.
+ * TODO - Refract function to include code from above UserProfileFactory
+ */
+services.factory('UserFactory', function($resource) {
+    return $resource('/user/:id', {}, {
+        update: {method: 'PUT', params: {id: '@id'}}
     });
 });
 

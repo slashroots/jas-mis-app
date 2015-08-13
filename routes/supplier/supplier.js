@@ -89,6 +89,23 @@ exports.getSupplierById = function(req, res) {
             });
     }
 };
+/**
+ *  Updates a supplier by id found in the url
+ *  and request body.
+ * @param req
+ * @param res
+ */
+exports.updateSupplierById = function(req, res){
+    if(common.isAdmin(req, res)){
+        Supplier.findByIdAndUpdate(req.params.id, req.body, function(err, result){
+           if(err || !result){
+               common.handleDBError(err, res);
+           }else{
+               res.send(result);
+           }
+        });
+    };
+};
 
 /**
  * Creates an input based on the supplier id

@@ -16,5 +16,9 @@ router.get('/', function(req, res){
   res.redirect('/login');
 });
 
+router.get('/user/:id', function(req, res){
+  res.render('user');
+});
+
 
 module.exports = router;

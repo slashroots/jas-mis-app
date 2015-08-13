@@ -21,7 +21,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="user in users">
+                    <tr ng-repeat="user in users" ng-click="selectedElement('user', user)">
                         <td>{{user.us_user_first_name}} {{user.us_user_last_name}}</td>
                         <td>{{user.us_username}}</td>
                         <td>{{user.ut_user_type}}</td>
@@ -33,6 +33,11 @@
             <div ng-include="newUser ? '/partials/admin/user_new.html':null">
 
             </div>
+
+            <div class="{{editUser ?'dark':'white'}}" ng-include="editUser ? '/partials/admin/user_new.html': null">
+
+            </div>
+
         </md-card-content>
     </md-card>
 
@@ -47,7 +52,7 @@
                 </div>
             </div>
             <div>
-                <table class="table table-hover table-mc-light-blue" ng-if="!hideList.croptype">
+                <table class="table table-hover table-mc-light-blue" ng-if="!hideList.croptype" >
                     <thead>
                     <tr>
                         <th>Crop Name</th>
@@ -57,7 +62,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="crop in crops | limitTo: 5">
+                    <tr ng-repeat="crop in crops | limitTo: 5" ng-click="selectedElement('crop', crop)">
                         <td>{{crop.cr_crop_name}}</td>
                         <td>{{crop.cr_crop_variety}}</td>
                         <td>{{crop.cr_crop_avg_size}}</td>
@@ -67,6 +72,10 @@
                 </table>
             </div>
             <div ng-include="newCropType ? '/partials/admin/crop_type_new.html':null">
+
+            </div>
+
+            <div class="{{editCrop ?'dark':'white'}}" ng-include="editCrop ? '/partials/admin/crop_type_new.html': null">
 
             </div>
         </md-card-content>
@@ -96,16 +105,19 @@
                         </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="supplier in suppliers">
+                    <tr ng-repeat="supplier in suppliers" ng-click="selectedElement('supplier', supplier)">
                         <td>{{supplier.su_supplier_name}}</td>
                         <td>{{supplier.su_description}}</td>
-                        <td>{{supplier.su_parish}}</td>
+                        <td>{{supplier.pa_parish}}</td>
                         <td>{{supplier.su_contact}}</td>
                     </tr>
                 </tbody>
             </table>
             </div>
             <div ng-include="newSupplier ? '/partials/admin/supplier_new.html':null">
+
+            </div>
+            <div class="{{editSupplier ?'dark':'white'}}" ng-include="editSupplier ? '/partials/admin/supplier_new.html': null">
 
             </div>
         </md-card-content>

@@ -268,12 +268,24 @@ var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
     us_username: {type: String, unique: true},
-    us_password: {type: String},
+    us_password: {type: String, default: "21232f297a57a5a743894a0e4a801fc3"},
     ut_user_type: {type: String, required: true},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()}
 });
+
+var NewUserSchema = new Schema({
+    us_user_first_name: {type: String, required: true},
+    us_user_last_name: {type: String, required: true},
+    us_username: {type: String, unique: true},
+    us_password: {type: String, default: "21232f297a57a5a743894a0e4a801fc3"},
+    ut_user_type: {type: String, required: true},
+    us_email_address: {type: String, required: true},
+    us_contact: {type: String, required: true},
+    us_user_creation_date: {type: Date, default: Date.now(), expires: '360'}
+});
+
 var ReportSchema = new Schema({
     re_report_date: {type: Date, default: Date.now()},
     de_demand: {type: Schema.Types.ObjectId, required: true, ref: 'Demand'},
@@ -412,3 +424,5 @@ exports.Input = mongoose.model('Input', InputSchema);
 exports.InputType = mongoose.model('InputType', InputTypeSchema);
 
 exports.Report = mongoose.model('Report', ReportSchema);
+
+exports.NewUser = mongoose.model('NewUser', NewUserSchema);
