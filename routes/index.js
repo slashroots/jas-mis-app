@@ -9,7 +9,7 @@ router.get('/home', function(req, res, next) {
   res.render('index', { title: 'JASMIC' });
 });
 /**
- * Redirects user once the application route is
+ * Redirects user once the application's root is
  * encountered.
  */
 router.get('/', function(req, res){
