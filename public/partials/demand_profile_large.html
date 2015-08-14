@@ -31,8 +31,8 @@
             </md-card>
 
             <md-card>
+                <md-subheader>Demand</md-subheader>
                 <md-card-content>
-                    <md-subheader>Demand</md-subheader>
                     <div layout-padding layout="column">
                         <div layout-padding class="farmerInfo" layout="row">
                             <div flex="33" layout="row">
@@ -92,9 +92,9 @@
             </md-card>
 
             <md-card>
+                <md-subheader>Supplies</md-subheader>
                 <md-card-content layout-padding>
-                    <md-subheader>Supplies</md-subheader>
-                    <table class="table table-hover table-mc-light-blue">
+                    <table class="table table-hover table-mc-light-blue" ng-if="commodites.length > 0">
                         <thead>
                         <tr>
                             <th>Farmer Name</th>
@@ -123,11 +123,20 @@
                 </md-card-content>
             </md-card>
 
+            <div ng-include="'/partials/transaction_listing.html'">
+
+            </div>
+
+            <div ng-include="'/partials/report_listing_small.html'">
+
+            </div>
+
         </div>
         <div flex="40" layout="column">
-            <div ng-include="'/partials/transaction_cart.html'">
-            </div>
-            <div ng-include="'/partials/report_listing_small.html'">
+            <div ng-include="'/partials/transaction_cart.html'"></div>
+
+            <div ng-include="transactionSelected ? '/partials/transaction_detail_small.html':null">
+
             </div>
         </div>
 

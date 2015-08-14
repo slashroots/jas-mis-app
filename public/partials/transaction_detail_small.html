@@ -1,0 +1,42 @@
+<div class="follow" layout="column" layout-fill>
+    <md-card>
+
+        <md-card-content class="pretty">
+            <div layout-fill layout-align="center" layout="column">
+                <div layout="row">
+                    <md-button>Status - {{transaction.tr_status}} </md-button>
+                    <span flex layout-fill></span>
+                    <md-button class="md-icon-button" ng-click="editTransaction()" aria-label="Edit" ng-if="!transaction_completed" >
+                        <md-icon md-svg-icon="../images/ic_mode_edit_24px.svg"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </md-card-content>
+
+        <md-card-content ng-if="updateTransaction || transaction_completed">
+            <div layout="column">
+                <md-input-container>
+                    <md-select ng-model="transaction.tr_status" placeholder="Transaction Status" ng-disabled="transaction_completed">
+                        <md-option ng-repeat="state in transction_states" value="{{state}}">{{state}}</md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Transaction Note</label>
+                    <input type="text" ng-model="transaction.tr_note" ng-disabled="transaction_completed"/>
+                </md-input-container>
+            </div>
+            <div class="md-actions" ng-if="!transaction_completed">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancel
+                </md-button>
+                <md-button ng-click="update()" class="md-primary">
+                    Update
+                </md-button>
+            </div>
+        </md-card-content>
+
+
+    </md-card>
+
+</div>

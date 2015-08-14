@@ -34,8 +34,9 @@ angular.module('jasmic.controllers')
     ])
     .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
         'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory',
+        'OpenTransactionsFactory',
         function ($scope, $mdToast, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory) {
+                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, OpenTransactionsFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -43,9 +44,15 @@ angular.module('jasmic.controllers')
             UserProfileFactory.show(function(user) {
                 $scope.user = user;
             });
-
-
-
+            /**
+             * Get all open transactions matching demand.
+             */
+            OpenTransactionsFactory.query({de_demand:$routeParams.id}, function(transactions){
+               $scope.transactions = transactions;
+                console.log(transactions);
+            }, function(error){
+               $scope.transactions = [];
+            });
             /**
              * Lookup Demand information based on ID supplied in the URL.
              */
@@ -104,7 +111,11 @@ angular.module('jasmic.controllers')
             $scope.demandMet = false;
             $scope.allSelected = false;
             $scope.m_commodities = [];
-
+            $scope.transactionSelected = false;
+            $scope.updateTransaction = false;
+            $scope.transction_states = ['Pending','Completed', 'Failed', 'Waiting'];
+            $scope.showNote = false;
+            $scope.transaction_completed = false;
             /**
              * Deselect item from the cart.
              * @param commodity
@@ -181,6 +192,48 @@ angular.module('jasmic.controllers')
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
             };
+            /**
+             * Gets the clicked transaction from a list of transactions.
+             * @param transaction - Details of a specific transaction.
+             */
+            $scope.selectedTransaction = function(transaction){
+                $scope.transaction = transaction;
+                $scope.transactionSelected = !$scope.transactionSelected;
+                if($scope.transaction.tr_status === 'Completed'){
+                    $scope.transaction_completed = !$scope.transaction_completed;
+                    //$scope.updateTransaction = !$scope.updateTransaction;
+                }
+            };
+
+            $scope.editTransaction = function(){
+                $scope.updateTransaction = !$scope.updateTransaction;
+            };
+            /**
+             * Dismisses Update transaction card.
+             */
+            $scope.cancel = function(){
+                $scope.transactionSelected = !$scope.transactionSelected;
+                $scope.updateTransaction = !$scope.updateTransaction;
+            };
+            /**
+             * Updates a transaction's status
+             */
+            $scope.update = function(){
+                if($scope.transaction.tr_status === 'Completed'){
+                    $scope.transaction.co_sold = true;
+                }
+                TransactionFactory.update({id:$scope.transaction._id}, $scope.transaction, function(success){
+                    //to be replaced with dialog box
+                    $mdToast.show($mdToast.simple().position('bottom right').content('Transaction Status Updated.'));
+                }, function(error){
+                    //to be replaced with dialog box
+                    $mdToast.show($mdToast.simple().position('bottom right').content('Transaction Status Not Updated.'));
+                });
+                $scope.transaction = {};
+                $scope.transactionSelected = !$scope.transactionSelected;
+                $scope.updateTransaction = !$scope.updateTransaction;
+            };
+
 
         }
     ]);

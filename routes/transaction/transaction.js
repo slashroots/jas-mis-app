@@ -3,7 +3,8 @@
  */
 var model = require('../../models/db');
 var common = require('../common/common');
-var Transaction = model.Transaction;
+var Transaction = model.Transaction,
+    Commodity = model.Commodity;
 
 /**
  * There are four possible states for a transaction
@@ -41,7 +42,7 @@ exports.searchTransaction = function(req, res) {
 exports.searchOpenTransaction = function(req, res) {
     var query = req.query;
     query['$or'] = [{tr_status: 'Pending'},
-        {tr_status: 'Waiting'}];
+        {tr_status: 'Waiting'}, {tr_status: 'Completed'}, {tr_status: 'Failed'}];
     Transaction.find(query)
         .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
@@ -72,17 +73,25 @@ exports.createTransaction = function(req, res) {
 
 /**
  * Based on the unique identifier of the transaction we modify
- * with the contents of the request body.  This function
+ * with the contents of the request body. The function also
+ * updates a commodity's sold status. This function
  * sends the result of the modification.
  * @param req
  * @param res
  */
 exports.updateTransactionById = function(req, res) {
+    console.log(req.body.co_commodity._id);
     Transaction.update({_id: req.params.id}, req.body, function(err, result) {
         if(err) {
             common.handleDBError(err, res);
         } else {
-            res.send(result);
+            Commodity.findByIdAndUpdate(req.body.co_commodity._id, { $set: { co_sold: req.body.co_sold }}, function(err, commodity){
+               if(err || !commodity){
+                   common.handleDBError(err, res);
+               }else{
+                   res.send(result);
+               }
+            });
         }
     })
 };

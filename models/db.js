@@ -100,6 +100,7 @@ var CommoditySchema = new Schema({
     un_price_unit: {type: Schema.Types.Mixed, required: true},
     co_posting_date: {type: Date, default: Date.now()},
     co_payment_preference: String,
+    co_sold: {type: Boolean, default: false},
     co_availability_date: Date,
     co_notes: String,
     co_recurring: String,
