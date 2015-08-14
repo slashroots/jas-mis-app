@@ -5,10 +5,10 @@
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
-        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
+        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory', 'SendEmailFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
-                  ParishesFactory, SuppliersFactory, InputsFactory) {
+                  ParishesFactory, SuppliersFactory, InputsFactory, SendEmailFactory) {
             /**
              * Gets all calls associated with the logged in
              * user id.
@@ -23,6 +23,17 @@ angular.module('jasmic.controllers')
                     $scope.calls = [];
                 });
             });
+
+            //SendEmailFactory.create({
+            //    to:       '@33334#@gmail.com',
+            //    from:     'tremainebuchanan@gmail.com',
+            //    subject:  'Success',
+            //    text:     'Hello world'}, function(success){
+            //    console.log(success);
+            //}, function(error){
+            //   console.log('Error');
+            //});
+
             /**
              * looks up current demands
              */

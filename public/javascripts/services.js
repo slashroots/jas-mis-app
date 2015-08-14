@@ -467,3 +467,13 @@ services.factory('CallTypesFactory', function($resource){
         show: {method: 'GET', isArray: true}
     });
 });
+
+/**
+ * This factory is used to send an email using
+ * the Send Grid API.
+ */
+services.factory('SendEmailFactory', function($resource){
+    return $resource('/email', {}, {
+        create: { method: 'POST'}
+    });
+});

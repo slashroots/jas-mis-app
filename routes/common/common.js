@@ -64,7 +64,19 @@ exports.handleDBError = function(err, res) {
         res.send({error: 'Unknown Server Error'});
     }
 };
-
+/**
+ * Handles errors encountered by sending email.
+ * TODO - handle specific error messages better.
+ * Note - The api docs seems lacking in this regard.
+ * @param err
+ * @param res
+ */
+exports.handleEmailError = function(err, res){
+   if(err){
+       res.status(500);
+       res.send({error: 'Unknown Server Error'});
+   }
+};
 regexSearchTermCreator = function (list) {
     regList = [];
     for(var i in list) {
@@ -385,3 +397,4 @@ exports.batchPushDistricts = function(req, res) {
         }
     })
 };
+
