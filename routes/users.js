@@ -116,7 +116,14 @@ router.get('/users', function(req, res){
            if(err || !users){
                 common.handleDBError(err, res);
            }else{
-               res.send(users);
+               NewUser.find(function(err, newusers){
+                  if(err || !newusers){
+                      common.handleDBError(err, res);
+                  }else{
+                      var allusers = users.concat(newusers);
+                      res.send(allusers);
+                  }
+               });
            }
        });
    }
@@ -136,6 +143,22 @@ router.put('/user/:id', function(req, res){
             }
         });
     }
+});
+
+/**
+ * Updates a new user's password from the default password
+ * set at creation of the record.
+ * @param req
+ * @param res
+ */
+router.put('/user/:id/new', function(req, res){
+    NewUser.findByIsAndUpdate(req.params.id, {$set: {us_status: "Password Updated"}},function(err, result){
+       if(err || !result){
+          common.handleDBError(req, res);
+       }else{
+           res.send(result);
+       }
+    });
 });
 
 

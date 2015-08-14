@@ -272,7 +272,8 @@ var UserSchema = new Schema({
     ut_user_type: {type: String, required: true},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
-    us_user_creation_date: {type: Date, default: Date.now()}
+    us_user_creation_date: {type: Date, default: Date.now()},
+    us_status: {type: String}
 });
 
 var NewUserSchema = new Schema({
@@ -283,7 +284,8 @@ var NewUserSchema = new Schema({
     ut_user_type: {type: String, required: true},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
-    us_user_creation_date: {type: Date, default: Date.now(), expires: '360'}
+    us_user_creation_date: {type: Date, default: Date.now(), expires: '360'},
+    us_status: {type: String, default: "Unverified"}
 });
 
 var ReportSchema = new Schema({

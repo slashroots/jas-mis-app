@@ -133,11 +133,15 @@ angular.module('jasmic.controllers')
                /**
                 * Get all users from the database.
                 */
-               UsersFactory.show(function(users){
-                   $scope.users = users;
-               }, function(error){
-                   $scope.users = [];
-               });
+               getUsers = function(){
+                   UsersFactory.show(function(users){
+                       $scope.users = users;
+                   }, function(error){
+                       $scope.users = [];
+                   });
+               };
+               getUsers();
+
                /**
                 * Get all crops from the database
                 */
@@ -232,6 +236,7 @@ angular.module('jasmic.controllers')
                            $scope.user_obj = {};
                            $scope.newUser = !$scope.newUser;
                            showDialog($mdDialog, {statusText:" New User Created!"}, false);
+                           getUsers();
                        }, function(error){
                            showDialog($mdDialog, error, false);
                        });
