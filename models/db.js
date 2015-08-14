@@ -448,3 +448,4 @@ exports.Email = mongoose.model('Email', EmailSchema);
 
 exports.EmailType = mongoose.model('EmailType', EmailTypeSchema);
 
+exports.NewUser = mongoose.model('NewUser', NewUserSchema);
