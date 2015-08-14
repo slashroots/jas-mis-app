@@ -80,8 +80,7 @@ exports.createTransaction = function(req, res) {
  * @param res
  */
 exports.updateTransactionById = function(req, res) {
-    console.log(req.body.co_commodity._id);
-    Transaction.update({_id: req.params.id}, req.body, function(err, result) {
+    Transaction.findByIdAndUpdate({_id: req.params.id}, req.body, function(err, result) {
         if(err) {
             common.handleDBError(err, res);
         } else {

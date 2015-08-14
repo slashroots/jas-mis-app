@@ -66,7 +66,6 @@ angular.module('jasmic.controllers')
                 function(error) {
                     $scope.demand = {};
                 });
-
             /**
              * Function to run when download pdf button is clicked.
              * This creates a transaction based on items in the
@@ -155,7 +154,6 @@ angular.module('jasmic.controllers')
                     $scope.commodities = list;
                 })
             };
-
             /**
              * Searches for the reports previously generated on this demand.
              */
@@ -204,12 +202,14 @@ angular.module('jasmic.controllers')
                     //$scope.updateTransaction = !$scope.updateTransaction;
                 }
             };
-
+            /**
+             * Toggles variable for updating a record.
+             */
             $scope.editTransaction = function(){
                 $scope.updateTransaction = !$scope.updateTransaction;
             };
             /**
-             * Dismisses Update transaction card.
+             * Dismisses update transaction card.
              */
             $scope.cancel = function(){
                 $scope.transactionSelected = !$scope.transactionSelected;
@@ -217,23 +217,20 @@ angular.module('jasmic.controllers')
             };
             /**
              * Updates a transaction's status
+             * TODO - replace Toast messages with dialog boxes.
              */
             $scope.update = function(){
                 if($scope.transaction.tr_status === 'Completed'){
                     $scope.transaction.co_sold = true;
                 }
                 TransactionFactory.update({id:$scope.transaction._id}, $scope.transaction, function(success){
-                    //to be replaced with dialog box
                     $mdToast.show($mdToast.simple().position('bottom right').content('Transaction Status Updated.'));
                 }, function(error){
-                    //to be replaced with dialog box
                     $mdToast.show($mdToast.simple().position('bottom right').content('Transaction Status Not Updated.'));
                 });
                 $scope.transaction = {};
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
             };
-
-
         }
     ]);
