@@ -21,7 +21,7 @@ Also in order to initialize session, ensure that you have an environment variabl
 ```
 export SESSION_SECRET="<yourownnumber>"
 ```
-In order to initially setup the system.  You must have a ```DEFAULT_USER="admin"``` and a ```DEFAULT_PASS="<defaultpassword>"``` or username: admin and password: admin.
+In order to initially setup the system.  You must have a ```DEFAULT_USER="admin"``` and a ```DEFAULT_PASS="21232f297a57a5a743894a0e4a801fc3"``` or username: admin and password: admin.
 Create a new administrator and remove ```DEFAULT_USER and DEFAULT_PASS``` from the command line!
 
 The system uses SendGrid to send emails. Like the above, run the following commands to ensure the application will be able to send
