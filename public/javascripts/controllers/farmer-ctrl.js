@@ -197,7 +197,7 @@ angular.module('jasmic.controllers')
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 })
-            }
+            };
 
             /**
              *  This function does the magic for the auto-complete district selection

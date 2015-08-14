@@ -5,12 +5,19 @@
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', '$mdDialog','CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
+<<<<<<< HEAD
         'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory', 'CropFactory', 'SupplierFactory',
         'UsersFactory','CropsFactory','UserFactory',
         function ($scope, $location, $routeParams, $mdDialog, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
                   ParishesFactory, SuppliersFactory, InputsFactory, CropFactory, SupplierFactory, UsersFactory,
                   CropsFactory, UserFactory) {
+=======
+        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory', 'SendEmailFactory',
+        function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
+                  TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
+                  ParishesFactory, SuppliersFactory, InputsFactory, SendEmailFactory) {
+>>>>>>> develop
             /**
              * Gets all calls associated with the logged in
              * user id.
@@ -32,6 +39,17 @@ angular.module('jasmic.controllers')
                      });
                  }
             });
+
+            //SendEmailFactory.create({
+            //    to:       '@33334#@gmail.com',
+            //    from:     'tremainebuchanan@gmail.com',
+            //    subject:  'Success',
+            //    text:     'Hello world'}, function(success){
+            //    console.log(success);
+            //}, function(error){
+            //   console.log('Error');
+            //});
+
             /**
              * looks up current demands
              */

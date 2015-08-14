@@ -42,16 +42,16 @@ angular.module('jasmic.controllers')
              * or buyer.
              */
             $scope.createCall = function(){
-              showNewCallInputDialog($mdDialog, $scope);
+                showNewCallInputDialog($mdDialog, $scope);
             };
             /**
              * Create an input for an existing supplier
              */
-
             $scope.createInput = function(){
                 showNewInputDialog($mdDialog,$scope);
             };
         }]);
+
 /**
  * Dialog to accept call notes, select call type
  * and save a call.
@@ -61,62 +61,74 @@ angular.module('jasmic.controllers')
  * @param selectedFarmer
  */
 function showNewCallInputDialog($mdDialog, $scope){
-  $mdDialog.show({
-    scope: $scope,
-    clickOutsideToClose: true,
-    preserveScope: true,
-    templateUrl: '/partials/call_input_form_new.html',
-    /**
-     * This controller is responsible for all actions
-     * done on the Call Input Dialog.
-     * @param $scope
-     * @param $mdDialog
-     * @param CallTypesFactory
-     * @param CallLogFactory
-     */
-    controller: function NewCallDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
-      CallTypesFactory.show(function(calltypes){
-          $scope.calltypes = calltypes;
-      }, function(error){
-          showDialog($mdDialog, error, true);
-      });
-      /*
-      *  Gets the selected call type from
-      *  drop down menu.
-      */
-      $scope.selectedCallType = function(call_type){
-        $scope.selectedCallType = call_type;
-      };
-      /*
-      *  Dismisses the dialog box.
-      */
-      $scope.cancel = function(){
-        $mdDialog.hide();
-      };
-      /**
-       * Creates a call and associates call with the farmer
-       * and logged in user.
-       * TODO - Form data not being cleared after submit.
-       **/
-      $scope.saveCall = function(){
-        CallLogFactory.create({
-                cc_caller_id: $scope.cc_caller_id,
-                cc_entity_id : "507f1f77bcf86cd799439011", //random number generated.
-                cc_entity_type: "other",
-                cc_entity_name: $scope.cc_entity_name,
-                us_user_id : $scope.loggedUser._id,
-                ct_call_type: $scope.selectedCallType._id,
-                cc_note: $scope.cc_note },
-            function(success){
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/call_input_form_new.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         * @param CallTypesFactory
+         * @param CallLogFactory
+         */
+        controller: function NewCallDialogController($scope, $mdDialog, CallTypesFactory, CallLogFactory){
+                CallTypesFactory.show(function(calltypes){
+                    $scope.calltypes = calltypes;
+                }, function(error){
+                    showDialog($mdDialog, error, true);
+                });
+            /*
+             *  Gets the selected call type from
+             *  drop down menu.
+             */
+            $scope.selectedCallType = function(call_type){
+                $scope.selectedCallType = call_type;
+            };
+            /*
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
                 $mdDialog.hide();
-                showDialog($mdDialog, {statusText:"New Call Addded!"}, false);
-            }, function(fail){
-                $mdDialog.hide();
-                showDialog($mdDialog, error, true);
-            });
-      }//end of saveCall function
-    }//end of controller
-  });
+                clearCallFormData();
+            };
+
+            /**
+             * Use to clear form data from Call Form.
+             */
+            clearCallFormData = function() {
+                $scope.cc_caller_id = "";
+                $scope.cc_entity_name = "";
+                $scope.cc_note = "";
+            };
+            /**
+             * Creates a call and associates call with the farmer
+             * and logged in user.
+             **/
+            $scope.saveCall = function(){
+                CallLogFactory.create({
+                        cc_caller_id: $scope.cc_caller_id,
+                        cc_entity_type: "other",
+                        cc_entity_name: $scope.cc_entity_name,
+                        us_user_id : $scope.loggedUser._id,
+                        ct_call_type: $scope.selectedCallType._id,
+                        cc_note: $scope.cc_note,
+                        cc_date: Date.now()
+                    },
+                    function(success){
+                        $mdDialog.hide();
+                        showDialog($mdDialog, {statusText:"New Call Added!"}, false);
+                        clearCallFormData();
+                        loadCalls();
+                    }, function(fail){
+                        $mdDialog.hide();
+                        showDialog($mdDialog, error, true);
+                    });
+            }//end of saveCall function
+        }//end of controller
+    });
 };
 
 /**

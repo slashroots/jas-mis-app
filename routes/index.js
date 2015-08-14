@@ -8,6 +8,13 @@ var router = express.Router();
 router.get('/home', function(req, res, next) {
   res.render('index', { title: 'JASMIC' });
 });
+/**
+ * Redirects user once the application's root is
+ * encountered.
+ */
+router.get('/', function(req, res){
+	res.redirect('/login');
+});
 
 /**
  * Redirects user to login page.

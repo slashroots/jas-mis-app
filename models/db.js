@@ -174,7 +174,7 @@ var CallLogSchema = new Schema({
     cc_entity_id: Schema.Types.ObjectId,
     cc_entity_name: String,
     ct_call_type: {type: Schema.Types.ObjectId, ref: 'CallType'},
-    cc_date: {type: Date, default: Date.now()},
+    cc_date: {type: Date},
     cc_note: {type: String, default: "-"},
     us_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
     cc_incoming: {type: Boolean, default: true}
@@ -294,6 +294,23 @@ var ReportSchema = new Schema({
     co_commodities: [CommoditySchema],
     us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},
     re_report_name: {type:String, required: true}
+});
+
+var EmailTypeSchema = new Schema({
+    et_email_type_name: {type: String, required: true},
+    et_email_type_desc: {type: String, required: true}
+});
+
+var EmailSchema = new Schema({
+    et_email_type: {type: Schema.Types.ObjectId, required: true, ref:'EmailType'},
+    em_to: {type: String, required: true},
+    em_from: {type: String, required: true},
+    em_subject: {type: String, required: true},
+    em_body: {type: String, required: true},
+    em_cc: {type: String},
+    em_bcc: {type: String},
+    em_date_sent:{type: String, required: true, default:Date.now()},
+    em_attachments: {type: String} //path to file.
 });
 
 
@@ -427,4 +444,7 @@ exports.InputType = mongoose.model('InputType', InputTypeSchema);
 
 exports.Report = mongoose.model('Report', ReportSchema);
 
-exports.NewUser = mongoose.model('NewUser', NewUserSchema);
+exports.Email = mongoose.model('Email', EmailSchema);
+
+exports.EmailType = mongoose.model('EmailType', EmailTypeSchema);
+
