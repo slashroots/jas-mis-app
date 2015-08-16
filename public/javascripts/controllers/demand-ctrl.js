@@ -49,7 +49,6 @@ angular.module('jasmic.controllers')
              */
             OpenTransactionsFactory.query({de_demand:$routeParams.id}, function(transactions){
                $scope.transactions = transactions;
-                console.log(transactions);
             }, function(error){
                $scope.transactions = [];
             });
@@ -163,7 +162,7 @@ angular.module('jasmic.controllers')
                 }, function(reports) {
                     $scope.reports = reports;
                 }, function(fail) {
-                    console.log(fail);
+                    $scope.reports = [];
                 });
             };
 
@@ -232,5 +231,79 @@ angular.module('jasmic.controllers')
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
             };
+
+            $scope.emailReport = function(){
+                    showSendEmailDialog($mdDialog,$scope);
+            };
         }
     ]);
+/**
+ * A general purpose Dialog window to display feedback from the
+ * server.
+ *
+ * @param $mdDialog
+ * @param ev
+ * @param message
+ * @param isError
+ */
+function showDialog($mdDialog, message, isError) {
+    $mdDialog.show(
+        $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .title(isError? 'Error Detected':'System Message')
+            .content(message.statusText)
+            .ariaLabel(isError?'Alert Error':'Alert Message')
+            .ok('Ok')
+    );
+};
+
+function showSendEmailDialog($mdDialog, $scope){
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/email_report.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         */
+        controller: function SendEmailDialogController($scope, $route, $mdDialog, $location, EmailFactory){
+              /*
+             *  Gets the selected call type from
+             *  drop down menu.
+             */
+            $scope.selectedBuyerReports = [];
+            $scope.selectedReport = function(report){
+                $scope.selectedBuyerReports.push(report);
+            };
+            /*
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
+                $mdDialog.hide();
+            };
+            /**
+             * Email(s) selected buyer report(s).
+             * TODO - Handle error and success in the below function better.
+             */
+            $scope.emailBuyerReport = function(){
+                for(var i in $scope.selectedBuyerReports)
+                {
+                    var report_link = $location.absUrl().split('/home') +  "/report/";
+                        EmailFactory.create(
+                            {   //to: $scope.demand.bu_buyer.bu_email,
+                                subject: "Buyer Report",
+                                text: "Link to Report" + " " + report_link[0] + $scope.selectedBuyerReports[i]._id
+                            }, function(success){
+
+                        }, function(error){
+                        });
+                }
+                $mdDialog.hide();
+                $scope.selectedBuyerReports = [];
+            };
+        }//end of controller
+    });
+};

@@ -32,6 +32,12 @@ export SENDGRID_USERNAME=<username>
 ```
 export SENDGRID_PASSWORD=<password>
 ```
+```
+export FROM_EMAIL=<fromemailaddress>
+```
+```
+export TO_EMAIL=<toemailaddress>
+```
 
 ## Importing Data
 

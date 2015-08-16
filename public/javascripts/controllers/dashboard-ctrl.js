@@ -5,10 +5,10 @@
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
-        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory', 'SendEmailFactory',
+        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
         function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
-                  ParishesFactory, SuppliersFactory, InputsFactory, SendEmailFactory) {
+                  ParishesFactory, SuppliersFactory, InputsFactory) {
             /**
              * Gets all calls associated with the logged in
              * user id.
