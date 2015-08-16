@@ -33,17 +33,6 @@ angular.module('jasmic.controllers')
                      });
                  }
             });
-
-            //SendEmailFactory.create({
-            //    to:       '@33334#@gmail.com',
-            //    from:     'tremainebuchanan@gmail.com',
-            //    subject:  'Success',
-            //    text:     'Hello world'}, function(success){
-            //    console.log(success);
-            //}, function(error){
-            //   console.log('Error');
-            //});
-
             /**
              * looks up current demands
              */
@@ -244,10 +233,19 @@ angular.module('jasmic.controllers')
                 */
                $scope.save = function(entity){
                    if(entity === 'user'){
-                       UserProfileFactory.create($scope.user_obj, function(success){
+                       UserProfileFactory.create($scope.user_obj, function(user){
                            $scope.user_obj = {};
                            $scope.newUser = !$scope.newUser;
                            showDialog($mdDialog, {statusText:" New User Created!"}, false);
+                           SendEmailFactory.create({
+                               to:       'tremainekbuchanan@gmail.com',
+                               from:     'tremainekbuchanan@gmail.com',
+                               subject:  'Success',
+                               text:     'http://5da9da9.ngrok.com/user/'+ user._id+'/new'}, function(success){
+                               console.log(success);
+                           }, function(error){
+                              console.log(error);
+                           });
                            getUsers();
                        }, function(error){
                            showDialog($mdDialog, error, false);

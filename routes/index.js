@@ -1,6 +1,7 @@
 var express = require('express');
 var moment = require('moment');
 var router = express.Router();
+var NewUser = require('../models/db').NewUser;
 
 
 /* GET home page. */
@@ -22,9 +23,20 @@ router.get('/', function(req, res){
 router.get('/', function(req, res){
   res.redirect('/login');
 });
-
-router.get('/user/:id', function(req, res){
-  res.render('user');
+/**
+ * Performs a query on the new user table to determine if user
+ * still exists.
+ * @param req
+ * @param res
+ */
+router.get('/user/:id/new', function(req, res){
+  NewUser.findById(req.params.id, function(err, user){
+    if(err || !user){
+      res.render('user', {found: false, title: 'New User'});
+    }else{
+      res.render('user', {found: true, title: 'New User'});
+    }
+  });
 });
 
 

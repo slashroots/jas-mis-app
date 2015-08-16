@@ -284,7 +284,7 @@ var NewUserSchema = new Schema({
     ut_user_type: {type: String, required: true},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
-    us_user_creation_date: {type: Date, default: Date.now(), expires: '360'},
+    us_user_creation_date: {type: Date, default: Date.now(), expires: '1h'},
     us_status: {type: String, default: "Unverified"}
 });
 
@@ -302,7 +302,7 @@ var EmailTypeSchema = new Schema({
 });
 
 var EmailSchema = new Schema({
-    et_email_type: {type: Schema.Types.ObjectId, required: true, ref:'EmailType'},
+    //et_email_type: {type: Schema.Types.ObjectId, required: true, ref:'EmailType'},
     em_to: {type: String, required: true},
     em_from: {type: String, required: true},
     em_subject: {type: String, required: true},
