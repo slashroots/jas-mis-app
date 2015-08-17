@@ -223,6 +223,12 @@ services.factory('CommodityFactory', function($resource) {
     })
 });
 
+services.factory('CommodityEditFactory', function($resource){
+    return $resource('farmer/:id/commodity/:commodity_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', commodity_id: '@commodity_id'} },
+    });
+});
+
 /**
  * Adds a new Demand and associates it with a buyer
  */

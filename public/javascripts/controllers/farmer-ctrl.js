@@ -38,10 +38,10 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
+        'UnitsFactory', 'CommodityFactory','CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory','CommodityEditFactory',
         function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CommodityEditFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -143,8 +143,35 @@ angular.module('jasmic.controllers')
                 $scope.commodity.co_availability_date= moment().toDate();
                 $scope.commodity.co_until = moment().add(7, 'days').toDate();
             };
+
+            $scope.editCommodityItem = function(arrayindex) {
+
+                $scope.editCommodity = !$scope.editCommodity;
+                $scope.commodity = $scope.commodities[arrayindex];
+                $scope.commodity.co_availability_date= moment().toDate();
+                $scope.commodity.co_until = moment().add(7, 'days').toDate();
+
+            };
+
+            $scope.updateCommodity = function(arrayindex) {
+
+                CommodityEditFactory.update({id:$scope.commodities[arrayindex].fa_farmer._id, commodity_id:$scope.commodity._id}, $scope.commodity, function(success) {
+
+                    console.log("Success");
+
+                    $scope.editCommodity = false;
+
+                }, function (error) {
+
+                    console.log("Error");
+
+                });
+
+            }
+
             $scope.newCommodity = false;
             $scope.newFarm = false;
+            $scope.editCommodity = false;
 
             $scope.commodity = {};
             var selectedCrop;

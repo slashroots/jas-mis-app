@@ -231,16 +231,6 @@ exports.getCommodities = function(req, res) {
 };
 
 /**
- * Intended to be able to edit the commodity based on farmer's id
- * @param req
- * @param res
- */
-exports.editCommodity = function(req, res) {
-    res.statusCode(500);
-    res.send({error: 'Not Implemented!'});
-};
-
-/**
  * Function really only requires the farm_id to be in the parameter
  * and does a query based on only this parameter.  The function
  * itself just searches based on the id for the farm then updates the
@@ -269,7 +259,7 @@ exports.updateFarmById = function(req, res) {
 };
 
 /**
- * Allows for a comment to be created based on a given farmer.
+ * Allows for a comment to be eeated based on a given farmer.
  * Requires a id of the farmer to be passed as a parameter in
  * the request.
  *
@@ -432,6 +422,50 @@ exports.updateMembership = function(req, res) {
                 res.send(changes);
             }
         });
+    }
+};
+/*
+exports.updateCommodity = function(req, res) {
+    if(common.isAuthenticated(req, res)) {
+        Commodity.updateById(req.params.commodity_id, req.body, function (err, changes) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(changes);
+            }
+        });
+    }
+};
+*/
+
+
+/**
+ * Edits a commodity based on commodity's id.
+ * @param req
+ * @param res
+ */
+exports.editCommodity = function(req, res) {
+    if(common.isAuthenticated(req, res)){
+        /*Commodity.update({_id:req.params.comID}, req.body, function(err, response){
+            if(err || response.nModified != 0){
+                common.handleDBError(err, res);
+            }else{
+                res.send(response);
+            }
+        });*/
+
+        Commodity.findByIdAndUpdate({_id:req.params.commodity_id}, req.body, function (err, changes) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(changes);
+            }
+        });
+
+        console.log(req.body);
+
+        //res.end();
+
     }
 };
 
