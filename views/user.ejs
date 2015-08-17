@@ -1,23 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title><%=title%></title>
+    <title>Document</title>
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css" rel="stylesheet" type="text/css">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css" type="text/css" rel="stylesheet">-->
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+        .form-signin .checkbox {
+            font-weight: normal;
+        }
+        .form-signin .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+    </style>
 </head>
 <body>
-<%if (found){%>
-<form>
-    <input type="text" class="form-control" placeholder="Enter New Password">
-    <input type="text" class="form-control" placeholder="Confirm New Password">
-    <input type="button" type="submit" value="Update" />
-</form>
-<%}else{%>
-<div>
-    <p>Whoop! Something Went Wrong!</p>
-</div>
-<%}%>
+<div class="container">
 
+    <form class="form-signin" method="POST" action="/user/<%=id%>/confirm">
+        <div class="message"></div>
+
+        <h2 class="form-signin-heading">Update Password</h2>
+        <input type="password" id="new_password" class="form-control" placeholder="Enter New Password" required autofocus>
+        <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" required>
+        <input type="hidden" id="password" name="password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" disabled id="update">Update</button>
+    </form>
+
+</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+<script>
+    $(function(){
+        $('#confirm_password').focusout(function(){
+           if($('#new_password').val() != $('#confirm_password').val()){
+               $('.message').append("<div class='alert alert-danger' role='alert'>Password Mismatch</div>");
+           }else{
+               $("#password").val(CryptoJS.MD5($("#confirm_password").val()));
+               $('#update').prop('disabled', false);
+           }
+        });
+    });
+</script>
 </body>
 </html>
