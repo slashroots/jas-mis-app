@@ -171,14 +171,8 @@
                                 <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
                             </md-button>
                         </div>
-
                     </div>
-
                     <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
-
-                    </div>
-
-                    <div ng-include="editCommodity ? '/partials/commodity_edit.html':null">
 
                     </div>
                 </md-card-content>
@@ -208,9 +202,6 @@
                                 {{commodity.co_notes}}
                                 <label>Notes</label>
                             </div>
-
-                            <button ng-click="editCommodityItem(0)">Edit</button>
-
                         </div>
                     </div>
                 </md-card-content>
