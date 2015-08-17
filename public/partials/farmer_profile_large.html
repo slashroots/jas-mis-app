@@ -163,57 +163,14 @@
 
 
             <md-card>
-                <md-card-content class="{{newCommodity ? 'dark':'white'}}">
-                    <div layout="row">
-                        <h3 class="{{newCommodity ? 'dark':'white'}}">Supplies</h3>
-                        <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button ng-click="newCommodityItem()" class="md-fab edge" aria-label="Add New Supply">
-                                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-                            </md-button>
-                        </div>
 
-                    </div>
 
-                    <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
+                    <md-card-content ng-include="'/partials/supplies_card.html'">
 
-                    </div>
 
-                    <div ng-include="editCommodity ? '/partials/commodity_edit.html':null">
+                    </md-card-content>
 
-                    </div>
-                </md-card-content>
-                <md-card-content>
-                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="commodity in commodities">
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{commodity.cr_crop.cr_crop_name}} - {{commodity.cr_crop.cr_crop_variety}}
-                                <label>Produce/Crop</label>
-                            </div>
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
-                                <label>Amount</label>
-                            </div>
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_price}} per {{commodity.un_price_unit.un_unit_name}}
-                                <label>Unit Cost</label>
-                            </div>
-                        </div>
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_payment_preference}}
-                                <label>Payout Preference</label>
-                            </div>
-                            <span></span>
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_notes}}
-                                <label>Notes</label>
-                            </div>
 
-                            <button ng-click="editCommodityItem(0)">Edit</button>
-
-                        </div>
-                    </div>
-                </md-card-content>
             </md-card>
         </div>
         <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
