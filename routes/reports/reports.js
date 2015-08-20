@@ -5,6 +5,9 @@ var Report = require('../../models/db').Report;
 var Crop = require('../../models/db').Crop;
 var moment = require('moment');
 var common = require('../common/common');
+var pdf = require('phantom-html2pdf');
+var phantom = require('phantom');
+
 
 
 /**
@@ -21,12 +24,45 @@ exports.createReport = function(req, res) {
             if(err) {
                 common.handleDBError(err, res);
             } else {
+                phantom.create(function(ph){
+                    ph.createPage(function(page) {
+                        //if(common.isAuthenticated(req, res)){
+                            page.open("http://localhost:3000/report/55d4d7f5d80331e04fa41624", function(status) {
+                                page.render('google.pdf', function(){
+                                    console.log('Page Rendered');
+                                    ph.exit();
+
+                                });
+                            });
+                        //}
+
+                    });
+                });
+                //createPDF(options);
                 res.send(item);
             }
         });
     }
 };
 
+function createPDF(options){
+    pdf.convert(options, function(result) {
+
+        /* Using a buffer and callback */
+        result.toBuffer(function(returnedBuffer) {});
+
+        /* Using a readable stream */
+        var stream = result.toStream();
+
+        /* Using the temp file path */
+        var tmpPath = result.getTmpPath();
+
+        /* Using the file writer and callback */
+        result.toFile("report.pdf", function() {
+            console.log('PDF Created');
+        });
+    });
+}
 /**
  * Find a report based on specified query parameters.
  * @param req
@@ -56,7 +92,7 @@ exports.searchReports = function(req, res) {
  * @param res
  */
 exports.renderReport = function(req, res) {
-    if(common.isAuthenticated(req, res)) {
+    //if(common.isAuthenticated(req, res)) {
         Report.findById(req.params.id)
             .populate('de_demand us_user co_commodities.fa_farmer')
             .exec(function (err, item) {
@@ -95,7 +131,7 @@ exports.renderReport = function(req, res) {
 
                 }
             })
-    }
+    //}
 };
 
 
