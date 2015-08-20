@@ -353,7 +353,6 @@ exports.getMembershipByFarmer = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         Membership.find({fa_farmer: req.params.id}).populate('fa_farmer mt_type_id br_branch_id')
             .sort({mi_expiration: 'desc'})
-            .limit(1)
             .exec(function (err, list) {
                 if (err) {
                     handleDBError(err, res);
