@@ -12,20 +12,23 @@
     </style>
 
     <div layout="row">
-        <h3 class="white">Membership</h3>
+        <h3 class="white">Memberships</h3>
     </div>
+
+    <div ng-repeat="membership in memberships">
+
     <div layout-align="space-around start" class="farmer_info" layout="row">
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/icons/icons_farmer_active.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                {{isActive(memberships[0].mi_expiration.split("T")[0])?  "Active" :  'Inactive'}}
+                {{isActive(membership.mi_expiration.split("T")[0])?  "Active" :  'Inactive'}}
                 <div class="label">Status</div>
             </div>
         </div>
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/icons/icons_farmer_type.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column">
-                {{isValid(memberships[0].mt_type_id.mt_type_name)? memberships[0].mt_type_id.mt_type_name:  'N/A'}}
+                {{isValid(membership.mt_type_id.mt_type_name)? membership.mt_type_id.mt_type_name:  'N/A'}}
                 <div class="label">Membership Type</div>
             </div>
         </div>
@@ -61,7 +64,7 @@
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column">
-                {{isValid(memberships[0].br_branch_id.br_branch_name)? memberships[0].br_branch_id.br_branch_name:  'N/A'}}
+                {{isValid(membership.br_branch_id.br_branch_name)? membership.br_branch_id.br_branch_name:  'N/A'}}
                 <div class="label">Branch</div>
             </div>
         </div>
@@ -74,19 +77,22 @@
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column">
-                {{isValid(memberships[0].mi_start)? memberships[0].mi_start.split("T")[0]:  'N/A'}}
+                {{isValid(membership.mi_start)? membership.mi_start.split("T")[0]:  'N/A'}}
                 <div class="label">Reg Date</div>
             </div>
         </div>
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_expires.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column">
-                {{isValid(memberships[0].mi_expiration)? memberships[0].mi_expiration.split("T")[0]:  'N/A'}}
+                {{isValid(membership.mi_expiration)? membership.mi_expiration.split("T")[0]:  'N/A'}}
                 <div class="label">Exp Date</div>
             </div>
         </div>
         <div flex layout="row">
         </div>
+
+    </div>
+
     </div>
 
 </md-card-content>

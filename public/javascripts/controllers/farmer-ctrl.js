@@ -90,6 +90,17 @@ angular.module('jasmic.controllers')
                 }
             };
 
+
+            /*
+
+            Takes the expiration date of the membership and compares it with the current date to determine whether or not the membership is still active.
+
+            @param = expiry date
+
+            @return boolean - true if membership i active and false if expired
+
+             */
+
             $scope.isActive = function(exp_date) {
                 if(new Date(exp_date) > Date.now()) {
                     return true;
