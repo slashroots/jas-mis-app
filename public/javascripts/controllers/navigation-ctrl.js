@@ -16,6 +16,7 @@ angular.module('jasmic.controllers')
              */
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
+                $scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
             }, function(fail) {
                 console.log(fail);
             });

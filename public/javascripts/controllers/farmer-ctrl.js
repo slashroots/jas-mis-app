@@ -211,17 +211,6 @@ angular.module('jasmic.controllers')
             $scope.selectedDistrictChange = function(item) {
                 selectedDistrict = item._id;
             };
-            /**
-             * Creates a call and associates call with the farmer
-             * and logged in user.
-             * TODO - Revisit implementation of call feature on farmer page
-             **/
-            $scope.createCall = function(){
-              $scope.cc_caller_id = $scope.farmer.fa_contact;
-              $scope.cc_entity_id = $scope.farmer._id;
-              $scope.cc_entity_type = "farmer";
-              showCallInputDialog($mdDialog, $scope);
-            };
         }
     ])
 /**

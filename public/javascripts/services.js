@@ -219,9 +219,23 @@ services.factory('RepFactory', function($resource) {
  */
 services.factory('CropsFactory', function($resource) {
     return $resource('/crops', {}, {
-        query: { method: 'GET', isArray: true}
+        query: { method: 'GET', isArray: true},
+        show: {method: 'GET', isArray: true}
     });
 });
+/**
+ * This factory is used to create and update a crop by an
+ * Admin User.
+ */
+services.factory('CropFactory', function($resource){
+   return $resource('/crop/:id', {}, {
+       update: { method: 'PUT', params: {id: '@id'} },
+       create: { method: 'POST'}
+
+   });
+});
+
+services.factory('CropFac')
 
 services.factory('DistrictsFactory', function($resource) {
     return $resource('/common/districts', {}, {
@@ -320,13 +334,22 @@ services.factory('DemandFactory', function($resource) {
         show: {method: 'GET', params: {id: '@id'}}
     });
 });
-
+/**
+ * Service used to create a supplier.
+ */
+services.factory('SupplierFactory', function($resource){
+   return $resource('/supplier/:id', {}, {
+       update: {method: 'PUT', params: {id: '@id'} },
+       create: {method: 'POST'}
+   });
+});
 /**
  * Service used to query for all suppliers.
  */
 services.factory('SuppliersFactory', function ($resource) {
     return $resource('/suppliers', {}, {
-        query: { method: 'GET', isArray: true }
+        query: { method: 'GET', isArray: true },
+        show: { method: 'GET', isArray: true}
     })
 });
 
@@ -340,7 +363,7 @@ services.factory('InputsFactory', function ($resource) {
 });
 
 /**
- * Service to get, create and update a specific factory.
+ * Service to get, create and update a specific supplier.
  */
 services.factory('SupplierFactory', function ($resource) {
     return $resource('/supplier/:id', {}, {
@@ -419,6 +442,15 @@ services.factory('UserProfileFactory', function($resource) {
         create: { method: 'POST'}
     });
 });
+/**
+ * Updates a user's record. Requires administrative privileges.
+ * TODO - Refract function to include code from above UserProfileFactory
+ */
+services.factory('UserFactory', function($resource) {
+    return $resource('/user/:id', {}, {
+        update: {method: 'PUT', params: {id: '@id'}}
+    });
+});
 
 /**
  * This service allows for logout functionality
@@ -427,6 +459,14 @@ services.factory('UserSessionDestroyFactory', function($resource) {
     return $resource('/logout', {}, {
         killSession: { method: 'GET'}
     });
+});
+/**
+ * Service used to retrieve all users.
+ */
+services.factory('UsersFactory', function($resource){
+   return $resource('/users', {}, {
+      show: {method: 'GET', isArray: true}
+   });
 });
 
 /**
