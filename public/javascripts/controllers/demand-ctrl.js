@@ -293,7 +293,8 @@ function showSendEmailDialog($mdDialog, $scope){
                 {
                     var report_link = $location.absUrl().split('/home') +  "/report/";
                         EmailFactory.create(
-                            {   //to: $scope.demand.bu_buyer.bu_email,
+                            {
+                                to: $scope.demand.bu_buyer.bu_email,
                                 subject: "Buyer Report",
                                 text: "Link to Report" + " " + report_link[0] + $scope.selectedBuyerReports[i]._id
                             }, function(success){

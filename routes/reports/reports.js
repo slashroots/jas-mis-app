@@ -24,21 +24,6 @@ exports.createReport = function(req, res) {
             if(err) {
                 common.handleDBError(err, res);
             } else {
-                phantom.create(function(ph){
-                    ph.createPage(function(page) {
-                        //if(common.isAuthenticated(req, res)){
-                            page.open("http://localhost:3000/report/55d4d7f5d80331e04fa41624", function(status) {
-                                page.render('google.pdf', function(){
-                                    console.log('Page Rendered');
-                                    ph.exit();
-
-                                });
-                            });
-                        //}
-
-                    });
-                });
-                //createPDF(options);
                 res.send(item);
             }
         });
@@ -92,7 +77,7 @@ exports.searchReports = function(req, res) {
  * @param res
  */
 exports.renderReport = function(req, res) {
-    //if(common.isAuthenticated(req, res)) {
+    if(common.isAuthenticated(req, res)) {
         Report.findById(req.params.id)
             .populate('de_demand us_user co_commodities.fa_farmer')
             .exec(function (err, item) {
@@ -131,7 +116,7 @@ exports.renderReport = function(req, res) {
 
                 }
             })
-    //}
+    }
 };
 
 

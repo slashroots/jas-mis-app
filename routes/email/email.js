@@ -7,16 +7,13 @@ var common = require('../common/common');
 /**
  * Sends email using SendGrid API based on the body of the
  * request.
- * TODO - email.addTo and email.setFrom are temporary measures
- * for testing email functionality.
  * @param req
  * @param res
  */
 exports.sendEmail = function(req, res){
     if(common.isAuthenticated(req, res)){
         var email = new sendgrid.Email(req.body);
-        email.addTo(process.env.TO_EMAIL);
-        email.setFrom(process.env.FROM_EMAIL);
+        email.setFrom(process.env.REPLY_TO);
         sendgrid.send(email, function(err,json){
             if(err){
                common.handleEmailError(err, res);
