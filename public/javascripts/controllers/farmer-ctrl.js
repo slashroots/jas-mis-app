@@ -90,6 +90,12 @@ angular.module('jasmic.controllers')
                 }
             };
 
+            $scope.parseDate = function(date) {
+
+                return moment(date).format('YYYY-MM-DD');
+
+            };
+
             $scope.isActive = function(exp_date) {
                 if(new Date(exp_date) > Date.now()) {
                     return true;

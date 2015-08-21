@@ -74,14 +74,15 @@
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column">
-                {{isValid(memberships[0].mi_start)? memberships[0].mi_start.split("T")[0]:  'N/A'}}
+                {{isValid(memberships[0].mi_start)? parseDate(memberships[0].mi_start) :  'N/A'}}
                 <div class="label">Reg Date</div>
             </div>
         </div>
         <div flex layout="row">
             <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_expires.svg"></md-icon>
             <div layout-align="center" style="text-align: center;" layout="column">
-                {{isValid(memberships[0].mi_expiration)? memberships[0].mi_expiration.split("T")[0]:  'N/A'}}
+
+                {{isValid(memberships[0].mi_expiration)? parseDate(memberships[0].mi_expiration) :  'N/A'}}
                 <div class="label">Exp Date</div>
             </div>
         </div>
