@@ -88,22 +88,6 @@ exports.updateTransactionById = function(req, res) {
                if(err || !commodity){
                    common.handleDBError(err, res);
                }else{
-                 var query = req.query;
-                 query['$or'] = [{tr_status: 'Pending'},
-                     {tr_status: 'Waiting'}, {co_commodity: req.body.co_commodity._id}];
-                 Transaction.find(query)
-                     .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
-                     .exec(function(err, list) {
-                         if(err) {
-                             common.handleDBError(err, res);
-                         } else {
-                             for(var i in list){
-                               if(list[i].tr_status === 'pending'){
-                                 console.log(list[i]);
-                               }
-                             }
-                         }
-                     })
                    res.send(result);
                }
             });
