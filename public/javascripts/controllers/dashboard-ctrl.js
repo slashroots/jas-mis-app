@@ -163,6 +163,7 @@ angular.module('jasmic.controllers')
                $scope.crop_type = {};
                $scope.supplier = {};
                $scope.usertypes = ['Administrator', 'Call Representative'];
+               $scope.states = ['approved', 'pending'];
                /**
                 * Used to toggle list of records.
                 * @type {{user: boolean, croptype: boolean, supplier: boolean}}

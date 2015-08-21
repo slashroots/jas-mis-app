@@ -1,8 +1,15 @@
 <md-content layout-padding layout="column">
 
-    <md-select placeholder="Type of User" ng-model="user_obj.ut_user_type">
-        <md-option ng-repeat="usertype in usertypes" value="{{usertype}}">{{usertype}}</md-option>
-    </md-select>
+    <div layout="row">
+      <md-select placeholder="Type of User" ng-model="user_obj.ut_user_type" flex>
+          <md-option ng-repeat="usertype in usertypes" value="{{usertype}}">{{usertype}}</md-option>
+      </md-select>
+
+      <md-select placeholder="State" ng-model="user_obj.us_state" flex>
+          <md-option ng-repeat="state in states" value="{{state}}">{{state}}</md-option>
+      </md-select>
+    </div>
+
 
     <div layout="row">
         <md-input-container flex>

@@ -269,23 +269,11 @@ var UserSchema = new Schema({
     us_user_last_name: {type: String, required: true},
     us_username: {type: String, unique: true},
     us_password: {type: String, default: "21232f297a57a5a743894a0e4a801fc3"},
-    ut_user_type: {type: String, required: true},
+    ut_user_type: {type: String, required: true, default: 'Call Representative'},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()},
-    us_status: {type: String}
-});
-
-var NewUserSchema = new Schema({
-    us_user_first_name: {type: String, required: true},
-    us_user_last_name: {type: String, required: true},
-    us_username: {type: String, unique: true},
-    us_password: {type: String, default: "21232f297a57a5a743894a0e4a801fc3"},
-    ut_user_type: {type: String, required: true},
-    us_email_address: {type: String, required: true},
-    us_contact: {type: String, required: true},
-    us_user_creation_date: {type: Date, default: Date.now(), expires: 1200 },
-    us_status: {type: String, default: "Unverified"}
+    us_state: {type: String, default: 'pending'}
 });
 
 var ReportSchema = new Schema({
@@ -447,5 +435,3 @@ exports.Report = mongoose.model('Report', ReportSchema);
 exports.Email = mongoose.model('Email', EmailSchema);
 
 exports.EmailType = mongoose.model('EmailType', EmailTypeSchema);
-
-exports.NewUser = mongoose.model('NewUser', NewUserSchema);
