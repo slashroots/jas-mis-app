@@ -5,11 +5,8 @@ var Report = require('../../models/db').Report;
 var Crop = require('../../models/db').Crop;
 var moment = require('moment');
 var common = require('../common/common');
-var pdf = require('phantom-html2pdf');
-var phantom = require('phantom');
-
-
-
+var request = require('request');
+var pdf = require('phantomjs-pdf');
 /**
  * Creates a report based on a list of demands and commodities that have
  * been used in the creation of a transaction.
@@ -24,30 +21,27 @@ exports.createReport = function(req, res) {
             if(err) {
                 common.handleDBError(err, res);
             } else {
+                var report_url = req.protocol + "://" + req.get('host') + req.originalUrl;
+                console.log(report_url);
                 res.send(item);
             }
         });
     }
 };
+/**
+ * Creates a buyer report.
+ */
+function createBuyerReportPDF(item_id){
+  request('http://localhost:8000', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+     var options = {"html": body};
+     pdf.convert(options, function(result) {
+       result.toFile(item_id + ".pdf", function() {
 
-function createPDF(options){
-    pdf.convert(options, function(result) {
-
-        /* Using a buffer and callback */
-        result.toBuffer(function(returnedBuffer) {});
-
-        /* Using a readable stream */
-        var stream = result.toStream();
-
-        /* Using the temp file path */
-        var tmpPath = result.getTmpPath();
-
-        /* Using the file writer and callback */
-        result.toFile("report.pdf", function() {
-            console.log('PDF Created');
-        });
-    });
-}
+      });
+     }
+  }
+};
 /**
  * Find a report based on specified query parameters.
  * @param req
