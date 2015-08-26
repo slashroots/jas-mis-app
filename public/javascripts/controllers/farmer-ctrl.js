@@ -46,9 +46,10 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
+        'CallLogsFactory',
         function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -159,7 +160,6 @@ angular.module('jasmic.controllers')
             };
 
 
-<<<<<<< HEAD
             $scope.saveCommodity = function() {
                 $scope.commodity.cr_crop = selectedCrop;
                 CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
@@ -169,8 +169,6 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, error, true);
                 })
             };
-=======
->>>>>>> master
 
             /**
              *  This function does the magic for the auto-complete district selection
@@ -281,8 +279,6 @@ function showDialog($mdDialog, message, isError) {
             .ok('Ok')
     );
 };
-<<<<<<< HEAD
-=======
 
 function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
     var self = this;
@@ -331,4 +327,3 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
         })
     };
 };
->>>>>>> master
