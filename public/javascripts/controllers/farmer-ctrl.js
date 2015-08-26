@@ -38,10 +38,10 @@ angular.module('jasmic.controllers')
      */
     .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory','CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory','CommodityEditFactory',
+        'UnitsFactory', 'CommodityFactory','CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory','CommodityEditFactory', 'FarmEditFactory',
         function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CommodityEditFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CommodityEditFactory, FarmEditFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -118,6 +118,22 @@ angular.module('jasmic.controllers')
                 $scope.newFarm = !$scope.newFarm;
             };
 
+            /*.updateFarm = function() {
+                $scope.farm.di_district = selectedDistrict;
+                FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
+                    $scope.newFarm = !$scope.newFarm;
+                    loadAll();
+                }, function(fail) {
+                    console.log(fail);
+                    console.log($scope.farm);
+                    showDialog($mdDialog, fail, true);
+                });
+            };*/
+
+            $scope.cancelEdit = function() {
+                $scope.editFarm = !$scope.editFarm;
+            };
+
             /**
              * Necessary to load all parishes in the necessary forms
              */
@@ -137,6 +153,14 @@ angular.module('jasmic.controllers')
                 $scope.newFarm = !$scope.newFarm;
                 $scope.farm = {};
             };
+
+            $scope.editFarmLocation = function(arrayindex) {
+
+                $scope.editFarm = !$scope.editFarm;
+                $scope.farm = $scope.farmer.fr_farms[arrayindex];
+
+            };
+
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
                 $scope.commodity = {};
@@ -168,6 +192,24 @@ angular.module('jasmic.controllers')
                 });
 
             }
+
+
+            $scope.updateFarm = function(arrayindex) {
+
+                FarmEditFactory.update({farm_id:$scope.farm._id}, $scope.farm, function(success) {
+
+                    console.log("Success");
+
+                    $scope.editFarm = false;
+
+                }, function (error) {
+
+                    console.log("Error");
+
+                });
+
+            }
+
 
             $scope.newCommodity = false;
             $scope.newFarm = false;

@@ -1,0 +1,56 @@
+<md-content layout-padding layout="column">
+    <div layout="column">
+        <md-autocomplete flex
+                         ng-required="true"
+                         ng-disabled="false"
+                         md-no-cache="true"
+                         md-selected-item="selectedItem"
+                         md-search-text-change="searchTextChange(searchText)"
+                         md-search-text="searchText"
+                         md-selected-item-change="selectedDistrictChange(item)"
+                         md-items="item in queryDistrictSearch(searchText)"
+                         md-item-text="item.di_extension_name+(item.di_district_name == ''? '' : ' - ')+item.di_district_name"
+                         md-min-length="3"
+                         placeholder="Please Enter the District or Extension Name">
+            <md-item-template>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.di_extension_name}}
+                    {{item.di_district_name == ""? "" : " - " + item.di_district_name}}</span>
+            </md-item-template>
+            <md-not-found>
+                No matches found for "{{searchText}}".
+            </md-not-found>
+        </md-autocomplete>
+        <md-input-container flex>
+            <label>Farm Name</label>
+            <input type="text" ng-model="farm.fr_name">
+        </md-input-container>
+    </div>
+
+
+    <md-input-container>
+        <label>Address 1</label>
+        <input type="text" ng-model="farm.ad_address1">
+    </md-input-container>
+
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Address 2</label>
+            <input type="text" ng-model="farm.ad_address2">
+        </md-input-container>
+        <md-input-container flex>
+            <label>City</label>
+            <input type="text" ng-model="farm.ad_city">
+        </md-input-container>
+    </div>
+
+    <md-input-container>
+        <label>Farm Size (Acres)</label>
+        <input type="number" ng-model="farm.fr_size">
+    </md-input-container>
+
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="cancelAdd()">Cancel</md-button>
+        <md-button ng-click="updateFarm(0)">Update</md-button>
+    </md-input-container>
+</md-content>

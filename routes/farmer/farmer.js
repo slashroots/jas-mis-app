@@ -11,6 +11,7 @@
 var model = require('../../models/db');
 var common = require('../common/common');
 var Commodity = model.Commodity;
+var Farm = model.Farm;
 var Demand = model.Demand;
 var Branch = model.Branch;
 var Membership = model.Membership;
@@ -242,7 +243,7 @@ exports.getCommodities = function(req, res) {
  */
 exports.updateFarmById = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        model.Farm.update({_id: req.params.farm_id}, req.body, function (err, response) {
+        /*model.Farm.update({_id: req.params.farm_id}, req.body, function (err, response) {
             if (err) {
                 handleDBError(err, res);
             } else {
@@ -255,6 +256,18 @@ exports.updateFarmById = function(req, res) {
                 }
             }
         });
+        */
+
+        Farm.findByIdAndUpdate({_id:req.params.farm_id}, req.body, function (err, changes) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(changes);
+            }
+        });
+
+        console.log(req.body);
+
     }
 };
 
