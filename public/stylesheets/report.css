@@ -25,9 +25,9 @@ body{
 }
 
 .report-title{
-	height:0.6in; 
+	height:0.6in;
 	background-color: #424242;
-	padding: 0px; 
+	padding: 0px;
 	margin: 0px;
 	color: #fff;
 	text-align: center;
@@ -67,10 +67,10 @@ body{
 .farmer, .date-available{
 	border-top: 2px solid #B5B5B5;;
 	border-bottom: 2px dotted #B5B5B5;
-	
+
 	/*border-right: 1px solid #000;*/
 	margin-bottom: 10px;
-	background-color: #EDECED;	
+	background-color: #EDECED;
 }
 
 .farmer{
@@ -122,8 +122,5 @@ body{
 
 .table-bordered{
 	border-top-style: none;
-	
+
 }
-
-
-

@@ -30,6 +30,37 @@
 </div>
 <div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex >
   <div class="addNew" layout="column" flex="10" layout-align="start center" flex-sm="0">
+
+    <md-fab-speed-dial md-open="false" md-trigger="click" md-direction="down" layout-align="center" ng-class="md-fling">
+
+    <md-fab-trigger>
+      <md-button aria-label="menu" class="md-fab md-warn">
+        <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+      </md-button>
+    </md-fab-trigger>
+
+    <md-fab-actions style="text-align:center;">
+      <md-button ng-click="goTo('farmer')" class="md-fab-top-left" aria-label="Add New Farmer">
+        Farmer
+      </md-button>
+      <md-button ng-click="goTo('buyer')" class="md-fab-top-left" aria-label="Add New Buyer">
+        Buyer
+      </md-button>
+      <md-button ng-click="goTo('call')" class="md-fab-top-left" aria-label="Add New Call">
+        Call
+      </md-button>
+      <md-button ng-click="goTo('transaction')" class="md-fab-top-left" aria-label="Add New Transaction">
+        Transaction
+      </md-button>
+      <md-button ng-click="goTo('supplier')" class="md-fab-top-left" aria-label="Add New Farm Store">
+        Farm Store
+      </md-button>
+    </md-fab-actions>
+
+    </md-fab-speed-dial>
+
+    <!--
+
     <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
       <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
     </md-button>
@@ -54,10 +85,10 @@
     </md-button>
 
     <span layout="row" flex>
-      <!--
+
         Fill up the rest of the space
-      -->
-    </span>
+
+    </span> -->
   </div>
   <div layout="column" flex>
     <div class="headerArea" layout="row" >
@@ -91,6 +122,7 @@
 <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="../bower_components/angular-aria/angular-aria.min.js"></script>
 <script src="../bower_components/angular-material/angular-material.min.js"></script>
+<script src="../bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="../bower_components/angular-selection-model/dist/selection-model.min.js"></script>
 
  <!-- CDN JS Libraries -->
