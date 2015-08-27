@@ -276,7 +276,7 @@ var UserSchema = new Schema({
     us_user_creation_date: {type: Date, default: Date.now()}
 });
 var ReportSchema = new Schema({
-    re_report_date: {type: Date, default: Date.now()},
+    re_report_date: {type: Date},
     de_demand: {type: Schema.Types.ObjectId, required: true, ref: 'Demand'},
     co_commodities: [CommoditySchema],
     us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},

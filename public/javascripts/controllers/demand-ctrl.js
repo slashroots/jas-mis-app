@@ -47,11 +47,15 @@ angular.module('jasmic.controllers')
             /**
              * Get all open transactions matching demand.
              */
-            OpenTransactionsFactory.query({de_demand:$routeParams.id}, function(transactions){
-               $scope.transactions = transactions;
-            }, function(error){
-               $scope.transactions = [];
-            });
+            loadOpenTransactions = function(){
+              OpenTransactionsFactory.query({de_demand:$routeParams.id}, function(transactions){
+                 $scope.transactions = transactions;
+              }, function(error){
+                 $scope.transactions = [];
+              });
+            };
+
+            loadOpenTransactions();
             /**
              * Lookup Demand information based on ID supplied in the URL.
              */
@@ -98,6 +102,7 @@ angular.module('jasmic.controllers')
                             console.log(fail);
                         });
                 }
+                loadOpenTransactions();
             };
 
             /**
@@ -179,15 +184,20 @@ angular.module('jasmic.controllers')
                         de_demand: $scope.demand._id,
                         co_commodities: $scope.m_commodities,
                         us_user: $scope.user._id,
-                        re_report_name: 'Buyer Report'
+                        re_report_name: 'Buyer Report',
+                        re_report_date: Date.now()
                     }, function(success) {
                         var newWindow = window.open('/report/' + success._id);
+
                     }, function(fail) {
-                        console.log(fail);
+                        $mdToast.show($mdToast.simple().position('top right').content('Report Created'));
                     });
+
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
+                loadOpenTransactions();
+                lookupReports();
             };
             /**
              * Gets the clicked transaction from a list of transactions.
@@ -269,12 +279,14 @@ function showSendEmailDialog($mdDialog, $scope){
          * @param $scope
          * @param $mdDialog
          */
-        controller: function SendEmailDialogController($scope, $route, $mdDialog, $location, EmailFactory){
+        controller: function SendEmailDialogController($scope, $route, $mdDialog, $location,
+          EmailFactory, $http, ReportBody){
               /*
              *  Gets the selected call type from
              *  drop down menu.
              */
             $scope.selectedBuyerReports = [];
+            $scope.sentEmails = [];
             $scope.selectedReport = function(report){
                 $scope.selectedBuyerReports.push(report);
             };
@@ -289,21 +301,40 @@ function showSendEmailDialog($mdDialog, $scope){
              * TODO - Handle error and success in the below function better.
              */
             $scope.emailBuyerReport = function(){
+                $scope.report_body = "Report";
                 for(var i in $scope.selectedBuyerReports)
                 {
-                    var report_link = $location.absUrl().split('/home') +  "/report/";
-                        EmailFactory.create(
-                            {
-                                to: $scope.demand.bu_buyer.bu_email,
-                                subject: "Buyer Report",
-                                text: "Link to Report" + " " + report_link[0] + $scope.selectedBuyerReports[i]._id
-                            }, function(success){
+                    var base_url = $location.absUrl().split('/home');
+                    var report_url = base_url[0] + '/report/' + $scope.selectedBuyerReports[i]._id;
+                    var report_id = $scope.selectedBuyerReports[i]._id;
+                    ReportBody.show({id: $scope.selectedBuyerReports[i]._id}, function(success){
+                        console.log(success);
+                    }, function(error){
+                      console.log('Error');
+                    });
+                    $http.get(report_url).then(function(response){
+                        console.log(response.data);
+                        // EmailFactory.create({
+                        //                       //to: $scope.demand.bu_buyer.bu_email,
+                        //                       to: "tremainekbuchanan@gmail.com",
+                        //                       subject: "Buyer Report",
+                        //                       text: "Buyer Report Body",
+                        //                       report_url: report_url,
+                        //                       report_id: report_id,
+                        //                       report_body: response.data
+                        //                     },
+                        // function(success){
+                        //   console.log(success);
+                        // },function(error){
+                        //  $scope.sentEmails = ['Error'];
+                        //  });
+                    }, function(error){
 
-                        }, function(error){
-                        });
+                    });
                 }
                 $mdDialog.hide();
                 $scope.selectedBuyerReports = [];
+                console.log($scope.sentEmails);
             };
         }//end of controller
     });

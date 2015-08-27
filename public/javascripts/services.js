@@ -434,7 +434,14 @@ services.factory('UserSessionDestroyFactory', function($resource) {
  */
 services.factory('ReportFactory', function($resource) {
     return $resource('/report', {}, {
-        create: { method: 'POST'}
+        create: { method: 'POST'},
+        show: { method: 'GET', params: {id : '@id'} }
+    });
+});
+
+services.factory('ReportBody', function($resource){
+    return $resource('/report/:id',{
+        show: { method: 'GET', params: {id: '@id'}} 
     });
 });
 

@@ -5,8 +5,6 @@ var Report = require('../../models/db').Report;
 var Crop = require('../../models/db').Crop;
 var moment = require('moment');
 var common = require('../common/common');
-var request = require('request');
-var pdf = require('phantomjs-pdf');
 /**
  * Creates a report based on a list of demands and commodities that have
  * been used in the creation of a transaction.
@@ -16,32 +14,18 @@ var pdf = require('phantomjs-pdf');
 exports.createReport = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var report = new Report(req.body);
+        report.re_report_date = moment();
         report.save(function(err, item) {
             console.log(err);
             if(err) {
                 common.handleDBError(err, res);
             } else {
-                var report_url = req.protocol + "://" + req.get('host') + req.originalUrl;
-                console.log(report_url);
                 res.send(item);
             }
         });
     }
 };
-/**
- * Creates a buyer report.
- */
-function createBuyerReportPDF(item_id){
-  request('http://localhost:8000', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-     var options = {"html": body};
-     pdf.convert(options, function(result) {
-       result.toFile(item_id + ".pdf", function() {
 
-      });
-     }
-  }
-};
 /**
  * Find a report based on specified query parameters.
  * @param req
@@ -50,6 +34,7 @@ function createBuyerReportPDF(item_id){
 exports.searchReports = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         Report.find(req.query)
+            .sort({re_report_date: -1})
             .populate('de_demand us_user co_commodities.fa_farmer')
             .exec(function (err, list) {
                 if (err) {
@@ -60,7 +45,6 @@ exports.searchReports = function(req, res) {
             });
     }
 };
-
 /**
  * This path allows for the rendering of a report based on the provided id
  * of the report stored on the db.
