@@ -148,6 +148,7 @@ services.factory('TransactionsFactory', function ($resource) {
     })
 });
 
+
 /**
  * Retrieves open transactions
  */
@@ -434,17 +435,9 @@ services.factory('UserSessionDestroyFactory', function($resource) {
  */
 services.factory('ReportFactory', function($resource) {
     return $resource('/report', {}, {
-        create: { method: 'POST'},
-        show: { method: 'GET', params: {id : '@id'} }
+        create: { method: 'POST'}
     });
 });
-
-services.factory('ReportBody', function($resource){
-    return $resource('/report/:id',{
-        show: { method: 'GET', params: {id: '@id'}}
-    });
-});
-
 /**
  * This path can be used to search for reports matching
  * the relevant parameters

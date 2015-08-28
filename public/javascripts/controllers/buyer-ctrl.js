@@ -178,9 +178,9 @@ angular.module('jasmic.controllers')
              * Gets the currently logged in user.
              *
              **/
-            // UserProfileFactory.show(function(user) {
-            //     $scope.user = user;
-            // });
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
 
 
             /**
