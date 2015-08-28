@@ -61,6 +61,10 @@ angular.module('jasmic.controllers')
              */
             DemandFactory.show({id:$routeParams.id},
                 function(demand) {
+                    $scope.combinedSupplyAmount = demand.de_met_amount;
+                    $scope.combinedSuppyValue = (demand.de_met_amount * demand.de_price);
+                    $scope.totalPercentage = ($scope.combinedSupplyAmount/demand.de_quantity) * 100;
+                    $scope.demandMet = demand.de_demand_met;
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
@@ -92,14 +96,15 @@ angular.module('jasmic.controllers')
                             tr_status: 'Pending',
                             us_user_id: $scope.user._id,
                             de_demand: $scope.demand._id,
+                            tr_quantity: $scope.m_commodities[i].co_quantity,
                             tr_value: ($scope.m_commodities[i].co_price * $scope.m_commodities[i].co_quantity),
                             co_commodity: $scope.m_commodities[i]._id
                         },
                         function(success) {
-                            console.log(success);
+                            $mdToast.show($mdToast.simple().position('top right').content('Transaction successfully created.'));
                         },
                         function(fail) {
-                            console.log(fail);
+                            $mdToast.show($mdToast.simple().position('top right').content('Unable to create transaction.'));
                         });
                 }
                 loadOpenTransactions();
@@ -108,10 +113,6 @@ angular.module('jasmic.controllers')
             /**
              * Default/initial variable states
              */
-            $scope.combinedSupplyAmount = 0;
-            $scope.combinedSuppyValue = 0;
-            $scope.totalPercentage = 0;
-            $scope.demandMet = false;
             $scope.allSelected = false;
             $scope.m_commodities = [];
             $scope.transactionSelected = false;
@@ -132,9 +133,9 @@ angular.module('jasmic.controllers')
              * @param commodity
              */
             $scope.checked = function(commodity) {
-                // console.log(commodity);
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;
+                $scope.demandMet = !$scope.demandMet;
                 for(var i in $scope.m_commodities) {
                     sum += $scope.m_commodities[i].co_quantity;
                     $scope.combinedSuppyValue +=
@@ -178,8 +179,6 @@ angular.module('jasmic.controllers')
             $scope.createReport = function() {
                 if($scope.m_commodities.length > 0) {
                     createTransactions();
-
-                    //This will create the report for the system
                     ReportFactory.create({
                         de_demand: $scope.demand._id,
                         co_commodities: $scope.m_commodities,
@@ -188,11 +187,9 @@ angular.module('jasmic.controllers')
                         re_report_date: Date.now()
                     }, function(success) {
                         var newWindow = window.open('/report/' + success._id);
-
                     }, function(fail) {
                         $mdToast.show($mdToast.simple().position('top right').content('Report Created'));
                     });
-
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
@@ -233,9 +230,9 @@ angular.module('jasmic.controllers')
                     $scope.transaction.co_sold = true;
                 }
                 TransactionFactory.update({id:$scope.transaction._id}, $scope.transaction, function(success){
-                    $mdToast.show($mdToast.simple().position('top').content('Transaction Status Updated.'));
+                    $mdToast.show($mdToast.simple().position('top right').content('Transaction Status Updated.'));
                 }, function(error){
-                    $mdToast.show($mdToast.simple().position('top').content('Transaction Status Not Updated.'));
+                    $mdToast.show($mdToast.simple().position('top right').content('Transaction Status Not Updated.'));
                 });
                 $scope.transaction = {};
                 $scope.transactionSelected = !$scope.transactionSelected;
@@ -318,9 +315,9 @@ function showSendEmailDialog($mdDialog, $scope){
                                               report_body: response.data
                                             },
                         function(success){
-                          $mdToast.show($mdToast.simple().position('top right').content('Email was successfully sent.'));
+                            $mdToast.show($mdToast.simple().position('top right').content('Email was successfully sent.'));
                         },function(error){
-                         $mdToast.show($mdToast.simple().position('top right').content('Email was not sent.'));
+                            $mdToast.show($mdToast.simple().position('top right').content('Email was not sent.'));
                          });
                     }, function(error){
                         $mdToast.show($mdToast.simple().position('top right').content('Unable to get your report'));
@@ -328,7 +325,6 @@ function showSendEmailDialog($mdDialog, $scope){
                 }
                 $mdDialog.hide();
                 $scope.selectedBuyerReports = [];
-                console.log($scope.sentEmails);
             };
         }//end of controller
     });

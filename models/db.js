@@ -123,7 +123,9 @@ var DemandSchema = new Schema({
     de_recurring: String,
     de_parent_id: Schema.Types.ObjectId,
     ct_comments: [CommentSchema],
-    de_demand_met: {type: Boolean, default: false}
+    de_demand_met: {type: Boolean, default: false},
+    de_unmet_amount: {type: Number, default: 0},
+    de_met_amount: {type: Number, default: 0}
 });
 var TransactionSchema = new Schema({
     bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
