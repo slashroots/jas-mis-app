@@ -5,6 +5,7 @@ var Report = require('../../models/db').Report;
 var Crop = require('../../models/db').Crop;
 var moment = require('moment');
 var common = require('../common/common');
+
 /**
  * Creates a report based on a list of demands and commodities that have
  * been used in the creation of a transaction.
