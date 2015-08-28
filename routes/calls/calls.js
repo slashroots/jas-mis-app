@@ -1,5 +1,6 @@
 var common = require('../common/common'),
 	model = require('../../models/db'),
+	moment = require('moment'),
 	CallLog = model.CallLog,
 	CallType = model.CallType,
 	Farmer = model.Farmer,
@@ -14,7 +15,13 @@ var common = require('../common/common'),
  */
 exports.searchCalls = function(req, res){
 	if(common.isAuthenticated(req, res)) {
-		CallLog.find(req.query)
+		var query = req.query;
+		if(req.query.today === 'true'){
+			var today = moment().startOf('day');
+			var tomorrow = moment(today).add(1,'days');
+			query = {cc_date: {$gte: today.toDate(), $lt: tomorrow.toDate()}};
+		}
+		CallLog.find(query)
 			.populate('ct_call_type')
 			.sort('-cc_date')
 			.exec(function(err, list){

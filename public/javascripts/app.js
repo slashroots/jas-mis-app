@@ -4,6 +4,8 @@
 
 angular.module('jasmic', [
     'ngRoute',
+    'ngAria',
+    'ngAnimate',
     'ngMaterial',
     'jasmic.services',
     'jasmic.controllers',

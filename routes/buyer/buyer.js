@@ -289,6 +289,7 @@ exports.findDemandMatch = function(req, res) {
             } else {
                 Commodity.find({
                     $and: [
+                        {co_sold: false},
                         {co_until: {$gte: demand.de_posting_date}},
                         {co_availability_date: {$lte: demand.de_until}}
                     ],

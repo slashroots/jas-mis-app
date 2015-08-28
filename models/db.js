@@ -100,6 +100,7 @@ var CommoditySchema = new Schema({
     un_price_unit: {type: Schema.Types.Mixed, required: true},
     co_posting_date: {type: Date, default: Date.now()},
     co_payment_preference: String,
+    co_sold: {type: Boolean, default: false},
     co_availability_date: Date,
     co_notes: String,
     co_recurring: String,
@@ -122,7 +123,9 @@ var DemandSchema = new Schema({
     de_recurring: String,
     de_parent_id: Schema.Types.ObjectId,
     ct_comments: [CommentSchema],
-    de_demand_met: {type: Boolean, default: false}
+    de_demand_met: {type: Boolean, default: false},
+    de_unmet_amount: {type: Number, default: 0},
+    de_met_amount: {type: Number, default: 0}
 });
 var TransactionSchema = new Schema({
     bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
@@ -275,7 +278,7 @@ var UserSchema = new Schema({
     us_user_creation_date: {type: Date, default: Date.now()}
 });
 var ReportSchema = new Schema({
-    re_report_date: {type: Date, default: Date.now()},
+    re_report_date: {type: Date},
     de_demand: {type: Schema.Types.ObjectId, required: true, ref: 'Demand'},
     co_commodities: [CommoditySchema],
     us_user: {type: Schema.Types.ObjectId, required: false, ref: 'User'},

@@ -14,7 +14,7 @@
                         <md-tooltip>Download</md-tooltip>
                     </md-button>
                     <md-button class="md-icon-button" aria-label="Email">
-                        <md-icon class="scale" md-svg-icon="../images/icons/icons_email.svg"></md-icon>
+                        <md-icon class="scale" ng-click="emailReport()" md-svg-icon="../images/icons/icons_email.svg"></md-icon>
                         <md-tooltip>Email</md-tooltip>
                     </md-button>
                 </div>
@@ -39,7 +39,7 @@
                 </ul>
             </div>
             <div layout="column">
-                <div layout="column" layout-align="center center" ng-if="m_commodities.length == 0">
+                <div layout="column" layout-align="center center" ng-if="m_commodities.length == 0 || demandMet">
                     <md-icon md-svg-src="../images/ic_not_interested_24px.svg"></md-icon>
                     <label>No Supplies Selected</label>
                 </div>

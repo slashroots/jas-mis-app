@@ -1,272 +1,155 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <meta charset="utf-8">
     <title><%=title%></title>
-    <style type="text/css">
+  </head>
+  <body style="font-family: 'Helvetica', 'Arial', 'Lucida Grande,'sans-serif';">
+  <table style="width: 8in;border: 2px solid black; border-spacing:0px;">
+  <tr>
+    <td style="padding:0px;">
+      <table style="width: 8in; border-spacing:0px;">
+        <tr style="height:0.6in;background-color: #424242;padding: 0px;margin: 0px;
+        	           color: #fff;text-align: center;">
+          <td>
+            <img src="<%=image_paths.logo%>" style=" float: left;padding-top: 0px;height: 50px;
+            width:350px;padding-left: 10px;"></td>
+          <td><h3 style="font-weight:100; letter-spacing:1px; font-size:20px">Market Information Center</h3></td>
+        </tr>
+      </table>
+      <table style="float:left;width: 5in;height: 2in;background-color: #EDECED;
+                    border-bottom: 2px dotted #B5B5B5;
+                    border-right: 2px dotted #B5B5B5;">
+          <tr >
+            <td style="padding: 40px 0px 0px 0px;"><span style="padding:0px 0px 0px 12px;"></span>Buyer<br/>
+              <span style="margin:0px;padding:0px 0px 0px 10px; font-weight:100px;font-size:40px;word-wrap: break-word;">
+                <%=buyer_info.bu_buyer.bu_buyer_name%></span></td>
+          </tr>
+      </table>
+      <table style="float:left;width: 3in;height: 2in;border-bottom: 2px dotted #B5B5B5;">
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;border-bottom: 2px dotted #B5B5B5;text-align:center;">Attn:</td>
+            <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%=buyer_info.bu_buyer.bu_email%></td>
+          </tr>
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;border-bottom:
+            2px dotted #B5B5B5;text-align:center;">Rep:</td>
+            <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%=us_user.us_user_first_name%> <%=us_user.us_user_last_name%></td>
+          </tr>
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;border-bottom: 2px dotted #B5B5B5;text-align:center;">Date:</td>
+            <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%= report_date %></td>
+          </tr>
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;
+            height:.7in;vertical-align:top;text-align:center;">Subject:</td>
+            <td style="text-align:left;vertical-align:top;"><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%> of <%=buyer_info.cr_crop.cr_crop_name%></td>
+          </tr>
+      </table>
+      <table style="float:left;height:.7in;width: 8in;">
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:40px;">
+            <img src="<%=image_paths.produce%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=buyer_info.cr_crop.cr_crop_name%></span>
+            <br><span>Produce</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.variety%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=buyer_info.cr_crop.cr_crop_variety%></span>
+            <br><span>Variety</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.demand%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=buyer_info.de_quantity%>lbs</span>
+            <br><span>Demand</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.supply%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=supply_amount%>lbs</span>
+            <br><span>Total Supply</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.value%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;">$<%=supply_value%></span>
+            <br><span>Total Value</span></td>
+        </tr>
+      </table>
+      <% for(var i=0;i<commodities.length;i++) { %>
+      <table style="float:left;background-color: #EDECED;
+        border-top: 2px solid #B5B5B5;
+        border-bottom: 2px dotted #B5B5B5;width: 8in;">
+        <tr>
+          <td style="width:70%">
+            <span style="font-weight:bold; font-size:18px;"><%= commodities[i].fa_farmer.fa_first_name%> <%=commodities[i].fa_farmer.fa_last_name %>
+            </span>
+            <br><span style="font-size:13px;">Farmer</span></td>
+            <td style="border-spacing:0px; padding:0px; width:30px;">
+              <img src="<%=image_paths.calendar%>" style="width:30px;height:30px;"></td>
+          <td><span style="font-size:17px;"><%= crop_dates[0] %></span><br><span style="font-size:13px;">Available</span></td>
 
-    </style>
-    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,500,700,900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../stylesheets/report.css">
-</head>
-<body>
-
-<div class="container test">
-    <div class="container">
-    <div class="report-title">
-        <img src="/images/report-icons/jas_logo_knockout-01.png">
-         <!-- <p>Market Information Center</p> -->
-    </div>
-</div>
-
-<div class="report-start">
-    <div class="container">
-        <div class="col-md-8 buyer-info">
-            <div class="buyer-text">                
-                <h1><small>Buyer</small></br><%=buyer_info.bu_buyer.bu_buyer_name%></h1>
-            </div>          
-        </div>
-            <div class="col-md-4">
-
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                    <td>Attn:</td>
-                    <td><%=buyer_info.bu_buyer.bu_email%></td>
-                    </tr>
-                    <tr>
-                    <td>Rep:</td>
-                    <td><%=us_user.us_user_first_name%> <%=us_user.us_user_last_name%></td>
-                    </tr>
-                    <tr>
-                    <td>Date:</td>
-                    <td><%= report_date %></td>
-                    </tr>
-                    <tr>
-                    <td>Subject:</td>
-                    <td><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%> of <%=buyer_info.cr_crop.cr_crop_name%></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div> <!-- end of report head -->
-
-<div class="report-summary">
-    <div class="container">
-        <div class="row">
-        <div class="col-md-2">
-                <div class="media">
-                    <div class="media-left">
-                        <img height="50px" width="50px" src="/images/report-icons/icons_crop.svg">                       
-                </div>
-                    <div class="media-body">
-                         <p><strong><%=buyer_info.cr_crop.cr_crop_name%></strong><br>Produce</p> 
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="media">
-                    <div class="media-left">
-                        <img height="50px" width="50px" src="/images/report-icons/icons_variety.svg">                        
-                </div>
-                    <div class="media-body">
-                         <p><strong><%=buyer_info.cr_crop.cr_crop_variety%></strong><br>Variety</p> 
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img height="50px" width="50px" src="/images/report-icons/icons_amount.svg"> 
-                        </a>
-                </div>
-                    <div class="media-body">
-                        <p><strong><%=buyer_info.de_quantity%>lbs</strong><br>Demand</p>  
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img height="50px" width="50px" src="/images/report-icons/icons_total_supply.svg"> 
-                        </a>
-                </div>
-                    <div class="media-body">
-                        <p><strong><%=supply_amount%>lbs</strong><br>Total Supply</p>  
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img height="50px" width="40px" src="/images/report-icons/icons_prince.svg"> 
-                        </a>
-                </div>
-                    <div class="media-body">
-                        <p><strong>$<%=supply_value%></strong><br>Total Value</p>  
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<% for(var i=0;i<commodities.length;i++) { %>
-<div class="farmer-section">
-    <div class="container">
-        <!-- <div class="row farmer"> -->
-            <div class="col-md-8 farmer">
-            <p>
-            <strong><%= commodities[i].fa_farmer.fa_first_name%> <%=commodities[i].fa_farmer.fa_last_name %> </strong>
-            <br> <small>Farmer</small></p> 
-            </div>
-            <div class="col-md-4 date-available">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="media">
-                            <div class="media-left media-top">
-                                <img height="30px" width="30px" src="/images/report-icons/icons_date_posted.svg"> 
-                            </div>
-                            <div class="media-body">
-                                <p><%= crop_dates[0] %><br>Available</p>
-                            </div>                          
-                        </div>                  
-                    </div>
-                    <div class="col-md-6">
-                        <div class="media">
-                            <div class="media-left media-top">
-                                <img height="30px" width="30px" src="/images/report-icons/icons_date_posted.svg"> 
-                            </div>
-                            <div class="media-body">
-                                <p><%= crop_dates[1] %><br>Expires</p>
-                            </div>                          
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <!-- </div> -->
-    </div>
-</div>
-
-<div class="details">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2 det">
-                <div class="media">
-                    <div class="media-left media-top">
-                    <img height="30px" width="30px" src="/images/report-icons/icons_amount.svg">
-                    </div>
-                    <div class="media-body">
-                        <p><strong><%=commodities[i].co_quantity %> lbs</strong><br>Amount</p>
-                    </div>
-                </div>
-
-                    <div class="media">
-                    <div class="media-left media-top">
-                    <img height="30px" width="30px" src="/images/report-icons/icons_prince.svg">
-                    </div>
-                    <div class="media-body">
-                        <p><strong>$
-                        <%= prices[i]%></strong><br>Total Price</p>
-                    </div>
-                </div>
-
-                    <div class="media">
-                    <div class="media-left media-top">
-                    <img height="30px" width="30px" src="/images/report-icons/icons_unit_price.svg">
-                    </div>
-                    <div class="media-body">
-                         <p><strong>$<%=commodities[i].co_price %>/lb</strong><br>Unit Price</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 det">
-                <div class="row">
-                    <div class="col-md-6">
-                    <div class="media">
-                    <div class="media-left media-top">
-                    <img height="30px" width="30px" src="/images/report-icons/icons_address_pin.svg">
-                    </div>
-                    <div class="media-body">
-                        <% if(commodities[i].fa_farmer.fa_address){ %>
-                                   <p></p>
-                                 <% } else{ %>  
-                                   <p>N/A</p>
-                                <% } %>  
-                    </div>
-                </div>
-                    </div>
-                    <div class="col-md-6">
-                            <div class="media">
-                            <div class="media-left media-top">
-                            <img height="30px" width="30px" src="/images/report-icons/icons_phone.svg">
-                            </div>
-                            <div class="media-body">
-                                <% if(commodities[i].fa_farmer.fa_contact){ %>
-                                   <p><strong><%=commodities[i].fa_farmer.fa_contact%></strong><br>
-                                       Personal</p>
-                                 <% } else{ %>  
-                                   <p>N/A<br>Mobile</p>
-                                <% } %>  
-                            </div>
-                        </div>
-
-                            <div class="media">
-                            <div class="media-left media-top">
-                            <img height="30px" width="30px" src="/images/report-icons/icons_phone.svg">
-                            </div>
-                            <div class="media-body">
-                                <% if(commodities[i].fa_farmer.fa_contact2){ %>
-                                   <p><br>Personal</p>
-                                 <% } else{ %>  
-                                   <p>N/A<br>Mobile</p>
-                                <% } %>  
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="media">
-                            <div class="media-left media-top">
-                                <img height="30px" width="30px" src="/images/report-icons/icons_email_address.svg">
-                            </div>
-                            <div class="media-body">
-                                <% if(commodities[i].fa_farmer.fa_email){ %>
-                                   <p><br>Personal</p>
-                                 <% } else{ %>  
-                                   <p>N/A<br>Personal</p>
-                                <% } %>                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    
-            </div>
-                <div class="col-md-4">
-                <p>Notes</p>
-                <% if(commodities[i].ct_comments){ %>
-                    <p><strong><%= commodities[i].co_notes%></strong></p>
-                <% } else{ %>  
-                     <p>N/A</p>
-              <% } %>  
-                </div>
-            </div>
-            
-        </div>
-    </div>
-<% } %>
-</div>
-</body> 
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.calendar%>" style="width:30px;height:30px;"></td>
+          <td><span style="font-size:17px;"><%= crop_dates[1] %></span><br><span style="font-size:13px;">Available</span></td>
+        </tr>
+      </table>
+      <table style="float:left;width: 1.2in; border-right: 2px dotted #B5B5B5;
+                    border-bottom: 2px solid #B5B5B5;height: 1.5in;">
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.demand%>" style="width:30px;height:30px;"></td>
+        <td><span style="font-weight:bold;"><%=commodities[i].co_quantity %>lbs</span>
+          <br><span style="font-size:13px;">Amount</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.value%>" style="width:30px;height:30px;"></td>
+        <td><span style="font-weight:bold;">$<%= prices[i]%></span><br><span style="font-size:13px;">Price</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.unit_price%>" style="width:30px;height:30px;"></td>
+        <td><span style="font-weight:bold;">$<%=commodities[i].co_price %>/lb</span>
+          <br><span style="font-size:13px;">Unit Price</span></td>
+        </tr>
+      </table>
+      <table style="float:left;border-bottom: 2px solid #B5B5B5;height: 1.5in;width: 2.4in";>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.address_pin%>" style="width:30px;height:30px;"></td>
+          <td><span style="word-wrap:break-word">Lot 21 Albert Road Two Sisters Bend St Catherine</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.email%>" style="width:30px;height:30px;"></td>
+          <td>milton<br><span style="font-size:13px;">Personal</span></td>
+        </tr>
+      </table>
+      <table style="float:left; width: 1.96in; border-bottom: 2px solid #B5B5B5;
+        height: 1.5in;">
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.phone%>" style="width:30px;height:30px;"></td>
+          <td>(876) 725-7777<br><span style="font-size:13px;">Mobile</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.phone%>" style="width:30px;height:30px;"></td>
+          <td>(876) 725-7777<br><span style="font-size:13px;">Mobile</span></td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+      <table style="float:left;border-left: 2px dotted #B5B5B5;
+                    width: 2.45in;height: .7in;border-bottom: 2px solid #B5B5B5;
+                    height: 1.5in;">
+        <tr>
+          <td>Notes<br>
+          <% if(commodities[i].ct_comments){ %>
+              <strong><%= commodities[i].co_notes%></strong>
+          <% } else{ %>
+               N/A
+        <% } %>  </td>
+        </tr>
+      </table>
+  <% } %>
+    </td>
+  </tr>
+</table>
+  </body>
 </html>
