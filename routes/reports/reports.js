@@ -85,7 +85,8 @@ exports.renderReport = function(req, res) {
                                             prices: total_prices,
                                             report_date: moment(item.re_report_date).format('MMMM DD YYYY hh:mm a'),
                                             crop_dates: crop_avail_dates,
-                                            us_user: req.user
+                                            us_user: req.user,
+                                            image_paths: setImageSrcPaths(req.query.email_report)
                                         });
                                 }
                             });
@@ -97,7 +98,34 @@ exports.renderReport = function(req, res) {
     }
 };
 
-
+function setImageSrcPaths(email_report){
+  var paths = { logo: '/images/report-icons/jas_logo_knockout-01.png',
+                produce: '/images/report-icons/icons_crop.svg',
+                variety: '/images/report-icons/icons_variety.svg',
+                demand: '/images/report-icons/icons_amount.svg',
+                supply: '/images/report-icons/icons_total_supply.svg',
+                value: '/images/report-icons/icons_prince.svg',
+                calendar: '/images/report-icons/icons_date_posted.svg',
+                unit_price: '/images/report-icons/icons_unit_price.svg',
+                address_pin: '/images/report-icons/icons_address_pin.svg',
+                phone: '/images/report-icons/icons_phone.svg',
+                email: '/images/report-icons/icons_email.svg'
+              };
+  if(email_report === 'true'){
+      paths = {logo:'cid:logo',
+              produce: 'cid:produce',
+              variety: 'cid:variety',
+              demand: 'cid:demand',
+              supply:'cid:supply',
+              value:'cid:value',
+              calendar: 'cid:calendar',
+              unit_price: 'cid:unit_price',
+              address_pin: 'cid:address_pin',
+              phone: 'cid:phone',
+              email: 'cid:email'};
+  }
+  return paths;
+}
 function getCropAvailabilityDates(commodities){
     var crop_expiry_dates = [];
     commodities.forEach(function(list_item){

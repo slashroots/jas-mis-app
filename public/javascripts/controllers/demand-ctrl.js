@@ -233,9 +233,9 @@ angular.module('jasmic.controllers')
                     $scope.transaction.co_sold = true;
                 }
                 TransactionFactory.update({id:$scope.transaction._id}, $scope.transaction, function(success){
-                    $mdToast.show($mdToast.simple().position('bottom right').content('Transaction Status Updated.'));
+                    $mdToast.show($mdToast.simple().position('top').content('Transaction Status Updated.'));
                 }, function(error){
-                    $mdToast.show($mdToast.simple().position('bottom right').content('Transaction Status Not Updated.'));
+                    $mdToast.show($mdToast.simple().position('top').content('Transaction Status Not Updated.'));
                 });
                 $scope.transaction = {};
                 $scope.transactionSelected = !$scope.transactionSelected;
@@ -280,7 +280,7 @@ function showSendEmailDialog($mdDialog, $scope){
          * @param $mdDialog
          */
         controller: function SendEmailDialogController($scope, $route, $mdDialog, $location,
-          EmailFactory, $http, ReportBody){
+          EmailFactory, $http, $mdToast){
               /*
              *  Gets the selected call type from
              *  drop down menu.
@@ -307,29 +307,23 @@ function showSendEmailDialog($mdDialog, $scope){
                     var base_url = $location.absUrl().split('/home');
                     var report_url = base_url[0] + '/report/' + $scope.selectedBuyerReports[i]._id;
                     var report_id = $scope.selectedBuyerReports[i]._id;
-                    ReportBody.show({id: $scope.selectedBuyerReports[i]._id}, function(success){
-                        console.log(success);
+                    $http.get(report_url,{params: {email_report: true}}).then(function(response){
+                        EmailFactory.create({
+                                              //to: $scope.demand.bu_buyer.bu_email,
+                                              to: "tremainekbuchanan@gmail.com",
+                                              subject: "Buyer Report",
+                                              text: "Buyer Report Body",
+                                              report_url: report_url,
+                                              report_id: report_id,
+                                              report_body: response.data
+                                            },
+                        function(success){
+                          $mdToast.show($mdToast.simple().position('top right').content('Email was successfully sent.'));
+                        },function(error){
+                         $mdToast.show($mdToast.simple().position('top right').content('Email was not sent.'));
+                         });
                     }, function(error){
-                      console.log('Error');
-                    });
-                    $http.get(report_url).then(function(response){
-                        console.log(response.data);
-                        // EmailFactory.create({
-                        //                       //to: $scope.demand.bu_buyer.bu_email,
-                        //                       to: "tremainekbuchanan@gmail.com",
-                        //                       subject: "Buyer Report",
-                        //                       text: "Buyer Report Body",
-                        //                       report_url: report_url,
-                        //                       report_id: report_id,
-                        //                       report_body: response.data
-                        //                     },
-                        // function(success){
-                        //   console.log(success);
-                        // },function(error){
-                        //  $scope.sentEmails = ['Error'];
-                        //  });
-                    }, function(error){
-
+                        $mdToast.show($mdToast.simple().position('top right').content('Unable to get your report'));
                     });
                 }
                 $mdDialog.hide();
@@ -338,4 +332,23 @@ function showSendEmailDialog($mdDialog, $scope){
             };
         }//end of controller
     });
+};
+/**
+ * A general purpose Dialog window to display feedback from the
+ * server.
+ *
+ * @param $mdDialog
+ * @param ev
+ * @param message
+ * @param isError
+ */
+function showDialog($mdDialog, message, isError) {
+    $mdDialog.show(
+        $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .title(isError? 'Error Detected':'System Message')
+            .content(message.statusText)
+            .ariaLabel(isError?'Alert Error':'Alert Message')
+            .ok('Ok')
+    );
 };
