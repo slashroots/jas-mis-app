@@ -21,13 +21,13 @@
                             <div><h1>{{open_transactions.length}}</h1></div>
                         </div>
                     </div>
-                    <div class="statistic" layout-align="end end" layout="column" flex>
+                    <div ng-click="setSelected('closed_transactions')" class="{{states.closed_transactions ? 'active': ''}} statistic" layout-align="end end" layout="column" flex>
                         <div flex="20">This Week</div>
                         <div class="infoStat" layout-align="center center" flex="80" layout-fill layout="row">
                             <div flex="20"><md-icon md-svg-src="/images/ic_attach_money_24px.svg"></md-icon></div>
                             <div class="textLabel" flex>Closed Transactions</div>
                             <div><md-icon md-svg-src="/images/ic_arrow_up_24px.svg"></md-icon></div>
-                            <div><h1>85</h1></div>
+                            <div><h1>{{closed_transactions.length}}</h1></div>
                         </div>
                     </div>
                     <div ng-click="setSelected('calls')" class="{{states.calls ? 'active': ''}} statistic" layout-align="end end" layout="column" flex>
@@ -36,7 +36,7 @@
                             <div flex="20"><md-icon md-svg-src="/images/ic_call_24px.svg"></md-icon></div>
                             <div class="textLabel" flex>Calls Made</div>
                             <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
-                            <div><h1>15</h1></div>
+                            <div><h1>{{total_calls.length}}</h1></div>
                         </div>
                     </div>
 
@@ -45,6 +45,14 @@
 
                 </div>
                 <div class="expanded" ng-if="states.transactions" ng-include="'/partials/open_trans_listing_small.html'">
+
+                </div>
+
+                <div class="expanded" ng-if="states.closed_transactions" ng-include="'/partials/closed_trans_listing_small.html'">
+
+                </div>
+
+                <div class="expanded" ng-if="states.calls" ng-include="'/partials/total_calls_listing_small.html'">
 
                 </div>
             </md-card>
@@ -57,13 +65,13 @@
 
             </md-card>
 
-            <md-card>  
+            <md-card>
                 <div layout="row">
                     <div layout="column" flex="75">
                         <md-subheader class="md-no-sticky md-primary">Calls</md-subheader>
-                    </div>                                         
-                </div>            
-               
+                    </div>
+                </div>
+
                 <md-content>
                     <div class="call-report-content" ng-include="'/partials/call_report_listing_small.html'"></div>
                 </md-content>
@@ -75,9 +83,9 @@
                         <md-subheader class="md-no-sticky md-primary">Raw Material Locations</md-subheader>
                     </div>
                     <div flex>
-                     
+
                     </div>
-                </div>              
+                </div>
 
                 <md-content>
                     <div class="call-report-content" ng-include="'/partials/input_listing_small.html'">

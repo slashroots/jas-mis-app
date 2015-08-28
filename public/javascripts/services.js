@@ -441,7 +441,7 @@ services.factory('ReportFactory', function($resource) {
 
 services.factory('ReportBody', function($resource){
     return $resource('/report/:id',{
-        show: { method: 'GET', params: {id: '@id'}} 
+        show: { method: 'GET', params: {id: '@id'}}
     });
 });
 

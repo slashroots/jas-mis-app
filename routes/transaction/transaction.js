@@ -42,7 +42,7 @@ exports.searchTransaction = function(req, res) {
 exports.searchOpenTransaction = function(req, res) {
     var query = req.query;
     query['$or'] = [{tr_status: 'Pending'},
-        {tr_status: 'Waiting'}, {tr_status: 'Completed'}, {tr_status: 'Failed'}];
+        {tr_status: 'Waiting'}];
     Transaction.find(query)
         .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
@@ -88,7 +88,25 @@ exports.updateTransactionById = function(req, res) {
                if(err || !commodity){
                    common.handleDBError(err, res);
                }else{
-                   res.send(result);
+                var query = {co_commodity: req.body.co_commodity._id};
+                query['$or'] = [{tr_status: 'Pending'}, {tr_status: 'Waiting'}];
+                   Transaction.find(query)
+                   .exec(function(err, transactions){
+                     if(err || !transactions){
+                       common.handleDBError(err, res);
+                     }else{
+                       for(var i in transactions ){
+                         Transaction.findByIdAndUpdate(transactions[i]._id,
+                           { $set: { tr_note: "Commodity sold.", tr_status: "Completed", co_sold: true }},
+                            function(err, result){
+                             if(err || !result){
+                               common.handleDBError(err, res);
+                             }
+                           });
+                       }
+                     }
+                   });
+                  res.send(result);
                }
             });
         }

@@ -21,8 +21,21 @@ angular.module('jasmic.controllers')
                     $scope.note = calls[0].cc_note;
                 }, function(error){
                     $scope.calls = [];
+                    $scope.note = "";
                 });
             });
+            /**
+             * Looks up all calls made today.
+             */
+            lookupCallsForToday = function(){
+              CallLogsFactory.query({today: true}, function(calls){
+                $scope.total_calls = calls;
+              }, function(error){
+                $scope.total_calls = [];
+              });
+            };
+
+            lookupCallsForToday();
             /**
              * looks up current demands
              */
@@ -43,15 +56,23 @@ angular.module('jasmic.controllers')
                     $scope.open_transactions = [];
                 });
 
+            TransactionsFactory.query({tr_status: "Completed"}, function(closed_transactions){
+              $scope.closed_transactions = closed_transactions;
+            }, function(error){
+              $scope.closed_transactions = [];
+            });
+
+
 
             /**
              * States of the drop down - false = closed
-             * @type {{demand: boolean, calls: boolean, transactions: boolean}}
+             * @type {{demand: boolean, calls: boolean, transactions: boolean, closed_transactions: boolean}}
              */
             $scope.states = {
                 demand: false,
                 calls: false,
-                transactions: false
+                transactions: false,
+                closed_transactions: false
             };
 
             /**
