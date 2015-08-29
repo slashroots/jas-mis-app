@@ -27,100 +27,48 @@
 
         }
 
+        table {
+
+            width:100% !important;
+
+        }
+
+        td {
+
+            width:25% !important;
+
+        }
+
+        th {
+
+            font-weight: bold;
+
+        }
+
     </style>
 
-    <div class="farmerInfo" layout-padding layout="column" ng-repeat="commodity in commodities">
+    <table class="table-striped">
 
-        <div layout-align="space-around start" class="farmer_info" layout="row">
+        <thead><td><b>Produce</b></td><td><b>Amount</b></td><td><b>Price</b></td><td><b>Available Date</b></td></thead>
 
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/icons/icons_crop.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{isValid(commodity.cr_crop.cr_crop_name) ? commodity.cr_crop.cr_crop_name:  'N/A'}}
-                    <div class="label">Produce</div>
-                </div>
-            </div>
+        <tbody>
 
+        <tr class="commodity-row" ng-repeat="commodity in commodities" onmouseover="document.getElementById('commodity-' + this.id).style.display='block'" onmouseout="document.getElementById('commodity-' + this.id).style.display='none'" id="{{commodity._id}}">
 
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/icons/icons_variety.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{isValid(commodity.cr_crop.cr_crop_variety) ? commodity.cr_crop.cr_crop_variety:  'N/A'}}
-                    <div class="label">Variety</div>
-                </div>
-            </div>
+            <td>{{isValid(commodity.cr_crop.cr_crop_name) ? commodity.cr_crop.cr_crop_name:  'N/A'}}</td>
 
+            <td>{{isValid(commodity.co_quantity) ? commodity.co_quantity:  'N/A'}} {{commodity.un_quantity_unit.un_unit_name}}s</td>
 
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
-                    <div class="label">Amount</div>
-                </div>
-            </div>
+            <td>${{isValid(commodity.co_price) ? commodity.co_price:  'N/A'}} per {{commodity.un_quantity_unit.un_unit_name}}</td>
 
-        </div>
+            <td>{{isValid(commodity.co_availability_date) ? commodity.co_availability_date.split("T")[0]:  'N/A'}}</td>
 
+        </tr>
 
-        <div layout-align="space-around start" class="farmer_info" layout="row">
+        </tbody>
 
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/icons/icons_recurring.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{isValid(commodity.co_recurring) ? commodity.co_recurring:  'N/A'}}
-                    <div class="label">Recurring</div>
-                </div>
-            </div>
+    </table>
 
-
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/icons/icons_payment_terms.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{isValid(commodity.co_payment_preference) ? commodity.co_payment_preference:  'N/A'}}
-                    <div class="label">Payment Terms</div>
-                </div>
-            </div>
-
-
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/icons/icons_deceased.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    Available
-                    <div class="label">Status</div>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div layout-align="space-around start" class="farmer_info" layout="row">
-
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{isValid(commodity.co_availability_date) ? commodity.co_availability_date.split("T")[0]:  'N/A'}}
-                    <div class="label">Available</div>
-                </div>
-            </div>
-
-
-            <div flex layout="row">
-                <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_expires.svg"></md-icon>
-                <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                    {{isValid(commodity.co_expiration_date) ? commodity.co_expiration_date:  'N/A'}}
-                    <div class="label">Expiry Date</div>
-                </div>
-            </div>
-
-
-            <div flex layout="row">
-
-                <button ng-click="editCommodityItem(0)">Edit This Supply</button>
-
-            </div>
-
-        </div>
-
-    </div>
 
 </md-card-content>
+
