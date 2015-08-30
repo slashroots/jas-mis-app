@@ -242,6 +242,7 @@ exports.getCommodities = function(req, res) {
  * @param res
  */
 exports.updateFarmById = function(req, res) {
+
     if(common.isAuthenticated(req, res)) {
         /*model.Farm.update({_id: req.params.farm_id}, req.body, function (err, response) {
             if (err) {
@@ -255,13 +256,15 @@ exports.updateFarmById = function(req, res) {
                     res.send({error: "Not Found"});
                 }
             }
-        });
-        */
+        });*/
 
-        Farm.findByIdAndUpdate({_id:req.params.farm_id}, req.body, function (err, changes) {
+
+        Farm.findByIdAndUpdate(req.params.farm_id, req.body, function (err, changes) {
             if (err) {
                 handleDBError(err, res);
+                console.log("Error!");
             } else {
+                console.log("No Error!");
                 res.send(changes);
             }
         });

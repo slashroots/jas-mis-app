@@ -118,6 +118,10 @@ angular.module('jasmic.controllers')
                 $scope.newFarm = !$scope.newFarm;
             };
 
+            $scope.cancelFarmEdit = function() {
+                $scope.editFarm = !$scope.editFarm;
+            };
+
             /*.updateFarm = function() {
                 $scope.farm.di_district = selectedDistrict;
                 FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
@@ -159,6 +163,8 @@ angular.module('jasmic.controllers')
                 $scope.editFarm = !$scope.editFarm;
                 $scope.farm = $scope.farmer.fr_farms[arrayindex];
 
+                $scope.editingFarm = arrayindex;//set the farm currently being edited
+
             };
 
             $scope.newCommodityItem = function() {
@@ -175,11 +181,13 @@ angular.module('jasmic.controllers')
                 $scope.commodity.co_availability_date= moment().toDate();
                 $scope.commodity.co_until = moment().add(7, 'days').toDate();
 
+                $scope.editingCommodity = arrayindex;//sets the commodity currently being edited
+
             };
 
-            $scope.updateCommodity = function(arrayindex) {
+            $scope.updateCommodity = function() {
 
-                CommodityEditFactory.update({id:$scope.commodities[arrayindex].fa_farmer._id, commodity_id:$scope.commodity._id}, $scope.commodity, function(success) {
+                CommodityEditFactory.update({id:$scope.commodities[$scope.editingCommodity].fa_farmer._id, commodity_id:$scope.commodity._id}, $scope.commodity, function(success) {
 
                     console.log("Success");
 
@@ -194,7 +202,7 @@ angular.module('jasmic.controllers')
             }
 
 
-            $scope.updateFarm = function(arrayindex) {
+            $scope.updateFarm = function() {
 
                 FarmEditFactory.update({farm_id:$scope.farm._id}, $scope.farm, function(success) {
 

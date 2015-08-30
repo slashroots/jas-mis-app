@@ -55,14 +55,11 @@
                 </div>
             </div>
             <div layout="column" flex>
-                <div layout-align="start center" layout="column">
-                    {{farm.di_district.di_extension_name}} - {{farm.di_district.di_district_name}}
-                    <div class="label">Extension - District</div>
-                </div>
+
+                <button style="float:right;" ng-click="editFarmLocation($index)">Edit</button>
+
             </div>
         </div>
     </div>
-
-    <button ng-click="editFarmLocation(0)">Edit This Farm</button>
 
 </md-card-content>
