@@ -76,6 +76,24 @@ angular.module('jasmic.controllers')
                 }
             };
 
+
+            $scope.highlightSearchItem = function($event) {
+
+                if ($scope.previousSelectedElement != null) document.getElementById($scope.previousSelectedElement).style.backgroundColor = "transparent";
+
+                var id_no = $event.target.id;
+
+                var selected_element = document.getElementById(id_no).parentElement;//grabs the tr from the td where the event is triggered
+
+                selected_element.style.backgroundColor = "#EEEEEE";
+
+                $scope.previousSelectedElement = selected_element.id;
+
+            };
+
+            $scope.previousSelectedElement = null;
+
+
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.selectedDemand._id}, function(list) {
                     $scope.m_commodities = list;

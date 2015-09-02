@@ -34,11 +34,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="farmer in results.farmers" class="repeated-item" ng-click="selectedElement('farmer', farmer)">
-                        <td>{{ farmer.fa_jas_number }}</td>
-                        <td>{{ farmer.fa_first_name }}</td>
-                        <td>{{ farmer.fa_last_name }}</td>
-                        <td>{{ farmer.ad_address.pa_parish }}</td>
+                    <tr id="farmer-{{farmer._id}}" ng-repeat="farmer in results.farmers" class="repeated-item search-item" ng-click="highlightSearchItem($event);selectedElement('farmer', farmer);">
+                        <td id="farmer-id-{{farmer._id}}" >{{ farmer.fa_jas_number }}</td>
+                        <td id="farmer-fname-{{farmer._id}}" >{{ farmer.fa_first_name }}</td>
+                        <td id="farmer-lname-{{farmer._id}}" >{{ farmer.fa_last_name }}</td>
+                        <td id="farmer-address-{{farmer._id}}" >{{ farmer.ad_address.pa_parish }}</td>
                     </tr>
                     <tr ng-if="results.farmers.length == 10">
                         <td style="text-align: center" colspan="4"><a ng-href="#/farmers?searchTerms={{terms}}" >More Results</a></td>
@@ -64,11 +64,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="buyer in results.buyers" class="repeated-item" ng-click="selectedElement('buyer', buyer)">
-                            <td>{{ buyer.bu_buyer_name }}</td>
-                            <td>{{ buyer.bt_buyer_type.bt_buyer_type_name }}</td>
-                            <td>{{ buyer.bu_email}}</td>
-                            <td>{{ buyer.ad_address.pa_parish }}</td>
+                        <tr id="buyer-{{buyer._id}}" ng-repeat="buyer in results.buyers" class="repeated-item" ng-click="highlightSearchItem($event);selectedElement('buyer', buyer)">
+                            <td id="buyer-name-{{buyer._id}}" >{{ buyer.bu_buyer_name }}</td>
+                            <td id="buyer-type-{{buyer._id}}" >{{ buyer.bt_buyer_type.bt_buyer_type_name }}</td>
+                            <td id="buyer-email-{{buyer._id}}" >{{ buyer.bu_email}}</td>
+                            <td id="buyer-parish-{{buyer._id}}" >{{ buyer.ad_address.pa_parish }}</td>
                         </tr>
                         <tr ng-if="results.buyers.length == 10">
                             <td style="text-align: center" colspan="4"><a ng-href="#/buyer?searchTerms={{terms}}" >More Results</a></td>
@@ -93,12 +93,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="demand in results.demands" class="repeated-item" ng-click="selectedElement('demand', demand)">
-                                <td>{{ demand.bu_buyer.bu_buyer_name }}</td>
-                                <td>{{ demand.cr_crop.cr_crop_name }}
+                            <tr id="demand-{{demand._id}}" ng-repeat="demand in results.demands" class="repeated-item" ng-click="highlightSearchItem($event);selectedElement('demand', demand)">
+                                <td id="demand-buyer-{{demand._id}}" >{{ demand.bu_buyer.bu_buyer_name }}</td>
+                                <td id="demand-crop-{{demand._id}}" >{{ demand.cr_crop.cr_crop_name }}
                                 {{demand.cr_crop.cr_crop_variety==""?"":" - " + demand.cr_crop.cr_crop_variety}}</td>
-                                <td>{{ demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}</td>
-                                <td>${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</td>
+                                <td id="demand-quantity-{{demand._id}}" >{{ demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}</td>
+                                <td id="demand-price-{{demand._id}}" >${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</td>
                             </tr>
                             <tr ng-if="results.demands.length == 10">
                                 <td style="text-align: center" colspan="4"><a ng-href="#/demand?searchTerms={{terms}}" >More Results</a></td>
