@@ -235,9 +235,6 @@ services.factory('CropFactory', function($resource){
 
    });
 });
-
-services.factory('CropFac')
-
 services.factory('DistrictsFactory', function($resource) {
     return $resource('/common/districts', {}, {
         query: { method: 'GET', isArray: true}
