@@ -18,20 +18,14 @@ angular.module('jasmic.controllers')
              * TODO - New user objects will have a us_user_id field and the function
              * will be updated to reflect this change.
              */
+            $scope.isAdmin = false;
              UserProfileFactory.show(function(user){
-                 //Used to determine which user is logged in to render appropriate
-                 //dashboard.
-                //$scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
-                $scope.isAdmin = false;
-                 if(!$scope.isAdmin)
-                 {
-                     CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                         $scope.calls = calls;
-                         $scope.note = calls[0].cc_note;
-                     }, function(error){
-                         $scope.calls = [];
-                     });
-                 }
+                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
+                   $scope.calls = calls;
+                   $scope.note = calls[0].cc_note;
+               }, function(error){
+                   $scope.calls = [];
+               });
             });
             /**
              * looks up current demands
@@ -42,7 +36,6 @@ angular.module('jasmic.controllers')
                 function(error) {
                     $scope.demands = [];
                 });
-
             /**
              * Looks up all opened transactions
              */

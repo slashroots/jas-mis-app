@@ -72,6 +72,11 @@ md-content.md-default-theme {
   color: green;
 }
 
+#message{
+  margin-left: 40px;
+  display: none;
+}
+
 ul.transcart {
   list-style-type: none;
   padding: 0px;

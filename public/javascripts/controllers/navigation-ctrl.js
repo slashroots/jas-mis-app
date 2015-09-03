@@ -16,11 +16,9 @@ angular.module('jasmic.controllers')
              */
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
-                $scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
             }, function(fail) {
-                console.log(fail);
+                $scope.goTo('login');
             });
-
             /**
              * Go to another section of the angular application
              * @param l
@@ -54,8 +52,8 @@ angular.module('jasmic.controllers')
              * Shows the administrative functions for an admin user
              */
             $scope.showAdmin = function(){
-              if(user.ut_user_type === "Administrator"){
-                  
+              if($scope.loggedUser.ut_user_type === "Administrator"){
+                  $scope.goTo('admin');
               }
             };
         }]);
