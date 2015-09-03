@@ -148,6 +148,7 @@ services.factory('TransactionsFactory', function ($resource) {
     })
 });
 
+
 /**
  * Retrieves open transactions
  */
@@ -477,7 +478,6 @@ services.factory('ReportFactory', function($resource) {
         create: { method: 'POST'}
     });
 });
-
 /**
  * This path can be used to search for reports matching
  * the relevant parameters
@@ -512,7 +512,7 @@ services.factory('CallTypesFactory', function($resource){
  * This factory is used to send an email using
  * the Send Grid API.
  */
-services.factory('SendEmailFactory', function($resource){
+services.factory('EmailFactory', function($resource){
     return $resource('/email', {}, {
         create: { method: 'POST'}
     });

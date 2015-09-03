@@ -108,10 +108,10 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory','UserProfileFactory','CallLogsFactory',
-        function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory',
+        function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
@@ -225,10 +225,16 @@ angular.module('jasmic.controllers')
              *  returns a list matching the expression.
              */
             $scope.queryCropSearch = function(cropName) {
-                return CropsFactory.query({beginsWith: cropName});
+                var deferred = $q.defer();
+                CropsFactory.query({beginsWith: cropName}, function(list) {
+                    deferred.resolve(list);
+                }, function(fail) {
+                    deferred.resolve([]);
+                });
+                return deferred.promise;
             };
             $scope.selectedItemChange = function(item) {
-                selectedCrop = item._id;
+                selectedCrop = (item) ? item._id: {};
             };
 
             /**

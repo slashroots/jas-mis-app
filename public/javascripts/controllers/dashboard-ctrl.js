@@ -18,13 +18,26 @@ angular.module('jasmic.controllers')
              */
             $scope.isAdmin = false;
              UserProfileFactory.show(function(user){
-                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                   $scope.calls = calls;
-                   $scope.note = calls[0].cc_note;
-               }, function(error){
-                   $scope.calls = [];
-               });
+                CallLogsFactory.query({us_user_id: user._id}, function(calls){
+                    $scope.calls = calls;
+                    $scope.note = calls[0].cc_note;
+                }, function(error){
+                    $scope.calls = [];
+                    $scope.note = "";
+                });
             });
+            /**
+             * Looks up all calls made today.
+             */
+            lookupCallsForToday = function(){
+              CallLogsFactory.query({today: true}, function(calls){
+                $scope.total_calls = calls;
+              }, function(error){
+                $scope.total_calls = [];
+              });
+            };
+
+            lookupCallsForToday();
             /**
              * looks up current demands
              */
@@ -43,14 +56,24 @@ angular.module('jasmic.controllers')
                 function(err) {
                     $scope.open_transactions = [];
                 });
+
+            TransactionsFactory.query({tr_status: "Completed"}, function(closed_transactions){
+              $scope.closed_transactions = closed_transactions;
+            }, function(error){
+              $scope.closed_transactions = [];
+            });
+
+
+
             /**
              * States of the drop down - false = closed
-             * @type {{demand: boolean, calls: boolean, transactions: boolean}}
+             * @type {{demand: boolean, calls: boolean, transactions: boolean, closed_transactions: boolean}}
              */
             $scope.states = {
                 demand: false,
                 calls: false,
-                transactions: false
+                transactions: false,
+                closed_transactions: false
             };
             /**
              * sets the states of the drop down menus
@@ -117,22 +140,3 @@ angular.module('jasmic.controllers')
             });
         }
     ]);
-/**
- * A general purpose Dialog window to display feedback from the
- * server.
- *
- * @param $mdDialog
- * @param ev
- * @param message
- * @param isError
- */
-function showDialog($mdDialog, message, isError) {
-    $mdDialog.show(
-        $mdDialog.alert()
-            .parent(angular.element(document.body))
-            .title(isError? 'Error Detected':'System Message')
-            .content(message.statusText)
-            .ariaLabel(isError?'Alert Error':'Alert Message')
-            .ok('Ok')
-    );
-};

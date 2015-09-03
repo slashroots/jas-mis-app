@@ -144,7 +144,7 @@ md-option {
 }
 
 .addNew{
-  padding-top: 180px;
+  padding-top: 340px;
 }
 
 .md-button.md-default-theme.md-fab{
@@ -166,7 +166,6 @@ div.md-actions.edge {
   top: 240px;
   width: 31%;
 }
-
 .search {
   width: 100%;
   height: 50px;
@@ -403,6 +402,7 @@ md-content.farmForm {
   to { opacity:0; }
 }
 
+<<<<<<< HEAD
 .call-report-content{
   margin-left: 10px;
 }
@@ -422,3 +422,37 @@ md-content.farmForm {
 .parishes{
   margin-right: 20px;
 }
+=======
+tr:nth-child(1) {
+  left:0%;
+  width:25%;
+}
+
+tr:nth-child(2) {
+  left:25%;
+  width:25%;
+}
+
+tr:nth-child(3) {
+  left:50%;
+  width:25%;
+}
+
+tr:nth-child(4) {
+  left:75%;
+  width:25%;
+}
+
+table { table-layout: fixed; }
+
+.md-subheader-inner {
+
+  padding-left:1% !important;
+
+}
+
+md-fab-speed-dial {
+  overflow : visible !important;
+  height : 0 !important;
+}
+>>>>>>> master
