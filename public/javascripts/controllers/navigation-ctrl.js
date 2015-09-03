@@ -50,6 +50,14 @@ angular.module('jasmic.controllers')
             $scope.createInput = function(){
                 showNewInputDialog($mdDialog,$scope);
             };
+            /**
+             * Shows the administrative functions for an admin user
+             */
+            $scope.showAdmin = function(){
+              if(user.ut_user_type === "Administrator"){
+                  
+              }
+            };
         }]);
 
 /**

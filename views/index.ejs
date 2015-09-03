@@ -19,7 +19,8 @@
       </md-select>
       <span flex></span>
 
-      <md-button aria-label="More"><md-icon style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon></md-button>
+      <md-button aria-label="More" ng-click="showAdmin();">
+        <md-icon  style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon></md-button>
       <md-button ng-click="logout()" aria-label="Exit">
         <md-icon style="color: grey" md-svg-src="/images/ic_exit_to_app_24px.svg"></md-icon>
         <md-tooltip>Exit {{loggedUser.us_user_first_name}} {{loggedUser.us_user_last_name}}</md-tooltip>

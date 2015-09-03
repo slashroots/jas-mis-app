@@ -25,6 +25,7 @@ angular.module('jasmic', [
     $routeProvider.when('/dashboard', {templateUrl: '../partials/dashboard.html', controller: 'DashboardCtrl'});
     $routeProvider.when('/calls', {templateUrl: '../partials/call_report_listing_large.html', controller: 'DashboardCtrl'});
     $routeProvider.when('/supplies', {templateUrl: '../partials/commodity_listing.html', controller: 'CommodityListingCtrl'});
+    $routeProvider.when('/admin', {templateUrl: '../partials/admin/dashboard.html', controller: 'AdministratorCtrl'});
     $routeProvider.otherwise({redirectTo: '/dashboard'});
 }]).config(['$httpProvider',function($httpProvider) {
     $httpProvider.interceptors.push('HTTPInterceptor');

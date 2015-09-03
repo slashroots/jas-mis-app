@@ -21,8 +21,8 @@ angular.module('jasmic.controllers')
              UserProfileFactory.show(function(user){
                  //Used to determine which user is logged in to render appropriate
                  //dashboard.
-                $scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
-
+                //$scope.isAdmin = user.ut_user_type === "Administrator" ? true: false;
+                $scope.isAdmin = false;
                  if(!$scope.isAdmin)
                  {
                      CallLogsFactory.query({us_user_id: user._id}, function(calls){
