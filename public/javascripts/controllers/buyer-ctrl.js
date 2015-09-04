@@ -213,7 +213,7 @@ angular.module('jasmic.controllers')
             $scope.toggleDemandForm = function() {
                 $scope.new_demand = !$scope.new_demand;
                 $scope.demand = {};
-                $scope.demand.de_posting_date= moment().toDate();
+                $scope.demand.de_available_date= moment().toDate();
                 $scope.demand.de_until = moment().add(7, 'days').toDate();
             };
 

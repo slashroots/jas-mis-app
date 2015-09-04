@@ -118,6 +118,7 @@ var DemandSchema = new Schema({
     de_quality: String,
     de_expiration_period: Number,
     de_posting_date: {type: Date, default: Date.now()},
+    de_available_date: {type: Date, required: true},
     de_until: { type: Date, required: true},
     de_payment_terms: {type: String, required: true},
     de_recurring: String,

@@ -209,6 +209,7 @@ exports.addNewDemand = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var demand = new Demand(req.body);
         demand.bu_buyer = req.params.id;
+        demand.de_posting_date = Date.now();
         demand.save(function (err, item) {
             if (err) {
                 common.handleDBError(err, res);
@@ -251,7 +252,7 @@ exports.searchCurrentDemands = function(req, res) {
             Demand.find({de_until: {$gte: curr_date}})
                 .populate('cr_crop bu_buyer')
                 .limit(req.query.amount)
-                .sort('de_posting_date bu_buyer.bu_buyer_name')
+                .sort('de_avaliable_date bu_buyer.bu_buyer_name')
                 .exec(function (err, list) {
                     if (err) {
                         common.handleDBError(err, res);
@@ -262,7 +263,7 @@ exports.searchCurrentDemands = function(req, res) {
         } else {
             Demand.find({de_until: {$gte: curr_date}})
                 .populate('cr_crop bu_buyer')
-                .sort('de_posting_date bu_buyer.bu_buyer_name')
+                .sort('de_avaliable_date bu_buyer.bu_buyer_name')
                 .exec(function (err, list) {
                     if (err) {
                         common.handleDBError(err, res);
@@ -290,7 +291,7 @@ exports.findDemandMatch = function(req, res) {
                 Commodity.find({
                     $and: [
                         {co_sold: false},
-                        {co_until: {$gte: demand.de_posting_date}},
+                        {co_until: {$gte: demand.de_avaliable_date}},
                         {co_availability_date: {$lte: demand.de_until}}
                     ],
                     cr_crop: demand.cr_crop
