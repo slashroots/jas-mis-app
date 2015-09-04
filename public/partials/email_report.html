@@ -9,7 +9,7 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <table class="table table-hover table-mc-light-blue" ng-if="reports.length > 0">
+        <table class="table table-hover table-mc-light-blue" ng-if="reports.length > 0 && multi_report">
             <thead>
             <tr>
                 <th>Report Name</th>
@@ -23,11 +23,17 @@
                 <td><a href="/report/{{report._id}}">{{report.re_report_name}}</a></td>
                 <td>{{report.re_report_date | date: 'medium'}}</td>
                 <td>{{report.us_user.us_user_first_name}} {{report.us_user.us_user_last_name}}</td>
-                <td><input type="checkbox" ng-click="selectedReport(report)"/></td>
+                <td><input type="checkbox" ng-click="selectedReport(report._id)"/></td>
             </tr>
             </tbody>
 
         </table>
+        <!-- <md-input-container>
+        <label>Select Receipent</label>
+        <md-select>
+          <md-option ng-repeat="rep in representatives" value="{{rep.re_email}}">{{rep.name}}</md-option>
+        </md-select>
+      </md-input-container> -->
     </md-dialog-content>
     <div class="md-actions">
         <md-button ng-click="cancel()" class="md-primary">

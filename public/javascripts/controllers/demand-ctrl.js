@@ -32,10 +32,10 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', 'DemandFactory',
+    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', '$window', 'DemandFactory',
         'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory',
         'OpenTransactionsFactory',
-        function ($scope, $mdToast, $location, $mdDialog, $routeParams, DemandFactory, DemandMatchFactory,
+        function ($scope, $mdToast, $location, $mdDialog, $routeParams, $window, DemandFactory, DemandMatchFactory,
                   UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, OpenTransactionsFactory) {
             /**
              * Display user profile based on authenticated
@@ -61,6 +61,7 @@ angular.module('jasmic.controllers')
              */
             DemandFactory.show({id:$routeParams.id},
                 function(demand) {
+                    $scope.representatives = demand.bu_buyer.re_representatives;
                     $scope.combinedSupplyAmount = demand.de_met_amount;
                     $scope.combinedSuppyValue = (demand.de_met_amount * demand.de_price);
                     $scope.totalPercentage = ($scope.combinedSupplyAmount/demand.de_quantity) * 100;
@@ -108,6 +109,7 @@ angular.module('jasmic.controllers')
                         });
                 }
                 loadOpenTransactions();
+                lookupReports();
             };
 
             /**
@@ -120,6 +122,8 @@ angular.module('jasmic.controllers')
             $scope.transction_states = ['Pending','Completed', 'Failed', 'Waiting'];
             $scope.showNote = false;
             $scope.transaction_completed = false;
+            $scope.selectedBuyerReports = [];
+            $scope.multi_report = true;
             /**
              * Deselect item from the cart.
              * @param commodity
@@ -238,9 +242,28 @@ angular.module('jasmic.controllers')
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
             };
-
+            /**
+             * Shows dialog to choose buyer report to be emailed.
+             */
             $scope.emailReport = function(){
-                    showSendEmailDialog($mdDialog,$scope);
+                showSendEmailDialog($mdDialog,$scope);
+            };
+            /**
+             * Displays a buyer report given a report id
+             * @param  {String} report_id Id of the buyer report to be displayed
+             */
+            $scope.viewReport = function(report_id){
+              var newWindow = window.open('/report/' + report_id);
+            };
+            /**
+             * Emails a buyer report by id.
+             * @param  {String} report_id Buyer report id
+             */
+            $scope.emailReportById = function(report_id){
+              $scope.multi_report = false;
+              $scope.selectedBuyerReports.push(report_id);
+              $window.scrollTo(0,0);
+              showSendEmailDialog($mdDialog,$scope);
             };
         }
     ]);
@@ -282,10 +305,9 @@ function showSendEmailDialog($mdDialog, $scope){
              *  Gets the selected call type from
              *  drop down menu.
              */
-            $scope.selectedBuyerReports = [];
             $scope.sentEmails = [];
-            $scope.selectedReport = function(report){
-                $scope.selectedBuyerReports.push(report);
+            $scope.selectedReport = function(report_id){
+                $scope.selectedBuyerReports.push(report_id);
             };
             /*
              *  Dismisses the dialog box.
@@ -298,12 +320,11 @@ function showSendEmailDialog($mdDialog, $scope){
              * TODO - Handle error and success in the below function better.
              */
             $scope.emailBuyerReport = function(){
-                $scope.report_body = "Report";
                 for(var i in $scope.selectedBuyerReports)
                 {
                     var base_url = $location.absUrl().split('/home');
-                    var report_url = base_url[0] + '/report/' + $scope.selectedBuyerReports[i]._id;
-                    var report_id = $scope.selectedBuyerReports[i]._id;
+                    var report_url = base_url[0] + '/report/' + $scope.selectedBuyerReports[i];
+                    var report_id = $scope.selectedBuyerReports[i];
                     $http.get(report_url,{params: {email_report: true}}).then(function(response){
                         EmailFactory.create({
                                               //to: $scope.demand.bu_buyer.bu_email,

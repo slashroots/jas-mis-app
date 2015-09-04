@@ -9,6 +9,11 @@ a {
 }
 */
 
+.report-btn{
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
 md-toolbar.md-default-theme {
   background-color: #ffffff;
   color: rgba(116, 117, 41, 1);
