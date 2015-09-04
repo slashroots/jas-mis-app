@@ -13,6 +13,9 @@ a {
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
 }
+.contact-item .md-list-item-text p{
+    overflow: hidden;
+}
 
 md-toolbar.md-default-theme {
   background-color: #ffffff;

@@ -1,4 +1,4 @@
-<md-dialog>
+<md-dialog style="max-width:800px;">
     <md-toolbar>
         <div class="md-toolbar-tools dialog-box-header">
             <h2>Email Report</h2>
@@ -28,12 +28,41 @@
             </tbody>
 
         </table>
-        <!-- <md-input-container>
-        <label>Select Receipent</label>
-        <md-select>
-          <md-option ng-repeat="rep in representatives" value="{{rep.re_email}}">{{rep.name}}</md-option>
-        </md-select>
-      </md-input-container> -->
+        <md-content class="md-padding">
+          <md-chips ng-model="selectedReps" md-autocomplete-snap md-require-match>
+            <md-autocomplete
+              md-selected-item = "selectedItem"
+              md-search-text = "searchText"
+              md-items="item in querySearch(searchText)"
+              md-item-text="item.name"
+              placeholder="Search for a representative">
+              <span md-highlight-text="searchText">{{item.re_name}} :: {{item.re_email}}</span>
+          </md-autocomplete>
+            <md-chip-template>
+               <span>
+                 <strong>{{$chip.re_name}}</strong>
+                 <em>({{$chip.re_email}})</em>
+               </span>
+             </md-chip-template>
+          </md-chips>
+          <md-subheader class="md-no-sticky">Representatives</md-subheader>
+          <table class="table table-hover table-mc-light-blue">
+              <thead>
+              <tr>
+                  <th>Represnetative Name</th>
+                  <th>Email Address</th>
+                  <th>Crop</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="rep in reps">
+                  <td>{{rep.re_name}}</td>
+                  <td>{{rep.re_email}}</td>
+                  <td>{{rep.re_crop}}</td>
+              </tr>
+              </tbody>
+          </table>
+        </md-content>
     </md-dialog-content>
     <div class="md-actions">
         <md-button ng-click="cancel()" class="md-primary">
