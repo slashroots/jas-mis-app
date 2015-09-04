@@ -98,26 +98,32 @@
                     <div class="farmerInfo" ng-repeat="representative in buyer.re_representatives">
                         <div layout="column">
                             <div layout-padding layout-align="space-around center" layout="row">
-                                <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
-                                <div flex>
+                                <!--<md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>-->
+                                <div flex><md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
                                     {{representative.re_name}}
+                                    <br><div style="padding-left:36px;" class="label">Name</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_contact}}
+                                    <br><div class="label">Contact Number</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_email}}
+                                    <br><div class="label">Email Address</div>
                                 </div>
                             </div>
                             <div layout-padding layout-align="space-around center" layout="row">
                                 <div flex>
                                     {{representative.re_crop}}
+                                    <br><div class="label">Crop</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_security_question}}
+                                    <br><div class="label">Security Question</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_security_answer}}
+                                    <br><div class="label">Security Answer</div>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +146,63 @@
                     </div>
                 </md-card-content>
                 <md-card-content>
-                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="demand in demands">
+
+
+                    <style>
+
+                        md-icon.no-margin {
+
+                            margin:0;
+                            margin-right:20px;
+
+                        }
+
+                        table {
+
+                            width:100% !important;
+
+                        }
+
+                        td {
+
+                            width:25% !important;
+
+                        }
+
+                        th {
+
+                            font-weight: bold;
+
+                        }
+
+                    </style>
+
+                    <table class="table-striped">
+
+                        <thead><td><b>Produce/Crop</b></td><td><b>Amount</b></td><td><b>Unit Cost</b></td><td><b>Payout Terms</b></td><td></td></thead>
+
+                        <tbody>
+
+                        <tr class="demand-row" ng-repeat="demand in demands">
+
+                            <td>{{isValid(demand.cr_crop.cr_crop_name) ? demand.cr_crop.cr_crop_name + " - " + demand.cr_crop.cr_crop_variety :  'N/A'}}</td>
+
+                            <td>{{isValid(demand.de_quantity) ? demand.de_quantity + " " + demand.un_quantity_unit.un_unit_name :  'N/A'}}</td>
+
+                            <td>${{isValid(demand.de_price) ? demand.de_price + " / " + demand.un_price_unit.un_unit_name :  'N/A'}}</td>
+
+                            <td>{{isValid(demand.de_payment_terms) ? demand.de_payment_terms :  'N/A'}}</td>
+
+                            <td><button style="float:right;" id="{{$index}}" ng-click="editCommodityItem($index)">Edit</button></td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!--<div class="farmerInfo" layout-padding layout="column" ng-repeat="demand in demands">
                         <div layout-align="space-around start" layout="row">
                             <div layout-align="left center" layout="column">
                                 {{demand.cr_crop.cr_crop_name}} - {{demand.cr_crop.cr_crop_variety}}
@@ -161,7 +223,8 @@
                                 <label>Payout Term(s)</label>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
+
                 </md-card-content>
             </md-card>
 
