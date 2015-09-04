@@ -19,7 +19,7 @@
                         <label>Supply</label>
                         <H3 style="color: green;" class="farmerSummary">{{selectedCommodity.fa_farmer.fa_first_name}} {{selectedCommodity.fa_farmer.fa_last_name}}</H3>
                         <h2 class="farmerSummary">{{selectedCommodity.cr_crop.cr_crop_name}}
-                            {{selectedCommodity.cr_crop_variety == ""?"":" - "+ selectedCommodity.cr_crop.cr_crop_variety}}</h2>
+                            {{selectedCommodity.cr_crop.cr_crop_variety === " "?" ":" - "+ selectedCommodity.cr_crop.cr_crop_variety}}</h2>
                         <h4>{{selectedCommodity.co_availability_date|date}} - {{selectedCommodity.co_until|date}}</h4>
                         Value: {{(selectedCommodity.co_price * selectedCommodity.co_quantity)|currency}} - [{{selectedCommodity.co_payment_preference}}]
                     </div>
