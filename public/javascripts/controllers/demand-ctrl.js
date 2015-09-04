@@ -202,10 +202,9 @@ angular.module('jasmic.controllers')
              */
             $scope.selectedTransaction = function(transaction){
                 $scope.transaction = transaction;
-                $scope.transactionSelected = !$scope.transactionSelected;
+                $scope.transactionSelected = true;
                 if($scope.transaction.tr_status === 'Completed'){
                     $scope.transaction_completed = !$scope.transaction_completed;
-                    //$scope.updateTransaction = !$scope.updateTransaction;
                 }
             };
             /**
@@ -220,6 +219,7 @@ angular.module('jasmic.controllers')
             $scope.cancel = function(){
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
+                loadOpenTransactions();
             };
             /**
              * Updates a transaction's status
