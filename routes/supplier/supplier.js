@@ -20,7 +20,7 @@ var InputType = model.InputType;
  * @param req
  * @param res
  */
-exports.getSuppliers = function(req, res) {
+exports.findSuppliers = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var query = req.query;
         console.log(query);
@@ -35,6 +35,23 @@ exports.getSuppliers = function(req, res) {
 
     }
 };
+/**
+ * Retrieves all suppliers
+ * @param req
+ * @param res
+ */
+
+exports.getSuppliers = function(req, res){
+  if(common.isAdmin(req, res)){
+      Supplier.find(function(err, suppliers){
+         if(err){
+             common.handleDBError(err,res);
+         } else{
+             res.send(suppliers);
+         }
+      });
+  };
+};
 
 /**
  * Creates a supplier based on the request body.
@@ -42,9 +59,8 @@ exports.getSuppliers = function(req, res) {
  * @param res
  */
 exports.createSupplier = function(req, res) {
-    if(common.isAuthenticated(req, res)) {
+    if(common.isAdmin(req, res)) {
         var supplier = new Supplier(req.body);
-
         supplier.save(function (err2) {
             if (err2) {
                 common.handleDBError(err2, res);
@@ -52,7 +68,6 @@ exports.createSupplier = function(req, res) {
                 res.send(supplier);
             }
         });
-
     }
 };
 
@@ -73,6 +88,23 @@ exports.getSupplierById = function(req, res) {
                 }
             });
     }
+};
+/**
+ *  Updates a supplier by id found in the url
+ *  and request body.
+ * @param req
+ * @param res
+ */
+exports.updateSupplierById = function(req, res){
+    if(common.isAdmin(req, res)){
+        Supplier.findByIdAndUpdate(req.params.id, req.body, function(err, result){
+           if(err || !result){
+               common.handleDBError(err, res);
+           }else{
+               res.send(result);
+           }
+        });
+    };
 };
 
 /**

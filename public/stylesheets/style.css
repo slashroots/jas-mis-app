@@ -72,6 +72,11 @@ md-content.md-default-theme {
   color: green;
 }
 
+#message{
+  margin-left: 40px;
+  display: none;
+}
+
 ul.transcart {
   list-style-type: none;
   padding: 0px;
@@ -190,7 +195,9 @@ body{
   padding-top: 100px;
   padding-bottom: 50px;
 }
-
+md-card.admin-cards{
+  width: 800px;
+}
 md-card-content.pretty {
   background-color: #d8e4f1;
 }

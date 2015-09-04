@@ -1,16 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy;
-var common = require('./common/common');
-
-var User = require('../models/db').User;
+var express = require('express'),
+    router = express.Router(),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    common = require('./common/common'),
+    User = require('../models/db').User;
 
 /**
  * Renders the login page.
  */
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'JASMIC', goTo: req.query.goTo });
+    res.render('login', { title: 'JASMIC', goTo: req.query.goTo});
 });
 
 /**
@@ -59,13 +58,9 @@ passport.use(new LocalStrategy(
             };
             return done(null, user);
         } else {
-            User.findOne({ us_username: username }, function(err, user) {
-                if (err) { return done(err); }
-                if (!user) {
-                    return done(null, false, { message: 'Incorrect username.' });
-                }
-                if (user.us_password != password) {
-                    return done(null, false, { message: 'Incorrect password.' });
+            User.findOne({ us_username: username, us_state: 'approved' }, function(err, user) {
+                if (err || !user){
+                  return done(null, false, { message: 'Incorrect username or password' });
                 }
                 return done(null, user);
             });
@@ -79,17 +74,34 @@ passport.use(new LocalStrategy(
  */
 router.post('/user', function(req, res) {
     if(common.isAdmin(req, res)) {
-        var user = User(req.body);
-        user.save(function (err, user) {
-            if (err) {
-                common.handleDBError(err, res);
-            } else {
-                res.send(user);
-            }
-        });
+        createUser(req.body, 'approved', res);
     }
 });
-
+/**
+ * Registers a new user.
+ */
+router.post('/register', function(req, res){
+   createUser(req.body, 'pending', res);
+});
+/**
+ * Creates a new user.
+ * @param  {Object} user   Details of a user.
+ * @param  {String} state The state of the user.
+ * TODO - determine if the user object should be returned after creation.
+ */
+function createUser(user, state, res){
+    var user = new User(user),
+        result = false;
+    user.us_state = state;
+    user.us_username = user.us_email_address.substring(0,user.us_email_address.indexOf('@'));
+    user.save(function(err){
+      if(err){
+        common.handleDBError(err, res);
+      }else{
+        res.send(user);
+      }
+    });
+};
 /**
  * The intention is to use this as a "who am I..."
  * After the user logs in. They can get their profile
@@ -100,6 +112,38 @@ router.get('/user', function(req, res) {
         userValue = req.user;
         userValue.password = "";
         res.send(userValue);
+    }
+});
+/**
+ * Retrieves all users from database.
+ * @param req
+ * @param res
+ */
+router.get('/users', function(req, res){
+   if(common.isAdmin(req, res)){
+       User.find(function(err, users){
+           if(err || !users){
+                common.handleDBError(err, res);
+           }else{
+              res.send(users);
+           }
+       });
+   }
+});
+/**
+ * Updates a user's record. Requires administrative privileges.
+ * @param req
+ * @param res
+ */
+router.put('/user/:id', function(req, res){
+    if(common.isAdmin(req, res)){
+        User.findByIdAndUpdate(req.params.id, req.body,function(err,doc){
+            if(err || !doc){
+                common.handleDBError(err, res);
+            }else{
+                res.send(doc);
+            }
+        });
     }
 });
 
