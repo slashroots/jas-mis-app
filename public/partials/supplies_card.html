@@ -13,58 +13,6 @@
     <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
 
     </div>
-    <style>
-
-        md-icon.no-margin {
-
-            margin:0;
-            margin-right:20px;
-
-        }
-
-        table {
-
-            width:100% !important;
-
-        }
-
-        td {
-
-            width:25% !important;
-
-        }
-
-        th {
-
-            font-weight: bold;
-
-        }
-
-    </style>
-
-    <table class="table-striped">
-
-        <thead><td><b>Produce</b></td><td><b>Amount</b></td><td><b>Price</b></td><td><b>Payment Terms</b></td><td></td></thead>
-
-        <tbody>
-
-        <tr class="commodity-row" ng-repeat="commodity in commodities" onmouseover="document.getElementById('commodity-' + this.id).style.display='block'" onmouseout="document.getElementById('commodity-' + this.id).style.display='none'" id="{{commodity._id}}">
-
-            <td>{{isValid(commodity.cr_crop.cr_crop_name) ? commodity.cr_crop.cr_crop_name:  'N/A'}}</td>
-
-            <td>{{isValid(commodity.co_quantity) ? commodity.co_quantity:  'N/A'}} {{commodity.un_quantity_unit.un_unit_name}}s</td>
-
-            <td>${{isValid(commodity.co_price) ? commodity.co_price:  'N/A'}} per {{commodity.un_quantity_unit.un_unit_name}}</td>
-
-            <td>{{isValid(commodity.co_payment_preference) ? commodity.co_payment_preference:  'N/A'}}</td>
-
-            <td><button style="float:right;" id="{{$index}}" ng-click="editCommodityItem($index)">Edit</button></td>
-
-        </tr>
-
-        </tbody>
-
-    </table>
     <div ng-include="editCommodity ? '/partials/commodity_edit.html':null">
 
     </div>
@@ -114,7 +62,7 @@
 
             <td>{{isValid(commodity.co_payment_preference) ? commodity.co_payment_preference:  'N/A'}}</td>
 
-            <td><button style="float:right;" id="{{$index}}" ng-click="editCommodityItem($index)">Edit</button></td>
+            <td><md-button style="float:right;" id="{{$index}}" ng-click="editCommodityItem($index)">Edit</md-button></td>
 
         </tr>
 

@@ -93,19 +93,28 @@
                     <div ng-include="new_rep ? '/partials/representative_new.html':null">
 
                     </div>
+
+                    <div ng-include="edit_rep ? '/partials/representative_edit.html':null">
+
+                    </div>
+
                 </md-card-content>
                 <md-card-content>
                     <div class="farmerInfo" ng-repeat="representative in buyer.re_representatives">
                         <div layout="column">
                             <div layout-padding layout-align="space-around center" layout="row">
                                 <!--<md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>-->
-                                <div flex><md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
+                                <div flex>
                                     {{representative.re_name}}
-                                    <br><div style="padding-left:36px;" class="label">Name</div>
+                                    <br><div class="label">Name</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_contact}}
                                     <br><div class="label">Contact Number</div>
+                                </div>
+                                <div flex>
+                                    {{representative.re_crop}}
+                                    <br><div class="label">Crop</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_email}}
@@ -114,16 +123,15 @@
                             </div>
                             <div layout-padding layout-align="space-around center" layout="row">
                                 <div flex>
-                                    {{representative.re_crop}}
-                                    <br><div class="label">Crop</div>
-                                </div>
-                                <div flex>
                                     {{representative.re_security_question}}
                                     <br><div class="label">Security Question</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_security_answer}}
                                     <br><div class="label">Security Answer</div>
+                                </div>
+                                <div flex>
+                                    <md-button ng-click="editRepForm($index)">EDIT</md-button>
                                 </div>
                             </div>
                         </div>
@@ -144,6 +152,11 @@
                     <div ng-include="new_demand ? '/partials/demand_new.html':null">
 
                     </div>
+
+                    <div ng-include="edit_demand ? '/partials/demand_edit.html':null">
+
+                    </div>
+
                 </md-card-content>
                 <md-card-content>
 
@@ -193,7 +206,7 @@
 
                             <td>{{isValid(demand.de_payment_terms) ? demand.de_payment_terms :  'N/A'}}</td>
 
-                            <td><button style="float:right;" id="{{$index}}" ng-click="editCommodityItem($index)">Edit</button></td>
+                            <td><md-button style="float:right;" id="{{$index}}" ng-click="editDemandForm($index)">Edit</md-button></td>
 
                         </tr>
 

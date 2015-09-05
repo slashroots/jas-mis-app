@@ -28,6 +28,7 @@ angular.module('jasmic.controllers')
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.selectedBuyer._id+'/edit');
             };
+
         }
     ])
     /**
@@ -187,7 +188,9 @@ angular.module('jasmic.controllers')
             $scope.representative = {};
             $scope.demand = {};
             $scope.new_rep = false;
+            $scope.edit_rep = false;
             $scope.new_demand = false;
+            $scope.edit_demand = false;
             $scope.toggleRepForm = function() {
                 $scope.new_rep = !$scope.new_rep;
                 $scope.representative = {};
@@ -198,6 +201,26 @@ angular.module('jasmic.controllers')
                 $scope.demand.de_posting_date= moment().toDate();
                 $scope.demand.de_until = moment().add(7, 'days').toDate();
             };
+
+            $scope.editDemandForm = function (index) {
+
+                $scope.edit_demand = !$scope.edit_demand;
+
+                $scope.demand = $scope.demands[index];
+
+                $scope.demand.de_posting_date= moment().toDate();
+
+                $scope.demand.de_until = moment().add(7, 'days').toDate();
+
+            }
+
+            $scope.editRepForm = function (index) {
+
+                $scope.edit_rep = !$scope.edit_rep;
+
+                $scope.representative = $scope.buyer.re_representatives[index];
+
+            }
 
 
             /**
