@@ -110,10 +110,10 @@ angular.module('jasmic.controllers')
      *  TODO: Document this controller!
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
+        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
         'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
+                  OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandEditFactory, DemandsFactory) {
 
             /**
@@ -230,7 +230,22 @@ angular.module('jasmic.controllers')
 
                     console.log("Success");
 
-                    $scope.editCommodity = false;
+                }, function (error) {
+
+                    console.log("Error");
+
+                });
+
+            }
+
+
+            $scope.updateRep = function() {
+
+                $scope.edit_rep = !$scope.edit_rep;
+
+                RepEditFactory.update({id:$scope.buyer._id, rep_id:$scope.representative._id}, $scope.representative, function(success) {
+
+                    console.log("Success");
 
                 }, function (error) {
 
@@ -239,6 +254,7 @@ angular.module('jasmic.controllers')
                 });
 
             }
+
 
             /**
              *  This function does the magic for the auto-complete crop selection
