@@ -136,6 +136,43 @@ exports.updateBuyerById = function(req, res) {
     }
 };
 
+
+/**
+
+Update Buyer Demand
+
+
+ **/
+
+
+exports.editDemand = function(req, res) {
+    if(common.isAuthenticated(req, res)){
+        /*Commodity.update({_id:req.params.comID}, req.body, function(err, response){
+         if(err || response.nModified != 0){
+         common.handleDBError(err, res);
+         }else{
+         res.send(response);
+         }
+         });*/
+
+        Demand.findByIdAndUpdate({_id:req.params.demand_id}, req.body, function (err, changes) {
+            if (err) {
+                handleDBError(err, res);
+            } else {
+                res.send(changes);
+            }
+        });
+
+        console.log(req.body);
+
+        //res.end();
+
+    }
+};
+
+
+
+
 /**
  * Create New Buyer Type. Validation done by DB.
  * @param req

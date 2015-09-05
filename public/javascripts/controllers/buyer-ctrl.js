@@ -111,10 +111,10 @@ angular.module('jasmic.controllers')
      */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory',
+        'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory',
         function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandsFactory) {
+                  BuyerDemandFactory, DemandEditFactory, DemandsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -222,6 +222,23 @@ angular.module('jasmic.controllers')
 
             }
 
+            $scope.updateDemand = function() {
+
+                $scope.edit_demand = !$scope.edit_demand;
+
+                DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
+
+                    console.log("Success");
+
+                    $scope.editCommodity = false;
+
+                }, function (error) {
+
+                    console.log("Error");
+
+                });
+
+            }
 
             /**
              *  This function does the magic for the auto-complete crop selection

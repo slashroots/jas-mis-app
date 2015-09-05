@@ -244,8 +244,15 @@ services.factory('FarmEditFactory', function($resource){
  */
 services.factory('BuyerDemandFactory', function($resource) {
     return $resource('/buyer/:id/demand', {}, {
-        create: {method: 'POST', params: {id: '@id'}}
+        create: {method: 'POST', params: {id: '@id'}},
     })
+});
+
+
+services.factory('DemandEditFactory', function($resource){
+    return $resource('/buyer/:id/demand/:demand_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', demand_id: '@demand_id'} },
+    });
 });
 
 /**

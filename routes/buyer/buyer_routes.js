@@ -19,6 +19,7 @@ router.post('/buyer/:id/rep', Buyer.addNewRep);
 router.post('/buyer/:id/demand', Buyer.addNewDemand);
 router.get('/buyer/:id/demands', Buyer.getDemands);
 router.get('/buyers/current_demands', Buyer.searchCurrentDemands);
+router.put('/buyer/:id/demand/:demand_id', Buyer.editDemand);
 
 router.get('/demand/:id/match', Buyer.findDemandMatch);
 router.get('/demand/:id', Buyer.getDemand);
