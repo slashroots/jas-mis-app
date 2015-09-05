@@ -61,14 +61,14 @@ angular.module('jasmic.controllers')
              */
             DemandFactory.show({id:$routeParams.id},
                 function(demand) {
-                    $scope.combinedSupplyAmount = demand.de_met_amount;
-                    $scope.combinedSuppyValue = (demand.de_met_amount * demand.de_price);
-                    $scope.totalPercentage = ($scope.combinedSupplyAmount/demand.de_quantity) * 100;
-                    $scope.demandMet = demand.de_demand_met;
-                    $scope.demand = demand;
-                    $scope.selectedDemand = demand;
-                    lookupDemandMatches();
-                    lookupReports();
+                  $scope.combinedSupplyAmount = demand.de_met_amount || 0;
+                  $scope.combinedSuppyValue = (demand.de_met_amount * demand.de_price) || 0;
+                  $scope.totalPercentage = ($scope.combinedSupplyAmount/demand.de_quantity) * 100 || 0;
+                  $scope.demand = demand;
+                  $scope.selectedDemand = demand;
+                  $scope.reset = false;
+                  lookupDemandMatches();
+                  lookupReports();
                 },
                 function(error) {
                     $scope.demand = {};
@@ -113,6 +113,7 @@ angular.module('jasmic.controllers')
             /**
              * Default/initial variable states
              */
+
             $scope.allSelected = false;
             $scope.m_commodities = [];
             $scope.transactionSelected = false;
@@ -127,29 +128,29 @@ angular.module('jasmic.controllers')
             $scope.remove = function(commodity) {
                 commodity.selected = false;
             };
-
             /**
              * Triggered when an item is checked/unchecked.
              * @param commodity
              */
             $scope.checked = function(commodity) {
                 var sum = 0;
-              //  $scope.combinedSuppyValue = 0;
-                $scope.demandMet = !$scope.demandMet;
+                $scope.combinedSuppyValue = 0;
                 for(var i in $scope.m_commodities) {
                     sum += $scope.m_commodities[i].co_quantity;
                     $scope.combinedSuppyValue +=
                         ($scope.m_commodities[i].co_price * $scope.m_commodities[i].co_quantity);
                 }
-                $scope.combinedSupplyAmount += sum;
-                $scope.totalPercentage += (sum/$scope.demand.de_quantity) * 100;
+                $scope.combinedSupplyAmount = sum;
+                $scope.totalPercentage = (sum/$scope.demand.de_quantity) * 100;
                 if(sum >= $scope.demand.de_quantity) {
                     $scope.demandMet = true;
                 } else {
                     $scope.demandMet = false;
                 }
+                $scope.combinedSupplyAmount += $scope.demand.de_met_amount;
+                $scope.combinedSuppyValue += ($scope.demand.de_met_amount * $scope.demand.de_price);
+                $scope.totalPercentage += ($scope.combinedSupplyAmount/$scope.demand.de_quantity) * 100;
             };
-
             /**
              * Function attempts to match details based on the demand parameters of
              * the demand ID supplied
