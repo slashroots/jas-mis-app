@@ -149,6 +149,7 @@ exports.editDemand = function(req, res) {
     if(common.isAuthenticated(req, res)){
 
         Demand.findByIdAndUpdate({_id:req.params.demand_id}, req.body, function (err, changes) {
+            console.log(err, changes);
             if (err) {
                 handleDBError(err, res);
             } else {
@@ -164,12 +165,24 @@ exports.editDemand = function(req, res) {
 exports.editRep = function(req, res) {
     if(common.isAuthenticated(req, res)){
 
-        Representative.findByIdAndUpdate({_id:req.params.rep_id}, req.body, function (err, changes) {
-            if (err) {
-                handleDBError(err, res);
-            } else {
-                res.send(changes);
-            }
+        Buyer.findById(req.params.id, function (err, doc) {
+
+            var this_rep = doc.re_representatives.id(req.params.rep_id);
+
+            this_rep.re_email = req.body.re_email;
+
+            this_rep.re_contact = req.body.re_contact;
+
+            this_rep.re_name = req.body.re_name;
+
+            this_rep.re_crop = req.body.re_crop;
+
+            this_rep.re_security_question = req.body.re_security_question;
+
+            this_rep.re_security_answer = req.body.re_security_answer;
+
+            doc.save();
+
         });
 
         console.log(req.body);

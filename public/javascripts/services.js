@@ -199,14 +199,6 @@ services.factory('RepEditFactory', function($resource) {
     });
 });
 
-
-services.factory('DemandEditFactory', function($resource){
-    return $resource('/buyer/:id/demand/:demand_id', {}, {
-        update: { method: 'PUT', params: {id: '@id', demand_id: '@demand_id'} },
-    });
-});
-
-
 /**
  * The plural form of crop.  Use this factory to get access to all crop
  * information on the system and their varieties.
