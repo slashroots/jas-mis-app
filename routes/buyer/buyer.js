@@ -185,8 +185,6 @@ exports.editRep = function(req, res) {
 
         });
 
-        console.log(req.body);
-
     }
 };
 

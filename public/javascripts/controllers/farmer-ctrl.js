@@ -204,11 +204,11 @@ angular.module('jasmic.controllers')
 
             $scope.updateFarm = function() {
 
-                FarmEditFactory.update({farm_id:$scope.farm._id}, $scope.farm, function(success) {
+                $scope.editFarm = false;
+
+                FarmEditFactory.update({id:$scope.farmer._id, farm_id:$scope.farm._id}, $scope.farm, function(success) {
 
                     console.log("Success");
-
-                    $scope.editFarm = false;
 
                 }, function (error) {
 

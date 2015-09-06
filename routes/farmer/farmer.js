@@ -15,6 +15,7 @@ var Farm = model.Farm;
 var Demand = model.Demand;
 var Branch = model.Branch;
 var Membership = model.Membership;
+var Farmer = model.Farmer;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -259,17 +260,34 @@ exports.updateFarmById = function(req, res) {
         });*/
 
 
-        Farm.findByIdAndUpdate(req.params.farm_id, req.body, function (err, changes) {
-            if (err) {
-                handleDBError(err, res);
-                console.log("Error!");
-            } else {
-                console.log("No Error!");
-                res.send(changes);
-            }
+        Farmer.findById(req.params.id, function (err, doc) {
+
+            var this_farm = doc.fr_farms.id(req.params.farm_id);
+
+            this_farm.fr_name = req.body.fr_name;
+
+            this_farm.di_district = req.body.di_district;
+
+            this_farm.ad_address1 = req.body.ad_address1;
+
+            this_farm.ad_address2 = req.body.ad_address2;
+
+            this_farm.ad_latitude = req.body.ad_latitude;
+
+            this_farm.ad_longitude = req.body.ad_longitude;
+
+            this_farm.ad_city = req.body.ad_city;
+
+            this_farm.ad_country = req.body.ad_country;
+
+            this_farm.ad_longitude = req.body.ad_longitude;
+
+            this_farm.fr_size = req.body.fr_size;
+
+            doc.save();
+
         });
 
-        console.log(req.body);
 
     }
 };
