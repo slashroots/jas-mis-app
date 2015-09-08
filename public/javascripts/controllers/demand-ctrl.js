@@ -295,10 +295,15 @@ function showSendEmailDialog($mdDialog, $scope){
             };
             /**
              * Email(s) selected buyer report(s).
-             * TODO - Handle error and success in the below function better.
+             * TODO - Before production, uncomment "to" line.
              */
             $scope.emailBuyerReport = function(){
-                $scope.report_body = "Report";
+                var email_subject = "Buyer Report" + " " + "-" + " " + $scope.demand.de_quantity + " "
+                                    + $scope.demand.un_quantity_unit.un_unit_name + "s" + " "
+                                    + "of" + " " + $scope.demand.cr_crop.cr_crop_name;
+                if($scope.demand.cr_crop.cr_crop_variety != " "){
+                    email_subject += " " + "-" + " " + $scope.demand.cr_crop.cr_crop_variety;
+                }
                 for(var i in $scope.selectedBuyerReports)
                 {
                     var base_url = $location.absUrl().split('/home');
@@ -308,7 +313,7 @@ function showSendEmailDialog($mdDialog, $scope){
                         EmailFactory.create({
                                               //to: $scope.demand.bu_buyer.bu_email,
                                               to: "tremainekbuchanan@gmail.com",
-                                              subject: "Buyer Report",
+                                              subject: email_subject,
                                               text: "Buyer Report Body",
                                               report_url: report_url,
                                               report_id: report_id,

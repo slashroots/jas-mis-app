@@ -87,7 +87,8 @@ exports.renderReport = function(req, res) {
                                             report_date: moment(item.re_report_date).format('MMMM DD YYYY hh:mm a'),
                                             crop_dates: crop_avail_dates,
                                             us_user: req.user,
-                                            image_paths: setImageSrcPaths(req.query.email_report)
+                                            image_paths: setImageSrcPaths(req.query.email_report),
+                                            email_report: req.query.email_report
                                         });
                                 }
                             });

@@ -13,7 +13,11 @@ var common = require('../common/common');
 
 exports.sendEmail = function(req, res){
   if(common.isAuthenticated(req, res)){
-      var email = new sendgrid.Email(req.body);
+      var email = new sendgrid.Email(req.body),
+          footer_text = '<br/>This document is an indicative demand match of a buyer\'s demand and a farmer\'s supply and does not'+
+                         ' represent a binding agreement between  a buyer and a farmer(s).'+
+                         '<br/><p>You are receiving this email because you are a registered user of JASMIC,'+
+                         ' a service of Jamaica Agricultural Society (JAS).</p>';
       email.setFrom(process.env.REPLY_TO);
       email.addFile({cid: 'logo', path:'./public/images/report-icons/jas_logo_knockout-01.png'});
       email.addFile({cid: 'produce', path:'./public/images/report-icons/icons_crop.png'});
@@ -27,6 +31,7 @@ exports.sendEmail = function(req, res){
       email.addFile({cid: 'phone', path:'./public/images/report-icons/icons_phone.png'});
       email.addFile({cid: 'email', path:'./public/images/report-icons/icons_email.png'});
       email.setHtml(req.body.report_body);
+      email.addFilter('footer', 'text/html', footer_text);
       sendgrid.send(email, function(err, json){
         if(err){
             common.handleEmailError(err, res);
