@@ -1,10 +1,11 @@
-var Demand = require('../../models/db').Demand;
-var Buyer = require('../../models/db').Buyer;
-var Commodity = require('../../models/db').Commodity;
-var Report = require('../../models/db').Report;
-var Crop = require('../../models/db').Crop;
-var moment = require('moment');
-var common = require('../common/common');
+var Demand = require('../../models/db').Demand,
+  Buyer = require('../../models/db').Buyer,
+  Commodity = require('../../models/db').Commodity,
+  Report = require('../../models/db').Report,
+  Crop = require('../../models/db').Crop,
+  Address = require('../../models/db').Address,
+  moment = require('moment'),
+  common = require('../common/common');
 
 /**
  * Creates a report based on a list of demands and commodities that have
@@ -56,6 +57,7 @@ exports.searchReports = function(req, res) {
  * @param res
  */
 exports.renderReport = function(req, res) {
+    var addresses = [];
     if(common.isAuthenticated(req, res)) {
         Report.findById(req.params.id)
             .populate('de_demand us_user co_commodities.fa_farmer')
@@ -63,7 +65,12 @@ exports.renderReport = function(req, res) {
                 if (err) {
                     common.handleDBError(err, res);
                 } else {
-                    Buyer.findById(item.de_demand.bu_buyer, function (err2, buyer) {
+                      for(var i = 0; i<item.co_commodities.length;i++){
+                          Address.findById(item.co_commodities[i].fa_farmer.ad_address, function(err, address){
+                            addresses.push(address);
+                          });
+                      }
+                      Buyer.findById(item.de_demand.bu_buyer, function (err2, buyer) {
                         if (err2) {
                             common.handleDBError(err2, res);
                         } else {
@@ -87,7 +94,8 @@ exports.renderReport = function(req, res) {
                                             report_date: moment(item.re_report_date).format('MMMM DD YYYY hh:mm a'),
                                             crop_dates: crop_avail_dates,
                                             us_user: req.user,
-                                            image_paths: setImageSrcPaths(req.query.email_report)
+                                            image_paths: setImageSrcPaths(req.query.email_report),
+                                            addresses: addresses
                                         });
                                 }
                             });
