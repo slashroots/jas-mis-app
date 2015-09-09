@@ -61,9 +61,30 @@ angular.module('jasmic.controllers')
             }, function(error){
               $scope.closed_transactions = [];
             });
+            /**
+            * Quick way to simulate price dashboard UX
+            * TODO - create appropriate service and endpoints.
+             */
+            $scope.labels = ["January", "February", "March", "April", "May"];
+            $scope.series = ['2014 ', '2015'];
+            $scope.commodities = [{crop_name: "Onion", variety:"Cherry", season:"All Year",
+                                  grow_time: "2", prices: [[100, 150, 80, 81, 90],
+                                  [200, 85, 90, 100, 135]] },
+                              {crop_name: "Tomatoes", variety:"Red", season:"All Year", grow_time: "2",
+                              prices: [[150, 100, 80, 77, 90],
+                              [50, 85, 90, 100, 90]]}];
 
+            $scope.crop_details = $scope.commodities[0];
+            $scope.data = $scope.commodities[0].prices;
 
+            $scope.onClick = function (points, evt) {
+                 console.log(points, evt);
+               };
 
+            $scope.updateChart = function(commodity, index){
+              $scope.crop_details = $scope.commodities[index];
+              $scope.data = $scope.commodities[index].prices;
+            };
             /**
              * States of the drop down - false = closed
              * @type {{demand: boolean, calls: boolean, transactions: boolean, closed_transactions: boolean}}

@@ -1,0 +1,59 @@
+<div layout="row">
+    <div layout="column" flex="75">
+        <md-subheader class="md-no-sticky md-primary">Price Trends</md-subheader>
+    </div>
+</div>
+<div layout="row">
+        <div layout="column " flex="15">
+          <table class="table table-hover table-mc-light-blue light-font commodity">
+              <tbody>
+              <tr ng-repeat="commodity in commodities" ng-click="updateChart(commodity, $index);">
+                  <td>{{commodity.crop_name}}</td>
+              </tr>
+              </tbody>
+          </table>
+        </div>
+
+        <div layout="column" flex="60">
+          <canvas id="line" class="chart chart-line" chart-data="data"
+            chart-labels="labels" chart-legend="false" chart-series="series"
+            chart-click="onClick" >
+            </canvas>
+        </div>
+
+        <div layout="column" flex="25">
+              <table class="table table-hover light-font commodity-detail">
+                  <tbody>
+                  <tr>
+                    <td style="width:40px; height:70px;">
+                      <img ng-src="/images/icons/icons_crop.svg" style="width:40px; height:40px;align:left;"/></td>
+                      <td>
+                        <strong>{{crop_details.crop_name}}</strong><br/>Crop/Animal Name
+                      </td>
+                  </tr>
+                  <tr>
+                  <td style="width:40px; height:70px;">
+                      <img ng-src="/images/icons/icons_variety.svg" style="width:40px; height:40px;align:left;"/></td>
+                      <td>
+                        <strong>{{crop_details.variety}}</strong><br/>Variety
+                      </td>
+                  </tr>
+                  <tr>
+                    <td style="width:40px; height:70px;">
+                      <img ng-src="/images/icons/icons_birth_date.svg" style="width:40px; height:40px;align:left;"/></td>
+                      <td>
+                        <strong>{{crop_details.season}}</strong><br/>Season
+                      </td>
+                  </tr>
+                  <tr style:"border-bottom:1px solid;">
+                    <td style="width:40px; height:70px;">
+                      <img ng-src="/images/icons/icons_crop.svg" style="width:40px; height:40px;align:left;"/></td>
+                      <td>
+                        <strong>{{crop_details.grow_time}} Months</strong><br/>Growth Time
+                      </td>
+                  </tr>
+              </tbody>
+              </table>
+          </div>
+        </div>
+    </div>

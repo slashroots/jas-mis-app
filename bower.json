@@ -16,20 +16,18 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "0.10.1",
     "angular": "1.4.4",
-    "angular-route": "1.4.4",
     "angular-animate": "1.4.4",
     "angular-aria": "1.4.4",
+    "angular-chart.js": "~0.8.3",
+    "angular-material": "0.10.1",
+    "angular-messages": "1.4.4",
     "angular-resource": "1.4.4",
-    "moment": "2.10.2",
+    "angular-route": "1.4.4",
     "angular-selection-model": "0.8.4",
-    "jquery": "2.1.4",
-    "bootstrap-material-design": "~0.3.0",
     "bootstrap": "~3.3.5",
-    "angular-messages": "1.4.4"
-  },
-  "resolutions": {
-    "angular": "1.4.4"
+    "bootstrap-material-design": "~0.3.0",
+    "jquery": "2.1.4",
+    "moment": "2.10.2"
   }
 }

@@ -58,7 +58,9 @@
             </md-card>
 
             <md-card>
-                <md-subheader class="md-no-sticky md-primary">Price Trends Supply</md-subheader>
+              <md-card-content ng-include="'partials/price_trends_small.html'">
+
+              </md-card-content>
             </md-card>
 
             <md-card>
@@ -72,9 +74,7 @@
                     </div>
                 </div>
 
-                <md-content>
-                    <div class="call-report-content" ng-include="'/partials/call_report_listing_small.html'"></div>
-                </md-content>
+                  <div class="call-report-content" ng-include="'/partials/call_report_listing_small.html'"></div>
             </md-card>
 
             <md-card>

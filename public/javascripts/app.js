@@ -9,7 +9,8 @@ angular.module('jasmic', [
     'ngMaterial',
     'jasmic.services',
     'jasmic.controllers',
-    'selectionModel'
+    'selectionModel',
+    'chart.js'
 ]).config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/farmers', {templateUrl: '../partials/farmer_listing.html', controller: 'FarmerListingCtrl'});
     $routeProvider.when('/buyers', {templateUrl: '../partials/buyer_listing.html', controller: 'BuyersListingCtrl'});
