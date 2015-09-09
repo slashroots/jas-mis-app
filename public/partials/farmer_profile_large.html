@@ -34,7 +34,8 @@
                         <div flex layout="row">
                             <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
                             <div layout-align="center" layout="column">
-                                {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
+                                <span ng-show="loggedUser.ut_user_type == 'Administrator'">{{isValid(farmer.fa_government_id)? farmer.fa_government_id : 'TRN not found'}}</span>
+                                <span ng-show="loggedUser.ut_user_type != 'Administrator'">Not Applicable</span>
                                 <div class="label">TRN</div>
                             </div>
                         </div>
