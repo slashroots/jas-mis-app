@@ -6,9 +6,10 @@
                     <div layout="row">
                         <div flex="10" class="profilePic"></div>
                         <div flex="70" layout="column" class="farmerNames farmerPretty2">
-                            <label>Buyer</label>
+                            <label>{{ buyer.bu_verified ? "Verified" : 'Unverified'}} Buyer</label>
 
                             <h2 class="farmerSummary">{{buyer.bu_buyer_name}}</h2>
+
                         </div>
                         <div layout="column" flex="20">
                             <div layout="row" >
@@ -65,6 +66,7 @@
                     </div>
                     <div class="lastInfo" layout="row">
                         <span flex></span>
+
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
                         <div layout="column">
                             {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
