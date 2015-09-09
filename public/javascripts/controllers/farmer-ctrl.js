@@ -159,15 +159,30 @@ angular.module('jasmic.controllers')
                 $location.url('farmer/'+$scope.farmer._id+'/edit');
             };
 
+            $scope.commodity_date_valid = true;
+
+            $scope.commodityDateCheck = function (obj) {
+
+                if (obj.co_availability_date >= obj.co_until) $scope.commodity_date_valid = false;
+
+                else $scope.commodity_date_valid = true;
+
+            }
 
             $scope.saveCommodity = function() {
-                $scope.commodity.cr_crop = selectedCrop;
-                CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
-                    $scope.newCommodityItem();
-                    populateCommodities();
-                }, function(error) {
-                    showDialog($mdDialog, error, true);
-                })
+
+                if ($scope.date_valid) {
+
+                    $scope.commodity.cr_crop = selectedCrop;
+                    CommodityFactory.create({id: $scope.farmer._id}, $scope.commodity, function (success) {
+                        $scope.newCommodityItem();
+                        populateCommodities();
+                    }, function (error) {
+                        showDialog($mdDialog, error, true);
+                    })
+
+                }
+
             };
 
             /**

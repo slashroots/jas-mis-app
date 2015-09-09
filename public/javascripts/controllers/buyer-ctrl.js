@@ -206,6 +206,7 @@ angular.module('jasmic.controllers')
             $scope.demand = {};
             $scope.new_rep = false;
             $scope.new_demand = false;
+            $scope.date_valid = true;
             $scope.toggleRepForm = function() {
                 $scope.new_rep = !$scope.new_rep;
                 $scope.representative = {};
@@ -237,19 +238,32 @@ angular.module('jasmic.controllers')
                 selectedCrop = (item) ? item._id: {};
             };
 
+            $scope.dateCheck = function () {
+
+                if ($scope.demand.de_posting_date >= $scope.demand.de_until) $scope.date_valid = false;
+
+                else $scope.date_valid = true;
+
+            }
+
             /**
              * Attempts to save the demand.
              */
+
             $scope.saveDemand = function() {
 
-                $scope.demand.cr_crop = selectedCrop;
-                BuyerDemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
-                    $scope.toggleDemandForm();
-                    populateDemands();
-                }, function(error) {
-                    showDialog($mdDialog, error, true);
-                })
-            }
+                if ($scope.date_valid) {
+
+                    $scope.demand.cr_crop = selectedCrop;
+                    BuyerDemandFactory.create({id: $scope.buyer._id}, $scope.demand, function (success) {
+                        $scope.toggleDemandForm();
+                        populateDemands();
+                    }, function (error) {
+                        showDialog($mdDialog, error, true);
+                    })
+
+                }
+            };
 
             $scope.createBuyerCall = function(){
               $scope.cc_caller_id = $scope.buyer.bu_phone;

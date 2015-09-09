@@ -48,13 +48,19 @@
         <div layout="row">
             <md-input-container flex>
                 <label>Demand Start Date (yyyy-MM-dd)</label>
-                <input ng-required="true" ng-model="demand.de_posting_date" type="date"/>
+                <input ng-required="true" ng-model="demand.de_posting_date" ng-change="dateCheck()" type="date"/>
             </md-input-container>
 
             <md-input-container flex>
                 <label>Demand End Date (yyyy-MM-dd)</label>
-                <input ng-required="true" ng-model="demand.de_until" type="date"/>
+                <input ng-required="true" ng-model="demand.de_until" ng-change="dateCheck()" type="date"/>
             </md-input-container>
+        </div>
+
+        <div layout-align="center center" layout="row" ng-show="date_valid == false">
+
+            Please ensure that the End Date falls after the Start Date!
+
         </div>
 
         <md-input-container layout="row" layout-sm="column" layout-align="center center">
