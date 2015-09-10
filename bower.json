@@ -29,5 +29,8 @@
     "bootstrap-material-design": "~0.3.0",
     "jquery": "2.1.4",
     "moment": "2.10.2"
+  },
+  "resolutions":{
+    "angular" : "1.4.4"
   }
 }
