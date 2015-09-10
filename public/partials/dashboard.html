@@ -66,32 +66,13 @@
             </md-card>
 
             <md-card>
-                <div layout="row">
-                    <div layout="column" flex="75">
-                        <md-subheader class="md-no-sticky md-primary">Calls</md-subheader>
-                    </div>
-                </div>
-
-                <md-content>
-                    <div class="call-report-content" ng-include="'/partials/call_report_listing_small.html'"></div>
-                </md-content>
+                <md-card-content ng-include="'/partials/call_report_listing_small.html'">
+                </md-card-content>
             </md-card>
 
             <md-card>
-                <div layout="row">
-                    <div layout="column" flex="75">
-                        <md-subheader class="md-no-sticky md-primary">Raw Material Locations</md-subheader>
-                    </div>
-                    <div flex>
-
-                    </div>
-                </div>
-
-                <md-content>
-                    <div class="call-report-content" ng-include="'/partials/input_listing_small.html'">
-                    </div>
-                </md-content>
-
+                <md-card-content ng-include="'/partials/input_listing_small.html'">
+                </md-card-content>
             </md-card>
         </div>
     </md-content>
