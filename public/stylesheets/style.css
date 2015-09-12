@@ -144,7 +144,7 @@ md-option {
 }
 
 .addNew{
-  padding-top: 340px;
+  padding-top: 290px;
 }
 
 .md-button.md-default-theme.md-fab{
@@ -402,7 +402,6 @@ md-content.farmForm {
   to { opacity:0; }
 }
 
-<<<<<<< HEAD
 .call-report-content{
   margin-left: 10px;
 }
@@ -422,7 +421,7 @@ md-content.farmForm {
 .parishes{
   margin-right: 20px;
 }
-=======
+
 tr:nth-child(1) {
   left:0%;
   width:25%;
@@ -455,4 +454,3 @@ md-fab-speed-dial {
   overflow : visible !important;
   height : 0 !important;
 }
->>>>>>> master
