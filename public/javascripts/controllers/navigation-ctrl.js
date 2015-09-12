@@ -17,9 +17,8 @@ angular.module('jasmic.controllers')
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
             }, function(fail) {
-                console.log(fail);
+                $scope.goTo('login');
             });
-
             /**
              * Go to another section of the angular application
              * @param l
@@ -48,6 +47,14 @@ angular.module('jasmic.controllers')
              */
             $scope.createInput = function(){
                 showNewInputDialog($mdDialog,$scope);
+            };
+            /**
+             * Shows the administrative functions for an admin user
+             */
+            $scope.showAdmin = function(){
+              if($scope.loggedUser.ut_user_type === "Administrator"){
+                  $scope.goTo('admin');
+              }
             };
         }]);
 

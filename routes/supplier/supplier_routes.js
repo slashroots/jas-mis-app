@@ -12,10 +12,11 @@ var router = express.Router();
 /**
  * End Points relevant to Suppliers
  */
+router.get('/suppliers', Supplier.findSuppliers);
 router.get('/suppliers', Supplier.getSuppliers);
 router.post('/supplier', Supplier.createSupplier);
 router.get('/supplier/:id', Supplier.getSupplierById);
-//router.put('/supplier/:id', Supplier.updateSupplierById);
+router.put('/supplier/:id', Supplier.updateSupplierById);
 
 /**
  * Manipulate information about Inputs for a specific Supplier
