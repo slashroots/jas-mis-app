@@ -8,7 +8,9 @@ a {
   color: #00B7FF;
 }
 */
-
+md-progress-linear .md-bar {
+  background-color: #5CC64C;
+}
 md-toolbar.md-default-theme {
   background-color: #ffffff;
   color: rgba(116, 117, 41, 1);
