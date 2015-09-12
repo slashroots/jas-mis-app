@@ -57,6 +57,11 @@
             </md-input-container>
         </div>
 
+        <md-input-container>
+            <label>Note(s)</label>
+            <input ng-model="demand.de_notes" type="text"/>
+        </md-input-container>
+
         <md-input-container layout="row" layout-sm="column" layout-align="center center">
             <md-button ng-click="toggleDemandForm()">Cancel</md-button>
             <md-button ng-click="saveDemand()">Save</md-button>
