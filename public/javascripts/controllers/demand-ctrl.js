@@ -368,8 +368,7 @@ function showSendEmailDialog($mdDialog, $scope){
 
                     for(var i in $scope.selectedBuyerReports)
                     {
-                        var base_url = $location.absUrl().split('/home');
-                        var report_url = base_url[0] + '/report/' + $scope.selectedBuyerReports[i];
+                        var report_url = '/report/' + $scope.selectedBuyerReports[i];
                         var report_id = $scope.selectedBuyerReports[i];
                         $http.get(report_url,{params: {email_report: true}}).then(function(response){
                             EmailFactory.create({
