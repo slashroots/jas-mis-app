@@ -11,6 +11,15 @@ a {
 md-progress-linear .md-bar {
   background-color: #5CC64C;
 }
+
+.report-btn{
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+.contact-item .md-list-item-text p{
+    overflow: hidden;
+}
+
 md-toolbar.md-default-theme {
   background-color: #ffffff;
   color: rgba(116, 117, 41, 1);
