@@ -62,10 +62,6 @@ angular.module('jasmic.controllers')
             DemandFactory.show({id:$routeParams.id},
                 function(demand) {
                     $scope.reps = demand.bu_buyer.re_representatives;
-                    $scope.combinedSupplyAmount = demand.de_met_amount;
-                    $scope.combinedSuppyValue = (demand.de_met_amount * demand.de_price);
-                    $scope.totalPercentage = ($scope.combinedSupplyAmount/demand.de_quantity) * 100;
-                    $scope.demandMet = demand.de_demand_met;
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
@@ -150,9 +146,6 @@ angular.module('jasmic.controllers')
                 } else {
                     $scope.demandMet = false;
                 }
-                $scope.combinedSupplyAmount += $scope.demand.de_met_amount;
-                $scope.combinedSuppyValue += ($scope.demand.de_met_amount * $scope.demand.de_price);
-                $scope.totalPercentage += ($scope.combinedSupplyAmount/$scope.demand.de_quantity) * 100;
             };
             /**
              * Function attempts to match details based on the demand parameters of
@@ -347,8 +340,8 @@ function showSendEmailDialog($mdDialog, $scope){
             };
 
             isEmailAddressAndReportSelected = function(){
-              if($scope.selectedBuyerReports.length === 0 &&
-               $scope.selectedReps.length === 0){
+              if($scope.selectedBuyerReports.length > 0 &&
+               $scope.selectedReps.length > 0){
                  return true;
                }else{
                  return false;
@@ -360,6 +353,7 @@ function showSendEmailDialog($mdDialog, $scope){
              */
             $scope.emailBuyerReport = function(){
                 var emails =  [];
+                console.log($scope.selectedBuyerReports);
                 if(isEmailAddressAndReportSelected()){
                     for (var j in $scope.selectedReps)
                         emails.push($scope.selectedReps[j].re_email);
@@ -370,7 +364,7 @@ function showSendEmailDialog($mdDialog, $scope){
                         var report_id = $scope.selectedBuyerReports[i];
                         $http.get(report_url,{params: {email_report: true}}).then(function(response){
                             EmailFactory.create({
-                                                  to: emails,
+                                                  to: "tremainekkbuchanan@gmail.com",
                                                   subject: "Buyer Report",
                                                   text: "Buyer Report Body",
                                                   report_url: report_url,
