@@ -353,7 +353,6 @@ function showSendEmailDialog($mdDialog, $scope){
              */
             $scope.emailBuyerReport = function(){
                 var emails =  [];
-                console.log($scope.selectedBuyerReports);
                 if(isEmailAddressAndReportSelected()){
                     for (var j in $scope.selectedReps)
                         emails.push($scope.selectedReps[j].re_email);
@@ -364,7 +363,8 @@ function showSendEmailDialog($mdDialog, $scope){
                         var report_id = $scope.selectedBuyerReports[i];
                         $http.get(report_url,{params: {email_report: true}}).then(function(response){
                             EmailFactory.create({
-                                                  to: "tremainekkbuchanan@gmail.com",
+                                                  to: "tremainekbuchanan@gmail.com",
+                                                  //to: emails,
                                                   subject: "Buyer Report",
                                                   text: "Buyer Report Body",
                                                   report_url: report_url,
