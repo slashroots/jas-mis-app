@@ -320,8 +320,8 @@ function showSendEmailDialog($mdDialog, $scope){
 
                 function loadReps() {
                   var reps = $scope.demand.bu_buyer.re_representatives;
-                  reps.push({re_name: $scope.demand.bu_buyer.bu_buyer_name,
-                      re_email: $scope.demand.bu_buyer.bu_email})
+                  reps[1] = {re_name: $scope.demand.bu_buyer.bu_buyer_name,
+                       re_email: $scope.demand.bu_buyer.bu_email};
 
                    return reps.map(function (rep) {
                   rep._lowername = rep.re_name.toLowerCase();

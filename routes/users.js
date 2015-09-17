@@ -98,7 +98,7 @@ function createUser(user, state, res){
       if(err){
         common.handleDBError(err, res);
       }else{
-        res.send(user);
+         res.send(user);
       }
     });
 };

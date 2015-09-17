@@ -4,7 +4,6 @@
  */
 var sendgrid = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
 var common = require('../common/common');
-var Email = require('../../models/db').Email;
 /**
  * Sends an email using SendGrid API based on the body of the
  * request.
@@ -44,4 +43,24 @@ exports.sendEmail = function(req, res){
  */
 exports.getEmails = function(req, res){
 
+};
+/**
+ * Sends welcome email to a new user.
+ * @param  req
+ * @param  res
+ */
+exports.emailNewUser = function(req, res){
+  var email = new sendgrid.Email(req.body);
+  var email_body = '<h1>Welcome to JASMIC!</h1><p>We are happy youre here.</p>' +
+                   '<p>Please await further instructions from your system administrator.</p>';
+  email.setSubject("Welcome to JASMIC");
+  email.setFrom(process.env.REPLY_TO);
+  email.setHtml(email_body);
+  sendgrid.send(email, function(err, json){
+      if(err){
+        common.handleEmailError(err, res);
+      }else{
+        res.send({message:'Email sent'});
+      }
+  });
 };
