@@ -94,6 +94,7 @@ $(function(){
 		request.done(function(response){
 			 displayMessage('success');
 			 $('#register').trigger('reset');
+			 $('#register').hide();
 		});
 		request.fail(function(jqXHR, textStatus){
 			displayMessage('fail');
