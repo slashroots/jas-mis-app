@@ -61,10 +61,6 @@ angular.module('jasmic.controllers')
              */
             DemandFactory.show({id:$routeParams.id},
                 function(demand) {
-                    $scope.combinedSupplyAmount = demand.de_met_amount;
-                    $scope.combinedSuppyValue = (demand.de_met_amount * demand.de_price);
-                    $scope.totalPercentage = ($scope.combinedSupplyAmount/demand.de_quantity) * 100;
-                    $scope.demandMet = demand.de_demand_met;
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
@@ -135,7 +131,6 @@ angular.module('jasmic.controllers')
             $scope.checked = function(commodity) {
                 var sum = 0;
                 $scope.combinedSuppyValue = 0;
-                $scope.demandMet = !$scope.demandMet;
                 for(var i in $scope.m_commodities) {
                     sum += $scope.m_commodities[i].co_quantity;
                     $scope.combinedSuppyValue +=
@@ -298,7 +293,7 @@ function showSendEmailDialog($mdDialog, $scope){
              * TODO - Before production, uncomment "to" line.
              */
             $scope.emailBuyerReport = function(){
-                var email_subject = "Buyer Report" + " " + "-" + " " + $scope.demand.de_quantity + " "
+                var email_subject = "Buyer Report" + "-" + $scope.demand.de_quantity + " "
                                     + $scope.demand.un_quantity_unit.un_unit_name + "s" + " "
                                     + "of" + " " + $scope.demand.cr_crop.cr_crop_name;
                 if($scope.demand.cr_crop.cr_crop_variety != " "){
