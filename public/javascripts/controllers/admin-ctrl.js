@@ -1,8 +1,8 @@
 angular.module('jasmic.controllers')
     .controller('AdministratorCtrl', ['$scope','$mdDialog','UsersFactory','CropsFactory','SuppliersFactory',
-    'UserFactory','CropFactory','SupplierFactory',
+    'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory',
     function($scope, $mdDialog, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
-    SupplierFactory){
+    SupplierFactory, EmailFactory, UserProfileFactory){
       /**
        * Get all users from the database.
        */
@@ -41,7 +41,7 @@ angular.module('jasmic.controllers')
       $scope.crop_type = {};
       $scope.supplier = {};
       $scope.usertypes = ['Administrator', 'Call Representative'];
-      $scope.states = ['approved', 'pending'];
+      $scope.states = ['Approved', 'Pending'];
       /**
        * Used to toggle list of records.
        * @type {{user: boolean, croptype: boolean, supplier: boolean}}
@@ -117,13 +117,18 @@ angular.module('jasmic.controllers')
       $scope.save = function(entity){
           if(entity === 'user'){
               UserProfileFactory.create($scope.user_obj, function(user){
-                  $scope.user_obj = {};
                   $scope.newUser = !$scope.newUser;
                   showDialog($mdDialog, {statusText:" New User Created!"}, false);
-
               }, function(error){
                   showDialog($mdDialog, error, false);
               });
+            EmailFactory.create({to: $scope.user_obj.us_email_address, email_type: "new_user_approval"},
+             function(success){
+              console.log('Bueno');
+            }, function(fail){
+              console.log('No Bueno');
+            });
+              $scope.user_obj = {};
               $scope.hideList.user = !$scope.hideList.user;
               getUsers();
           }else if(entity === 'croptype'){
@@ -192,6 +197,12 @@ angular.module('jasmic.controllers')
               showDialog($mdDialog, {statusText: 'User Updated!'}, false);
           }, function(error){
               showDialog($mdDialog,error,false);
+          });
+          EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: 'new_user_approval'},
+          function(success){
+              console.log('Email Sent')
+          }, function(error){
+              console.log('Email No Sendo')
           });
           $scope.editUser = !$scope.editUser;
           $scope.hideList.user = !$scope.hideList.user;

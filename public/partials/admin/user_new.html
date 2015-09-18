@@ -5,7 +5,7 @@
           <md-option ng-repeat="usertype in usertypes" value="{{usertype}}">{{usertype}}</md-option>
       </md-select>
 
-      <md-select placeholder="State" ng-model="user_obj.us_state" flex>
+      <md-select placeholder="State" ng-model="user_obj.us_state" ng-hide="newUser" flex>
           <md-option ng-repeat="state in states" value="{{state}}">{{state}}</md-option>
       </md-select>
     </div>

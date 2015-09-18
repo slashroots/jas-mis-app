@@ -88,8 +88,8 @@ $(function(){
 		});
 		var email_request = $.ajax({
 				 method: 'POST',
-				 url: '/email/new_user',
-				 data: {to: user.us_email_address}
+				 url: '/email',
+				 data: {to: user.us_email_address, email_type: "new_user_registration"}
 		});
 		request.done(function(response){
 			 displayMessage('success');
