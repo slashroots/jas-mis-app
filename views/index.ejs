@@ -50,12 +50,12 @@
       <md-button ng-click="createCall();" class="md-fab-top-left" aria-label="Add New Call">
         Call
       </md-button>
-      <md-button ng-click="goTo('transaction')" class="md-fab-top-left" aria-label="Add New Transaction">
-        Transaction
-      </md-button>
-      <!-- <md-button ng-click="goTo('supplier')" class="md-fab-top-left" aria-label="Add New Farm Store">
+      <md-button ng-click="goTo('supplier')" ng-show="isAdmin" class="md-fab-top-left" aria-label="Add New Farm Store">
         Farm Store
-      </md-button> -->
+      </md-button>
+      <md-button ng-click="createInput();" class="md-fab-top-left" aria-label="Add New Farm Store Input">
+        Input
+      </md-button>
     </md-fab-actions>
 
     </md-fab-speed-dial>

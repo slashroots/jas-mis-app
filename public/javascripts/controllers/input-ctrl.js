@@ -10,6 +10,14 @@ angular.module('jasmic.controllers')
     ])
     .controller('NewSupplierCtrl', ['$scope','$location','$routeParams', 'SupplierFactory', 'ParishesFactory',
         function ($scope, $location, $routeParams, SupplierFactory, ParishesFactory) {
+            /**
+             * Clears and closes the supplier form
+             */
+            $scope.cancel = function(){
+                $scope.supplier = {};
+                $location.url('/dashboard');
+            };
+
             $scope.save = function() {
                 SupplierFactory.create($scope.supplier, function(supplier) {
                     $location.url('supplier/'+supplier._id);
