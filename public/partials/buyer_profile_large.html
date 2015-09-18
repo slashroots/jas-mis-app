@@ -36,13 +36,23 @@
                             </div>
                         </div>
                         <span flex="5"></span>
-                        <div flex="60" layout="row">
+
+                        <div flex="30" layout="row">
                             <md-icon md-svg-icon="/images/ic_attach_money_24px.svg"></md-icon>
                             <div layout="column">
                                 {{isValid(buyer.bu_payment_terms)? buyer.bu_payment_terms: 'Not Disclosed'}}
                                 <div class="label">Payment Terms</div>
                             </div>
                         </div>
+
+                        <div layout="row" flex="30">
+                            <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
+                            <div layout="column">
+                                {{ buyer.bu_verified ? "Verified" : 'Unverified'}} Buyer
+                                <div class="label">Verification Status</div>
+                            </div>
+                        </div>
+
                         <span flex="10"></span>
                     </div>
                     <div layout-align="space-around start" class="farmer_info" layout="row">
@@ -54,7 +64,7 @@
                             </div>
                         </div>
                         <span flex="5"></span>
-                        <div layout="row" flex="60">
+                        <div layout="row" flex="40">
                             <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
                             <div layout="column">
                                 {{isValid(buyer.bu_email)? (buyer.bu_email| lowercase): 'Not Disclosed'}}
@@ -64,18 +74,9 @@
                         <span flex="10"></span>
                     </div>
                     <div class="lastInfo" layout="row">
-
-                        <div layout="row" flex="30">
-                            <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
-                            <div layout="column">
-                                <br>
-                                {{ buyer.bu_verified ? "Verified" : 'Unverified'}} Buyer
-                                <div class="label">Verification Status</div>
-                            </div>
-                        </div>
-
-                        <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
-                        <div layout="column">
+                        <span flex="20"></span>
+                        <div layout="row" flex="20"><md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon></div>
+                        <div layout="column" >
                             {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
                             <br/>
                             {{isValid(buyer.ad_address.ad_address2)? buyer.ad_address.ad_address2: ''}}
