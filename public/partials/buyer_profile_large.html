@@ -35,15 +35,7 @@
                                 <div class="label">Type</div>
                             </div>
                         </div>
-                        <span flex="5"></span>
-
-                        <div flex="30" layout="row">
-                            <md-icon md-svg-icon="/images/ic_attach_money_24px.svg"></md-icon>
-                            <div layout="column">
-                                {{isValid(buyer.bu_payment_terms)? buyer.bu_payment_terms: 'Not Disclosed'}}
-                                <div class="label">Payment Terms</div>
-                            </div>
-                        </div>
+                        <span flex="25"></span>
 
                         <div layout="row" flex="30">
                             <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
@@ -53,9 +45,9 @@
                             </div>
                         </div>
 
-                        <span flex="10"></span>
+                        <span flex=""></span>
                     </div>
-                    <div layout-align="space-around start" class="farmer_info" layout="row">
+                    <div class="farmer_info" layout="row">
                         <div layout="row" flex="25">
                             <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                             <div layout="column">
@@ -63,7 +55,7 @@
                                 <div class="label">Contact</div>
                             </div>
                         </div>
-                        <span flex="5"></span>
+                        <span flex="25"></span>
                         <div layout="row" flex="40">
                             <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
                             <div layout="column">
@@ -71,10 +63,18 @@
                                 <div class="label">Email</div>
                             </div>
                         </div>
-                        <span flex="10"></span>
                     </div>
                     <div class="lastInfo" layout="row">
-                        <span flex="20"></span>
+
+                        <div flex="30" layout="row">
+                            <md-icon md-svg-icon="/images/ic_attach_money_24px.svg"></md-icon>
+                            <div layout="column"><br>
+                                {{isValid(buyer.bu_payment_terms)? buyer.bu_payment_terms: 'Not Disclosed'}}
+                                <div class="label">Payment Terms</div>
+                            </div>
+                        </div>
+
+                        <span flex="15"></span>
                         <div layout="row" flex="20"><md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon></div>
                         <div layout="column" >
                             {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
