@@ -317,48 +317,39 @@ function showSendEmailDialog($mdDialog, $scope){
                         (rep._lowertype.indexOf(lowercaseQuery) === 0);
                 };
             }
-
-
-                function loadReps() {
-                  var reps = $scope.demand.bu_buyer.re_representatives;
-                  reps[1] = {re_name: $scope.demand.bu_buyer.bu_buyer_name,
-                       re_email: $scope.demand.bu_buyer.bu_email};
-                return reps.map(function (rep) {
-                    rep._lowername = rep.re_name.toLowerCase();
-                    rep._lowertype = rep.re_email.toLowerCase();
-                    return rep;
-                });
+            /**
+             * Gets all Buyer representatives.
+             */
+            function loadReps() {
+              var reps = $scope.demand.bu_buyer.re_representatives;
+              reps[1] = {re_name: $scope.demand.bu_buyer.bu_buyer_name,
+                   re_email: $scope.demand.bu_buyer.bu_email};
+            return reps.map(function (rep) {
+                rep._lowername = rep.re_name.toLowerCase();
+                rep._lowertype = rep.re_email.toLowerCase();
+                return rep;
+              });
             }
             $scope.selectedReport = function(report_id){
                 $scope.selectedBuyerReports.push(report_id);
             };
-
             /*
              *  Dismisses the dialog box.
              */
             $scope.cancel = function(){
                 $mdDialog.hide();
             };
-
+            /**
+             * Determines is the user has selected a buyer report and email receipents.
+             * @return {Boolean} True if either a representative or buye report has been selected.
+             */
             isEmailAddressAndReportSelected = function(){
-<<<<<<< HEAD
-              if($scope.selectedBuyerReports.length > 0 &&
-               $scope.selectedReps.length > 0){
-                 return true;
-               }else{
-                 return false;
-               }
-            }
-=======
-                if($scope.selectedBuyerReports.length === 0 &&
-                    $scope.selectedReps.length === 0){
-                    return true;
-                }else{
+                if($scope.selectedReps.length <= 0 || $scope.selectedBuyerReports.length <= 0){
                     return false;
+                }else if($scope.selectedReps.length > 0 || $scope.selectedBuyerReports.length > 0){
+                  return true;
                 }
             };
-
->>>>>>> develop
             /**
              * Email(s) selected buyer report(s).
              * TODO - Before production, uncomment "to" line.
@@ -370,7 +361,7 @@ function showSendEmailDialog($mdDialog, $scope){
                 if($scope.demand.cr_crop.cr_crop_variety != " "){
                     email_subject += " - " + $scope.demand.cr_crop.cr_crop_variety;
                 }
-                var emails =  [];
+                var emails = [];
                 if(isEmailAddressAndReportSelected()){
                     for (var j in $scope.selectedReps) {
                         emails.push($scope.selectedReps[j].re_email);
@@ -378,36 +369,21 @@ function showSendEmailDialog($mdDialog, $scope){
                     for(var i in $scope.selectedBuyerReports) {
                         var report_url = '/report/' + $scope.selectedBuyerReports[i];
                         var report_id = $scope.selectedBuyerReports[i];
-                        $http.get(report_url,{params: {email_report: true}}).then(function(response){
-                            EmailFactory.create({
-<<<<<<< HEAD
-                                                  to: "tremainekbuchanan@gmail.com",
-                                                  //to: emails,
-                                                  subject: "Buyer Report",
-                                                  text: "Buyer Report Body",
-                                                  report_url: report_url,
-                                                  report_id: report_id,
-                                                  report_body: response.data
-                                                },
-                            function(success){
-                                $mdToast.show($mdToast.simple().position('top right').content('Email was successfully sent.'));
-                            },function(error){
-                                $mdToast.show($mdToast.simple().position('top right').content('Email was not sent.'));
-                             });
-=======
+                        $http.get(report_url,{params: {email_report: true}})
+                        .then(function(response){
+                              EmailFactory.create({
                                     to: emails,
                                     subject: email_subject,
                                     text: "Buyer Report Body",
                                     report_url: report_url,
                                     report_id: report_id,
-                                    report_body: response.data
-                                },
-                                function(success){
+                                    report_body: response.data,
+                                    email_type:"buyer_report"
+                                },function(success){
                                     $mdToast.show($mdToast.simple().position('top right').content('Email was successfully sent.'));
                                 },function(error){
                                     $mdToast.show($mdToast.simple().position('top right').content('Email was not sent.'));
                                 });
->>>>>>> develop
                         }, function(error){
                             $mdToast.show($mdToast.simple().position('top right').content('Unable to get your report'));
                         });

@@ -24,8 +24,8 @@
           <md-icon  style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon>
         </md-button>
         <md-menu-content width="2">
-        <md-menu-item>
-          <md-button ng-click="showAdmin($event)">
+        <md-menu-item ng-show="isAdmin">
+          <md-button ng-click="showAdmin($event)" >
             Admin Functions
           </md-button>
         </md-menu-item>

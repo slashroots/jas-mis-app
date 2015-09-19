@@ -122,12 +122,11 @@ angular.module('jasmic.controllers')
               }, function(error){
                   showDialog($mdDialog, error, false);
               });
-            EmailFactory.create({to: $scope.user_obj.us_email_address, email_type: "new_user_approval"},
-             function(success){
-              console.log('Bueno');
-            }, function(fail){
-              console.log('No Bueno');
-            });
+              EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"}, function(success){
+                console.log('Success');
+              }, function(error){
+                console.log("Error");
+              })
               $scope.user_obj = {};
               $scope.hideList.user = !$scope.hideList.user;
               getUsers();
@@ -198,12 +197,11 @@ angular.module('jasmic.controllers')
           }, function(error){
               showDialog($mdDialog,error,false);
           });
-          EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: 'new_user_approval'},
-          function(success){
-              console.log('Email Sent')
+          EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"}, function(success){
+            $mdToast.show($mdToast.simple().position('bottom').content('Approval email sent successfully.'));
           }, function(error){
-              console.log('Email No Sendo')
-          });
+            $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
+          })
           $scope.editUser = !$scope.editUser;
           $scope.hideList.user = !$scope.hideList.user;
           getUsers();
