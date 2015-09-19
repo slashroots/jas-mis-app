@@ -123,9 +123,9 @@ angular.module('jasmic.controllers')
                   showDialog($mdDialog, error, false);
               });
               EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"}, function(success){
-                console.log('Success');
+                $mdToast.show($mdToast.simple().position('bottom').content('Approval Email sent successfully.'));
               }, function(error){
-                console.log("Error");
+                $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
               })
               $scope.user_obj = {};
               $scope.hideList.user = !$scope.hideList.user;
