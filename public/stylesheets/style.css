@@ -114,6 +114,12 @@ ul.transcart li{
   background-size: 100%;
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 .internalpadding {
   padding: 5px;
 }
