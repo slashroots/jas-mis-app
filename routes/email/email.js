@@ -29,7 +29,7 @@ function routeEmailRequest(email_params, res, req){
 
   }else if(email_params.email_type === "new_user_approval"){
     email_body = '<h1>Account Approved!</h1><p>You are now able to access JASMIC.</p>' +
-                     '<p>Please click <a href="http://www.w3schools.com">Visit W3Schools.com!</a> and provide your username and password to gain access.</p>';
+                     '<p>Please click <a href="">here</a> to follow the link and provide your username and password to gain access.</p>';
     subject = "User Approval Completed";
     sendEmail(email_params, subject, email_body, res)
 
