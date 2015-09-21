@@ -23,7 +23,6 @@ var Transaction = model.Transaction,
  * @param res
  */
 exports.searchTransaction = function(req, res) {
-    console.log(req.query);
     Transaction.find(req.query)
         .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
