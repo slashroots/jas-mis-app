@@ -1,3 +1,5 @@
+var app = angular.module('jasmic-login', ['ngMaterial']);
+
 /**
 * Created by Tremaine Buchanan on 06/14/15
 * Hash password supplied by user once the user
