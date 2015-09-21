@@ -90,10 +90,12 @@ router.post('/register', function(req, res){
  * TODO - determine if the user object should be returned after creation.
  */
 function createUser(user, state, res){
-    var user = new User(user),
-        result = false;
+    var user = new User(user);
     user.us_state = state;
     user.us_username = user.us_email_address.substring(0,user.us_email_address.indexOf('@'));
+    if(state === 'Pending'){
+      user.ut_user_type = "Call Representative"
+    }
     user.save(function(err){
       if(err){
         common.handleDBError(err, res);
