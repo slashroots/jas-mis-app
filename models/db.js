@@ -273,12 +273,12 @@ var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
     us_username: {type: String, unique: true},
-    us_password: {type: String, default: "21232f297a57a5a743894a0e4a801fc3"},
-    ut_user_type: {type: String, required: true, default: 'Call Representative'},
+    us_password: {type: String, required: true},
+    ut_user_type: {type: String, required: true},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
     us_user_creation_date: {type: Date, default: Date.now()},
-    us_state: {type: String, default: 'pending'}
+    us_state: {type: String, default: 'Pending'}
 });
 
 var ReportSchema = new Schema({
