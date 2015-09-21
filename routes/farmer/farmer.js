@@ -462,20 +462,6 @@ exports.updateMembership = function(req, res) {
         });
     }
 };
-/*
-exports.updateCommodity = function(req, res) {
-    if(common.isAuthenticated(req, res)) {
-        Commodity.updateById(req.params.commodity_id, req.body, function (err, changes) {
-            if (err) {
-                handleDBError(err, res);
-            } else {
-                res.send(changes);
-            }
-        });
-    }
-};
-*/
-
 
 /**
  * Edits a commodity based on commodity's id.
@@ -499,8 +485,6 @@ exports.editCommodity = function(req, res) {
                 res.send(changes);
             }
         });
-
-        console.log(req.body);
 
         //res.end();
 

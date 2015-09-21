@@ -124,7 +124,15 @@
 
             <div ng-include="'/partials/statistics_small.html'"></div>
 
-            <div id="commodity-{{commodity._id}}" style="border-style:none;background-color:white;display:none;position:absolute;margin-left:50px;bottom:0px;" class="farmerInfo" layout-padding layout="column" ng-repeat="commodity in commodities">
+            <div id="commodity-{{commodity._id}}" flex="50" layout="row" style="z-index:100000;width:40%;border-style:none;background-color:white;display:none;position:absolute;margin-left:32px;bottom:0px;padding:0;" class="farmerInfo" layout-padding ng-repeat="commodity in commodities">
+
+                <div style="background-color:#d8e4f1;width:100%;height:80px;margin:0;padding:0;"><span style="font-weight:500;font-size:15px;padding-left:10px;line-height:80px;text-transform: uppercase;">{{isValid(commodity.cr_crop.cr_crop_name) ? commodity.cr_crop.cr_crop_name:  'N/A'}}</span>
+
+                    <md-button style="position:absolute;top:12px;right:24px;" ng-click="editFarmer()" class="md-icon-button" aria-label="Edit">
+                        <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
+                    </md-button>
+
+                </div>
 
                 <div layout-align="space-around start" class="farmer_info" layout="row">
 
@@ -145,6 +153,16 @@
                         </div>
                     </div>
 
+                    <div flex layout="row">
+
+                    </div>
+
+                </div>
+
+
+                <div layout-align="space-around start" class="farmer_info" layout="row">
+
+
 
                     <div flex layout="row">
                         <md-icon class="no-margin" md-svg-icon="/images/icons/icons_amount.svg"></md-icon>
@@ -153,20 +171,6 @@
                             <div class="label">Amount</div>
                         </div>
                     </div>
-
-                </div>
-
-
-                <div layout-align="space-around start" class="farmer_info" layout="row">
-
-                    <div flex layout="row">
-                        <md-icon class="no-margin" md-svg-icon="/images/icons/icons_recurring.svg"></md-icon>
-                        <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                            {{isValid(commodity.co_recurring) ? commodity.co_recurring:  'N/A'}}
-                            <div class="label">Recurring</div>
-                        </div>
-                    </div>
-
 
                     <div flex layout="row">
                         <md-icon class="no-margin" md-svg-icon="/images/icons/icons_payment_terms.svg"></md-icon>
@@ -189,6 +193,17 @@
 
 
                 <div layout-align="space-around start" class="farmer_info" layout="row">
+
+
+                    <div flex layout="row">
+                        <md-icon class="no-margin" md-svg-icon="/images/icons/icons_recurring.svg"></md-icon>
+                        <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
+                            {{isValid(commodity.co_recurring) ? commodity.co_recurring:  'N/A'}}
+                            <div class="label">Recurring</div>
+                        </div>
+                    </div>
+
+
 
                     <div flex layout="row">
                         <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
