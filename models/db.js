@@ -125,7 +125,8 @@ var DemandSchema = new Schema({
     ct_comments: [CommentSchema],
     de_demand_met: {type: Boolean, default: false},
     de_unmet_amount: {type: Number, default: 0},
-    de_met_amount: {type: Number, default: 0}
+    de_met_amount: {type: Number, default: 0},
+    de_notes: String
 });
 var TransactionSchema = new Schema({
     bu_buyer: {type: Schema.Types.ObjectId, required: true, ref: 'Buyer'},
@@ -200,6 +201,7 @@ var BuyerSchema = new Schema({
     bu_phone: String,
     bu_email: String,
     bu_payment_terms: String,
+    bu_verified: {type: Boolean, required: true, default: false},
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
@@ -270,13 +272,15 @@ var AuditSchema = new Schema({
 var UserSchema = new Schema({
     us_user_first_name: {type: String, required: true},
     us_user_last_name: {type: String, required: true},
-    us_username: {type: String, unique: true, required: true},
-    us_password: {type: String, required: true},
-    ut_user_type: {type: String, required: true},
+    us_username: {type: String, unique: true},
+    us_password: {type: String, default: "21232f297a57a5a743894a0e4a801fc3"},
+    ut_user_type: {type: String, required: true, default: 'Call Representative'},
     us_email_address: {type: String, required: true},
     us_contact: {type: String, required: true},
-    us_user_creation_date: {type: Date, default: Date.now()}
+    us_user_creation_date: {type: Date, default: Date.now()},
+    us_state: {type: String, default: 'pending'}
 });
+
 var ReportSchema = new Schema({
     re_report_date: {type: Date},
     de_demand: {type: Schema.Types.ObjectId, required: true, ref: 'Demand'},
@@ -291,7 +295,7 @@ var EmailTypeSchema = new Schema({
 });
 
 var EmailSchema = new Schema({
-    et_email_type: {type: Schema.Types.ObjectId, required: true, ref:'EmailType'},
+    //et_email_type: {type: Schema.Types.ObjectId, required: true, ref:'EmailType'},
     em_to: {type: String, required: true},
     em_from: {type: String, required: true},
     em_subject: {type: String, required: true},

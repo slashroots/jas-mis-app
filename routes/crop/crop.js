@@ -25,7 +25,22 @@ exports.findCrops = function(req, res) {
             }
         });
 };
-
+/**
+ * Retrieves all crops.
+ * @param req
+ * @param res
+ */
+exports.getCrops = function(req, res){
+    if(common.isAdmin(req, res)){
+        Crop.find(function(err, crops){
+           if(err){
+                common.handleDBError(err, res);
+           }else{
+               res.send(crops);
+           }
+        });
+    }
+};
 
 /**
  * Create a crop based on the contents of the request body.
@@ -33,14 +48,16 @@ exports.findCrops = function(req, res) {
  * @param res
  */
 exports.createCrop = function(req, res) {
-    var crop = new Crop(req.body);
-    crop.save(function(err, c) {
-        if(err) {
-            common.handleDBError(err, res);
-        } else {
-            res.send(c);
-        }
-    });
+    if(common.isAdmin(req, res)){
+        var crop = new Crop(req.body);
+        crop.save(function(err, crop) {
+            if(err) {
+                common.handleDBError(err, res);
+            } else {
+                res.send(crop);
+            }
+        });
+    }
 };
 
 /**

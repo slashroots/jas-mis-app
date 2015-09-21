@@ -5,6 +5,11 @@
     <title><%=title%></title>
   </head>
   <body style="font-family: 'Helvetica', 'Arial', 'Lucida Grande,'sans-serif';">
+    <% if(email_report == 'true'){ %>
+      <p>Your demand for <strong><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%>s
+        of <%=buyer_info.cr_crop.cr_crop_name%></strong> has been matched by <strong><%=commodities.length%> </strong>supplier(s).</p>
+     <p>Here is a detailed report outlining supply(s) that match your demand.</p>
+  <% } %>
   <table style="width: 8in;border: 2px solid black; border-spacing:0px;">
   <tr>
     <td style="padding:0px;">

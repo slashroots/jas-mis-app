@@ -97,7 +97,8 @@ exports.renderReport = function(req, res) {
                                             crop_dates: crop_avail_dates,
                                             us_user: req.user,
                                             image_paths: setImageSrcPaths(req.query.email_report),
-                                            addresses: addresses
+                                            addresses: addresses,
+                                            email_report: req.query.email_report
                                         });
                                 }
                             });
@@ -111,7 +112,7 @@ exports.renderReport = function(req, res) {
 /**
  * Sets the buyer report image paths based on how the report will be rendered
  * @param {Boolean} email_report Determine if the report should be rendered to the browser or emailed
- * @return {Object} paths 
+ * @return {Object} paths
  */
 function setImageSrcPaths(email_report){
   var paths = { logo: '/images/report-icons/jas_logo_knockout-01.png',

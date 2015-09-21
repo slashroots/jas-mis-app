@@ -13,6 +13,7 @@ dummyfunction = function(req, res) {
  * End Points relevant to Crop
  */
 router.get('/crops', Crop.findCrops);
+router.get('/crops', Crop.getCrops);
 router.post('/crops', Crop.batchUpdate);
 router.post('/crop', Crop.createCrop);
 router.put('/crop/:id', Crop.updateCropById);

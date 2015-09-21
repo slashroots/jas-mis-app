@@ -3,18 +3,20 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
+    .controller('DashboardCtrl', ['$scope','$location','$routeParams', '$mdDialog','CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
         'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
-        function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
+        function ($scope, $location, $routeParams, $mdDialog, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
                   ParishesFactory, SuppliersFactory, InputsFactory) {
+
             /**
              * Gets all calls associated with the logged in
              * user id.
              * TODO - New user objects will have a us_user_id field and the function
              * will be updated to reflect this change.
              */
+            $scope.isAdmin = false;
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
                     $scope.calls = calls;
@@ -45,7 +47,6 @@ angular.module('jasmic.controllers')
                 function(error) {
                     $scope.demands = [];
                 });
-
             /**
              * Looks up all opened transactions
              */
@@ -74,7 +75,6 @@ angular.module('jasmic.controllers')
                 transactions: false,
                 closed_transactions: false
             };
-
             /**
              * sets the states of the drop down menus
              * @param item
@@ -123,7 +123,6 @@ angular.module('jasmic.controllers')
                     $scope.inputs = [];
                 });
             };
-
             /**
              *
              */
@@ -132,13 +131,12 @@ angular.module('jasmic.controllers')
                     $scope.inputs = inputs;
                 });
             };
-
             /**
              * Populate all the inputs to the dashboard
              * interface. TODO: This query isn't restricted!
              */
             InputsFactory.query(function(inputs) {
                 $scope.inputs = inputs;
-            })
+            });
         }
     ]);

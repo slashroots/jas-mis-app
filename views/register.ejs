@@ -28,22 +28,36 @@
     <div layout="column" flex="50" flex-md="100" flex-sm="100">
         <div layout-padding layout="row" class="loginHeader" layout-align="start center" flex>
             <span flex="10"></span>
-            <img class="scale" src="../images/login-icon.png"/>
-            <h1>Login</h1>
+            <img class="scale" src="../images/ic_account_box_24px.svg"/>
+            <h1>Register</h1>
             <span flex></span>
         </div>
         <div layout-padding layout="column" flex>
-        <form layout="column" layout="center center" method="POST" action="/login?goTo=<%=goTo%>">
-                
+          <p id="message" class="loginEntry"></p>
+            <form layout="column" layout="center center" novalidate id="register">
                 <div layout="column" layout-align="center center" layout-padding>
-                    <input class="loginEntry userLogin" placeholder="Username" type="text" name="username"/>
+                    <input class="loginEntry userLogin" placeholder="First Name" type="text"
+                    name="us_user_first_name"/>
                 </div>
                 <div layout="column" layout-align="center center" layout-padding>
-                    <input class="loginEntry pass" placeholder="Password" type="password" name="blank" id="blank"/>
+                    <input class="loginEntry userLogin" placeholder="Last Name" type="text" name="us_user_last_name"/>
                 </div>
-                <input type="hidden" id="password" name="password" />
+                <div layout="column" layout-align="center center" layout-padding>
+                    <input class="loginEntry userLogin" placeholder="Email Address" type="text" name="us_email_address"/>
+                </div>
+                <div layout="column" layout-align="center center" layout-padding>
+                    <input class="loginEntry userLogin" placeholder="Contact Number" type="text" name="us_contact"/>
+                </div>
+                <div layout="column" layout-align="center center" layout-padding>
+                    <input class="loginEntry pass" placeholder="Password" type="password" id="blank"/>
+                </div>
+                <div layout="column" layout-align="center center" layout-padding>
+                    <input class="loginEntry pass" placeholder="Confirm Password" type="password" id="blank_confirm"/>
+                </div>
+                <input type="hidden" id="password" name="us_password" />
+                <input type="hidden" id="confirm" name="us_confirm" />
                 <div layout="column" layout-padding layout-align="center center">
-                    <input class="btn btn-primary" type="submit" value="Login"/>
+                    <input class="btn btn-primary" type="button" value="Register" id="register_user"/>
                 </div>
             </form>
         </div>

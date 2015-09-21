@@ -16,10 +16,14 @@ angular.module('jasmic.controllers')
              */
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
+                if($scope.loggedUser.ut_user_type === "Administrator"){
+                  $scope.isAdmin = true;
+                }else{
+                  $scope.isAdmin = false;
+                }
             }, function(fail) {
-                console.log(fail);
+                $scope.goTo('login');
             });
-
             /**
              * Go to another section of the angular application
              * @param l
@@ -48,6 +52,23 @@ angular.module('jasmic.controllers')
              */
             $scope.createInput = function(){
                 showNewInputDialog($mdDialog,$scope);
+            };
+            /**
+             * Shows the administrative functions for an admin user
+             */
+            $scope.showAdmin = function(){
+              if($scope.loggedUser.ut_user_type === "Administrator"){
+                  $scope.goTo('admin');
+              }
+            };
+
+            $scope.openMenu = function($mdOpenMenu, ev){
+              var originatorEv;
+              $mdOpenMenu(ev);
+            };
+
+            $scope.showChangePasswordDialog = function(){
+              showChangePasswordDialog($mdDialog, $scope);
             };
         }]);
 
@@ -181,6 +202,42 @@ function showNewInputDialog($mdDialog, $scope){
                     $mdDialog.hide();
                     showDialog($mdDialog, error, false);
                 });
+            };
+        }//end of controller
+    });
+};
+
+
+function showChangePasswordDialog($mdDialog, $scope){
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/user_password_change_form.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         * @param SuppliersFactory
+         * @param UnitsFactory
+         * @param InputsFactory
+         *
+         */
+        controller: function ChangePasswordController($scope, $mdDialog){
+            /**
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
+                $mdDialog.hide();
+            };
+            /**
+             * Saves a new input for a supplier.
+             **/
+            $scope.save = function(){
+              $scope.hash = CryptoJS.MD5($scope.change.old_pass);
+              console.log($scope.change.pass);
+              console.log($scope.hash);
             };
         }//end of controller
     });

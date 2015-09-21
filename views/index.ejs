@@ -18,8 +18,21 @@
         <md-option ng-click="goTo('supplies')" value="Supply Data"><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon> Supply Data</md-option>
       </md-select>
       <span flex></span>
+      <md-menu md-position-mode="target-right target">
+        <!-- <md-button aria-label="More" ng-click="showAdmin();"> -->
+        <md-button aria-label="Settings"  class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+          <md-icon  style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon>
+        </md-button>
+        <md-menu-content width="2">
+        <md-menu-item ng-show="isAdmin">
+          <md-button ng-click="showAdmin($event)" >
+            Admin Functions
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+          </md-button>
+      </md-menu>
 
-      <md-button aria-label="More"><md-icon style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon></md-button>
       <md-button ng-click="logout()" aria-label="Exit">
         <md-icon style="color: grey" md-svg-src="/images/ic_exit_to_app_24px.svg"></md-icon>
         <md-tooltip>Exit {{loggedUser.us_user_first_name}} {{loggedUser.us_user_last_name}}</md-tooltip>
@@ -40,9 +53,9 @@
     </md-fab-trigger>
 
     <md-fab-actions style="text-align:center;">
-      <md-button ng-click="goTo('farmer')" class="md-fab-top-left" aria-label="Add New Farmer">
+      <!--<md-button ng-click="goTo('farmer')" class="md-fab-top-left" aria-label="Add New Farmer">
         Farmer
-      </md-button>
+      </md-button>-->
       <md-button ng-click="goTo('buyer')" class="md-fab-top-left" aria-label="Add New Buyer">
         Buyer
       </md-button>
@@ -52,9 +65,9 @@
       <md-button ng-click="goTo('transaction')" class="md-fab-top-left" aria-label="Add New Transaction">
         Transaction
       </md-button>
-      <md-button ng-click="goTo('supplier')" class="md-fab-top-left" aria-label="Add New Farm Store">
+      <!-- <md-button ng-click="goTo('supplier')" class="md-fab-top-left" aria-label="Add New Farm Store">
         Farm Store
-      </md-button>
+      </md-button> -->
     </md-fab-actions>
 
     </md-fab-speed-dial>
@@ -146,8 +159,10 @@
 <script src="../javascripts/controllers/dashboard-ctrl.js"></script>
 <script src="../javascripts/controllers/demand-ctrl.js"></script>
 <script src="../javascripts/controllers/commodity-ctrl.js"></script>
+<script src="../javascripts/controllers/admin-ctrl.js"></script>
 <script src="../javascripts/filters.js"></script>
 <script src="../javascripts/directives.js"></script>
-
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
 </body>
 </html>
