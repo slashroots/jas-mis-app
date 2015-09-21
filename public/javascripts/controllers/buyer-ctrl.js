@@ -151,7 +151,7 @@ angular.module('jasmic.controllers')
                 DemandsFactory.query({id: $routeParams.id}, function(listing) {
                     $scope.demands = listing;
                 }, function(fail) {
-                    console.log(fail);
+                    $scope.demands = [];
                 });
             };
             loadAll();
@@ -164,7 +164,7 @@ angular.module('jasmic.controllers')
                units.forEach(function(unit, index){
                   if(unit.un_unit_name === "UNIT")
                     units.splice(index, 1);
-               });               
+               });
                $scope.units = units;
             });
 
