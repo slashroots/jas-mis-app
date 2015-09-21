@@ -86,9 +86,15 @@ $(function(){
 				 url: '/register',
 				 data: user
 		});
+		var email_request = $.ajax({
+				 method: 'POST',
+				 url: '/email',
+				 data: {to: user.us_email_address, email_type: "new_user_registration"}
+		});
 		request.done(function(response){
 			 displayMessage('success');
 			 $('#register').trigger('reset');
+			 $('#register').hide();
 		});
 		request.fail(function(jqXHR, textStatus){
 			displayMessage('fail');

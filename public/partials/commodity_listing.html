@@ -10,7 +10,7 @@
                             <div style="left:20%;" flex>Quantity</div>
                             <div style="left:40%;" flex>Price Per LB.</div>
                             <div style="left:60%;" flex>Availability Date</div>
-                            <div style="left:80%;" flex>Buyer</div>
+                            <div style="left:80%;" flex>Farmer</div>
                         </div>
                         <div layout-padding layout="row" ng-repeat="commodity in commodities" ng-click="selectedItem(commodity)">
                             <div flex>{{ commodity.cr_crop.cr_crop_name }}{{ commodity.cr_crop.cr_crop_variety?" - " + commodity.cr_crop.cr_crop_variety:"" }}</div>

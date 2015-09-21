@@ -97,11 +97,11 @@
                     <table class="table table-hover table-mc-light-blue" ng-if="commodities.length > 0">
                         <thead>
                         <tr>
-                            <th>Farmer Name</th>
-                            <th>Supply Name</th>
+                            <th>Farmer</th>
+                            <th>Supply</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
-                            <th></th>
+                            <th>Select</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -115,7 +115,7 @@
                             <td>{{ commodity.cr_crop.cr_crop_name }}{{ commodity.cr_crop.cr_crop_variety?" - " + commodity.cr_crop.cr_crop_variety:"" }}</td>
                             <td>{{ commodity.co_quantity |number }} {{commodity.un_quantity_unit.un_unit_name}}</td>
                             <td>{{ commodity.co_price | currency }} per {{commodity.un_price_unit.un_unit_name}}</td>
-                            <td><input type="checkbox"></td>
+                            <td ><input type="checkbox"></td>
                         </tr>
                         </tbody>
                     </table>

@@ -58,7 +58,7 @@ passport.use(new LocalStrategy(
             };
             return done(null, user);
         } else {
-            User.findOne({ us_username: username, us_state: 'approved' }, function(err, user) {
+            User.findOne({ us_username: username, us_state: 'Approved' }, function(err, user) {
                 if (err || !user){
                   return done(null, false, { message: 'Incorrect username or password' });
                 }
@@ -74,14 +74,14 @@ passport.use(new LocalStrategy(
  */
 router.post('/user', function(req, res) {
     if(common.isAdmin(req, res)) {
-        createUser(req.body, 'approved', res);
+        createUser(req.body, 'Approved', res);
     }
 });
 /**
  * Registers a new user.
  */
 router.post('/register', function(req, res){
-   createUser(req.body, 'pending', res);
+   createUser(req.body, 'Pending', res);
 });
 /**
  * Creates a new user.
@@ -98,7 +98,7 @@ function createUser(user, state, res){
       if(err){
         common.handleDBError(err, res);
       }else{
-        res.send(user);
+         res.send(user);
       }
     });
 };
