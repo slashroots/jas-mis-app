@@ -234,6 +234,7 @@ angular.module('jasmic.controllers')
                 $scope.transaction = {};
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
+                lookupDemandMatches();
             };
             /**
              * Shows dialog to choose buyer report to be emailed.
