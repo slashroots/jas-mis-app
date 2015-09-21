@@ -36,10 +36,10 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
+    .controller('FarmerProfileCtrl', ['$scope', '$window', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory','CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory','CommodityEditFactory', 'FarmEditFactory',
-        function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
+        function ($scope, $window, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CommodityEditFactory, FarmEditFactory) {
             /**
@@ -189,13 +189,17 @@ angular.module('jasmic.controllers')
 
                 CommodityEditFactory.update({id:$scope.commodities[$scope.editingCommodity].fa_farmer._id, commodity_id:$scope.commodity._id}, $scope.commodity, function(success) {
 
-                    console.log("Success");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                     $scope.editCommodity = false;
 
                 }, function (error) {
 
-                    console.log("Error");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Commodity!"}, true);
 
                 });
 
@@ -208,11 +212,15 @@ angular.module('jasmic.controllers')
 
                 FarmEditFactory.update({id:$scope.farmer._id, farm_id:$scope.farm._id}, $scope.farm, function(success) {
 
-                    console.log("Success");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    console.log("Error");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Farm!"}, true);
 
                 });
 
