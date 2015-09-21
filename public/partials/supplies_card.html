@@ -46,13 +46,13 @@
 
     </style>
 
-    <table class="table-striped">
+    <table class="table-striped" id="commodities-table">
 
-        <thead><td><b>Produce</b></td><td><b>Amount</b></td><td><b>Price</b></td><td><b>Payment Terms</b></td><td></td></thead>
+        <thead><td><b>Produce</b></td><td><b>Amount</b></td><td><b>Price</b></td><td><b>Payment Terms</b></td></thead>
 
         <tbody>
 
-        <tr class="commodity-row" ng-repeat="commodity in commodities" onmouseover="document.getElementById('commodity-' + this.id).style.display='block'" onmouseout="document.getElementById('commodity-' + this.id).style.display='none'" id="{{commodity._id}}">
+        <tr class="commodity-row" ng-repeat="commodity in commodities" ng-click="hidePopupCommodities(commodity);" id="{{commodity._id}}">
 
             <td>{{isValid(commodity.cr_crop.cr_crop_name) ? commodity.cr_crop.cr_crop_name:  'N/A'}}</td>
 
@@ -61,8 +61,6 @@
             <td>${{isValid(commodity.co_price) ? commodity.co_price:  'N/A'}} per {{commodity.un_quantity_unit.un_unit_name}}</td>
 
             <td>{{isValid(commodity.co_payment_preference) ? commodity.co_payment_preference:  'N/A'}}</td>
-
-            <td><md-button style="float:right;" id="{{$index}}" ng-click="editCommodityItem($index)">Edit</md-button></td>
 
         </tr>
 

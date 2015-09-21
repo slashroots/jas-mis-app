@@ -176,6 +176,10 @@ angular.module('jasmic.controllers')
 
             $scope.editCommodityItem = function(arrayindex) {
 
+                if (arrayindex == null) document.getElementById("commodities-table").style.visibility='visible'; //if cancel button was clicked
+
+                else document.getElementById("commodities-table").style.visibility='hidden';
+
                 $scope.editCommodity = !$scope.editCommodity;
                 $scope.commodity = $scope.commodities[arrayindex];
                 $scope.commodity.co_availability_date= moment().toDate();
@@ -194,6 +198,8 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                     $scope.editCommodity = false;
+
+                    document.getElementById("commodities-table").style.visibility='visible';
 
                 }, function (error) {
 
@@ -234,6 +240,25 @@ angular.module('jasmic.controllers')
             $scope.commodity = {};
             var selectedCrop;
             var selectedDistrict;
+
+
+            /*
+
+            This hides all the commodity cards to ensure that the one clicked is the only one on screen
+
+             */
+
+            $scope.hidePopupCommodities = function(commodity){
+
+                var elements = document.getElementsByClassName('popupcommodities');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].style.display = "none";
+                }
+
+                document.getElementById('commodity-' + commodity._id).style.display='block';
+
+            }
 
             /**
              * Open the page for editing the farmer.
