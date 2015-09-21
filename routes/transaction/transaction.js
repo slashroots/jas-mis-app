@@ -23,6 +23,7 @@ var Transaction = model.Transaction,
  * @param res
  */
 exports.searchTransaction = function(req, res) {
+    console.log(req.query);
     Transaction.find(req.query)
         .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {
@@ -43,7 +44,7 @@ exports.searchTransaction = function(req, res) {
 exports.searchOpenTransaction = function(req, res) {
     var query = req.query;
     query['$or'] = [{tr_status: 'Pending'},
-        {tr_status: 'Waiting'},{tr_status: 'Completed'}];
+        {tr_status: 'Waiting'}];
     Transaction.find(query)
         .populate('bu_buyer fr_farmer co_commodity cr_crop de_demand')
         .exec(function(err, list) {

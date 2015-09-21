@@ -48,21 +48,16 @@ angular.module('jasmic.controllers')
               /**
                * Loads all transactions and separates each type of transactions
                */
-              TransactionsFactory.query(function(transactions){
-                  var pending_trans = [], closed_trans = [];
-                  transactions.forEach(function(transaction){
-                    if(transaction.tr_status === "Pending"){
-                      pending_trans.push(transaction);
-                    }
-                    else if (transaction.tr_status === "Completed") {
-                        closed_trans.push(transaction);
-                    }
-                  })
-                  $scope.closed_transactions = closed_trans;
-                  $scope.open_transactions = pending_trans;
+              OpenTransactionsFactory.query(function(o_trans){
+                  $scope.open_transactions = o_trans;
               }, function(error){
-                $scope.closed_transactions = [];
                 $scope.open_transactions = [];
+              });
+              
+              TransactionsFactory.query({tr_status: "Completed"}, function(completed_trans){
+                  $scope.closed_transactions = completed_trans;
+              }, function(error){
+                  $scope.closed_transactions = [];
               });
             /**
              * States of the drop down - false = closed
