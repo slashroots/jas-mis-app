@@ -183,6 +183,10 @@ exports.editRep = function(req, res) {
 
             doc.save();
 
+            res.status(200);
+
+            res.send({code: "Success"});
+
         });
 
     }

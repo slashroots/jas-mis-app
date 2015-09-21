@@ -68,9 +68,9 @@ angular.module('jasmic.controllers')
      * then creation of the buyer object for the view to render.  It also
      * populates the parishes combo box for user interaction.
      */
-    .controller('EditBuyerCtrl', ['$location', '$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('EditBuyerCtrl', ['$location', '$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
         'ParishesFactory', 'BuyerTypesListingFactory',
-        function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
+        function ($location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
             BuyerFactory.show({id:$routeParams.id},
                 function(buyer) {
                     $scope.buyer = buyer;
@@ -109,10 +109,10 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('BuyerProfileCtrl', ['$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
         'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory',
-        function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+        function ($location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandEditFactory, DemandsFactory) {
 
@@ -228,11 +228,15 @@ angular.module('jasmic.controllers')
 
                 DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
 
-                    console.log("Success");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    console.log("Error");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
 
                 });
 
@@ -245,11 +249,15 @@ angular.module('jasmic.controllers')
 
                 RepEditFactory.update({id:$scope.buyer._id, rep_id:$scope.representative._id}, $scope.representative, function(success) {
 
-                    console.log("Success");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    console.log("Error");
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Employee!"}, false);
 
                 });
 
