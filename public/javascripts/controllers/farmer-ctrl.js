@@ -303,7 +303,11 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
     /**
      * Fetches the units that user can select
      */
-    $scope.units = UnitsFactory.query({});
+     UnitsFactory.query({}, function(units){
+       UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+              $scope.units = units;
+      });
+    });
 
 
     $scope.saveCommodity = function() {

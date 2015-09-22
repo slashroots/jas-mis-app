@@ -151,7 +151,7 @@ angular.module('jasmic.controllers')
                 DemandsFactory.query({id: $routeParams.id}, function(listing) {
                     $scope.demands = listing;
                 }, function(fail) {
-                    console.log(fail);
+                    $scope.demands = [];
                 });
             };
             loadAll();
@@ -160,7 +160,9 @@ angular.module('jasmic.controllers')
             /**
              * Fetches the units that user can select
              */
-            $scope.units = UnitsFactory.query({});
+             UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+                    $scope.units = units;
+            });
 
             $scope.isValid = isValid;
             $scope.isBuyerContext = true;

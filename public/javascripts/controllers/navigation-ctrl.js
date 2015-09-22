@@ -16,11 +16,12 @@ angular.module('jasmic.controllers')
              */
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
+
                 if($scope.loggedUser.ut_user_type === "Administrator"){
                   $scope.isAdmin = true;
                 }else{
                   $scope.isAdmin = false;
-                }
+                };
             }, function(fail) {
                 $scope.goTo('login');
             });
@@ -179,7 +180,7 @@ function showNewInputDialog($mdDialog, $scope){
             SuppliersFactory.query(function(suppliers){
                 $scope.suppliers = suppliers;
             });
-            UnitsFactory.query(function(units){
+            UnitsFactory.query({},function(units){
                 $scope.units = units;
             });
             InputTypesFactory.query(function(input_types){
@@ -190,6 +191,7 @@ function showNewInputDialog($mdDialog, $scope){
              */
             $scope.cancel = function(){
                 $mdDialog.hide();
+                $scope.input = {};
             };
             /**
              * Saves a new input for a supplier.
@@ -202,6 +204,7 @@ function showNewInputDialog($mdDialog, $scope){
                     $mdDialog.hide();
                     showDialog($mdDialog, error, false);
                 });
+                $scope.input = {};
             };
         }//end of controller
     });
