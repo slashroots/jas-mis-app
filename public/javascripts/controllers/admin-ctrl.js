@@ -1,8 +1,8 @@
 angular.module('jasmic.controllers')
     .controller('AdministratorCtrl', ['$scope','$mdDialog','UsersFactory','CropsFactory','SuppliersFactory',
-    'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory',
+    'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
     function($scope, $mdDialog, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
-    SupplierFactory, EmailFactory, UserProfileFactory){
+    SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory){
       /**
        * Get all users from the database.
        */
@@ -36,6 +36,16 @@ angular.module('jasmic.controllers')
         });
       };
       getSuppliers();
+
+      getParishes = function(){
+        ParishesFactory.query({}, function(parishes){
+            $scope.parishes = parishes;
+            console.log(parishes);
+        }, function(error){
+            $scope.parishes = [];
+        });
+      }
+      getParishes();
 
       $scope.user_obj = {};
       $scope.crop_type = {};
