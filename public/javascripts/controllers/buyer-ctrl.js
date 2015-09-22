@@ -160,12 +160,8 @@ angular.module('jasmic.controllers')
             /**
              * Fetches the units that user can select
              */
-             UnitsFactory.query({}, function(units){
-               units.forEach(function(unit, index){
-                  if(unit.un_unit_name === "UNIT")
-                    units.splice(index, 1);
-               });
-               $scope.units = units;
+             UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+                    $scope.units = units;
             });
 
             $scope.isValid = isValid;
