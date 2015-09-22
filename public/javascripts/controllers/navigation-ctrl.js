@@ -168,7 +168,7 @@ function showNewInputDialog($mdDialog, $scope){
             SuppliersFactory.query(function(suppliers){
                 $scope.suppliers = suppliers;
             });
-            UnitsFactory.query({un_unit_class: "Input"},function(units){
+            UnitsFactory.query({},function(units){
                 $scope.units = units;
             });
             InputTypesFactory.query(function(input_types){
