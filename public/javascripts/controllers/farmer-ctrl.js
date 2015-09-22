@@ -43,11 +43,11 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
+    .controller('FarmerProfileCtrl', ['$q', '$window', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
         'CallLogsFactory',
-        function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
+        function ($q, $window, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory) {
             /**
@@ -171,7 +171,7 @@ angular.module('jasmic.controllers')
 
             $scope.saveCommodity = function() {
 
-                if ($scope.date_valid) {
+                if ($scope.commodity_date_valid) {
 
                     $scope.commodity.cr_crop = selectedCrop;
                     CommodityFactory.create({id: $scope.farmer._id}, $scope.commodity, function (success) {
@@ -180,6 +180,14 @@ angular.module('jasmic.controllers')
                     }, function (error) {
                         showDialog($mdDialog, error, true);
                     })
+
+                }
+
+                else {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Please double-check the selected dates!"}, false);
 
                 }
 
@@ -295,7 +303,7 @@ function showDialog($mdDialog, message, isError) {
     );
 };
 
-function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
+function NewCommodityCtrl($q, $scope, $mdDialog, $window, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
     var self = this;
     self.commodity = {};
     self.commodity.co_availability_date= moment().toDate();
@@ -333,12 +341,25 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
 
 
     $scope.saveCommodity = function() {
-        self.commodity.cr_crop = self.selectedCrop;
+        if ($scope.commodity_date_valid) {
+
+            self.commodity.cr_crop = self.selectedCrop;
         CommodityFactory.create({id:$routeParams.id}, self.commodity, function(success) {
             $scope.newCommodityItem();
             $scope.populateCommodities();
         }, function(error) {
             showDialog($mdDialog, error, true);
         })
+
+        }
+
+        else {
+
+            $window.scrollTo(0,0);
+
+            showDialog($mdDialog, {statusText:"Please double-check the selected dates!"}, false);
+
+        }
+
     };
 };

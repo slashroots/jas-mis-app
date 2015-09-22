@@ -108,10 +108,10 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
         'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory',
-        function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+        function ($q, $location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
@@ -261,6 +261,14 @@ angular.module('jasmic.controllers')
                     }, function (error) {
                         showDialog($mdDialog, error, true);
                     })
+
+                }
+
+                else {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Validation Error! Please double-check the selected dates!"}, false);
 
                 }
             };
