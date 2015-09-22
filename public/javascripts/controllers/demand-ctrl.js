@@ -33,10 +33,9 @@ angular.module('jasmic.controllers')
         }
     ])
     .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', '$window', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory',
-        'OpenTransactionsFactory',
+        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory', 'TransactionsFactory',
         function ($scope, $mdToast, $location, $mdDialog, $routeParams, $window, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, OpenTransactionsFactory) {
+                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, TransactionsFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -47,15 +46,15 @@ angular.module('jasmic.controllers')
             /**
              * Get all open transactions matching demand.
              */
-            loadOpenTransactions = function(){
-                OpenTransactionsFactory.query({de_demand:$routeParams.id}, function(transactions){
+            loadAllTransactions = function(){
+                TransactionsFactory.query({de_demand: $routeParams.id}, function(transactions){
                     $scope.transactions = transactions;
                 }, function(error){
                     $scope.transactions = [];
                 });
             };
 
-            loadOpenTransactions();
+            loadAllTransactions();
             /**
              * Lookup Demand information based on ID supplied in the URL.
              */
@@ -104,7 +103,7 @@ angular.module('jasmic.controllers')
                             $mdToast.show($mdToast.simple().position('top right').content('Unable to create transaction.'));
                         });
                 }
-                loadOpenTransactions();
+                loadAllTransactions();
                 lookupReports();
             };
 
@@ -190,7 +189,7 @@ angular.module('jasmic.controllers')
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
-                loadOpenTransactions();
+                loadAllTransactions();
                 lookupReports();
             };
             /**
@@ -216,7 +215,7 @@ angular.module('jasmic.controllers')
             $scope.cancel = function(){
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
-                loadOpenTransactions();
+                loadAllTransactions();
             };
             /**
              * Updates a transaction's status
@@ -234,6 +233,7 @@ angular.module('jasmic.controllers')
                 $scope.transaction = {};
                 $scope.transactionSelected = !$scope.transactionSelected;
                 $scope.updateTransaction = !$scope.updateTransaction;
+                lookupDemandMatches();
             };
             /**
              * Shows dialog to choose buyer report to be emailed.

@@ -9,7 +9,6 @@ angular.module('jasmic.controllers')
         function ($scope, $location, $routeParams, $mdDialog, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
                   ParishesFactory, SuppliersFactory, InputsFactory) {
-
             /**
              * Gets all calls associated with the logged in
              * user id.
@@ -36,7 +35,6 @@ angular.module('jasmic.controllers')
                 $scope.total_calls = [];
               });
             };
-
             lookupCallsForToday();
             /**
              * looks up current demands
@@ -47,24 +45,20 @@ angular.module('jasmic.controllers')
                 function(error) {
                     $scope.demands = [];
                 });
-            /**
-             * Looks up all opened transactions
-             */
-            OpenTransactionsFactory.query(function (o_trans) {
-                    $scope.open_transactions = o_trans;
-                },
-                function(err) {
-                    $scope.open_transactions = [];
-                });
-
-            TransactionsFactory.query({tr_status: "Completed"}, function(closed_transactions){
-              $scope.closed_transactions = closed_transactions;
-            }, function(error){
-              $scope.closed_transactions = [];
-            });
-
-
-
+              /**
+               * Loads all transactions and separates each type of transactions
+               */
+              OpenTransactionsFactory.query(function(o_trans){
+                  $scope.open_transactions = o_trans;
+              }, function(error){
+                $scope.open_transactions = [];
+              });
+              
+              TransactionsFactory.query({tr_status: "Completed"}, function(completed_trans){
+                  $scope.closed_transactions = completed_trans;
+              }, function(error){
+                  $scope.closed_transactions = [];
+              });
             /**
              * States of the drop down - false = closed
              * @type {{demand: boolean, calls: boolean, transactions: boolean, closed_transactions: boolean}}
