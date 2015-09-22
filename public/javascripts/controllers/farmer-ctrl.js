@@ -185,8 +185,16 @@ angular.module('jasmic.controllers')
                 });
                 return deferred.promise;
             };
+
             $scope.selectedDistrictChange = function(item) {
                 selectedDistrict = (item)?item._id:{};
+            };
+
+            $scope.createFarmerCall = function(){
+              $scope.cc_caller_id = $scope.farmer.fa_contact1 || $scope.farmer.fa_contact2;
+              $scope.cc_entity_id = $scope.farmer._id;
+              $scope.cc_entity_type = "farmer";
+              showCallInputDialog($mdDialog, $scope);
             };
         }
     ])
