@@ -15,7 +15,7 @@
                     <tbody>
                     <tr ng-repeat="call in calls" class="repeated-item">
                         <td>{{ call.cc_entity_name }}</td>
-                        <td>{{ call.cc_date}}</td>
+                        <td>{{ call.cc_date | date: 'medium'}}</td>
                         <td>{{ call.ct_call_type.ct_call_type_name}}</td>
                         <td>{{ call.cc_caller_id }}</td>
                     </tr>
@@ -25,4 +25,3 @@
         </md-content>
     </md-card>
 </ui-view>
-
