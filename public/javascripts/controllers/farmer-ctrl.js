@@ -46,10 +46,11 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'CallLogsFactory',
+        'CallLogsFactory', 'UserProfileFactory',
         function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
+              UserProfileFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -135,6 +136,16 @@ angular.module('jasmic.controllers')
                     console.log(error);
                 });
 
+                /**
+                 *
+                 * Gets the currently logged in user.
+                 *
+                 **/
+                UserProfileFactory.show(function(user) {
+                    $scope.user = user;
+                });
+
+
             /**
              * Button related functions and variables for hiding/showing
              * new forms
@@ -192,6 +203,7 @@ angular.module('jasmic.controllers')
 
             $scope.createFarmerCall = function(){
               $scope.cc_caller_id = $scope.farmer.fa_contact1 || $scope.farmer.fa_contact2;
+              console.log($scope.user);
               $scope.cc_entity_id = $scope.farmer._id;
               $scope.cc_entity_type = "farmer";
               showCallInputDialog($mdDialog, $scope);
