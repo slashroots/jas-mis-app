@@ -46,7 +46,7 @@
 
     </style>
 
-    <table class="table-striped" id="commodities-table">
+    <table ng-show="!editCommodity && commodities.length > 0" class="table-striped" id="commodities-table">
 
         <thead><td><b>Produce</b></td><td><b>Amount</b></td><td><b>Price</b></td><td><b>Payment Terms</b></td></thead>
 

@@ -17,7 +17,7 @@
 
 </md-card-content>
 
-<md-card-content>
+<md-card-content ng-show="!editFarm">
     <div class="farmerInfo" layout="column" layout-padding ng-repeat="farm in farmer.fr_farms">
         <div layout-align="space-around start" layout="row" >
             <md-icon flex="5" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>

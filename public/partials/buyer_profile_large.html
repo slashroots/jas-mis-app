@@ -99,24 +99,24 @@
                     </div>
 
                 </md-card-content>
-                <md-card-content>
+                <md-card-content ng-show="!edit_rep">
                     <div class="farmerInfo" ng-repeat="representative in buyer.re_representatives">
                         <div layout="column">
                             <div layout-padding layout-align="space-around center" layout="row">
                                 <!--<md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>-->
-                                <div flex>
+                                <div flex="20">
                                     {{representative.re_name}}
                                     <br><div class="label">Name</div>
                                 </div>
-                                <div flex>
+                                <div flex="20">
                                     {{representative.re_contact}}
                                     <br><div class="label">Contact Number</div>
                                 </div>
-                                <div flex>
+                                <div flex="20">
                                     {{representative.re_crop}}
                                     <br><div class="label">Crop</div>
                                 </div>
-                                <div flex>
+                                <div flex="40">
                                     {{representative.re_email}}
                                     <br><div class="label">Email Address</div>
                                 </div>
@@ -158,7 +158,7 @@
                     </div>
 
                 </md-card-content>
-                <md-card-content>
+                <md-card-content ng-show="!edit_demand">
 
 
                     <style>
