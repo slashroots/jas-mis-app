@@ -87,6 +87,7 @@ function showNewCallInputDialog($mdDialog, $scope){
         clickOutsideToClose: true,
         preserveScope: true,
         templateUrl: '/partials/call_input_form_new.html',
+        parent: angular.element(document.body),
         /**
          * This controller is responsible for all actions
          * done on the Call Input Dialog.
