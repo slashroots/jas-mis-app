@@ -39,21 +39,23 @@ angular.module('jasmic.controllers')
             /**
              * looks up current demands
              */
-            CurrentDemandsFactory.query( function(demands) {
+            CurrentDemandsFactory.query(function(demands) {
                     $scope.demands = demands;
                 },
                 function(error) {
                     $scope.demands = [];
                 });
               /**
-               * Loads all transactions and separates each type of transactions
+               * Loads all open transactions
                */
               OpenTransactionsFactory.query(function(o_trans){
                   $scope.open_transactions = o_trans;
               }, function(error){
                 $scope.open_transactions = [];
               });
-              
+              /**
+               * Loads all completed transactions
+               */
               TransactionsFactory.query({tr_status: "Completed"}, function(completed_trans){
                   $scope.closed_transactions = completed_trans;
               }, function(error){
@@ -132,5 +134,13 @@ angular.module('jasmic.controllers')
             InputsFactory.query(function(inputs) {
                 $scope.inputs = inputs;
             });
+            /**
+             * Loads a specific route by name and id
+             * @param  {[type]} route Name of the route
+             * @param  {[type]} id
+             */
+            $scope.goTo = function(route, id) {
+                $location.url('/' + route + '/' + id);
+            };
         }
     ]);
