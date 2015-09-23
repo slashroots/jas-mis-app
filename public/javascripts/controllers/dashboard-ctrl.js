@@ -18,8 +18,10 @@ angular.module('jasmic.controllers')
             $scope.isAdmin = false;
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                    $scope.calls = calls;
-                    $scope.note = calls[0].cc_note;
+                    if(calls.length > 0){
+                      $scope.calls = calls;
+                      $scope.note = calls[0].cc_note;
+                    }
                 }, function(error){
                     $scope.calls = [];
                     $scope.note = "";
