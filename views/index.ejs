@@ -2,116 +2,142 @@
 <!--suppress InjectedReferences, HtmlUnknownTarget -->
 <html lang="en">
 <head>
-  <title><%=title%></title>
-  <link rel='stylesheet' href="../stylesheets/table.css"/>
-  <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
-  <link rel='stylesheet' href="../stylesheets/style.css"/>
+    <title><%=title%></title>
+    <link rel='stylesheet' href="../stylesheets/table.css"/>
+    <link rel='stylesheet' href="../bower_components/angular-material/angular-material.css"/>
+    <link rel='stylesheet' href="../stylesheets/style.css"/>
 </head>
 <body ng-app="jasmic" layout="column" layout-fill>
 <div ng-controller="NavigationCtrl">
-  <md-toolbar>
-    <div class="md-toolbar-tools" >
-      <md-select class="navigation" aria-label="Navigation" ng-model="nav" placeholder="Navigation" flex="15">
-        <md-option ng-click="goTo('dashboard')" value="Dashboard"><md-icon md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon> Dashboard</md-option>
-        <md-option ng-click="goTo('search')" value="Search"><md-icon md-svg-icon="/images/ic_search_24px.svg"></md-icon> Search</md-option>
-        <md-option ng-click="goTo('demands')" value="Demand Data"><md-icon md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon> Demand Data</md-option>
-        <md-option ng-click="goTo('supplies')" value="Supply Data"><md-icon md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon> Supply Data</md-option>
-      </md-select>
-      <span flex></span>
+    <md-toolbar>
+        <div class="md-toolbar-tools" >
+            <md-menu>
+                <md-button aria-label="Navigation"  ng-click="$mdOpenMenu($event)">
+                    <md-icon md-menu-origin style="color: grey;" md-svg-icon="/images/ic_view_list_24px.svg"></md-icon>
+                    <label style="color:grey;">Navigation</label>
+                </md-button>
+                <md-menu-content width="10">
+                    <md-menu-item>
+                        <md-button ng-click="goTo('dashboard')">
+                            <md-icon md-menu-align-target md-svg-icon="/images/ic_dashboard_24px.svg"></md-icon>
+                            Dashboard
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="goTo('search')">
+                            <md-icon md-menu-align-target md-svg-icon="/images/ic_search_24px.svg"></md-icon>
+                            Search
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="goTo('demands')">
+                            <md-icon md-menu-align-target md-svg-icon="/images/ic_trending_up_24px.svg"></md-icon>
+                            Demand Data
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="goTo('supplies')">
+                            <md-icon md-menu-align-target md-svg-icon="/images/ic_store_mall_directory_24px.svg"></md-icon>
+                            Supply Data
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <span flex></span>
 
+            <md-button aria-label="More" ng-click="showAdmin();">
+                <md-icon  style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon></md-button>
+            <md-button ng-click="logout()" aria-label="Exit">
+                <md-icon style="color: grey" md-svg-src="/images/ic_exit_to_app_24px.svg"></md-icon>
+                <md-tooltip>Exit {{loggedUser.us_user_first_name}} {{loggedUser.us_user_last_name}}</md-tooltip>
+            </md-button>
 
-      <a href="#">{{loggedUser.us_user_first_name}} {{loggedUser.us_user_last_name}}</a>
-      <md-button aria-label="More"><md-icon style="color: grey" md-svg-src="/images/ic_settings_24px.svg"></md-icon></md-button>
-      <md-button ng-click="logout()" aria-label="Exit">
-        <md-icon style="color: grey" md-svg-src="/images/ic_exit_to_app_24px.svg"></md-icon>
-        <md-tooltip>Exit {{loggedUser.us_user_first_name}} {{loggedUser.us_user_last_name}}</md-tooltip>
-      </md-button>
-
-    </div>
-  </md-toolbar>
+        </div>
+    </md-toolbar>
 </div>
-<div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex>
-  <div class="addNew" layout="column" flex="10" layout-align="start center" flex-sm="0">
+<div ng-controller="NavigationCtrl" class="belowTheToolbar" layout="row" flex >
+    <div class="addNew" layout="column" flex="10" layout-align="start center" flex-sm="0">
 
-    <md-fab-speed-dial md-open="false" md-trigger="click" md-direction="down" layout-align="center" ng-class="md-fling">
+        <md-fab-speed-dial md-open="false" md-trigger="click" md-direction="down" layout-align="center" ng-class="md-fling">
 
-    <md-fab-trigger>
-      <md-button aria-label="menu" class="md-fab md-warn">
-        <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-      </md-button>
-    </md-fab-trigger>
+            <md-fab-trigger>
+                <md-button aria-label="menu" class="md-fab md-warn">
+                    <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+                </md-button>
+            </md-fab-trigger>
 
-    <md-fab-actions style="text-align:center;">
-      <md-button ng-click="goTo('farmer')" class="md-fab-top-left" aria-label="Add New Farmer">
-        Farmer
-      </md-button>
-      <md-button ng-click="goTo('buyer')" class="md-fab-top-left" aria-label="Add New Buyer">
-        Buyer
-      </md-button>
-      <md-button ng-click="goTo('call')" class="md-fab-top-left" aria-label="Add New Call">
-        Call
-      </md-button>
-      <md-button ng-click="goTo('transaction')" class="md-fab-top-left" aria-label="Add New Transaction">
-        Transaction
-      </md-button>
-      <md-button ng-click="goTo('supplier')" class="md-fab-top-left" aria-label="Add New Farm Store">
-        Farm Store
-      </md-button>
-    </md-fab-actions>
+            <md-fab-actions style="text-align:center;">
+                <!--<md-button ng-click="goTo('farmer')" class="md-fab-top-left" aria-label="Add New Farmer">
+                  Farmer
+                </md-button>-->
+                <md-button ng-click="goTo('buyer')" class="md-fab-top-left" aria-label="Add New Buyer">
+                    Buyer
+                </md-button>
+                <md-button ng-click="createCall();" class="md-fab-top-left" aria-label="Add New Call">
+                    Call
+                </md-button>
+                <md-button ng-click="createInput();" class="md-fab-top-left" aria-label="Add New Input">
+                  Input
+                </md-button>
+            </md-fab-actions>
 
-    </md-fab-speed-dial>
+        </md-fab-speed-dial>
 
-    <!--
+        <!--
 
-    <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
-      <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-    </md-button>
-    <md-button ng-click="goTo('farmer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farmer">
-      Farmer
-    </md-button>
-    <md-button ng-click="goTo('buyer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
-      Buyer
-    </md-button>
-    <md-button ng-click="goTo('call')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
-      Call
-    </md-button>
-    <md-button ng-click="goTo('transaction')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
-      Transaction
-    </md-button>
-    <md-button ng-click="goTo('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
-      Farm Store
-    </md-button>
+        <md-button ng-click="addNewButtonClick()" class="md-fab" aria-label="Add New">
+          <md-icon md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+        </md-button>
+        <md-button ng-click="goTo('farmer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farmer">
+          Farmer
+        </md-button>
+        <md-button ng-click="goTo('buyer')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Buyer">
+          Buyer
+        </md-button>
+        <md-button ng-click="createCall();" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Call">
+          Call
+        </md-button>
+        <md-button ng-click="goTo('transaction')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Transaction">
+          Transaction
+        </md-button>
+        <md-button ng-click="goTo('supplier')" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store">
+          Farm Store
+        </md-button>
 
-    <span layout="row" flex>
+        <md-button ng-click="createInput();" ng-show="add_clicked" class="md-fab-top-left" aria-label="Add New Farm Store Input">
+          Input
+        </md-button>
 
-        Fill up the rest of the space
+        <span layout="row" flex>
 
-    </span> -->
-  </div>
-  <div layout="column" flex>
-    <div class="headerArea" layout="row" >
-      <div class="globalSearchArea" layout-padding flex="60">
-        <form ng-controller="SearchCtrl" ng-submit="searchAll()">
-          <input class="search" ng-model="search" type="text" placeholder="Search">
-          <md-tooltip>
-            Keyword Search
-          </md-tooltip>
-        </form>
-      </div>
-      <div class="emptyArea" flex="40" >
+            Fill up the rest of the space
 
-      </div>
+        </span> -->
     </div>
+    <div layout="column" flex>
+        <div class="headerArea" layout="row" >
+            <div class="globalSearchArea" layout-padding flex="60">
+                <form ng-controller="SearchCtrl" ng-submit="searchAll()">
+                    <input class="search" ng-model="search" type="text" placeholder="Search">
+                    <md-tooltip>
+                        Keyword Search
+                    </md-tooltip>
+                </form>
+            </div>
+            <div class="emptyArea" flex="40" >
 
-    <div class="contentArea" layout-fill flex>
-      <div ng-view>
+            </div>
+        </div>
 
-      </div>
+        <div class="contentArea" layout-fill flex>
+            <div ng-view>
+
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="emptySpace" layout="column" flex="10" flex-md="0" flex-sm="0">
+    <div class="emptySpace" layout="column" flex="10" flex-md="0" flex-sm="0">
 
-  </div>
+    </div>
 </div>
 <script src="../bower_components/angular/angular.min.js"></script>
 <script src="../bower_components/moment/min/moment.min.js"></script>
@@ -120,9 +146,10 @@
 <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="../bower_components/angular-aria/angular-aria.min.js"></script>
 <script src="../bower_components/angular-material/angular-material.min.js"></script>
+<script src="../bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="../bower_components/angular-selection-model/dist/selection-model.min.js"></script>
 
- <!-- CDN JS Libraries -->
+<!-- CDN JS Libraries -->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-route.min.js"></script>
@@ -143,8 +170,10 @@
 <script src="../javascripts/controllers/dashboard-ctrl.js"></script>
 <script src="../javascripts/controllers/demand-ctrl.js"></script>
 <script src="../javascripts/controllers/commodity-ctrl.js"></script>
+<script src="../javascripts/controllers/admin-ctrl.js"></script>
 <script src="../javascripts/filters.js"></script>
 <script src="../javascripts/directives.js"></script>
-
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
 </body>
 </html>

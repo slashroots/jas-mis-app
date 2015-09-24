@@ -31,8 +31,8 @@
             </md-card>
 
             <md-card>
+                <md-subheader>Demand</md-subheader>
                 <md-card-content>
-                    <md-subheader>Demand</md-subheader>
                     <div layout-padding layout="column">
                         <div layout-padding class="farmerInfo" layout="row">
                             <div flex="33" layout="row">
@@ -92,16 +92,16 @@
             </md-card>
 
             <md-card>
+                <md-subheader>Supplies</md-subheader>
                 <md-card-content layout-padding>
-                    <md-subheader>Supplies</md-subheader>
-                    <table class="table table-hover table-mc-light-blue">
+                    <table class="table table-hover table-mc-light-blue" ng-if="commodities.length > 0">
                         <thead>
                         <tr>
-                            <th>Farmer Name</th>
-                            <th>Supply Name</th>
+                            <th>Farmer</th>
+                            <th>Supply</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
-                            <th></th>
+                            <th>Select</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -115,7 +115,7 @@
                             <td>{{ commodity.cr_crop.cr_crop_name }}{{ commodity.cr_crop.cr_crop_variety?" - " + commodity.cr_crop.cr_crop_variety:"" }}</td>
                             <td>{{ commodity.co_quantity |number }} {{commodity.un_quantity_unit.un_unit_name}}</td>
                             <td>{{ commodity.co_price | currency }} per {{commodity.un_price_unit.un_unit_name}}</td>
-                            <td><input type="checkbox"></td>
+                            <td ><input type="checkbox"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -123,8 +123,21 @@
                 </md-card-content>
             </md-card>
 
+            <div ng-include="'/partials/transaction_listing.html'">
+
+            </div>
+
+            <div ng-include="'/partials/report_listing_small.html'">
+
+            </div>
+
         </div>
-        <div ng-include="'/partials/transaction_cart.html'" layout="column" flex="40">
+        <div flex="40" layout="column">
+            <div ng-include="'/partials/transaction_cart.html'"></div>
+
+            <div ng-include="transactionSelected ? '/partials/transaction_detail_small.html':null">
+
+            </div>
         </div>
     </md-content>
 </ui-view>

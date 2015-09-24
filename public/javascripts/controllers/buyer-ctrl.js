@@ -109,12 +109,12 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory',
-        function ($location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
+        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
+        function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandEditFactory, DemandsFactory) {
+                  BuyerDemandFactory, DemandEditFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -123,6 +123,7 @@ angular.module('jasmic.controllers')
              *
              * TODO:  Create and Generate Endpoints and Functions for disputes
              */
+
             function loadAll() {
                 BuyerFactory.show({id: $routeParams.id},
                     function (buyer) {
@@ -134,6 +135,14 @@ angular.module('jasmic.controllers')
                             bu_buyer: buyer._id
                         });
                         $scope.disputes = [];
+                        /**
+                         * Retrieves all calls associated with buyer by id.
+                         */
+                        CallLogsFactory.query({cc_entity_id: buyer._id}, function(calls){
+                            $scope.calls = calls;
+                        }, function(error){
+                            $scope.calls = [];
+                        });
                     },
                     function (error) {
                         showDialog($mdDialog, error, true);
@@ -143,7 +152,7 @@ angular.module('jasmic.controllers')
                 DemandsFactory.query({id: $routeParams.id}, function(listing) {
                     $scope.demands = listing;
                 }, function(fail) {
-                    console.log(fail);
+                    $scope.demands = [];
                 });
             };
             loadAll();
@@ -152,7 +161,9 @@ angular.module('jasmic.controllers')
             /**
              * Fetches the units that user can select
              */
-            $scope.units = UnitsFactory.query({});
+             UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+                    $scope.units = units;
+            });
 
             $scope.isValid = isValid;
             $scope.isBuyerContext = true;
@@ -164,6 +175,15 @@ angular.module('jasmic.controllers')
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.buyer._id+'/edit');
             };
+
+            /**
+             *
+             * Gets the currently logged in user.
+             *
+             **/
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
 
 
             /**
@@ -271,10 +291,16 @@ angular.module('jasmic.controllers')
              *  returns a list matching the expression.
              */
             $scope.queryCropSearch = function(cropName) {
-                return CropsFactory.query({beginsWith: cropName});
+                var deferred = $q.defer();
+                CropsFactory.query({beginsWith: cropName}, function(list) {
+                    deferred.resolve(list);
+                }, function(fail) {
+                    deferred.resolve([]);
+                });
+                return deferred.promise;
             };
             $scope.selectedItemChange = function(item) {
-                selectedCrop = item._id;
+                selectedCrop = (item) ? item._id: {};
             };
 
             /**
@@ -290,6 +316,13 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, error, true);
                 })
             }
+
+            $scope.createBuyerCall = function(){
+              $scope.cc_caller_id = $scope.buyer.bu_phone;
+              $scope.cc_entity_id = $scope.buyer._id;
+              $scope.cc_entity_type = "buyer";
+              showCallInputDialog($mdDialog, $scope);
+            };
         }
     ]);
 

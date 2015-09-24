@@ -302,7 +302,6 @@ exports.getDemands = function(req, res) {
 exports.searchCurrentDemands = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var curr_date = Date.now();
-
         if (req.query.amount) {
             Demand.find({de_until: {$gte: curr_date}})
                 .populate('cr_crop bu_buyer')
@@ -345,6 +344,7 @@ exports.findDemandMatch = function(req, res) {
             } else {
                 Commodity.find({
                     $and: [
+                        {co_sold: false},
                         {co_until: {$gte: demand.de_posting_date}},
                         {co_availability_date: {$lte: demand.de_until}}
                     ],

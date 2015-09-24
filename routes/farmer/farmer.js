@@ -233,6 +233,23 @@ exports.getCommodities = function(req, res) {
 };
 
 /**
+ * Edits a commodity based on commodity's id.
+ * @param req
+ * @param res
+ */
+exports.editCommodity = function(req, res) {
+   if(common.isAuthenticated(res, req)){
+       Commodity.update({_id:req.params.comID}, req.body, function(err, response){
+           if(err || response.nModified != 0){
+               common.handleDBError(err, res);
+           }else{
+               res.send(response);
+           }
+       });
+   }
+};
+
+/**
  * Function really only requires the farm_id to be in the parameter
  * and does a query based on only this parameter.  The function
  * itself just searches based on the id for the farm then updates the

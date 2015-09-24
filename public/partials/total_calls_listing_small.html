@@ -1,0 +1,24 @@
+<md-card-content>
+    <table class="table table-hover table-mc-light-blue">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date/Time</th>
+            <th>Call Type</th>
+            <th>Phone #</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="call in total_calls | limitTo:3">
+          <td flex>{{call.cc_entity_name}}</td>
+          <td flex>{{call.cc_date | date: 'medium' }}</td>
+          <td flex>{{call.ct_call_type.ct_call_type_name}}</td>
+          <td flex>{{call.cc_caller_id}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="text-align: center" layout-align="center center" ng-if="total_calls.length >= 3">
+        <a ng-href="#/calls" >More Results</a>
+    </div>
+</md-card-content>
