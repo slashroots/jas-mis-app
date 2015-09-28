@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="demand in demands | limitTo:3" ng-click="selectedDemand(demand)">
+        <tr ng-repeat="demand in demands | limitTo:3" ng-click="goTo('demand', demand._id)">
             <td flex>{{ demand.cr_crop.cr_crop_name }}{{ demand.cr_crop.cr_crop_variety?" - "+demand.cr_crop.cr_crop_variety:"" }}</td>
             <td flex>{{ demand.de_quantity }} {{demand.un_quantity_unit.un_unit_name}} @ ${{ demand.de_price }} per {{demand.un_price_unit.un_unit_name}}</td>
             <td flex>{{demand.de_posting_date | date}} - {{ demand.de_until | date }}</td>

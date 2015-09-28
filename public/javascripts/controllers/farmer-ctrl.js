@@ -46,10 +46,11 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'CallLogsFactory',
+        'CallLogsFactory', 'UserProfileFactory',
         function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
+              UserProfileFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -135,6 +136,16 @@ angular.module('jasmic.controllers')
                     console.log(error);
                 });
 
+                /**
+                 *
+                 * Gets the currently logged in user.
+                 *
+                 **/
+                UserProfileFactory.show(function(user) {
+                    $scope.user = user;
+                });
+
+
             /**
              * Button related functions and variables for hiding/showing
              * new forms
@@ -185,16 +196,14 @@ angular.module('jasmic.controllers')
                 });
                 return deferred.promise;
             };
+
             $scope.selectedDistrictChange = function(item) {
                 selectedDistrict = (item)?item._id:{};
             };
-            /**
-             * Creates a call and associates call with the farmer
-             * and logged in user.
-             * TODO - Revisit implementation of call feature on farmer page
-             **/
-            $scope.createCall = function(){
-              $scope.cc_caller_id = $scope.farmer.fa_contact;
+
+            $scope.createFarmerCall = function(){
+              $scope.cc_caller_id = $scope.farmer.fa_contact1 || $scope.farmer.fa_contact2;
+              console.log($scope.user);
               $scope.cc_entity_id = $scope.farmer._id;
               $scope.cc_entity_type = "farmer";
               showCallInputDialog($mdDialog, $scope);
@@ -314,7 +323,11 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
     /**
      * Fetches the units that user can select
      */
-    $scope.units = UnitsFactory.query({});
+     UnitsFactory.query({}, function(units){
+       UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+              $scope.units = units;
+      });
+    });
 
 
     $scope.saveCommodity = function() {

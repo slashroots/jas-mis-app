@@ -5,6 +5,11 @@
     <title><%=title%></title>
   </head>
   <body style="font-family: 'Helvetica', 'Arial', 'Lucida Grande,'sans-serif';">
+    <% if(email_report == 'true'){ %>
+      <p>Your demand for <strong><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%>s
+        of <%=buyer_info.cr_crop.cr_crop_name%></strong> has been matched by <strong><%=commodities.length%> </strong>supplier(s).</p>
+     <p>Here is a detailed report outlining supply(s) that match your demand.</p>
+  <% } %>
   <table style="width: 8in;border: 2px solid black; border-spacing:0px;">
   <tr>
     <td style="padding:0px;">
@@ -17,7 +22,7 @@
           <td><h3 style="font-weight:100; letter-spacing:1px; font-size:20px">Market Information Center</h3></td>
         </tr>
       </table>
-      <table style="float:left;width: 5in;height: 2in;background-color: #EDECED;
+      <table style="float:left;width: 4.8in;height: 2in;background-color: #EDECED;
                     border-bottom: 2px dotted #B5B5B5;
                     border-right: 2px dotted #B5B5B5;">
           <tr >
@@ -26,7 +31,7 @@
                 <%=buyer_info.bu_buyer.bu_buyer_name%></span></td>
           </tr>
       </table>
-      <table style="float:left;width: 3in;height: 2in;border-bottom: 2px dotted #B5B5B5;">
+      <table style="float:left;width: 3.2in;height: 2in;border-bottom: 2px dotted #B5B5B5;">
           <tr>
             <td style="border-right: 2px dotted #B5B5B5;border-bottom: 2px dotted #B5B5B5;text-align:center;">Attn:</td>
             <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%=buyer_info.bu_buyer.bu_email%></td>
@@ -112,12 +117,20 @@
         <tr>
           <td style="border-spacing:0px; padding:0px; width:30px;">
             <img src="<%=image_paths.address_pin%>" style="width:30px;height:30px;"></td>
-          <td><span style="word-wrap:break-word">Lot 21 Albert Road Two Sisters Bend St Catherine</span></td>
+          <td>
+            <span>
+              <%=addresses[i].ad_address1%> <br> <%=addresses[i].ad_address2%> <br/> <%=addresses[i].pa_parish%>
+            </span>
+          </td>
         </tr>
         <tr>
           <td style="border-spacing:0px; padding:0px; width:30px;">
             <img src="<%=image_paths.email%>" style="width:30px;height:30px;"></td>
-          <td>milton<br><span style="font-size:13px;">Personal</span></td>
+            <td><% if(commodities[i].fa_email==""){ %>
+                <strong><%= commodities[i].fa_email%></strong>
+            <% } else{ %>
+                <strong>N/A</strong>
+          <% } %><br><span style="font-size:13px;">Personal</span></td>
         </tr>
       </table>
       <table style="float:left; width: 1.96in; border-bottom: 2px solid #B5B5B5;
@@ -125,12 +138,20 @@
         <tr>
           <td style="border-spacing:0px; padding:0px; width:30px;">
             <img src="<%=image_paths.phone%>" style="width:30px;height:30px;"></td>
-          <td>(876) 725-7777<br><span style="font-size:13px;">Mobile</span></td>
+          <td><% if(commodities[i].fa_contact==""){ %>
+              <strong><%= commodities[i].fa_contact%></strong>
+          <% } else{ %>
+              <strong>N/A</strong>
+        <% } %><br><span style="font-size:13px;">Mobile</span></td>
         </tr>
         <tr>
           <td style="border-spacing:0px; padding:0px; width:30px;">
             <img src="<%=image_paths.phone%>" style="width:30px;height:30px;"></td>
-          <td>(876) 725-7777<br><span style="font-size:13px;">Mobile</span></td>
+          <td><% if(commodities[i].fa_contact2==""){ %>
+              <strong><%= commodities[i].fa_contact2%></strong>
+          <% } else{ %>
+              <strong>N/A</strong>
+        <% } %><br><span style="font-size:13px;">Mobile</span></td>
         </tr>
         <tr>
         </tr>
@@ -140,10 +161,10 @@
                     height: 1.5in;">
         <tr>
           <td>Notes<br>
-          <% if(commodities[i].ct_comments){ %>
+          <% if(commodities[i].co_notes==""){ %>
               <strong><%= commodities[i].co_notes%></strong>
           <% } else{ %>
-               N/A
+                <strong>N/A</strong>
         <% } %>  </td>
         </tr>
       </table>

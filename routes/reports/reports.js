@@ -1,10 +1,11 @@
-var Demand = require('../../models/db').Demand;
-var Buyer = require('../../models/db').Buyer;
-var Commodity = require('../../models/db').Commodity;
-var Report = require('../../models/db').Report;
-var Crop = require('../../models/db').Crop;
-var moment = require('moment');
-var common = require('../common/common');
+var Demand = require('../../models/db').Demand,
+  Buyer = require('../../models/db').Buyer,
+  Commodity = require('../../models/db').Commodity,
+  Report = require('../../models/db').Report,
+  Crop = require('../../models/db').Crop,
+  Address = require('../../models/db').Address,
+  moment = require('moment'),
+  common = require('../common/common');
 
 /**
  * Creates a report based on a list of demands and commodities that have
@@ -56,6 +57,7 @@ exports.searchReports = function(req, res) {
  * @param res
  */
 exports.renderReport = function(req, res) {
+    var addresses = [];
     if(common.isAuthenticated(req, res)) {
         Report.findById(req.params.id)
             .populate('de_demand us_user co_commodities.fa_farmer')
@@ -63,7 +65,12 @@ exports.renderReport = function(req, res) {
                 if (err) {
                     common.handleDBError(err, res);
                 } else {
-                    Buyer.findById(item.de_demand.bu_buyer, function (err2, buyer) {
+                      for(var i = 0; i<item.co_commodities.length;i++){
+                          Address.findById(item.co_commodities[i].fa_farmer.ad_address, function(err, address){
+                            addresses.push(address);
+                          });
+                      }
+                      Buyer.findById(item.de_demand.bu_buyer, function (err2, buyer) {
                         if (err2) {
                             common.handleDBError(err2, res);
                         } else {
@@ -73,21 +80,25 @@ exports.renderReport = function(req, res) {
                                 } else {
                                     item.de_demand.cr_crop = crop;
                                     item.de_demand.bu_buyer = buyer;
-                                    var matched_commodities = item.co_commodities;
-                                    var total_prices = getTotalPrices(item.co_commodities);
-                                    var crop_avail_dates = getCropAvailabilityDates(item.co_commodities);
+                                    var matched_commodities = item.co_commodities,
+                                        total_prices = getTotalPrices(item.co_commodities),
+                                        crop_avail_dates = getCropAvailabilityDates(item.co_commodities),
+                                        supply_amount = getTotalSupply(item.co_commodities),
+                                        supply_value = getTotalValue(item.co_commodities);
                                     res.render('report',
                                         {
                                             title: 'Report',
                                             buyer_info: item.de_demand,
-                                            supply_amount: 0, //TODO: revist this and calculate
-                                            supply_value: 0, //TODO: revist this and calculate
+                                            supply_amount: supply_amount,
+                                            supply_value: supply_value,
                                             commodities: matched_commodities,
                                             prices: total_prices,
                                             report_date: moment(item.re_report_date).format('MMMM DD YYYY hh:mm a'),
                                             crop_dates: crop_avail_dates,
                                             us_user: req.user,
-                                            image_paths: setImageSrcPaths(req.query.email_report)
+                                            image_paths: setImageSrcPaths(req.query.email_report),
+                                            addresses: addresses,
+                                            email_report: req.query.email_report
                                         });
                                 }
                             });
@@ -98,7 +109,11 @@ exports.renderReport = function(req, res) {
             })
     }
 };
-
+/**
+ * Sets the buyer report image paths based on how the report will be rendered
+ * @param {Boolean} email_report Determine if the report should be rendered to the browser or emailed
+ * @return {Object} paths
+ */
 function setImageSrcPaths(email_report){
   var paths = { logo: '/images/report-icons/jas_logo_knockout-01.png',
                 produce: '/images/report-icons/icons_crop.svg',
@@ -127,6 +142,35 @@ function setImageSrcPaths(email_report){
   }
   return paths;
 }
+/**
+ * Calculates the total supply to be displayed in the buyer report
+ * @param  {Object} commodities
+ * @return {String} total_supply
+ */
+function getTotalSupply(commodities){
+  var total_supply = 0;
+  commodities.forEach(function(list_item){
+      total_supply += list_item.co_quantity;
+  });
+  return total_supply;
+}
+/**
+ * Calculates the total value to be displayed in the buyer report
+ * @param  {Object} commodities
+ * @return {String} total_value
+ */
+function getTotalValue(commodities){
+  var total_value = 0;
+  commodities.forEach(function(list_item){
+      total_value += (list_item.co_quantity * list_item.co_price);
+  });
+  return total_value;
+}
+/**
+ * Extracts and formats crop availability dates
+ * @param  {Object} commodities
+ * @return {[String]} crop_expiry_dates
+ */
 function getCropAvailabilityDates(commodities){
     var crop_expiry_dates = [];
     commodities.forEach(function(list_item){

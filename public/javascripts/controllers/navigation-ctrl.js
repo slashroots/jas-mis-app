@@ -16,10 +16,15 @@ angular.module('jasmic.controllers')
              */
             UserProfileFactory.show(function(user) {
                 $scope.loggedUser = user;
-            }, function(fail) {
-                console.log(fail);
-            });
 
+                if($scope.loggedUser.ut_user_type === "Administrator"){
+                  $scope.isAdmin = true;
+                }else{
+                  $scope.isAdmin = false;
+                };
+            }, function(fail) {
+                $scope.goTo('login');
+            });
             /**
              * Go to another section of the angular application
              * @param l
@@ -49,6 +54,23 @@ angular.module('jasmic.controllers')
             $scope.createInput = function(){
                 showNewInputDialog($mdDialog,$scope);
             };
+            /**
+             * Shows the administrative functions for an admin user
+             */
+            $scope.showAdmin = function(){
+              if($scope.loggedUser.ut_user_type === "Administrator"){
+                  $scope.goTo('admin');
+              }
+            };
+
+            $scope.openMenu = function($mdOpenMenu, ev){
+              var originatorEv;
+              $mdOpenMenu(ev);
+            };
+
+            $scope.showChangePasswordDialog = function(){
+              showChangePasswordDialog($mdDialog, $scope);
+            };
         }]);
 
 /**
@@ -65,6 +87,7 @@ function showNewCallInputDialog($mdDialog, $scope){
         clickOutsideToClose: true,
         preserveScope: true,
         templateUrl: '/partials/call_input_form_new.html',
+        parent: angular.element(document.body),
         /**
          * This controller is responsible for all actions
          * done on the Call Input Dialog.
@@ -158,7 +181,7 @@ function showNewInputDialog($mdDialog, $scope){
             SuppliersFactory.query(function(suppliers){
                 $scope.suppliers = suppliers;
             });
-            UnitsFactory.query(function(units){
+            UnitsFactory.query({},function(units){
                 $scope.units = units;
             });
             InputTypesFactory.query(function(input_types){
@@ -169,6 +192,7 @@ function showNewInputDialog($mdDialog, $scope){
              */
             $scope.cancel = function(){
                 $mdDialog.hide();
+                $scope.input = {};
             };
             /**
              * Saves a new input for a supplier.
@@ -181,6 +205,43 @@ function showNewInputDialog($mdDialog, $scope){
                     $mdDialog.hide();
                     showDialog($mdDialog, error, false);
                 });
+                $scope.input = {};
+            };
+        }//end of controller
+    });
+};
+
+
+function showChangePasswordDialog($mdDialog, $scope){
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/user_password_change_form.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         * @param SuppliersFactory
+         * @param UnitsFactory
+         * @param InputsFactory
+         *
+         */
+        controller: function ChangePasswordController($scope, $mdDialog){
+            /**
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
+                $mdDialog.hide();
+            };
+            /**
+             * Saves a new input for a supplier.
+             **/
+            $scope.save = function(){
+              $scope.hash = CryptoJS.MD5($scope.change.old_pass);
+              console.log($scope.change.pass);
+              console.log($scope.hash);
             };
         }//end of controller
     });

@@ -8,6 +8,17 @@ a {
   color: #00B7FF;
 }
 */
+md-progress-linear .md-bar {
+  background-color: #5CC64C;
+}
+
+.report-btn{
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+.contact-item .md-list-item-text p{
+    overflow: hidden;
+}
 
 md-toolbar.md-default-theme {
   background-color: #ffffff;
@@ -72,6 +83,11 @@ md-content.md-default-theme {
   color: green;
 }
 
+#message{
+  margin-left: 40px;
+  display: none;
+}
+
 ul.transcart {
   list-style-type: none;
   padding: 0px;
@@ -96,6 +112,12 @@ ul.transcart li{
   background-color: whitesmoke;
   background: url("../images/farmer-login.jpg") no-repeat;
   background-size: 100%;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 
 .internalpadding {
@@ -139,7 +161,7 @@ md-option {
 }
 
 .addNew{
-  padding-top: 340px;
+  padding-top: 290px;
 }
 
 .md-button.md-default-theme.md-fab{
@@ -190,7 +212,9 @@ body{
   padding-top: 100px;
   padding-bottom: 50px;
 }
-
+md-card.admin-cards{
+  width: 800px;
+}
 md-card-content.pretty {
   background-color: #d8e4f1;
 }
@@ -395,7 +419,6 @@ md-content.farmForm {
   to { opacity:0; }
 }
 
-<<<<<<< HEAD
 .call-report-content{
   margin-left: 10px;
 }
@@ -415,7 +438,7 @@ md-content.farmForm {
 .parishes{
   margin-right: 20px;
 }
-=======
+
 tr:nth-child(1) {
   left:0%;
   width:25%;
@@ -448,4 +471,3 @@ md-fab-speed-dial {
   overflow : visible !important;
   height : 0 !important;
 }
->>>>>>> master
