@@ -2,14 +2,16 @@
  * Created by matjames007 on 4/29/15.
  */
 
+
 angular.module('jasmic.controllers')
 
-    /**
-     *  This controller is used to handle the displaying of information on the
-     *  Farmer Listing Page.
-     */
+/**
+ *  This controller is used to handle the displaying of information on the
+ *  Farmer Listing Page.
+ */
     .controller('FarmerListingCtrl', ['$scope', '$mdDialog', '$location', '$routeParams','FarmersFactory',
         function ($scope, $mdDialog, $location, $routeParams, FarmersFactory) {
+
             FarmersFactory.query($routeParams, function(farmers) {
                 $scope.farmers = farmers;
             }, function(error) {
@@ -29,19 +31,26 @@ angular.module('jasmic.controllers')
             $scope.editFarmer = function() {
                 $location.url('farmer/'+$scope.selectedFarmer._id+'/edit');
             };
+
+            $scope.logToConsole = function(){
+                console.log("Done");
+            };
         }
     ])
+    .controller('NewCommodityCtrl', NewCommodityCtrl)
 
     /**
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
+    .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        function ($scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
+        'CallLogsFactory', 'UserProfileFactory',
+        function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
+              UserProfileFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -57,11 +66,17 @@ angular.module('jasmic.controllers')
                         fr_farmer: farmer._id
                     });
                     $scope.disputes = []; //TODO:  Create and Generate Endpoints and Functions
+
+                    CallLogsFactory.query({cc_entity_id: farmer._id}, function(calls){
+                        $scope.calls = calls;
+                    }, function(error){
+                        $scope.calls = [];
+                    });
                 }, function(err) {
                     console.log(err);
                 });
             };
-            function populateCommodities() {
+            $scope.populateCommodities = function() {
                 CommoditiesFactory.query({id: $routeParams.id}, function(list) {
                     $scope.commodities = list;
                 }, function(fail) {
@@ -72,7 +87,7 @@ angular.module('jasmic.controllers')
                 $scope.memberships = memberships;
             });
             loadAll();
-            populateCommodities();
+            $scope.populateCommodities();
 
             /**
              * Quick and dirty check to see if information is present for
@@ -135,6 +150,16 @@ angular.module('jasmic.controllers')
                     console.log(error);
                 });
 
+                /**
+                 *
+                 * Gets the currently logged in user.
+                 *
+                 **/
+                UserProfileFactory.show(function(user) {
+                    $scope.user = user;
+                });
+
+
             /**
              * Button related functions and variables for hiding/showing
              * new forms
@@ -145,15 +170,11 @@ angular.module('jasmic.controllers')
             };
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
-                $scope.commodity = {};
-                $scope.commodity.co_availability_date= moment().toDate();
-                $scope.commodity.co_until = moment().add(7, 'days').toDate();
             };
             $scope.newCommodity = false;
             $scope.newFarm = false;
 
-            $scope.commodity = {};
-            var selectedCrop;
+
             var selectedDistrict;
 
             /**
@@ -163,23 +184,6 @@ angular.module('jasmic.controllers')
                 $location.url('farmer/'+$scope.farmer._id+'/edit');
             };
 
-            /**
-             *  This function does the magic for the auto-complete crop selection
-             *  tool.  The API looks out for a key called 'beginsWith' and they
-             *  constructs a regex expression that searches for the crop name and
-             *  returns a list matching the expression.
-             */
-            $scope.queryCropSearch = function(cropName) {
-                return CropsFactory.query({beginsWith: cropName});
-            };
-            $scope.selectedItemChange = function(item) {
-                selectedCrop = item._id;
-            };
-
-            /**
-             * Fetches the units that user can select
-             */
-            $scope.units = UnitsFactory.query({});
 
             $scope.saveCommodity = function() {
                 $scope.commodity.cr_crop = selectedCrop;
@@ -189,7 +193,7 @@ angular.module('jasmic.controllers')
                 }, function(error) {
                     showDialog($mdDialog, error, true);
                 })
-            }
+            };
 
             /**
              *  This function does the magic for the auto-complete district selection
@@ -198,17 +202,32 @@ angular.module('jasmic.controllers')
              *  returns a list matching the expression.
              */
             $scope.queryDistrictSearch = function(districtName) {
-                return DistrictsFactory.query({beginsWith: districtName});
+                var deferred = $q.defer();
+                DistrictsFactory.query({beginsWith: districtName}, function(list) {
+                    deferred.resolve(list);
+                }, function(fail) {
+                    deferred.resolve([]);
+                });
+                return deferred.promise;
             };
+
             $scope.selectedDistrictChange = function(item) {
-                selectedDistrict = item._id;
+                selectedDistrict = (item)?item._id:{};
+            };
+
+            $scope.createFarmerCall = function(){
+              $scope.cc_caller_id = $scope.farmer.fa_contact1 || $scope.farmer.fa_contact2;
+              console.log($scope.user);
+              $scope.cc_entity_id = $scope.farmer._id;
+              $scope.cc_entity_type = "farmer";
+              showCallInputDialog($mdDialog, $scope);
             };
         }
     ])
-    /**
-     * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
-     * edit farmer view
-     */
+/**
+ * TODO:  Incomplete New Farmer Controller that utilizes the same view as the
+ * edit farmer view
+ */
     .controller('NewFarmerCtrl', ['$scope', '$routeParams', '$window', 'FarmerFactory',
         function ($scope, $routeParams, $window, FarmerFactory) {
             $scope.save = function() {
@@ -220,11 +239,11 @@ angular.module('jasmic.controllers')
             };
         }
     ])
-    /**
-     * This controller is responsible for the querying of the farmer by id,
-     * then creation of the farmer object for the view to render.  It also
-     * populates the parishes combo box for user interaction.
-     */
+/**
+ * This controller is responsible for the querying of the farmer by id,
+ * then creation of the farmer object for the view to render.  It also
+ * populates the parishes combo box for user interaction.
+ */
     .controller('EditFarmerCtrl', ['$scope', '$location', '$mdDialog','$routeParams', '$window', 'FarmerFactory', 'ParishesFactory',
         function ($scope, $location, $mdDialog, $routeParams, $window, FarmerFactory, ParishesFactory) {
             FarmerFactory.show({id:$routeParams.id},
@@ -282,4 +301,56 @@ function showDialog($mdDialog, message, isError) {
             .ariaLabel(isError?'Alert Error':'Alert Message')
             .ok('Ok')
     );
+};
+
+function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
+    var self = this;
+    self.commodity = {};
+    self.commodity.co_availability_date= moment().toDate();
+    self.commodity.co_until = moment().add(7, 'days').toDate();
+    self.selectedCrop = {};
+    self.searchText = "";
+
+    /**
+     *  This function does the magic for the auto-complete crop selection
+     *  tool.  The API looks out for a key called 'beginsWith' and they
+     *  constructs a regex expression that searches for the crop name and
+     *  returns a list matching the expression.
+     */
+    self.queryCropSearch = function(cropName) {
+        var deferred = $q.defer();
+        CropsFactory.query({beginsWith: cropName}, function(list) {
+            deferred.resolve(list);
+        }, function(fail) {
+            deferred.resolve([]);
+        });
+        return deferred.promise;
+    };
+    self.selectedItemChange = function(item) {
+        self.selectedCrop = (item)? item._id: {};
+    };
+    self.searchTextChange = function(text) {
+    };
+
+
+
+    /**
+     * Fetches the units that user can select
+     */
+     UnitsFactory.query({}, function(units){
+       UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+              $scope.units = units;
+      });
+    });
+
+
+    $scope.saveCommodity = function() {
+        self.commodity.cr_crop = self.selectedCrop;
+        CommodityFactory.create({id:$routeParams.id}, self.commodity, function(success) {
+            $scope.newCommodityItem();
+            $scope.populateCommodities();
+        }, function(error) {
+            showDialog($mdDialog, error, true);
+        })
+    };
 };

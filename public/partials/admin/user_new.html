@@ -1,0 +1,41 @@
+<md-content layout-padding layout="column">
+
+    <div layout="row">
+      <md-select placeholder="Type of User" ng-model="user_obj.ut_user_type" flex>
+          <md-option ng-repeat="usertype in usertypes" value="{{usertype}}">{{usertype}}</md-option>
+      </md-select>
+
+      <md-select placeholder="State" ng-model="user_obj.us_state" ng-hide="newUser" flex>
+          <md-option ng-repeat="state in states" value="{{state}}">{{state}}</md-option>
+      </md-select>
+    </div>
+
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>First Name</label>
+            <input type="text" ng-model="user_obj.us_user_first_name">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Last Name</label>
+            <input type="text" ng-model="user_obj.us_user_last_name">
+        </md-input-container>
+    </div>
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Email Address</label>
+            <input type="text" ng-model="user_obj.us_email_address">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Contact</label>
+            <input type="text" ng-model="user_obj.us_contact">
+        </md-input-container>
+    </div>
+
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="cancel('user')">Cancel</md-button>
+        <md-button ng-click="save('user')" ng-if="!editUser">Save</md-button>
+        <md-button ng-click="update('user')" ng-if="editUser">Update</md-button>
+    </md-input-container>
+</md-content>

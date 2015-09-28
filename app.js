@@ -12,7 +12,10 @@ var buyer_routes = require('./routes/buyer/buyer_routes');
 var supplier_routes = require('./routes/supplier/supplier_routes');
 var common_routes = require('./routes/common/common_routes');
 var transaction_routes = require('./routes/transaction/transaction-routes');
-var crop_routes = require('./routes/crop/crop-routes');
+var crop_routes = require('./routes/crop/crop_routes');
+var report_routes = require('./routes/reports/report_routes');
+var call_routes = require('./routes/calls/call_routes');
+var email_routes = require('./routes/email/email_routes');
 
 var model = require('./models/db');
 
@@ -44,7 +47,10 @@ app.use('/', crop_routes);
 app.use('/', transaction_routes);
 app.use('/', routes);
 app.use('/', users);
+app.use('/', report_routes);
+app.use('/', call_routes);
 app.use('/common', common_routes);
+app.use('/', email_routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

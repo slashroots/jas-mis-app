@@ -32,10 +32,10 @@ angular.module('jasmic.controllers')
             }
         }
     ])
-    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location','$routeParams', 'DemandFactory',
-        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory',
-        function ($scope, $mdToast, $location, $routeParams, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory) {
+    .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', '$window', 'DemandFactory',
+        'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory', 'TransactionsFactory',
+        function ($scope, $mdToast, $location, $mdDialog, $routeParams, $window, DemandFactory, DemandMatchFactory,
+                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, TransactionsFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -43,19 +43,32 @@ angular.module('jasmic.controllers')
             UserProfileFactory.show(function(user) {
                 $scope.user = user;
             });
+            /**
+             * Get all open transactions matching demand.
+             */
+            loadAllTransactions = function(){
+                TransactionsFactory.query({de_demand: $routeParams.id}, function(transactions){
+                    $scope.transactions = transactions;
+                }, function(error){
+                    $scope.transactions = [];
+                });
+            };
 
+            loadAllTransactions();
             /**
              * Lookup Demand information based on ID supplied in the URL.
              */
-            DemandFactory.show({id:$routeParams.id}, function(demand) {
+            DemandFactory.show({id:$routeParams.id},
+                function(demand) {
+                    $scope.reps = demand.bu_buyer.re_representatives;
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
+                    lookupReports();
                 },
                 function(error) {
                     $scope.demand = {};
                 });
-
             /**
              * Function to run when download pdf button is clicked.
              * This creates a transaction based on items in the
@@ -64,7 +77,7 @@ angular.module('jasmic.controllers')
             $scope.downloadPDF = function() {
                 //create transaction(s)
                 if($scope.m_commodities.length > 0) {
-                    createTransactions();
+                    //createTransactions();
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
@@ -79,28 +92,33 @@ angular.module('jasmic.controllers')
                             tr_status: 'Pending',
                             us_user_id: $scope.user._id,
                             de_demand: $scope.demand._id,
+                            tr_quantity: $scope.m_commodities[i].co_quantity,
                             tr_value: ($scope.m_commodities[i].co_price * $scope.m_commodities[i].co_quantity),
                             co_commodity: $scope.m_commodities[i]._id
                         },
                         function(success) {
-                            console.log(success);
+                            $mdToast.show($mdToast.simple().position('top right').content('Transaction successfully created.'));
                         },
                         function(fail) {
-                            console.log(fail);
+                            $mdToast.show($mdToast.simple().position('top right').content('Unable to create transaction.'));
                         });
                 }
+                loadAllTransactions();
+                lookupReports();
             };
 
             /**
              * Default/initial variable states
              */
-            $scope.combinedSupplyAmount = 0;
-            $scope.combinedSuppyValue = 0;
-            $scope.totalPercentage = 0;
-            $scope.demandMet = false;
             $scope.allSelected = false;
             $scope.m_commodities = [];
-
+            $scope.transactionSelected = false;
+            $scope.updateTransaction = false;
+            $scope.transction_states = ['Pending','Completed', 'Failed', 'Waiting'];
+            $scope.showNote = false;
+            $scope.transaction_completed = false;
+            $scope.selectedBuyerReports = [];
+            $scope.multi_report = true;
             /**
              * Deselect item from the cart.
              * @param commodity
@@ -108,7 +126,6 @@ angular.module('jasmic.controllers')
             $scope.remove = function(commodity) {
                 commodity.selected = false;
             };
-
             /**
              * Triggered when an item is checked/unchecked.
              * @param commodity
@@ -129,11 +146,274 @@ angular.module('jasmic.controllers')
                     $scope.demandMet = false;
                 }
             };
-
+            /**
+             * Function attempts to match details based on the demand parameters of
+             * the demand ID supplied
+             */
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.demand._id}, function(list) {
                     $scope.commodities = list;
                 })
-            }
+            };
+            /**
+             * Searches for the reports previously generated on this demand.
+             */
+            lookupReports = function() {
+                ReportsFactory.search({
+                    de_demand: $scope.demand._id
+                }, function(reports) {
+                    $scope.reports = reports;
+                }, function(fail) {
+                    $scope.reports = [];
+                });
+            };
+
+            /**
+             * Create the transactions first then record the generation
+             * of the report and then render the report to a new window.
+             */
+            $scope.createReport = function() {
+                if($scope.m_commodities.length > 0) {
+                    createTransactions();
+                    ReportFactory.create({
+                        de_demand: $scope.demand._id,
+                        co_commodities: $scope.m_commodities,
+                        us_user: $scope.user._id,
+                        re_report_name: 'Buyer Report',
+                        re_report_date: Date.now()
+                    }, function(success) {
+                        var newWindow = window.open('/report/' + success._id);
+                    }, function(fail) {
+                        $mdToast.show($mdToast.simple().position('top right').content('Report Created'));
+                    });
+                } else {
+                    $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
+                }
+                loadAllTransactions();
+                lookupReports();
+            };
+            /**
+             * Gets the clicked transaction from a list of transactions.
+             * @param transaction - Details of a specific transaction.
+             */
+            $scope.selectedTransaction = function(transaction){
+                $scope.transaction = transaction;
+                $scope.transactionSelected = true;
+                if($scope.transaction.tr_status === 'Completed'){
+                    $scope.transaction_completed = !$scope.transaction_completed;
+                }
+            };
+            /**
+             * Toggles variable for updating a record.
+             */
+            $scope.editTransaction = function(){
+                $scope.updateTransaction = !$scope.updateTransaction;
+            };
+            /**
+             * Dismisses update transaction card.
+             */
+            $scope.cancel = function(){
+                $scope.transactionSelected = !$scope.transactionSelected;
+                $scope.updateTransaction = !$scope.updateTransaction;
+                loadAllTransactions();
+            };
+            /**
+             * Updates a transaction's status
+             * TODO - replace Toast messages with dialog boxes.
+             */
+            $scope.update = function(){
+                if($scope.transaction.tr_status === 'Completed'){
+                    $scope.transaction.co_sold = true;
+                }
+                TransactionFactory.update({id:$scope.transaction._id}, $scope.transaction, function(success){
+                    $mdToast.show($mdToast.simple().position('top right').content('Transaction Status Updated.'));
+                }, function(error){
+                    $mdToast.show($mdToast.simple().position('top right').content('Transaction Status Not Updated.'));
+                });
+                $scope.transaction = {};
+                $scope.transactionSelected = !$scope.transactionSelected;
+                $scope.updateTransaction = !$scope.updateTransaction;
+                lookupDemandMatches();
+            };
+            /**
+             * Shows dialog to choose buyer report to be emailed.
+             */
+            $scope.emailReport = function(){
+                $scope.multi_report = true;
+                showSendEmailDialog($mdDialog,$scope);
+            };
+            /**
+             * Displays a buyer report given a report id
+             * @param  {String} report_id Id of the buyer report to be displayed
+             */
+            $scope.viewReport = function(report_id){
+                var newWindow = window.open('/report/' + report_id);
+            };
+            /**
+             * Emails a buyer report by id.
+             * @param  {String} report_id Buyer report id
+             */
+            $scope.emailReportById = function(report_id){
+                $scope.multi_report = false;
+                $scope.selectedBuyerReports.push(report_id);
+                $window.scrollTo(0,0);
+                showSendEmailDialog($mdDialog,$scope);
+            };
         }
     ]);
+/**
+ * A general purpose Dialog window to display feedback from the
+ * server.
+ *
+ * @param $mdDialog
+ * @param ev
+ * @param message
+ * @param isError
+ */
+function showDialog($mdDialog, message, isError) {
+    $mdDialog.show(
+        $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .title(isError? 'Error Detected':'System Message')
+            .content(message.statusText)
+            .ariaLabel(isError?'Alert Error':'Alert Message')
+            .ok('Ok')
+    );
+};
+
+function showSendEmailDialog($mdDialog, $scope){
+    $mdDialog.show({
+        scope: $scope,
+        clickOutsideToClose: true,
+        preserveScope: true,
+        templateUrl: '/partials/email_report.html',
+        /**
+         * This controller is responsible for all actions
+         * done on the Call Input Dialog.
+         * @param $scope
+         * @param $mdDialog
+         */
+        controller: function SendEmailDialogController($scope, $route, $mdDialog, $location,
+                                                       EmailFactory, $http, $mdToast){
+            /*
+             *  Gets the selected call type from
+             *  drop down menu.
+             */
+            $scope.reps = loadReps();
+            $scope.selectedReps = [];
+            $scope.sentEmails = [];
+            $scope.selectedItem = null;
+            $scope.searchText = null;
+
+            $scope.querySearch = function(query) {
+                var results = query ? $scope.reps.filter(createFilterFor(query)) : [];
+                return results;
+            };
+
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(rep) {
+                    return (rep._lowername.indexOf(lowercaseQuery) === 0) ||
+                        (rep._lowertype.indexOf(lowercaseQuery) === 0);
+                };
+            }
+            /**
+             * Gets all Buyer representatives.
+             */
+            function loadReps() {
+              var reps = $scope.demand.bu_buyer.re_representatives;
+              reps[1] = {re_name: $scope.demand.bu_buyer.bu_buyer_name,
+                   re_email: $scope.demand.bu_buyer.bu_email};
+            return reps.map(function (rep) {
+                rep._lowername = rep.re_name.toLowerCase();
+                rep._lowertype = rep.re_email.toLowerCase();
+                return rep;
+              });
+            }
+            $scope.selectedReport = function(report_id){
+                $scope.selectedBuyerReports.push(report_id);
+            };
+            /*
+             *  Dismisses the dialog box.
+             */
+            $scope.cancel = function(){
+                $mdDialog.hide();
+            };
+            /**
+             * Determines is the user has selected a buyer report and email receipents.
+             * @return {Boolean} True if either a representative or buye report has been selected.
+             */
+            isEmailAddressAndReportSelected = function(){
+                if($scope.selectedReps.length <= 0 || $scope.selectedBuyerReports.length <= 0){
+                    return false;
+                }else if($scope.selectedReps.length > 0 || $scope.selectedBuyerReports.length > 0){
+                  return true;
+                }
+            };
+            /**
+             * Email(s) selected buyer report(s).
+             * TODO - Before production, uncomment "to" line.
+             */
+            $scope.emailBuyerReport = function(){
+                var email_subject = "Buyer Report" + " - " + $scope.demand.de_quantity + " "
+                    + $scope.demand.un_quantity_unit.un_unit_name + "s "
+                    + "of " + $scope.demand.cr_crop.cr_crop_name;
+                if($scope.demand.cr_crop.cr_crop_variety != " "){
+                    email_subject += " - " + $scope.demand.cr_crop.cr_crop_variety;
+                }
+                var emails = [];
+                if(isEmailAddressAndReportSelected()){
+                    for (var j in $scope.selectedReps) {
+                        emails.push($scope.selectedReps[j].re_email);
+                    }
+                    for(var i in $scope.selectedBuyerReports) {
+                        var report_url = '/report/' + $scope.selectedBuyerReports[i];
+                        var report_id = $scope.selectedBuyerReports[i];
+                        $http.get(report_url,{params: {email_report: true}})
+                        .then(function(response){
+                              EmailFactory.create({
+                                    to: emails,
+                                    subject: email_subject,
+                                    text: "Buyer Report Body",
+                                    report_url: report_url,
+                                    report_id: report_id,
+                                    report_body: response.data,
+                                    email_type:"buyer_report"
+                                },function(success){
+                                    $mdToast.show($mdToast.simple().position('top right').content('Email was successfully sent.'));
+                                },function(error){
+                                    $mdToast.show($mdToast.simple().position('top right').content('Email was not sent.'));
+                                });
+                        }, function(error){
+                            $mdToast.show($mdToast.simple().position('top right').content('Unable to get your report'));
+                        });
+                    }
+                    $mdDialog.hide();
+                    $scope.selectedBuyerReports = [];
+                    $scope.selectedReps = [];
+                }else{
+                    $mdToast.show($mdToast.simple().position('bottom').content('No Email or Buyer Report Seleted'));
+                }
+            };
+        }//end of controller
+    });
+};
+/**
+ * A general purpose Dialog window to display feedback from the
+ * server.
+ *
+ * @param $mdDialog
+ * @param ev
+ * @param message
+ * @param isError
+ */
+function showDialog($mdDialog, message, isError) {
+    $mdDialog.show(
+        $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .title(isError? 'Error Detected':'System Message')
+            .content(message.statusText)
+            .ariaLabel(isError?'Alert Error':'Alert Message')
+            .ok('Ok')
+    );
+};

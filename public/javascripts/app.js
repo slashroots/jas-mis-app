@@ -4,6 +4,8 @@
 
 angular.module('jasmic', [
     'ngRoute',
+    'ngAria',
+    'ngAnimate',
     'ngMaterial',
     'jasmic.services',
     'jasmic.controllers',
@@ -23,7 +25,9 @@ angular.module('jasmic', [
     $routeProvider.when('/search', {templateUrl: '../partials/search.html', controller: 'SearchCtrl'});
     $routeProvider.when('/demands', {templateUrl: '../partials/demand_listing.html', controller: 'DemandListingCtrl'});
     $routeProvider.when('/dashboard', {templateUrl: '../partials/dashboard.html', controller: 'DashboardCtrl'});
+    $routeProvider.when('/calls', {templateUrl: '../partials/call_report_listing_large.html', controller: 'DashboardCtrl'});
     $routeProvider.when('/supplies', {templateUrl: '../partials/commodity_listing.html', controller: 'CommodityListingCtrl'});
+    $routeProvider.when('/admin', {templateUrl: '../partials/admin/dashboard.html', controller: 'AdministratorCtrl'});
     $routeProvider.otherwise({redirectTo: '/dashboard'});
 }]).config(['$httpProvider',function($httpProvider) {
     $httpProvider.interceptors.push('HTTPInterceptor');

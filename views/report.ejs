@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%=title%></title>
+  </head>
+  <body style="font-family: 'Helvetica', 'Arial', 'Lucida Grande,'sans-serif';">
+    <% if(email_report == 'true'){ %>
+      <p>Your demand for <strong><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%>s
+        of <%=buyer_info.cr_crop.cr_crop_name%></strong> has been matched by <strong><%=commodities.length%> </strong>supplier(s).</p>
+     <p>Here is a detailed report outlining supply(s) that match your demand.</p>
+  <% } %>
+  <table style="width: 8in;border: 2px solid black; border-spacing:0px;">
+  <tr>
+    <td style="padding:0px;">
+      <table style="width: 8in; border-spacing:0px;">
+        <tr style="height:0.6in;background-color: #424242;padding: 0px;margin: 0px;
+        	           color: #fff;text-align: center;">
+          <td>
+            <img src="<%=image_paths.logo%>" style=" float: left;padding-top: 0px;height: 50px;
+            width:350px;padding-left: 10px;"></td>
+          <td><h3 style="font-weight:100; letter-spacing:1px; font-size:20px">Market Information Center</h3></td>
+        </tr>
+      </table>
+      <table style="float:left;width: 4.8in;height: 2in;background-color: #EDECED;
+                    border-bottom: 2px dotted #B5B5B5;
+                    border-right: 2px dotted #B5B5B5;">
+          <tr >
+            <td style="padding: 40px 0px 0px 0px;"><span style="padding:0px 0px 0px 12px;"></span>Buyer<br/>
+              <span style="margin:0px;padding:0px 0px 0px 10px; font-weight:100px;font-size:40px;word-wrap: break-word;">
+                <%=buyer_info.bu_buyer.bu_buyer_name%></span></td>
+          </tr>
+      </table>
+      <table style="float:left;width: 3.2in;height: 2in;border-bottom: 2px dotted #B5B5B5;">
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;border-bottom: 2px dotted #B5B5B5;text-align:center;">Attn:</td>
+            <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%=buyer_info.bu_buyer.bu_email%></td>
+          </tr>
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;border-bottom:
+            2px dotted #B5B5B5;text-align:center;">Rep:</td>
+            <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%=us_user.us_user_first_name%> <%=us_user.us_user_last_name%></td>
+          </tr>
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;border-bottom: 2px dotted #B5B5B5;text-align:center;">Date:</td>
+            <td style="border-bottom: 2px dotted #B5B5B5;text-align:left;"><%= report_date %></td>
+          </tr>
+          <tr>
+            <td style="border-right: 2px dotted #B5B5B5;
+            height:.7in;vertical-align:top;text-align:center;">Subject:</td>
+            <td style="text-align:left;vertical-align:top;"><%=buyer_info.de_quantity%> <%=buyer_info.un_price_unit.un_unit_name%> of <%=buyer_info.cr_crop.cr_crop_name%></td>
+          </tr>
+      </table>
+      <table style="float:left;height:.7in;width: 8in;">
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:40px;">
+            <img src="<%=image_paths.produce%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=buyer_info.cr_crop.cr_crop_name%></span>
+            <br><span>Produce</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.variety%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=buyer_info.cr_crop.cr_crop_variety%></span>
+            <br><span>Variety</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.demand%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=buyer_info.de_quantity%>lbs</span>
+            <br><span>Demand</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.supply%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;"><%=supply_amount%>lbs</span>
+            <br><span>Total Supply</span></td>
+            <td style="border-spacing:0px; padding:0px; width:40px;">
+              <img src="<%=image_paths.value%>" style="width:40px;height:40px;"></td>
+          <td><span style="font-weight:bold; font-size:18px;">$<%=supply_value%></span>
+            <br><span>Total Value</span></td>
+        </tr>
+      </table>
+      <% for(var i=0;i<commodities.length;i++) { %>
+      <table style="float:left;background-color: #EDECED;
+        border-top: 2px solid #B5B5B5;
+        border-bottom: 2px dotted #B5B5B5;width: 8in;">
+        <tr>
+          <td style="width:70%">
+            <span style="font-weight:bold; font-size:18px;"><%= commodities[i].fa_farmer.fa_first_name%> <%=commodities[i].fa_farmer.fa_last_name %>
+            </span>
+            <br><span style="font-size:13px;">Farmer</span></td>
+            <td style="border-spacing:0px; padding:0px; width:30px;">
+              <img src="<%=image_paths.calendar%>" style="width:30px;height:30px;"></td>
+          <td><span style="font-size:17px;"><%= crop_dates[0] %></span><br><span style="font-size:13px;">Available</span></td>
+
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.calendar%>" style="width:30px;height:30px;"></td>
+          <td><span style="font-size:17px;"><%= crop_dates[1] %></span><br><span style="font-size:13px;">Available</span></td>
+        </tr>
+      </table>
+      <table style="float:left;width: 1.2in; border-right: 2px dotted #B5B5B5;
+                    border-bottom: 2px solid #B5B5B5;height: 1.5in;">
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.demand%>" style="width:30px;height:30px;"></td>
+        <td><span style="font-weight:bold;"><%=commodities[i].co_quantity %>lbs</span>
+          <br><span style="font-size:13px;">Amount</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.value%>" style="width:30px;height:30px;"></td>
+        <td><span style="font-weight:bold;">$<%= prices[i]%></span><br><span style="font-size:13px;">Price</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.unit_price%>" style="width:30px;height:30px;"></td>
+        <td><span style="font-weight:bold;">$<%=commodities[i].co_price %>/lb</span>
+          <br><span style="font-size:13px;">Unit Price</span></td>
+        </tr>
+      </table>
+      <table style="float:left;border-bottom: 2px solid #B5B5B5;height: 1.5in;width: 2.4in";>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.address_pin%>" style="width:30px;height:30px;"></td>
+          <td>
+            <span>
+              <%=addresses[i].ad_address1%> <br> <%=addresses[i].ad_address2%> <br/> <%=addresses[i].pa_parish%>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.email%>" style="width:30px;height:30px;"></td>
+            <td><% if(commodities[i].fa_email==""){ %>
+                <strong><%= commodities[i].fa_email%></strong>
+            <% } else{ %>
+                <strong>N/A</strong>
+          <% } %><br><span style="font-size:13px;">Personal</span></td>
+        </tr>
+      </table>
+      <table style="float:left; width: 1.96in; border-bottom: 2px solid #B5B5B5;
+        height: 1.5in;">
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.phone%>" style="width:30px;height:30px;"></td>
+          <td><% if(commodities[i].fa_contact==""){ %>
+              <strong><%= commodities[i].fa_contact%></strong>
+          <% } else{ %>
+              <strong>N/A</strong>
+        <% } %><br><span style="font-size:13px;">Mobile</span></td>
+        </tr>
+        <tr>
+          <td style="border-spacing:0px; padding:0px; width:30px;">
+            <img src="<%=image_paths.phone%>" style="width:30px;height:30px;"></td>
+          <td><% if(commodities[i].fa_contact2==""){ %>
+              <strong><%= commodities[i].fa_contact2%></strong>
+          <% } else{ %>
+              <strong>N/A</strong>
+        <% } %><br><span style="font-size:13px;">Mobile</span></td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+      <table style="float:left;border-left: 2px dotted #B5B5B5;
+                    width: 2.45in;height: .7in;border-bottom: 2px solid #B5B5B5;
+                    height: 1.5in;">
+        <tr>
+          <td>Notes<br>
+          <% if(commodities[i].co_notes==""){ %>
+              <strong><%= commodities[i].co_notes%></strong>
+          <% } else{ %>
+                <strong>N/A</strong>
+        <% } %>  </td>
+        </tr>
+      </table>
+  <% } %>
+    </td>
+  </tr>
+</table>
+  </body>
+</html>

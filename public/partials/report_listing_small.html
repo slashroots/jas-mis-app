@@ -1,0 +1,36 @@
+<md-card>
+        <md-subheader>Previously Generated Reports</md-subheader>
+        <md-card-content layout="column">
+            <table class="table" ng-if="reports.length > 0">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Quantity</th>
+                    <th>Suppliers</th>
+                    <th>Agent</th>
+                    <th>Link</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="report in reports">
+                        <td>{{report.re_report_date | date: 'mediumDate'}}</td>
+                        <td>{{report.de_demand.de_quantity}}</td>
+                        <td>{{report.co_commodities.length}}</td>
+                        <td>{{report.us_user.us_user_first_name}} {{report.us_user.us_user_last_name}}</td>
+                        <td style="padding:0px;">
+                          <md-button class="md-icon-button report-btn" aria-label="More" ng-click="viewReport(report._id)">
+                              <md-icon md-svg-icon="/images/ic_launch_24px.svg"></md-icon>
+                            </md-button>
+                        </td>
+                        <td style="padding:0px;">
+                          <md-button class="md-icon-button report-btn" aria-label="More" ng-click="emailReportById(report._id)">
+                              <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
+                            </md-button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </md-card-content>
+</md-card>

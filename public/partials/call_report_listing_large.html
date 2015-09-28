@@ -1,0 +1,27 @@
+<ui-view>
+    <md-card>
+        <md-content layout-padding>
+            <md-subheader class="md-no-sticky md-primary">Calls:</md-subheader>
+            <div class="table-responsive-vertical">
+                <table class="table table-hover table-mc-light-blue repeated-item">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date\Time</th>
+                        <th>Call Type</th>
+                        <th>Phone #</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="call in calls" class="repeated-item">
+                        <td>{{ call.cc_entity_name }}</td>
+                        <td>{{ call.cc_date | date: 'medium'}}</td>
+                        <td>{{ call.ct_call_type.ct_call_type_name}}</td>
+                        <td>{{ call.cc_caller_id }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </md-content>
+    </md-card>
+</ui-view>

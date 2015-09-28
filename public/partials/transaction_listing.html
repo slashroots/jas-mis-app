@@ -1,0 +1,23 @@
+<md-card>
+    <md-subheader>Transactions</md-subheader>
+    <md-card-content layout="column">
+        <table class="table table-hover table-mc-light-blue" ng-if="transactions.length > 0">
+            <thead>
+            <tr>
+                <th>Farmer Name</th>
+                <th>Crop Name</th>
+                <th>Value</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="transaction in transactions" ng-click="selectedTransaction(transaction)">
+                <td>{{transaction.fr_farmer.fa_first_name}} {{transaction.fr_farmer.fa_last_name}}</td>
+                <td>{{transaction.cr_crop.cr_crop_name}}</td>
+                <td>{{transaction.tr_value | currency}}</td>
+                <td>{{transaction.tr_status}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-card-content>
+</md-card>

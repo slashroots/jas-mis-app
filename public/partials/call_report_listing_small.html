@@ -1,0 +1,37 @@
+<div layout="row">
+    <div layout="column" flex="75">
+        <md-subheader class="md-no-sticky md-primary">Calls</md-subheader>
+    </div>
+</div>
+        <div layout="row">
+        <div layout="column" flex="75">
+            <table class="table table-hover table-mc-light-blue light-font">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date/Time</th>
+                    <th>Call Type</th>
+                    <th>Phone #</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="call in calls | limitTo: 5" ng-click="setSelectedNote(call);">
+                    <td flex>{{call.cc_entity_name}}</td>
+                    <td flex>{{call.cc_date | date: 'medium' }}</td>
+                    <td flex>{{call.ct_call_type.ct_call_type_name}}</td>
+                    <td flex>{{call.cc_caller_id}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div layout="column" flex>
+            <div class="notes">
+                <p>Notes</p>
+                <p><strong>{{note}}</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center" layout-align="center center" ng-if="calls.length >= 5">
+        <a ng-href="#/calls" >More Results</a>
+    </div>

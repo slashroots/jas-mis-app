@@ -1,0 +1,39 @@
+<md-content layout-padding layout="column">
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Crop Name</label>
+            <input type="text" ng-model="crop_type.cr_crop_name">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Crop Variety</label>
+            <input type="text" ng-model="crop_type.cr_crop_variety">
+        </md-input-container>
+
+        <md-input-container flex>
+            <label>Season</label>
+            <input type="text" ng-model="crop_type.cr_crop_season">
+        </md-input-container>
+    </div>
+    <div layout="row">
+        <md-select placeholder="Mature Weeks" ng-model="crop_type.cr_crop_mature_weeks" flex>
+            <md-option value=1>1</md-option>
+        </md-select>
+        <md-select placeholder="Average Size" ng-model="crop_type.cr_crop_avg_size" flex>
+            <md-option value=1>1</md-option>
+        </md-select>
+    </div>
+    <div layout="row">
+        <md-select placeholder="Planting Density Min" ng-model="crop_type.cr_crop_planting_density_min" flex>
+            <md-option value=1>1</md-option>
+        </md-select>
+        <md-select placeholder="Planting Density Max" ng-model="crop_type.cr_crop_planting_density_max" flex>
+            <md-option value=1>1</md-option>
+        </md-select>
+    </div>
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="cancel('croptype')">Cancel</md-button>
+        <md-button ng-click="save('croptype')" ng-if="!editCrop">Save</md-button>
+        <md-button ng-click="update('crop')" ng-if="editCrop">Update</md-button>
+    </md-input-container>
+</md-content>
