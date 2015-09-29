@@ -23,7 +23,6 @@ var InputType = model.InputType;
 exports.findSuppliers = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var query = req.query;
-        console.log(query);
         Supplier.find(query)
             .exec(function (err, docs) {
                 if (err) {

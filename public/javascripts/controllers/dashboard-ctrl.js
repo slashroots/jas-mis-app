@@ -16,6 +16,7 @@ angular.module('jasmic.controllers')
              * will be updated to reflect this change.
              */
             $scope.isAdmin = false;
+            $scope.parish_label = "", $scope.store_label = "";
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
                     $scope.calls = calls;
@@ -102,10 +103,10 @@ angular.module('jasmic.controllers')
             });
 
             /**
-             * Populate all the suppliers to the dashboard
-             * interface TODO: This query isn't restricted!
+             * Populate all the suppliers to the dashboard for a particular parish
+             * TODO: This query isn't restricted!
              */
-            SuppliersFactory.query(function(suppliers) {
+            SuppliersFactory.query({pa_parish: "Kingston & Saint Andrew"},function(suppliers) {
                 $scope.suppliers = suppliers;
             });
 
@@ -115,7 +116,9 @@ angular.module('jasmic.controllers')
              */
             $scope.supplierSearch = function(parish) {
                 SuppliersFactory.query({pa_parish: parish.pa_parish_name}, function(suppliers) {
+                    $scope.store_label = "";
                     $scope.suppliers = suppliers;
+                    $scope.parish_label = parish.pa_parish_name;
                     $scope.inputs = [];
                 });
             };
@@ -125,14 +128,16 @@ angular.module('jasmic.controllers')
             $scope.inputSearch = function(supplier) {
                 InputsFactory.query({su_supplier:supplier._id}, function(inputs) {
                     $scope.inputs = inputs;
+                    $scope.store_label = supplier.su_supplier_name;
                 });
             };
             /**
-             * Populate all the inputs to the dashboard
+             * Populate all inputs to the dashboard for a default parish
              * interface. TODO: This query isn't restricted!
              */
-            InputsFactory.query(function(inputs) {
+            InputsFactory.query({pa_parish_name:"Kingston & Saint Andrew"}, function(inputs) {
                 $scope.inputs = inputs;
+                $scope.parish_label = "Kingston & Saint Andrew";
             });
             /**
              * Loads a specific route by name and id
