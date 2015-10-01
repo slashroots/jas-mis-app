@@ -58,7 +58,7 @@ passport.use(new LocalStrategy(
             };
             return done(null, user);
         } else {
-            User.findOne({ us_username: username, us_state: 'Approved' }, function(err, user) {
+            User.findOne({ us_username: username, us_password: password, us_state: 'Approved' }, function(err, user) {
                 if (err || !user){
                   return done(null, false, { message: 'Incorrect username or password' });
                 }
