@@ -1,34 +1,32 @@
 <ui-view>
     <md-content layout="row" layout-fill>
         <div layout="column" class="repeated-item" layout-fill flex>
-        <md-card>
-            <md-card-content layout-padding>
-                <table class="table table-hover table-mc-light-blue">
-                    <thead>
-                    <tr>
-                        <th>JAS #</th>
-                        <th>First</th>
-                        <th>Last</th>
-                        <th>DOB</th>
-                        <th>Contact</th>
-                        <th>Deceased</th>
-                        <th>Parish</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="farmer in farmers" ng-click="selectedElement(farmer)">
-                        <td>{{ farmer.fa_jas_number }}</td>
-                        <td>{{ farmer.fa_first_name }}</td>
-                        <td>{{ farmer.fa_last_name }}</td>
-                        <td>{{ farmer.fa_dob | date }}</td>
-                        <td>{{ farmer.fa_contact }}</td>
-                        <td>{{ farmer.fa_deceased }}</td>
-                        <td>{{ farmer.ad_address.pa_parish }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </md-card-content>
-        </md-card>
+            <md-card>
+                <md-card-content layout-padding>
+                    <table class="table table-hover table-mc-light-blue">
+                        <thead>
+                        <tr>
+                            <th>JAS #</th>
+                            <th>First</th>
+                            <th>Last</th>
+                            <th>DOB</th>
+                            <th>Contact</th>
+                            <th>Parish</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="farmer in farmers" ng-click="selectedElement(farmer)">
+                            <td>{{ farmer.fa_jas_number }}</td>
+                            <td>{{ farmer.fa_first_name }}</td>
+                            <td>{{ farmer.fa_last_name }}</td>
+                            <td>{{ farmer.fa_dob | date }}</td>
+                            <td>{{ farmer.fa_contact }}</td>
+                            <td>{{ farmer.ad_address.pa_parish }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-card-content>
+            </md-card>
         </div>
         <div ng-include="selected ? '/partials/farmer_profile_small.html':null" flex="40">
 
