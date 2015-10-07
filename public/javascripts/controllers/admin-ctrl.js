@@ -133,11 +133,11 @@ angular.module('jasmic.controllers')
               getSuppliers();
               $scope.hideList.supplier = !$scope.hideList.supplier;
           }else if(entity === 'buyer'){
-              if($scope.editBuyer){
-                $scope.buyer = {};
-              }
-              getUnverifiedBuyers();
-              $scopehideList.buyer = !$scope.hideList.buyer;
+            if($scope.editBuyer){
+              $scope.editBuyer = !$scope.editBuyer;
+            }
+            getUnverifiedBuyers();
+            $scope.hideList.buyer = !$scope.hideList.buyer;
           }
       };
       /**

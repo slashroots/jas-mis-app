@@ -151,27 +151,27 @@
                     </md-button>
                 </div> -->
             </div>
-            <table class="table table-hover table-mc-light-blue" ng-if="!hideList.buyer">
-                <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Parish</th>
-                        </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="buyer in buyers" ng-click="selectedElement('buyer',buyer)">
-                        <td>{{buyer.bu_buyer_name}}</td>
-                        <td>{{buyer.bt_buyer_type.bt_buyer_type_name}}</td>
-                        <td>{{buyer.ad_address.pa_parish}}</td>
-                    </tr>
-                </tbody>
-            </table>
-          </div>
+            <div>
+              <table class="table table-hover table-mc-light-blue" ng-if="!hideList.buyer">
+                  <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>Type</th>
+                              <th>Parish</th>
+                          </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="buyer in buyers" ng-click="selectedElement('buyer',buyer)">
+                          <td>{{buyer.bu_buyer_name}}</td>
+                          <td>{{buyer.bt_buyer_type.bt_buyer_type_name}}</td>
+                          <td>{{buyer.ad_address.pa_parish}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
           <div class="{{editBuyer ?'dark':'white'}}" ng-include="editBuyer ? '/partials/admin/buyer_edit.html': null">
 
           </div>
-          
         </md-card-content>
     </md-card>
 
