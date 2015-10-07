@@ -108,8 +108,9 @@ angular.module('jasmic.controllers')
              * Populate all the suppliers to the dashboard for a particular parish
              * TODO: This query isn't restricted!
              */
-            SuppliersFactory.query({pa_parish: "Kingston & Saint Andrew"},function(suppliers) {
+            SuppliersFactory.query({pa_parish_code: "default"},function(suppliers) {
                 $scope.suppliers = suppliers;
+                $scope.parish_label = $scope.suppliers[0].pa_parish;
             });
 
             /**
@@ -133,15 +134,7 @@ angular.module('jasmic.controllers')
                     $scope.store_label = supplier.su_supplier_name;
                 });
             };
-            /**
-             * Populate all inputs to the dashboard for a default parish
-             * interface. TODO: This query isn't restricted!
-             */
-            InputsFactory.query({pa_parish_name:"Kingston & Saint Andrew"}, function(inputs) {
-                $scope.inputs = inputs;
-                $scope.parish_label = "Kingston & Saint Andrew";
-            });
-            /**
+            /*
              * Loads a specific route by name and id
              * @param  {[type]} route Name of the route
              * @param  {[type]} id

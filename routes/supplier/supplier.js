@@ -23,6 +23,9 @@ var InputType = model.InputType;
 exports.findSuppliers = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var query = req.query;
+        if(query.pa_parish_code === 'default'){
+          query.pa_parish_code = process.env.DEFAULT_SYS_PARISH_CODE;
+        }
         Supplier.find(query)
             .exec(function (err, docs) {
                 if (err) {
