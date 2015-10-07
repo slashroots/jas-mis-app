@@ -1,0 +1,16 @@
+<md-content layout-padding layout="column">
+    <div layout="row">
+        <md-input-container flex>
+            <label>Buyer Name</label>
+            <input type="text" ng-model="buyer.bu_buyer_name">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Buyer Type</label>
+            <input type="text" ng-model="crop_type.cr_crop_variety">
+        </md-input-container>
+    </div>
+    <md-input-container layout="row" layout-align="center center">
+        <md-button ng-click="cancel('buyer')">Cancel</md-button>
+        <md-button ng-click="update('buyer')" ng-if="editBuyer">Update</md-button>
+    </md-input-container>
+</md-content>

@@ -1,8 +1,9 @@
 angular.module('jasmic.controllers')
     .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast','UsersFactory','CropsFactory','SuppliersFactory',
     'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
+    'BuyersListingFactory', 'BuyerFactory',
     function($scope, $mdDialog, $mdToast, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
-    SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory){
+    SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory, BuyersListingFactory, BuyerFactory){
       /**
        * Get all users from the database.
        */
@@ -47,17 +48,29 @@ angular.module('jasmic.controllers')
         });
       }
       getParishes();
+      /**
+       * Gets all unverified buyers from the database
+       */
+      getUnverifiedBuyers = function(){
+        BuyersListingFactory.query({bu_verified: "false"}, function(buyers){
+          $scope.buyers = buyers;
+        },function(error){
+          $scope.buyers = [];
+        });
+      }
+      getUnverifiedBuyers();
 
       $scope.user_obj = {};
       $scope.crop_type = {};
       $scope.supplier = {};
+      $scope.buyer = {};
       $scope.usertypes = ['Administrator', 'Call Representative'];
       $scope.states = ['Approved', 'Pending'];
       /**
        * Used to toggle list of records.
        * @type {{user: boolean, croptype: boolean, supplier: boolean}}
        */
-      $scope.hideList = { user: false, croptype: false, supplier: false};
+      $scope.hideList = { user: false, croptype: false, supplier: false, buyer: false};
       /**
        * Determines if form to create user must edit a record or create a new record.
        * @type {boolean}
@@ -65,6 +78,7 @@ angular.module('jasmic.controllers')
       $scope.editUser = false;
       $scope.editCrop = false;
       $scope.editSupplier = false;
+      $scope.editBuyer = false;
       /**
        * Displays form specific to each entity i.e. user, crop or supplier.
        * @param entity
@@ -118,6 +132,12 @@ angular.module('jasmic.controllers')
               }
               getSuppliers();
               $scope.hideList.supplier = !$scope.hideList.supplier;
+          }else if(entity === 'buyer'){
+              if($scope.editBuyer){
+                $scope.buyer = {};
+              }
+              getUnverifiedBuyers();
+              $scopehideList.buyer = !$scope.hideList.buyer;
           }
       };
       /**
@@ -182,6 +202,10 @@ angular.module('jasmic.controllers')
                                $scope.hideList.supplier = !$scope.hideList.supplier;
                                $scope.supplier = obj;
                   break;
+              case 'buyer' : $scope.editBuyer =  !$scope.editBuyer;
+                             $scope.hideList.buyer = !$scope.hideList.buyer;
+                             $scope.buyer = obj;
+                  break;
               default: showDialog($mdDialog,{statusText: "Error"}, false);
                   break
           }
@@ -197,6 +221,8 @@ angular.module('jasmic.controllers')
              updateCrop();
          }else if(type === 'supplier'){
              updateSupplier();
+         }else if(type === 'buyer'){
+           updateBuyer();
          }
       };
       /**
@@ -243,6 +269,13 @@ angular.module('jasmic.controllers')
           $scope.editSupplier = !$scope.editSupplier;
           $scope.hideList.supplier = !$scope.hideList.supplier;
           getSuppliers();
+      }
+      /**
+       * Updates a buyer record. Requires admin privileges.
+       */
+      function updateBuyer(){
+          console.log($scope.buyer);
+          //BuyerFactory.update()
       }
 }]);
 
