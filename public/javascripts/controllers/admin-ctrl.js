@@ -1,8 +1,8 @@
 angular.module('jasmic.controllers')
-    .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast','UsersFactory','CropsFactory','SuppliersFactory',
+    .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast','$window','UsersFactory','CropsFactory','SuppliersFactory',
     'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
     'BuyersListingFactory', 'BuyerFactory',
-    function($scope, $mdDialog, $mdToast, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
+    function($scope, $mdDialog, $mdToast, $window, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
     SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory, BuyersListingFactory, BuyerFactory){
       /**
        * Get all users from the database.
@@ -52,7 +52,7 @@ angular.module('jasmic.controllers')
        * Gets all unverified buyers from the database
        */
       getUnverifiedBuyers = function(){
-        BuyersListingFactory.query({bu_verified: "false"}, function(buyers){
+        BuyersListingFactory.query({bu_verified: "Unverified"}, function(buyers){
           $scope.buyers = buyers;
         },function(error){
           $scope.buyers = [];
@@ -60,12 +60,17 @@ angular.module('jasmic.controllers')
       }
       getUnverifiedBuyers();
 
+      log = function(){
+        console.log('works');
+      };
+
       $scope.user_obj = {};
       $scope.crop_type = {};
       $scope.supplier = {};
       $scope.buyer = {};
       $scope.usertypes = ['Administrator', 'Call Representative'];
       $scope.states = ['Approved', 'Pending'];
+      $scope.buyer_states = ['Unverified', 'Verified'];
       /**
        * Used to toggle list of records.
        * @type {{user: boolean, croptype: boolean, supplier: boolean}}
@@ -136,6 +141,7 @@ angular.module('jasmic.controllers')
             if($scope.editBuyer){
               $scope.editBuyer = !$scope.editBuyer;
             }
+            $scope.buyer = {};
             getUnverifiedBuyers();
             $scope.hideList.buyer = !$scope.hideList.buyer;
           }
@@ -262,6 +268,7 @@ angular.module('jasmic.controllers')
        */
       function updateSupplier(){
          SupplierFactory.update({id:$scope.supplier._id}, $scope.supplier, function(success){
+              $window.scrollTo(0,0);
               showDialog($mdDialog, {statusText: 'Supplier Updated!'}, false);
           }, function(error){
               showDialog($mdDialog, error, false);
@@ -274,8 +281,16 @@ angular.module('jasmic.controllers')
        * Updates a buyer record. Requires admin privileges.
        */
       function updateBuyer(){
-          console.log($scope.buyer);
-          //BuyerFactory.update()
+        BuyerFactory.update({id: $scope.buyer._id}, $scope.buyer, function(success){
+          $window.scrollTo(0,0);
+          showDialog($mdDialog,{statusText: "Buyer Updated!"}, false);
+          $scope.buyer = {};
+          $scope.editBuyer = !$scope.editBuyer;
+        }, function(error){
+          showDialog($mdDialog, error, false);
+        });
+        $scope.hideList.buyer = !$scope.hideList.buyer;
+        getUnverifiedBuyers();
       }
 }]);
 

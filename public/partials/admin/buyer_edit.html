@@ -6,9 +6,42 @@
         </md-input-container>
         <md-input-container flex>
             <label>Buyer Type</label>
-            <input type="text" ng-model="crop_type.cr_crop_variety">
+            <input type="text" ng-model="buyer.bt_buyer_type.bt_buyer_type_name">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Contact</label>
+            <input type="text" ng-model="buyer.bu_phone">
         </md-input-container>
     </div>
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Address 1</label>
+            <input type="text" ng-model="buyer.ad_address.ad_address1">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Address 2</label>
+            <input type="text" ng-model="buyer.ad_address.ad_address2">
+        </md-input-container>
+        <md-select placeholder="Parish" ng-model="buyer.ad_address.pa_parish" flex>
+            <md-option ng-repeat="parish in parishes" value={{parish.pa_parish_name}}>{{parish.pa_parish_name}}</md-option>
+        </md-select>
+    </div>
+
+    <div layout="row">
+        <md-input-container flex>
+            <label>Email</label>
+            <input type="text" ng-model="buyer.bu_email">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Payment Terms</label>
+            <input type="text" ng-model="buyer.bu_payment_terms">
+        </md-input-container>
+        <md-select placeholder="Verified" ng-model="buyer.bu_verified" flex>
+            <md-option ng-repeat="state in buyer_states" value={{state}}>{{state}}</md-option>
+        </md-select>
+    </div>
+
     <md-input-container layout="row" layout-align="center center">
         <md-button ng-click="cancel('buyer')">Cancel</md-button>
         <md-button ng-click="update('buyer')" ng-if="editBuyer">Update</md-button>

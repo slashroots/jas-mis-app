@@ -63,7 +63,6 @@ exports.getBuyers = function(req, res) {
  */
 exports.createBuyer = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        console.log(req.body);
         var address = new model.Address(req.body.ad_address);
         address.save(function (err) {
             if (err) {

@@ -202,7 +202,7 @@ var BuyerSchema = new Schema({
     bu_phone: String,
     bu_email: String,
     bu_payment_terms: String,
-    bu_verified: {type: Boolean, required: true, default: false},
+    bu_verified: {type: String, required: true, default: 'Unverified'},
     ad_address: {type: Schema.Types.ObjectId, required: true, ref: 'Address'},
     ct_comments: [CommentSchema],
     in_integrity: Number,
