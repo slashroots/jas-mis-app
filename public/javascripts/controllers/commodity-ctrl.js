@@ -4,13 +4,13 @@
 
 angular.module('jasmic.controllers')
     .controller('CommodityListingCtrl', ['$scope','$location','$routeParams', 'CurrentCommoditiesFactory',
-        'CommodityMatchFactory',
-        function ($scope, $location, $routeParams, CurrentCommoditiesFactory, CommodityMatchFactory) {
+        'CommodityMatchFactory', 'UnitConversionService',
+        function ($scope, $location, $routeParams, CurrentCommoditiesFactory, CommodityMatchFactory, UnitConversionService) {
             /**
              * This queries the database for the current active commodities
              */
             CurrentCommoditiesFactory.query({}, function(commodities) {
-                $scope.commodities = commodities;
+                $scope.commodities = UnitConversionService.FromBaseUnit('commodity', commodities);
             },
             function(error) {
                 $scope.commodities = [];
