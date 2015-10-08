@@ -60,10 +60,6 @@ angular.module('jasmic.controllers')
       }
       getUnverifiedBuyers();
 
-      log = function(){
-        console.log('works');
-      };
-
       $scope.user_obj = {};
       $scope.crop_type = {};
       $scope.supplier = {};
