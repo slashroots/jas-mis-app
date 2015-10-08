@@ -164,7 +164,7 @@ function getTotalValue(commodities){
   commodities.forEach(function(list_item){
       total_value += (list_item.co_quantity * list_item.co_price);
   });
-  return total_value;
+  return total_value.toFixed(2);
 }
 /**
  * Extracts and formats crop availability dates
@@ -183,7 +183,7 @@ function getCropAvailabilityDates(commodities){
 function getTotalPrices(commodities){
     var total_prices = [];
     commodities.forEach(function(list_item){
-        total_prices.push((list_item.co_quantity * list_item.co_price));
+        total_prices.push((list_item.co_quantity * list_item.co_price).toFixed(2));
     });
     return total_prices;
 }

@@ -249,6 +249,15 @@ services.factory('UnitsFactory', function($resource) {
         query: {method: 'GET', isArray: true}
     });
 });
+/*
+  Updates a unit by a supplied id.
+ */
+services.factory('UnitFactory', function($resource){
+  return $resource('/common/unit/:id', {},{
+      update: {method: 'PUT', params: {id: '@id'}},
+      create: {method: 'POST'}
+  });
+})
 
 /**
  * Adds new Commodity and associates it with a farmer.
@@ -513,4 +522,74 @@ services.factory('EmailFactory', function($resource){
     return $resource('/email', {}, {
         create: { method: 'POST'}
     });
+});
+/**
+ * Facilitates the conversion to and from the application
+ * base unit.
+ */
+services.service('UnitConversionService', function(){
+  /**
+   * Converts a unit to the application's base unit
+   * @param  {String} type Type of entity to be converted.
+   * @param  {Object} obj  Object of entity type i.e. demand or commodity
+   * @return {Array} result     Array of converted demand(s) or commodity(s)
+   */
+      this.toBaseUnit = function(type, obj){
+        var result = [];
+        if(type === 'demand'){
+          result = convertDemandtoBaseUnit(obj);
+        }else if(type === 'commodity'){
+          result = convertCommoditytoBaseUnit(obj);
+        }
+        return result;
+      }
+      /**
+       * Converts a unit from the application's base unit
+       * @param  {String} type Type of entity to be converted.
+       * @param  {Object} obj  Object of entity type i.e. demand or commodity
+       * @return {Array} result     Array of converted demand(s) or commodity(s)
+       */
+      this.FromBaseUnit = function(type, obj){
+        var result = [];
+        if(type === 'commodity'){
+          result = convertCommodityFromBaseUnit(obj)
+        }else if(type === 'demand'){
+          result = convertDemandFromBaseUnit(obj);
+        }
+        return result;
+      }
+
+      convertDemandtoBaseUnit = function(demand){
+        demand.de_quantity = demand.de_quantity / demand.un_quantity_unit.un_unit_conversion;
+        demand.de_price = demand.de_price / demand.un_quantity_unit.un_unit_conversion;
+        return demand;
+      }
+
+      convertDemandFromBaseUnit = function(demands){
+        var length = demands.length, i= 0;
+        for(;i<length;i++){
+          if(demands[i].un_quantity_unit.un_unit_name != "KG"){
+            demands[i].de_quantity = demands[i].de_quantity * demands[i].un_quantity_unit.un_unit_conversion;
+            demands[i].de_price = demands[i].de_price * demands[i].un_quantity_unit.un_unit_conversion;
+          }
+        }
+        return demands;
+      }
+
+      convertCommoditytoBaseUnit = function(commodity){
+          commodity.co_quantity = commodity.co_quantity / commodity.un_quantity_unit.un_unit_conversion;
+          commodity.co_price = commodity.co_price / commodity.un_quantity_unit.un_unit_conversion;
+          return commodity;
+      }
+
+      convertCommodityFromBaseUnit = function(commodities){
+        var length = commodities.length, i= 0;
+        for(;i<length;i++){
+          if(commodities[i].un_quantity_unit.un_unit_name != "KG"){
+            commodities[i].co_quantity = commodities[i].co_quantity * commodities[i].un_quantity_unit.un_unit_conversion;
+            commodities[i].co_price = commodities[i].co_price * commodities[i].un_quantity_unit.un_unit_conversion;
+          }
+        }
+        return commodities;
+      }
 });

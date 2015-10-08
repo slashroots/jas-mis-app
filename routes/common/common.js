@@ -347,6 +347,20 @@ exports.findUnits = function(req, res) {
         });
     }
 };
+/**
+ * Updates a unit based on a given id.
+ */
+exports.updateUnit = function(req, res){
+    if(exports.isAdmin(req, res)){
+      Unit.findByIdAndUpdate(req.params.id, req.body, function(err, doc){
+        if(err){
+          handleDBError(err, res)
+        }else{
+          res.send(doc);
+        }
+      });
+    }
+};
 
 /**
  * This allows a user to search for a district based on a given search parameter
@@ -397,4 +411,3 @@ exports.batchPushDistricts = function(req, res) {
         }
     })
 };
-

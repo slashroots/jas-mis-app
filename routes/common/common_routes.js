@@ -33,6 +33,7 @@ router.get('/search', Common.searchAll);
 
 router.get('/units', Common.findUnits);
 router.post('/unit', Common.createUnit);
+router.put('/unit/:id', Common.updateUnit);
 
 
 module.exports = router;
