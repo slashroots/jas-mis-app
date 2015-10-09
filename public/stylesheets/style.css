@@ -20,6 +20,11 @@ md-progress-linear .md-bar {
     overflow: hidden;
 }
 
+.error-message{
+  color: #C62828;
+  margin-left: 60px;
+}
+
 md-toolbar.md-default-theme {
   background-color: #ffffff;
   color: rgba(116, 117, 41, 1);

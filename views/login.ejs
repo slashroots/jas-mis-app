@@ -33,7 +33,10 @@
             <span flex></span>
         </div>
         <div layout-padding layout="column" flex>
-            <form layout="column" layout="center center" method="POST" action="/login?goTo=<%=goTo%>">
+          <%if(message){%>
+              <p class="error-message"><%=message%></p>
+          <%}%>
+        <form layout="column" layout="center center" method="POST" action="/login?goTo=<%=goTo%>">
 
                 <div layout="column" layout-align="center center" layout-padding>
                     <input class="loginEntry userLogin" placeholder="Username" type="text" name="username"/>
