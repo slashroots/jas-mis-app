@@ -180,8 +180,8 @@ div.md-actions.edge {
 
 .follow {
   position:relative !important;
-  top:25px;
-  width:100%;
+  top:25px !important;
+  width:100% !important;
 }
 .search {
   width: 100%;
