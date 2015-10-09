@@ -397,4 +397,17 @@ exports.batchPushDistricts = function(req, res) {
         }
     })
 };
-
+/**
+ * Removes TRN from records before sending record(s).
+ */
+exports.redact = function(records){
+    if(typeof(records) === 'object'){
+      records.fa_government_id = "";
+    }else if(records.isArray()){
+      var length = records.length, i = 0;
+      for(;i<length;i++){
+        records[i].fa_government_id = "";
+      }
+    }
+  return records;
+}
