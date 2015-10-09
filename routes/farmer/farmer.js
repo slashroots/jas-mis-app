@@ -99,7 +99,7 @@ exports.createFarmer = function(req, res) {
 exports.getFarmerById = function(req, res) {
     if(common.isAuthenticated(req, res)) {
       var fields_to_exclude = '';
-      if(req.user.ut_user_type === "Administrator"){
+      if(req.user.ut_user_type != "Administrator"){
          fields_to_exclude = '-fa_government_id';
       }
         model.Farmer.findById(req.params.id)
