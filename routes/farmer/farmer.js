@@ -63,7 +63,7 @@ exports.getFarmers = function(req, res) {
         model.Farmer.find(query)
             .populate('ad_address fr_farms.di_district')
             .exec(function (err, farmers) {
-                if (err) {
+                if (err || !farmers) {
                     handleDBError(err, res);
                 } else {
                     res.send(farmers);
