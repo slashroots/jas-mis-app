@@ -4,8 +4,8 @@
 
 angular.module('jasmic.controllers')
     .controller('DemandListingCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
-        'DemandMatchFactory', 'UnitConversionService',
-        function ($scope, $location, $routeParams, CurrentDemandsFactory, DemandMatchFactory, UnitConversionService) {
+        'DemandMatchFactory',
+        function ($scope, $location, $routeParams, CurrentDemandsFactory, DemandMatchFactory) {
             CurrentDemandsFactory.query({}, function(demands) {
                     $scope.demands = demands;
                 },
@@ -27,17 +27,15 @@ angular.module('jasmic.controllers')
 
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.selectedDemand._id}, function(list) {
-                    $scope.m_commodities = UnitConversionService.FromBaseUnit('commodity', list);
+                    $scope.m_commodities = list;
                 })
             }
         }
     ])
     .controller('DemandProfileCtrl', ['$scope','$mdToast','$location', '$mdDialog','$routeParams', '$window', 'DemandFactory',
         'DemandMatchFactory', 'UserProfileFactory', 'TransactionFactory', 'ReportFactory', 'ReportsFactory', 'TransactionsFactory',
-        'UnitConversionService',
         function ($scope, $mdToast, $location, $mdDialog, $routeParams, $window, DemandFactory, DemandMatchFactory,
-                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, TransactionsFactory,
-                  UnitConversionService) {
+                  UserProfileFactory, TransactionFactory, ReportFactory, ReportsFactory, TransactionsFactory) {
             /**
              * Display user profile based on authenticated
              * session information.
@@ -154,7 +152,7 @@ angular.module('jasmic.controllers')
              */
             lookupDemandMatches = function() {
                 DemandMatchFactory.query({id: $scope.demand._id}, function(list) {
-                    $scope.commodities = UnitConversionService.FromBaseUnit('commodity', list);
+                    $scope.commodities = list;
                 })
             };
             /**

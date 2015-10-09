@@ -46,11 +46,11 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'CallLogsFactory', 'UserProfileFactory','UnitConversionService',
+        'CallLogsFactory', 'UserProfileFactory',
         function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
-              UserProfileFactory, UnitConversionService) {
+              UserProfileFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -78,7 +78,7 @@ angular.module('jasmic.controllers')
             };
             $scope.populateCommodities = function() {
                 CommoditiesFactory.query({id: $routeParams.id}, function(list) {
-                    $scope.commodities = UnitConversionService.FromBaseUnit('commodity', list);
+                    $scope.commodities = list;
                 }, function(fail) {
                   $scope.commodities = [];
                 });
@@ -288,7 +288,7 @@ function showDialog($mdDialog, message, isError) {
     );
 };
 
-function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory,UnitConversionService) {
+function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
     var self = this;
     self.commodity = {};
     self.commodity.co_availability_date= moment().toDate();
@@ -331,9 +331,6 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
 
     $scope.saveCommodity = function() {
         self.commodity.cr_crop = self.selectedCrop;
-        if(self.commodity.un_quantity_unit.un_unit_name != "KG"){
-            self.commodity = UnitConversionService.toBaseUnit('commodity', self.commodity);
-        }
         CommodityFactory.create({id:$routeParams.id}, self.commodity, function(success) {
             $scope.newCommodityItem();
             $scope.populateCommodities();
