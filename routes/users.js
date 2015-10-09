@@ -2,6 +2,7 @@ var express = require('express'),
     router = express.Router(),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
+    flash = require('connect-flash'),
     common = require('./common/common'),
     User = require('../models/db').User;
 
@@ -9,7 +10,7 @@ var express = require('express'),
  * Renders the login page.
  */
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'JASMIC', goTo: req.query.goTo});
+    res.render('login', { title: 'JASMIC', goTo: req.query.goTo, message: req.flash('error')});
 });
 
 /**
@@ -18,11 +19,11 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next){
     if(req.query.goTo) {
         passport.authenticate('local', { successRedirect: req.query.goTo,
-                failureRedirect: '/login' }
+                failureRedirect: '/login', failureFlash: true }
         )(req, res, next);
     } else {
         passport.authenticate('local', { successRedirect: '/home',
-                failureRedirect: '/login' }
+                failureRedirect: '/login', failureFlash: true }
         )(req, res, next);
     }
 });
@@ -58,9 +59,9 @@ passport.use(new LocalStrategy(
             };
             return done(null, user);
         } else {
-            User.findOne({ us_username: username, us_state: 'Approved' }, function(err, user) {
+            User.findOne({ us_username: username, us_password: password, us_state: 'Approved' }, function(err, user) {
                 if (err || !user){
-                  return done(null, false, { message: 'Incorrect username or password' });
+                  return done(null, false, { message: 'Your username or password is incorrect!' });
                 }
                 return done(null, user);
             });
