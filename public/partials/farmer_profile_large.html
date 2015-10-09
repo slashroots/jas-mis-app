@@ -34,7 +34,7 @@
                         <div flex layout="row">
                             <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
                             <div layout-align="center" layout="column">
-                                {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
+                                {{farmer.fa_government_id === "" ? "Not Disclosed" : farmer.fa_government_id}}
                                 <div class="label">TRN</div>
                             </div>
                         </div>
