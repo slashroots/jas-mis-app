@@ -98,12 +98,18 @@ exports.createFarmer = function(req, res) {
  */
 exports.getFarmerById = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
+      var fields_to_exclude = '';
+      if(req.user.ut_user_type === "Administrator"){
+         fields_to_exclude = '-fa_government_id';
+      }
+        model.Farmer.findById(req.params.id)
+            .populate('ad_address fr_farms.di_district')
+            .select(fields_to_exclude)
             .exec(function (err, farmer) {
                 if (err || !farmer) {
                     handleDBError(err, res);
                 } else {
-                    res.send(common.redact(farmer));
+                    res.send(farmer);
                 }
             });
     }
