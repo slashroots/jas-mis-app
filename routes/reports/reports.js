@@ -65,8 +65,15 @@ exports.renderReport = function(req, res) {
                 if (err) {
                     common.handleDBError(err, res);
                 } else {
-                      for(var i = 0; i<item.co_commodities.length;i++){
+                      var length = item.co_commodities.length, i = 0;
+                      for(; i < length;i++){
                           Address.findById(item.co_commodities[i].fa_farmer.ad_address, function(err, address){
+                            if(typeof(address.ad_address1) === 'undefined'){
+                                address.ad_address1 = "";
+                            }
+                            if(typeof(address.ad_address2) === 'undefined'){
+                              address.ad_address2 = "";
+                            }
                             addresses.push(address);
                           });
                       }
