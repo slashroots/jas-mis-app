@@ -46,7 +46,7 @@ angular.module('jasmic.controllers')
                 }, function (error) {
                     $scope.parishes = [];
                 });
-            }
+            };
             getParishes();
             /**
              * Gets all unverified buyers from the database
@@ -57,7 +57,7 @@ angular.module('jasmic.controllers')
                 }, function (error) {
                     $scope.buyers = [];
                 });
-            }
+            };
             getUnverifiedBuyers();
 
             $scope.user_obj = {};
