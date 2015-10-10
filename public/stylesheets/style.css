@@ -195,9 +195,9 @@ div.md-actions.edge {
 }
 
 .follow {
-  position: fixed;
-  top: 240px;
-  width: 31%;
+  position:relative !important;
+  top:25px !important;
+  width:100% !important;
 }
 .search {
   width: 100%;
