@@ -9,109 +9,125 @@ a {
 }
 */
 md-progress-linear .md-bar {
-  background-color: #5CC64C;
+    background-color: #5CC64C;
 }
 
+.labels{
+    padding: 0px 16px 0px 16px;
+    text-decoration: underline;
+}
+
+md-list-item.md-3-line .md-list-item-text p, md-list-item.md-3-line > .md-no-style .md-list-item-text p{
+    font-weight: 300;
+    font-style: normal;
+    color: #000;
+    letter-spacing: .1px;
+}
 .report-btn{
-  margin: 0px 0px 0px 0px;
-  padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
 }
 .contact-item .md-list-item-text p{
     overflow: hidden;
 }
 
+.error-message{
+    color: #C62828;
+    margin-left: 60px;
+}
+
 md-toolbar.md-default-theme {
-  background-color: #ffffff;
-  color: rgba(116, 117, 41, 1);
+    background-color: #ffffff;
+    color: rgba(116, 117, 41, 1);
 }
 
 .md-toolbar-tools.dialog-box-header{
-  background-color:#d8e4f1;
-  color:#000000;
+    background-color:#d8e4f1;
+    color:#000000;
 }
 
 md-content.md-default-theme {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .expanded {
-  border-width: thin;
-  border-color: grey;
-  border-style: solid;
+    border-width: thin;
+    border-color: grey;
+    border-style: solid;
 }
 
 .active {
-  background: url('/images/icons_triangle_tab.svg') no-repeat bottom center;
-  background-size: 24px 24px;
-  background-color: lightgrey;
+    background: url('/images/icons_triangle_tab.svg') no-repeat bottom center;
+    background-size: 24px 24px;
+    background-color: lightgrey;
 }
 
 .statistic {
-  padding: 15px;
+    padding: 15px;
 }
- .textLabel {
-  font-weight: bold;
+.textLabel {
+    font-weight: bold;
 }
 .infoStat {
-  border-top-width: thin;
-  border-top-color: black;
-  border-top-style: solid;
-  border-bottom-width: thin;
-  border-bottom-color: black;
-  border-bottom-style: solid;
+    border-top-width: thin;
+    border-top-color: black;
+    border-top-style: solid;
+    border-bottom-width: thin;
+    border-bottom-color: black;
+    border-bottom-style: solid;
 }
 
 .whitebg{
-  background-color: white;
+    background-color: white;
 }
 
 .userLogin {
-  background: url("/images/ic_account_box_24px.svg") no-repeat;
-  background-position: center right;
+    background: url("/images/ic_account_box_24px.svg") no-repeat;
+    background-position: center right;
 }
 
 .loginHeader h1{
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 .pass {
-  background: url("/images/ic_pass_key.svg") no-repeat;
-  background-position: center right;
+    background: url("/images/ic_pass_key.svg") no-repeat;
+    background-position: center right;
 }
 
 .happy {
-  color: green;
+    color: green;
 }
 
 #message{
-  margin-left: 40px;
-  display: none;
+    margin-left: 40px;
+    display: none;
 }
 
 ul.transcart {
-  list-style-type: none;
-  padding: 0px;
-  margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
 }
 ul.transcart li{
-  padding-top: 5px;
-  padding-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .header {
-  background-color: #eeeded;
+    background-color: #eeeded;
 }
 
 .loginEntry {
-  height: 40px;
-  padding-left: 20px;
-  width: 80%;
+    height: 40px;
+    padding-left: 20px;
+    width: 80%;
 }
 
 .imageLeft{
-  background-color: whitesmoke;
-  background: url("../images/farmer-login.jpg") no-repeat;
-  background-size: 100%;
+    background-color: whitesmoke;
+    background: url("../images/farmer-login.jpg") no-repeat;
+    background-size: 100%;
 }
 
 .vcenter {
@@ -121,241 +137,248 @@ ul.transcart li{
 }
 
 .internalpadding {
-  padding: 5px;
+    padding: 5px;
 }
 
 md-progress-linear.md-default-theme.md-accent.custom .md-container {
-  background-color: lightgrey;
+    background-color: lightgrey;
 }
 
 md-progress-linear.md-default-theme.md-accent.custom  .md-bar {
-  background-color: grey;
+    background-color: grey;
 }
 
 .customTable {
-  border-width: thin;
-  border-color: lightgrey;
-  border-style: solid;
+    border-width: thin;
+    border-color: lightgrey;
+    border-style: solid;
 }
 
 .sad {
-  color: red;
+    color: red;
 }
 
 .globalSearchArea {
-  padding-top: 70px;
+    padding-top: 70px;
 }
 
 .headerArea {
-  min-height: 160px;
+    min-height: 160px;
 }
 
 md-option {
-  background-color: white;
+    background-color: white;
 }
 
 .belowTheToolbar {
-  background-color: whitesmoke;
-  background: url("../images/bg-img.png") no-repeat;
-  background-size: 100% 220px;
+    background-color: whitesmoke;
+    background: url("../images/bg-img.png") no-repeat;
+    background-size: 100% 220px;
 }
 
 .addNew{
-  padding-top: 290px;
+    padding-top: 290px;
 }
 
 .md-button.md-default-theme.md-fab{
-  background-color: black;
+    background-color: black;
 }
 .md-button.md-default-theme.md-fab.edge{
-  background-color: white;
+    background-color: white;
 
 }
 .md-button.md-default-theme.md-fab md-icon.edge {
-  color: black;
+    color: black;
 }
 div.md-actions.edge {
-  margin-right: -50px;
+    margin-right: -50px;
 }
 
 .follow {
-  position: fixed;
-  top: 240px;
-  width: 31%;
+    position: fixed;
+    top: 240px;
+    width: 31%;
 }
+
+.follow-transaction {
+    position:relative !important;
+    top:0px !important;
+    width:100% !important;
+}
+
 .search {
-  width: 100%;
-  height: 50px;
-  background: url("/images/ic_search_24px.svg") no-repeat;
-  background-color: white;
-  padding-left: 50px;
-  background-position: 10px 10px;
+    width: 100%;
+    height: 50px;
+    background: url("/images/ic_search_24px.svg") no-repeat;
+    background-color: white;
+    padding-left: 50px;
+    background-position: 10px 10px;
 }
 
 html {
-  background-color: whitesmoke;
+    background-color: whitesmoke;
 }
 body{
-  background-color: whitesmoke;
+    background-color: whitesmoke;
 }
 
 .farmerPretty {
-  padding-top: 50px;
+    padding-top: 50px;
 }
 
 .farmerPretty3 {
-  padding-top: 30px;
-  padding-bottom: 10px;
+    padding-top: 30px;
+    padding-bottom: 10px;
 }
 
 .farmerPretty2 {
-  padding-top: 100px;
-  padding-bottom: 50px;
+    padding-top: 100px;
+    padding-bottom: 50px;
 }
 md-card.admin-cards{
-  width: 800px;
+    width: 800px;
 }
 md-card-content.pretty {
-  background-color: #d8e4f1;
+    background-color: #d8e4f1;
 }
 
 md-card-content.pretty3 {
-  background-color: #f1e9bf;
+    background-color: #f1e9bf;
 }
 
 md-card-content.pretty4 {
-  background-color: #f1c9c6;
+    background-color: #f1c9c6;
 }
 
 md-card-content.pretty2 {
-  background-color: #d5e7be;
+    background-color: #d5e7be;
 }
 
 md-card-content.pretty5 {
-  background-color: #e7cce6;
+    background-color: #e7cce6;
 }
 
 .material-icons.md-dark {
-  color: rgba(0, 0, 0, 0.54);
+    color: rgba(0, 0, 0, 0.54);
 }
 
 .farmerSummary h2 {
-  font-weight: bolder;
+    font-weight: bolder;
 }
 .farmerSummary h3 {
-  font-weight: bold;
+    font-weight: bold;
 }
 .farmerSummary h4 {
-  font-weight: lighter;
-  color: gray;
+    font-weight: lighter;
+    color: gray;
 }
 
 .farmerSummary {
-  margin: 0px;
-  text-transform:capitalize;
+    margin: 0px;
+    text-transform:capitalize;
 }
 
 .farmerSummary:first-letter {
-  /*text-transform: uppercase;*/
+    /*text-transform: uppercase;*/
 }
 
 md-content.farmForm {
-  border-bottom-style: solid;
-  border-bottom-width: thin;
-  border-bottom-color: lightgray;
-  background-color: ghostwhite;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-bottom-color: lightgray;
+    background-color: ghostwhite;
 }
 
 .scale {
-  width:40px;
-  height:40px;
+    width:40px;
+    height:40px;
 }
 
 .scale2 {
-  width:70px;
-  height:70px;
+    width:70px;
+    height:70px;
 }
 
 .farmerInfo {
-  border-bottom-color: #B8BDBD;
-  border-width: thin;
-  border-bottom-style: solid;
+    border-bottom-color: #B8BDBD;
+    border-width: thin;
+    border-bottom-style: solid;
 }
 
 .farmer_info {
-  border-bottom-color: #B8BDBD;
-  border-width: thin;
-  border-bottom-style: solid;
-  padding-bottom: 30px;
-  padding-top: 30px;
+    border-bottom-color: #B8BDBD;
+    border-width: thin;
+    border-bottom-style: solid;
+    padding-bottom: 30px;
+    padding-top: 30px;
 }
 
 .lastInfo{
-  padding-top: 30px;
+    padding-top: 30px;
 }
 
 .label {
-  color: grey;
+    color: grey;
 }
 
 .md-subheader.md-default-theme.pretty {
-  background-color: #d8e4f1;
+    background-color: #d8e4f1;
 }
 
 .md-subheader.md-default-theme.pretty2 {
-  background-color: #d5e7be;
+    background-color: #d5e7be;
 }
 
 .md-subheader.md-default-theme.pretty5 {
-  background-color: #e7cce6;
+    background-color: #e7cce6;
 }
 
 
 .completeTransStat {
-  background-image: url('/images/circle.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 80px;
-  color: green;
+    background-image: url('/images/circle.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 80px;
+    color: green;
 }
 
 .pendingTransStat{
-  background-image: url('/images/circle2.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 80px;
-  color:orange;
+    background-image: url('/images/circle2.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 80px;
+    color:orange;
 }
 
 .pendingStat {
-  color:orange;
+    color:orange;
 }
 
 .disputeStat {
-  background-image: url('/images/circle3.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  height: 80px;
-  color: red;
+    background-image: url('/images/circle3.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 80px;
+    color: red;
 }
 
 .statLabels{
-  padding-bottom: 20px;
-  border-bottom: thin;
-  border-bottom-style: solid;
-  border-bottom-color: lightgray;
+    padding-bottom: 20px;
+    border-bottom: thin;
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
 }
 
 .navigation .md-select-label *:first-child {
-  overflow: visible;
-  line-height: 2rem;
+    overflow: visible;
+    line-height: 2rem;
 }
 
 .dark {
-  background-color: lightgrey;
+    background-color: lightgrey;
 }
 
 /*
@@ -365,11 +388,11 @@ md-content.farmForm {
   class
 */
 .repeated-item.ng-enter, .repeated-item.ng-move {
-  -webkit-transition:0.5s linear all;
-  -moz-transition:0.5s linear all;
-  -o-transition:0.5s linear all;
-  transition:0.5s linear all;
-  opacity:0;
+    -webkit-transition:0.5s linear all;
+    -moz-transition:0.5s linear all;
+    -o-transition:0.5s linear all;
+    transition:0.5s linear all;
+    opacity:0;
 }
 
 /*
@@ -380,7 +403,7 @@ md-content.farmForm {
 */
 .repeated-item.ng-enter.ng-enter-active,
 .repeated-item.ng-move.ng-move-active {
-  opacity:1;
+    opacity:1;
 }
 
 /*
@@ -389,15 +412,15 @@ md-content.farmForm {
   that has the .repeated-item class
 */
 .repeated-item.ng-leave {
-  -webkit-animation:0.5s my_animation;
-  -moz-animation:0.5s my_animation;
-  -o-animation:0.5s my_animation;
-  animation:0.5s my_animation;
+    -webkit-animation:0.5s my_animation;
+    -moz-animation:0.5s my_animation;
+    -o-animation:0.5s my_animation;
+    animation:0.5s my_animation;
 }
 
 @keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
+    from { opacity:1; }
+    to { opacity:0; }
 }
 
 /*
@@ -405,69 +428,69 @@ md-content.farmForm {
   its own definition of keyframe animation code...
 */
 @-webkit-keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
+    from { opacity:1; }
+    to { opacity:0; }
 }
 
 @-moz-keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
+    from { opacity:1; }
+    to { opacity:0; }
 }
 
 @-o-keyframes my_animation {
-  from { opacity:1; }
-  to { opacity:0; }
+    from { opacity:1; }
+    to { opacity:0; }
 }
 
 .call-report-content{
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .notes{
-  border-left: 2px solid #ddd;
-  padding-left: 20px;
-  padding-top: 10px;
-  margin-left: 30px;
-  height: 150px;
+    border-left: 2px solid #ddd;
+    padding-left: 20px;
+    padding-top: 10px;
+    margin-left: 30px;
+    height: 150px;
 }
 
 .light-font>thead>tr>th{
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .parishes{
-  margin-right: 20px;
+    margin-right: 20px;
 }
 
 tr:nth-child(1) {
-  left:0%;
-  width:25%;
+    left:0%;
+    width:25%;
 }
 
 tr:nth-child(2) {
-  left:25%;
-  width:25%;
+    left:25%;
+    width:25%;
 }
 
 tr:nth-child(3) {
-  left:50%;
-  width:25%;
+    left:50%;
+    width:25%;
 }
 
 tr:nth-child(4) {
-  left:75%;
-  width:25%;
+    left:75%;
+    width:25%;
 }
 
 table { table-layout: fixed; }
 
 .md-subheader-inner {
 
-  padding-left:1% !important;
+    padding-left:1% !important;
 
 }
 
 md-fab-speed-dial {
-  overflow : visible !important;
-  height : 0 !important;
+    overflow : visible !important;
+    height : 0 !important;
 }

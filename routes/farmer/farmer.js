@@ -8,12 +8,12 @@
  * Created by matjames007 on 4/28/15.
  */
 
-var model = require('../../models/db');
-var common = require('../common/common');
-var Commodity = model.Commodity;
-var Demand = model.Demand;
-var Branch = model.Branch;
-var Membership = model.Membership;
+var model = require('../../models/db'),
+ common = require('../common/common'),
+ Commodity = model.Commodity,
+ Demand = model.Demand,
+ Branch = model.Branch,
+ Membership = model.Membership;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -62,11 +62,11 @@ exports.getFarmers = function(req, res) {
 
         model.Farmer.find(query)
             .populate('ad_address fr_farms.di_district')
-            .exec(function (err, docs) {
-                if (err) {
+            .exec(function (err, farmers) {
+                if (err || !farmers) {
                     handleDBError(err, res);
                 } else {
-                    res.send(docs);
+                    res.send(farmers);
                 }
             });
     }
@@ -98,22 +98,22 @@ exports.createFarmer = function(req, res) {
  */
 exports.getFarmerById = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
-            .exec(function (err, item) {
-                if (err) {
+      var fields_to_exclude = '';
+      if(req.user.ut_user_type != "Administrator"){
+         fields_to_exclude = '-fa_government_id';
+      }
+        model.Farmer.findById(req.params.id)
+            .populate('ad_address fr_farms.di_district')
+            .select(fields_to_exclude)
+            .exec(function (err, farmer) {
+                if (err || !farmer) {
                     handleDBError(err, res);
                 } else {
-                    if (item) {
-                        res.send(item);
-                    } else {
-                        res.status(404);
-                        res.send({error: "Not Found"});
-                    }
+                    res.send(farmer);
                 }
             });
     }
 };
-
 /**
  * Attempt to update farmer given an id in the req.params
  * @param req

@@ -236,6 +236,7 @@ var SupplierSchema = new Schema({
     ad_longitude: Number,
     ad_city: String,
     pa_parish: {required: true, type: String},
+    pa_parish_code: {required: true, type: String},
     ad_country: {type: String, default: 'Jamaica', required: true}
 });
 var DisputeSchema = new Schema({
