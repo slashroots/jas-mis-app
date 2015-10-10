@@ -86,10 +86,11 @@ $(function(){
 				 url: '/register',
 				 data: user
 		});
+		var user_name = user.us_email_address.substring(0,user.us_email_address.indexOf('@'));
 		var email_request = $.ajax({
 				 method: 'POST',
 				 url: '/email',
-				 data: {to: user.us_email_address, email_type: "new_user_registration"}
+				 data: {to: user.us_email_address, email_type: "new_user_registration", username: user_name}
 		});
 		request.done(function(response){
 			 displayMessage('success');

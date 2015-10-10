@@ -25,16 +25,19 @@ function routeEmailRequest(email_params, res, req){
     email_body = '<div style="background-color: #F7F7F7; border: 1px solid #F7F7F7;width: 650px; height:400px; padding: 32px 32px;'+
                   'text-align:center; color:#000000">'+
                 '<h1 style="margin 0px 0px 16px 0px;">Welcome to JASMIC!</h1>'+
-                '<p style="font-size:17px;margin 0px 0px 16px 0px;">We are happy you\'re here.</p>'+
-                '<p style="margin 0px 0px 16px 0px;">Please await further instructions from your system administrator.</p>'+
-                '<p style="margin 0px 0px 16px 0px;">In the event, your administrator has approved your account, you may click the button below which'+
-                '<br/>will take you the login screen.</p>'+
+                '<p style="font-size:17px;margin 0px 0px 16px 0px;"><span style="font-size:17px;">We are happy you\'re here.</span></p>'+
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Please await further instructions from your system administrator.</span></p>'+
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">In the event your administrator has approved your account, you may click the button below which'+
+                ' will take you to the login page.</span></p>'+
                 '<div style="width:169px;height:27px; border-bottom:3px solid #1F8B8F;padding:14px 32px 14px 32px;background-color:#2AB27B;'+
                 'text-align:center;border-radius:5px; margin: 0 auto;">'+
-                '<a href="http://www.yahoo.com" style="color:#ffffff;text-decoration:none;font-size:20px">Click here</a>'+
+                '<a href="'+ process.env.LOGIN_URL +'" style="color:#ffffff;text-decoration:none;font-size:20px">Click here</a>'+
                 '</div>'+
-                '<p style="margin 0px 0px 16px 0px;">You may copy/paste this link in the browser.</p>'+
-                '<p style="margin 0px 0px 16px 0px;">Your username is:</p></div>';
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may copy/paste this link in the browser.</span></p>'+
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ process.env.LOGIN_URL +'</span></p>'+
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Your username is:</span></p>' +
+                '<p style="margin 0px 0px 16px 0px; font-size: 20px;"><span style="font-size:17px;"><strong>' + email_params.username + '</strong><span></p>' +
+                '</div>';
     subject = "Welcome to JASMIC";
     sendEmail(email_params, subject, email_body, res)
 
@@ -45,12 +48,14 @@ function routeEmailRequest(email_params, res, req){
    email_body = '<div style="background-color: #F7F7F7; border: 1px solid #F7F7F7;width: 650px; height:400px; padding: 32px 32px;'+
                  'text-align:center; color:#000000">'+
                '<h1 style="margin 0px 0px 16px 0px;">Account Approved!</h1>'+
-               '<p style="font-size:17px;margin 0px 0px 16px 0px;">You are now able to access JASMIC.</p>'+
+               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;"><strong>' + email_params.username + '</strong> you are now able to access JASMIC.<span style="font-size:17px;"></p>'+
+               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Click the button below to login into the application with your username and password.</span></p>'+
                '<div style="width:169px;height:27px; border-bottom:3px solid #1F8B8F;padding:14px 32px 14px 32px;background-color:#2AB27B;'+
                'text-align:center;border-radius:5px; margin: 0 auto;">'+
-               '<a href="http://www.yahoo.com" style="color:#FFFFFF;text-decoration:none;font-size:20px">Login</a>'+
+               '<a href="'+ process.env.LOGIN_URL +'" style="color:#ffffff;text-decoration:none;font-size:20px">Login</a>'+
                '</div>'+
-               '<p style="margin 0px 0px 16px 0px;">You may copy/paste this link in the browser.</p>'+
+               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may copy/paste the below link in your browser.</span></p>'+
+               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ process.env.LOGIN_URL +'</span></p>'+
                '</div>';
     subject = "User Approval Completed";
     sendEmail(email_params, subject, email_body, res)
