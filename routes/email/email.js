@@ -42,10 +42,7 @@ function routeEmailRequest(email_params, res, req){
     sendEmail(email_params, subject, email_body, res)
 
   }else if(email_params.email_type === "new_user_approval"){
-    // email_body = '<h1>Account Approved!</h1><p>You are now able to access JASMIC.</p>' +
-    //                  '<p>Please click <a href="">here</a> to follow the link and provide your username and password to gain access.</p>';
-
-   email_body = '<div style="background-color: #F7F7F7; border: 1px solid #F7F7F7;width: 650px; height:400px; padding: 32px 32px;'+
+    email_body = '<div style="background-color: #F7F7F7; border: 1px solid #F7F7F7;width: 650px; height:400px; padding: 32px 32px;'+
                  'text-align:center; color:#000000">'+
                '<h1 style="margin 0px 0px 16px 0px;">Account Approved!</h1>'+
                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;"><strong>' + email_params.username + '</strong> you are now able to access JASMIC.<span style="font-size:17px;"></p>'+
