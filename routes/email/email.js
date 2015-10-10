@@ -21,6 +21,7 @@ exports.sendEmail = function(req, res){
  */
 function routeEmailRequest(email_params, res, req){
   var email_body = "", subject = "";
+  var login_url = req.protocol + '://' + req.get('host') + '/login';
   if(email_params.email_type === "new_user_registration"){
     email_body = '<div style="background-color: #F7F7F7; border: 1px solid #F7F7F7;width: 650px; height:400px; padding: 32px 32px;'+
                   'text-align:center; color:#000000">'+
@@ -31,10 +32,10 @@ function routeEmailRequest(email_params, res, req){
                 ' will take you to the login page.</span></p>'+
                 '<div style="width:169px;height:27px; border-bottom:3px solid #1F8B8F;padding:14px 32px 14px 32px;background-color:#2AB27B;'+
                 'text-align:center;border-radius:5px; margin: 0 auto;">'+
-                '<a href="'+ process.env.LOGIN_URL +'" style="color:#ffffff;text-decoration:none;font-size:20px">Click here</a>'+
+                '<a href="'+ login_url +'" style="color:#ffffff;text-decoration:none;font-size:20px">Click here</a>'+
                 '</div>'+
                 '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may copy/paste this link in the browser.</span></p>'+
-                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ process.env.LOGIN_URL +'</span></p>'+
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ login_url +'</span></p>'+
                 '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Your username is:</span></p>' +
                 '<p style="margin 0px 0px 16px 0px; font-size: 20px;"><span style="font-size:17px;"><strong>' + email_params.username + '</strong><span></p>' +
                 '</div>';
@@ -52,10 +53,10 @@ function routeEmailRequest(email_params, res, req){
                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Click the button below to login into the application with your username and password.</span></p>'+
                '<div style="width:169px;height:27px; border-bottom:3px solid #1F8B8F;padding:14px 32px 14px 32px;background-color:#2AB27B;'+
                'text-align:center;border-radius:5px; margin: 0 auto;">'+
-               '<a href="'+ process.env.LOGIN_URL +'" style="color:#ffffff;text-decoration:none;font-size:20px">Login</a>'+
+               '<a href="'+ login_url +'" style="color:#ffffff;text-decoration:none;font-size:20px">Login</a>'+
                '</div>'+
                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may copy/paste the below link in your browser.</span></p>'+
-               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ process.env.LOGIN_URL +'</span></p>'+
+               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ login_url +'</span></p>'+
                '</div>';
     subject = "User Approval Completed";
     sendEmail(email_params, subject, email_body, res)
