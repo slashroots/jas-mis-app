@@ -46,11 +46,11 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'CallLogsFactory', 'UserProfileFactory',
+        'CallLogsFactory', 'UserProfileFactory','UnitConversionService',
         function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
-              UserProfileFactory) {
+              UserProfileFactory, UnitConversionService) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -78,9 +78,9 @@ angular.module('jasmic.controllers')
             };
             $scope.populateCommodities = function() {
                 CommoditiesFactory.query({id: $routeParams.id}, function(list) {
-                    $scope.commodities = list;
+                    $scope.commodities = UnitConversionService.FromBaseUnit('commodity', list);
                 }, function(fail) {
-                    console.log(fail);
+                  $scope.commodities = [];
                 });
             };
             FarmerMembershipsFactory.show({id: $routeParams.id}, function(memberships) {
@@ -133,7 +133,7 @@ angular.module('jasmic.controllers')
                     $scope.parishes = parishes;
                 },
                 function(error) {
-                    console.log(error);
+                    $scope.parishes = [];
                 });
 
                 /**
@@ -203,7 +203,6 @@ angular.module('jasmic.controllers')
 
             $scope.createFarmerCall = function(){
               $scope.cc_caller_id = $scope.farmer.fa_contact1 || $scope.farmer.fa_contact2;
-              console.log($scope.user);
               $scope.cc_entity_id = $scope.farmer._id;
               $scope.cc_entity_type = "farmer";
               showCallInputDialog($mdDialog, $scope);
@@ -289,7 +288,7 @@ function showDialog($mdDialog, message, isError) {
     );
 };
 
-function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
+function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory,UnitConversionService) {
     var self = this;
     self.commodity = {};
     self.commodity.co_availability_date= moment().toDate();
@@ -332,6 +331,9 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
 
     $scope.saveCommodity = function() {
         self.commodity.cr_crop = self.selectedCrop;
+        if(self.commodity.un_quantity_unit.un_unit_name != "KG"){
+            self.commodity = UnitConversionService.toBaseUnit('commodity', self.commodity);
+        }
         CommodityFactory.create({id:$routeParams.id}, self.commodity, function(success) {
             $scope.newCommodityItem();
             $scope.populateCommodities();

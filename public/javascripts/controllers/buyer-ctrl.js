@@ -110,10 +110,10 @@ angular.module('jasmic.controllers')
      */
     .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
+        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory', 'CallLogsFactory', 'UnitConversionService',
         function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
+                  BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory, UnitConversionService) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -149,7 +149,7 @@ angular.module('jasmic.controllers')
             };
             function populateDemands() {
                 DemandsFactory.query({id: $routeParams.id}, function(listing) {
-                    $scope.demands = listing;
+                    $scope.demands = UnitConversionService.FromBaseUnit('demand', listing);
                 }, function(fail) {
                     $scope.demands = [];
                 });
@@ -243,8 +243,10 @@ angular.module('jasmic.controllers')
              * Attempts to save the demand.
              */
             $scope.saveDemand = function() {
-
                 $scope.demand.cr_crop = selectedCrop;
+                if($scope.demand.un_quantity_unit.un_unit_name != "KG"){
+                    $scope.demand = UnitConversionService.toBaseUnit('demand', $scope.demand);
+                }
                 BuyerDemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
                     $scope.toggleDemandForm();
                     populateDemands();

@@ -1,8 +1,9 @@
 angular.module('jasmic.controllers')
-    .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast','UsersFactory','CropsFactory','SuppliersFactory',
+    .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast', '$window','UsersFactory','CropsFactory','SuppliersFactory',
     'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
-    function($scope, $mdDialog, $mdToast, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
-    SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory){
+    'UnitsFactory', 'UnitFactory',
+    function($scope, $mdDialog, $mdToast, $window, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
+    SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory, UnitsFactory, UnitFactory){
       /**
        * Get all users from the database.
        */
@@ -47,24 +48,34 @@ angular.module('jasmic.controllers')
         });
       }
       getParishes();
+      /**
+       * Get all units from the database.
+       */
+      getUnits = function(){
+        UnitsFactory.query({}, function(units){
+            $scope.units = units;
+        }, function(error){
+          $scope.units = [];
+        });
+      }
+      getUnits();
 
       $scope.user_obj = {};
       $scope.crop_type = {};
       $scope.supplier = {};
+      $scope.unit = {};
       $scope.usertypes = ['Administrator', 'Call Representative'];
       $scope.states = ['Approved', 'Pending'];
       /**
        * Used to toggle list of records.
        * @type {{user: boolean, croptype: boolean, supplier: boolean}}
        */
-      $scope.hideList = { user: false, croptype: false, supplier: false};
+      $scope.hideList = { user: false, croptype: false, supplier: false, unit: false};
       /**
        * Determines if form to create user must edit a record or create a new record.
        * @type {boolean}
        */
-      $scope.editUser = false;
-      $scope.editCrop = false;
-      $scope.editSupplier = false;
+      $scope.edit = { user : false, crop : false, supplier : false, unit: false };
       /**
        * Displays form specific to each entity i.e. user, crop or supplier.
        * @param entity
@@ -82,6 +93,10 @@ angular.module('jasmic.controllers')
               $scope.newSupplier = !$scope.newSupplier;
               $scope.supplier = {};
               $scope.hideList.supplier = !$scope.hideList.supplier;
+          }else if(entity === 'unit'){
+            $scope.newUnit = !$scope.newUnit;
+            $scope.unit = {};
+            $scope.hideList.unit = !$scope.hideList.unit;
           }
       };
       /**
@@ -91,8 +106,8 @@ angular.module('jasmic.controllers')
        */
       $scope.cancel = function(entity){
           if(entity === 'user'){
-              if($scope.editUser){
-                  $scope.editUser = !$scope.editUser;
+              if($scope.edit.user){
+                  $scope.edit.user = !$scope.edit.user;
 
               }else{
                   $scope.user_obj = {};
@@ -101,8 +116,8 @@ angular.module('jasmic.controllers')
               getUsers();
               $scope.hideList.user = !$scope.hideList.user;
           }else if(entity === 'croptype'){
-              if($scope.editCrop){
-                  $scope.editCrop = !$scope.editCrop;
+              if($scope.edit.crop){
+                  $scope.edit.crop = !$scope.edit.crop;
               }else{
                   $scope.crop_type = {};
                   $scope.newCropType = !$scope.newCropType;
@@ -110,14 +125,23 @@ angular.module('jasmic.controllers')
               getCrops();
               $scope.hideList.croptype = !$scope.hideList.croptype;
           }else if(entity === 'supplier'){
-              if($scope.editSupplier){
-                  $scope.editSupplier = !$scope.editSupplier;
+              if($scope.edit.supplier){
+                  $scope.edit.supplier = !$scope.edit.supplier;
               }else{
                   $scope.supplier = {};
                   $scope.newSupplier = !$scope.newSupplier;
               }
               getSuppliers();
               $scope.hideList.supplier = !$scope.hideList.supplier;
+          }else if(entity === 'unit'){
+            if($scope.edit.unit){
+              $scope.edit.unit = !$scope.edit.unit;
+            }else{
+              $scope.unit = {};
+              $scope.newUnit = !$scope.newUnit;
+            }
+            getUnits();
+            $scope.hideList.unit = !$scope.hideList.unit;
           }
       };
       /**
@@ -161,6 +185,16 @@ angular.module('jasmic.controllers')
               });
               $scope.hideList.supplier = !$scope.hideList.supplier;
               getSuppliers();
+          }else if(entity === 'unit'){
+            UnitFactory.create($scope.unit, function(success){
+              $scope.unit = {};
+              $scope.newUnit = !$scope.newUnit;
+              showDialog($mdDialog,{statusText: "New Unit Created!"}, false);
+            }, function(error){
+              showDialog($mdDialog,error, false);
+            });
+            $scope.hideList.unit = !$scope.hideList.unit;
+            getUnits();
           }
       };
       /**
@@ -170,17 +204,21 @@ angular.module('jasmic.controllers')
        */
       $scope.selectedElement = function(type, obj){
           switch(type){
-              case 'user': $scope.editUser = !$scope.editUser;
+              case 'user': $scope.edit.user = !$scope.edit.user;
                            $scope.hideList.user = !$scope.hideList.user;
                            $scope.user_obj = obj;
                   break;
-              case 'crop' : $scope.editCrop = !$scope.editCrop;
+              case 'crop' : $scope.edit.crop = !$scope.edit.crop;
                            $scope.hideList.croptype = !$scope.hideList.croptype;
                            $scope.crop_type = obj;
                   break;
-              case 'supplier': $scope.editSupplier = !$scope.editSupplier;
+              case 'supplier': $scope.edit.crop = !$scope.edit.crop;
                                $scope.hideList.supplier = !$scope.hideList.supplier;
                                $scope.supplier = obj;
+                  break;
+              case 'unit' : $scope.edit.unit = !$scope.edit.unit;
+                            $scope.hideList.unit = !$scope.hideList.unit;
+                            $scope.unit = obj;
                   break;
               default: showDialog($mdDialog,{statusText: "Error"}, false);
                   break
@@ -197,6 +235,8 @@ angular.module('jasmic.controllers')
              updateCrop();
          }else if(type === 'supplier'){
              updateSupplier();
+         }else if(type = 'unit'){
+           updateUnit();
          }
       };
       /**
@@ -213,7 +253,7 @@ angular.module('jasmic.controllers')
           }, function(error){
             $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
           })
-          $scope.editUser = !$scope.editUser;
+          $scope.edit.user = !$scope.edit.user;
           $scope.hideList.user = !$scope.hideList.user;
           getUsers();
       }
@@ -226,7 +266,7 @@ angular.module('jasmic.controllers')
               }, function(error){
                showDialog($mdDialog, error, false);
            });
-          $scope.editCrop = !$scope.editCrop;
+          $scope.edit.crop = !$scope.edit.crop;
           $scope.hideList.croptype = !$scope.hideList.croptype;
           getCrops();
       }
@@ -240,9 +280,23 @@ angular.module('jasmic.controllers')
           }, function(error){
               showDialog($mdDialog, error, false);
           });
-          $scope.editSupplier = !$scope.editSupplier;
+          $scope.edit.supplier = !$scope.edit.supplier;
           $scope.hideList.supplier = !$scope.hideList.supplier;
           getSuppliers();
+      }
+      /**
+       * Updates a unit by a supplied id.
+       */
+      function updateUnit(){
+        UnitFactory.update({id: $scope.unit._id}, $scope.unit, function(success){
+          $window.scrollTo(0,0);
+          showDialog($mdDialog, {statusText: 'Unit Updated!'}, false);
+        }, function(error){
+          showDialog($mdDialog, error, false);
+        });
+        $scope.edit.unit = !$scope.edit.unit;
+        $scope.hideList.unit = !$scope.hideList.unit;
+        getUnits();
       }
 }]);
 
