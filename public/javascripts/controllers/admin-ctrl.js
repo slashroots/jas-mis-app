@@ -178,6 +178,11 @@ angular.module('jasmic.controllers')
               $scope.hideList.croptype = !$scope.hideList.croptype;
               getCrops();
           }else if(entity === 'supplier'){
+              $scope.parishes.forEach(function(parish){
+                if(parish.pa_parish_name === $scope.supplier.pa_parish){
+                  $scope.supplier.pa_parish_code = parish.pa_parish_code;
+                }
+              });
               SupplierFactory.create($scope.supplier, function(success){
                   $scope.supplier = {};
                   $scope.newSupplier = !$scope.newSupplier;
