@@ -18,7 +18,7 @@
                                 <md-button ng-click="editFarmer()" class="md-icon-button" aria-label="Edit">
                                     <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
                                 </md-button>
-                                <md-button class="md-icon-button" aria-label="New Call" ng-click="createCall();">
+                                <md-button class="md-icon-button" aria-label="New Call" ng-click="createFarmerCall();">
                                     <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                                 </md-button>
                                 <!--<md-button class="md-icon-button" aria-label="Details" ng-click="showTestDialog();">-->
@@ -34,21 +34,21 @@
                         <div flex layout="row">
                             <md-icon md-svg-icon="/images/ic_account_box_24px.svg"></md-icon>
                             <div layout-align="center" layout="column">
-                                {{isValid(farmer.fa_government_id)? farmer.fa_government_id:  'TRN not found'}}
+                                {{farmer.fa_government_id === undefined ? "Not Disclosed" : farmer.fa_government_id}}
                                 <div class="label">TRN</div>
                             </div>
                         </div>
                         <div flex layout="row">
                             <md-icon md-svg-icon="/images/ic_event_note_24px.svg"></md-icon>
                             <div layout-align="center" layout="column">
-                                {{isValid(farmer.dob)? (farmer.fa_dob|date): 'Not Disclosed'}}
+                                {{farmer.dob === undefined ? "Not Disclosed" : (farmer.fa_dob | date)}}
                                 <div class="label">Date of Birth</div>
                             </div>
                         </div>
                         <div flex layout="row">
                             <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column">
-                                {{isValid(farmer.fa_deceased)? 'Unknown' : (farmer.fa_deceased ? 'Yes': 'No')}}
+                            <div layout-align="center" layout="column"> 
+                                {{farmer.fa_deceased === undefined ? "Not Disclosed" : (farmer.fa_deceased ? 'Yes': 'No')}}
                                 <div class="label">Deceased</div>
                             </div>
                         </div>

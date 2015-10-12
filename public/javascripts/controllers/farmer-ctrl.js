@@ -43,13 +43,14 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$q', '$window', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
+    .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'CallLogsFactory',
-        function ($q, $window, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
+        'CallLogsFactory', 'UserProfileFactory',
+        function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory) {
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
+              UserProfileFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.
@@ -135,6 +136,16 @@ angular.module('jasmic.controllers')
                     console.log(error);
                 });
 
+                /**
+                 *
+                 * Gets the currently logged in user.
+                 *
+                 **/
+                UserProfileFactory.show(function(user) {
+                    $scope.user = user;
+                });
+
+
             /**
              * Button related functions and variables for hiding/showing
              * new forms
@@ -159,38 +170,15 @@ angular.module('jasmic.controllers')
                 $location.url('farmer/'+$scope.farmer._id+'/edit');
             };
 
-            $scope.commodity_date_valid = true;
-
-            $scope.commodityDateCheck = function (obj) {
-
-                if (obj.co_availability_date >= obj.co_until) $scope.commodity_date_valid = false;
-
-                else $scope.commodity_date_valid = true;
-
-            }
 
             $scope.saveCommodity = function() {
-
-                if ($scope.commodity_date_valid) {
-
-                    $scope.commodity.cr_crop = selectedCrop;
-                    CommodityFactory.create({id: $scope.farmer._id}, $scope.commodity, function (success) {
-                        $scope.newCommodityItem();
-                        populateCommodities();
-                    }, function (error) {
-                        showDialog($mdDialog, error, true);
-                    })
-
-                }
-
-                else {
-
-                    $window.scrollTo(0,0);
-
-                    showDialog($mdDialog, {statusText:"Please double-check the selected dates!"}, false);
-
-                }
-
+                $scope.commodity.cr_crop = selectedCrop;
+                CommodityFactory.create({id:$scope.farmer._id}, $scope.commodity, function(success) {
+                    $scope.newCommodityItem();
+                    populateCommodities();
+                }, function(error) {
+                    showDialog($mdDialog, error, true);
+                })
             };
 
             /**
@@ -208,16 +196,14 @@ angular.module('jasmic.controllers')
                 });
                 return deferred.promise;
             };
+
             $scope.selectedDistrictChange = function(item) {
                 selectedDistrict = (item)?item._id:{};
             };
-            /**
-             * Creates a call and associates call with the farmer
-             * and logged in user.
-             * TODO - Revisit implementation of call feature on farmer page
-             **/
-            $scope.createCall = function(){
-              $scope.cc_caller_id = $scope.farmer.fa_contact;
+
+            $scope.createFarmerCall = function(){
+              $scope.cc_caller_id = $scope.farmer.fa_contact1 || $scope.farmer.fa_contact2;
+              console.log($scope.user);
               $scope.cc_entity_id = $scope.farmer._id;
               $scope.cc_entity_type = "farmer";
               showCallInputDialog($mdDialog, $scope);
@@ -303,7 +289,7 @@ function showDialog($mdDialog, message, isError) {
     );
 };
 
-function NewCommodityCtrl($q, $scope, $mdDialog, $window, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
+function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, CommodityFactory) {
     var self = this;
     self.commodity = {};
     self.commodity.co_availability_date= moment().toDate();
@@ -337,29 +323,20 @@ function NewCommodityCtrl($q, $scope, $mdDialog, $window, $routeParams, CropsFac
     /**
      * Fetches the units that user can select
      */
-    $scope.units = UnitsFactory.query({});
+     UnitsFactory.query({}, function(units){
+       UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+              $scope.units = units;
+      });
+    });
 
 
     $scope.saveCommodity = function() {
-        if ($scope.commodity_date_valid) {
-
-            self.commodity.cr_crop = self.selectedCrop;
+        self.commodity.cr_crop = self.selectedCrop;
         CommodityFactory.create({id:$routeParams.id}, self.commodity, function(success) {
             $scope.newCommodityItem();
             $scope.populateCommodities();
         }, function(error) {
             showDialog($mdDialog, error, true);
         })
-
-        }
-
-        else {
-
-            $window.scrollTo(0,0);
-
-            showDialog($mdDialog, {statusText:"Please double-check the selected dates!"}, false);
-
-        }
-
     };
 };

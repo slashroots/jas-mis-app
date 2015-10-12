@@ -60,7 +60,6 @@ angular.module('jasmic.controllers')
                     $scope.cc_entity_id = $scope.selectedFarmer._id;
                     $scope.cc_entity_type = "farmer";
                     $scope.cc_entity_name = $scope.selectedFarmer.fa_first_name + " " + $scope.selectedFarmer.fa_last_name;
-                    console.log( $scope.farmer);
                 }
                 if($scope.buyerSelected){
                     $scope.buyer = $scope.selectedBuyer;
@@ -69,7 +68,6 @@ angular.module('jasmic.controllers')
                     $scope.cc_entity_type = "buyer";
                     $scope.cc_entity_name = $scope.selectedBuyer.bu_buyer_name;
                 }
-
                 showCallInputDialog($mdDialog, $scope);
             };
             /**
@@ -155,6 +153,7 @@ function showCallInputDialog($mdDialog, $scope){
         clickOutsideToClose: true,
         preserveScope: true,
         templateUrl: '/partials/call_input_form.html',
+        parent: angular.element(document.body),
         /**
          * This controller is responsible for all actions
          * done on the Call Input Dialog.
@@ -187,6 +186,7 @@ function showCallInputDialog($mdDialog, $scope){
              * and logged in user.
              **/
             $scope.saveCall = function(){
+            //  console.log($scope.user)
                 var call = {
                     cc_caller_id: $scope.cc_caller_id,
                     cc_entity_id : $scope.cc_entity_id,

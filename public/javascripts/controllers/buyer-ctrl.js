@@ -60,6 +60,14 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, fail, true);
                 });
             };
+
+            $scope.newBuyerCancel = function () {
+
+                window.history.go(-1);
+
+                return false;
+
+            }
         }
     ])
     /**
@@ -108,10 +116,10 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory',
-        function ($q, $location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
+        function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
@@ -151,7 +159,7 @@ angular.module('jasmic.controllers')
                 DemandsFactory.query({id: $routeParams.id}, function(listing) {
                     $scope.demands = listing;
                 }, function(fail) {
-                    console.log(fail);
+                    $scope.demands = [];
                 });
             };
             loadAll();
@@ -160,7 +168,9 @@ angular.module('jasmic.controllers')
             /**
              * Fetches the units that user can select
              */
-            $scope.units = UnitsFactory.query({});
+             UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+                    $scope.units = units;
+            });
 
             $scope.isValid = isValid;
             $scope.isBuyerContext = true;
@@ -206,7 +216,6 @@ angular.module('jasmic.controllers')
             $scope.demand = {};
             $scope.new_rep = false;
             $scope.new_demand = false;
-            $scope.date_valid = true;
             $scope.toggleRepForm = function() {
                 $scope.new_rep = !$scope.new_rep;
                 $scope.representative = {};
@@ -238,40 +247,19 @@ angular.module('jasmic.controllers')
                 selectedCrop = (item) ? item._id: {};
             };
 
-            $scope.dateCheck = function () {
-
-                if ($scope.demand.de_posting_date >= $scope.demand.de_until) $scope.date_valid = false;
-
-                else $scope.date_valid = true;
-
-            }
-
             /**
              * Attempts to save the demand.
              */
-
             $scope.saveDemand = function() {
 
-                if ($scope.date_valid) {
-
-                    $scope.demand.cr_crop = selectedCrop;
-                    BuyerDemandFactory.create({id: $scope.buyer._id}, $scope.demand, function (success) {
-                        $scope.toggleDemandForm();
-                        populateDemands();
-                    }, function (error) {
-                        showDialog($mdDialog, error, true);
-                    })
-
-                }
-
-                else {
-
-                    $window.scrollTo(0,0);
-
-                    showDialog($mdDialog, {statusText:"Validation Error! Please double-check the selected dates!"}, false);
-
-                }
-            };
+                $scope.demand.cr_crop = selectedCrop;
+                BuyerDemandFactory.create({id:$scope.buyer._id}, $scope.demand, function(success) {
+                    $scope.toggleDemandForm();
+                    populateDemands();
+                }, function(error) {
+                    showDialog($mdDialog, error, true);
+                })
+            }
 
             $scope.createBuyerCall = function(){
               $scope.cc_caller_id = $scope.buyer.bu_phone;

@@ -246,7 +246,6 @@ exports.getDemands = function(req, res) {
 exports.searchCurrentDemands = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var curr_date = Date.now();
-
         if (req.query.amount) {
             Demand.find({de_until: {$gte: curr_date}})
                 .populate('cr_crop bu_buyer')

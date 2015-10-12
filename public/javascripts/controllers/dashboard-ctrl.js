@@ -3,10 +3,10 @@
  */
 
 angular.module('jasmic.controllers')
-    .controller('DashboardCtrl', ['$scope','$location','$routeParams', 'CurrentDemandsFactory',
+    .controller('DashboardCtrl', ['$scope','$location','$routeParams', '$mdDialog','CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
         'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
-        function ($scope, $location, $routeParams, CurrentDemandsFactory, OpenTransactionsFactory,
+        function ($scope, $location, $routeParams, $mdDialog, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
                   ParishesFactory, SuppliersFactory, InputsFactory) {
             /**
@@ -15,10 +15,14 @@ angular.module('jasmic.controllers')
              * TODO - New user objects will have a us_user_id field and the function
              * will be updated to reflect this change.
              */
+            $scope.isAdmin = false;
+            $scope.parish_label = "", $scope.store_label = "";
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
-                    $scope.calls = calls;
-                    $scope.note = calls[0].cc_note;
+                    if(calls.length > 0){
+                      $scope.calls = calls;
+                      $scope.note = calls[0].cc_note;
+                    }
                 }, function(error){
                     $scope.calls = [];
                     $scope.note = "";
@@ -34,36 +38,32 @@ angular.module('jasmic.controllers')
                 $scope.total_calls = [];
               });
             };
-
             lookupCallsForToday();
             /**
              * looks up current demands
              */
-            CurrentDemandsFactory.query( function(demands) {
+            CurrentDemandsFactory.query(function(demands) {
                     $scope.demands = demands;
                 },
                 function(error) {
                     $scope.demands = [];
                 });
-
-            /**
-             * Looks up all opened transactions
-             */
-            OpenTransactionsFactory.query(function (o_trans) {
-                    $scope.open_transactions = o_trans;
-                },
-                function(err) {
-                    $scope.open_transactions = [];
-                });
-
-            TransactionsFactory.query({tr_status: "Completed"}, function(closed_transactions){
-              $scope.closed_transactions = closed_transactions;
-            }, function(error){
-              $scope.closed_transactions = [];
-            });
-
-
-
+              /**
+               * Loads all open transactions
+               */
+              OpenTransactionsFactory.query(function(o_trans){
+                  $scope.open_transactions = o_trans;
+              }, function(error){
+                $scope.open_transactions = [];
+              });
+              /**
+               * Loads all completed transactions
+               */
+              TransactionsFactory.query({tr_status: "Completed"}, function(completed_trans){
+                  $scope.closed_transactions = completed_trans;
+              }, function(error){
+                  $scope.closed_transactions = [];
+              });
             /**
              * States of the drop down - false = closed
              * @type {{demand: boolean, calls: boolean, transactions: boolean, closed_transactions: boolean}}
@@ -74,7 +74,6 @@ angular.module('jasmic.controllers')
                 transactions: false,
                 closed_transactions: false
             };
-
             /**
              * sets the states of the drop down menus
              * @param item
@@ -106,11 +105,12 @@ angular.module('jasmic.controllers')
             });
 
             /**
-             * Populate all the suppliers to the dashboard
-             * interface TODO: This query isn't restricted!
+             * Populate all the suppliers to the dashboard for a particular parish
+             * TODO: This query isn't restricted!
              */
-            SuppliersFactory.query(function(suppliers) {
+            SuppliersFactory.query({pa_parish_code: "default"},function(suppliers) {
                 $scope.suppliers = suppliers;
+                $scope.parish_label = $scope.suppliers[0].pa_parish;
             });
 
             /**
@@ -119,26 +119,28 @@ angular.module('jasmic.controllers')
              */
             $scope.supplierSearch = function(parish) {
                 SuppliersFactory.query({pa_parish: parish.pa_parish_name}, function(suppliers) {
+                    $scope.store_label = "";
                     $scope.suppliers = suppliers;
+                    $scope.parish_label = parish.pa_parish_name;
                     $scope.inputs = [];
                 });
             };
-
             /**
              *
              */
             $scope.inputSearch = function(supplier) {
                 InputsFactory.query({su_supplier:supplier._id}, function(inputs) {
                     $scope.inputs = inputs;
+                    $scope.store_label = supplier.su_supplier_name;
                 });
             };
-
-            /**
-             * Populate all the inputs to the dashboard
-             * interface. TODO: This query isn't restricted!
+            /*
+             * Loads a specific route by name and id
+             * @param  {[type]} route Name of the route
+             * @param  {[type]} id
              */
-            InputsFactory.query(function(inputs) {
-                $scope.inputs = inputs;
-            })
+            $scope.goTo = function(route, id) {
+                $location.url('/' + route + '/' + id);
+            };
         }
     ]);

@@ -8,7 +8,7 @@
 </head>
 <body class="whitebg" layout="column" layout-fill>
 
-<md-content  layout="row" layout-fill>
+<md-content ng-app="jasmic-login" layout="row" layout-fill>
     <div layout-fill hide-sm hide-md class="imageLeft" flex="50" layout="column">
         <div layout="row" layout-padding layout-align="center start" flex class="loginBlurb">
             <div layout="column" layout-align="center end" flex="30">
@@ -33,7 +33,11 @@
             <span flex></span>
         </div>
         <div layout-padding layout="column" flex>
+          <%if(message){%>
+              <p class="error-message"><%=message%></p>
+          <%}%>
         <form layout="column" layout="center center" method="POST" action="/login?goTo=<%=goTo%>">
+
                 <div layout="column" layout-align="center center" layout-padding>
                     <input class="loginEntry userLogin" placeholder="Username" type="text" name="username"/>
                 </div>
@@ -41,8 +45,9 @@
                     <input class="loginEntry pass" placeholder="Password" type="password" name="blank" id="blank"/>
                 </div>
                 <input type="hidden" id="password" name="password" />
-                <div layout="column" layout-padding layout-align="center center">
-                    <input class="btn btn-primary" type="submit" value="Login"/>
+                <div layout="row" layout-padding layout-align="center center">
+                    <input class="btn btn-primary" type="submit" value="Login"/><span flex="5"></span>
+                    <a class="btn btn-primary" href="register" value="Register">Register</a>
                 </div>
             </form>
         </div>
@@ -55,6 +60,12 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+<script src="../bower_components/angular/angular.min.js"></script>
+<script src="../bower_components/angular-route/angular-route.min.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="../bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="../bower_components/angular-material/angular-material.min.js"></script>
 <script src="../javascripts/login.js"></script>
 </body>
 </html>

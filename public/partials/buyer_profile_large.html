@@ -6,9 +6,9 @@
                     <div layout="row">
                         <div flex="10" class="profilePic"></div>
                         <div flex="70" layout="column" class="farmerNames farmerPretty2">
-                            <label>Buyer</label>
 
                             <h2 class="farmerSummary">{{buyer.bu_buyer_name}}</h2>
+
                         </div>
                         <div layout="column" flex="20">
                             <div layout="row" >
@@ -64,7 +64,16 @@
                         <span flex="10"></span>
                     </div>
                     <div class="lastInfo" layout="row">
-                        <span flex></span>
+
+                        <div layout="row" flex="30">
+                            <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
+                            <div layout="column">
+                                <br>
+                                {{ buyer.bu_verified ? "Verified" : 'Unverified'}} Buyer
+                                <div class="label">Verification Status</div>
+                            </div>
+                        </div>
+
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
                         <div layout="column">
                             {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
@@ -75,7 +84,6 @@
                             <br ng-if="isValid(buyer.ad_address.pa_parish)"/>
                             <div class="label">Address</div>
                         </div>
-                        <span flex></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -160,17 +168,22 @@
                                 {{demand.de_payment_terms}}
                                 <label>Payout Term(s)</label>
                             </div>
+                            <div layout-align="left center" layout="column">
+                                {{demand.de_notes}}
+                                <label>Note(s)</label>
+                            </div>
                         </div>
+
                     </div>
                 </md-card-content>
             </md-card>
 
         </div>
         <div layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
-        <div ng-include="'/partials/statistics_small.html'" >
-        </div>
-        <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
-        </md-card>
+            <div ng-include="'/partials/statistics_small.html'" >
+            </div>
+            <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
+            </md-card>
         </div>
     </md-content>
 </ui-view>

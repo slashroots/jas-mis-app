@@ -1,62 +1,58 @@
 <div>
     <md-content layout-fill>
-    <md-card>
-        <md-card-content class="pretty2">
-        <md-subheader class="md-primary pretty2">Buyer</md-subheader>
+        <md-card>
+            <md-card-content class="pretty2">
+                <md-subheader class="md-primary pretty2">Buyer</md-subheader>
 
 
-            <div layout="row">
-                <div class="profilePicture" flex="30"></div>
-                <div layout="column" flex="70">
-                    <md-input-container flex>
-                        <label>Buyer Name/Company Name</label><input type="text" ng-model="buyer.bu_buyer_name" />
-                    </md-input-container>
-                    <md-select placeholder="Type" ng-model="buyer.bt_buyer_type._id">
-                        <md-option ng-value="buyerType._id" ng-repeat="buyerType in buyerTypes">{{buyerType.bt_buyer_type_name}}</md-option>
-                    </md-select>
+                <div layout="row">
+                    <div class="profilePicture" flex="30"></div>
+                    <div layout="column" flex="70">
+                        <md-input-container flex>
+                            <label>Buyer Name/Company Name</label><input type="text" ng-model="buyer.bu_buyer_name" />
+                        </md-input-container>
+                        <md-select placeholder="Type" ng-model="buyer.bt_buyer_type._id">
+                            <md-option ng-value="buyerType._id" ng-repeat="buyerType in buyerTypes">{{buyerType.bt_buyer_type_name}}</md-option>
+                        </md-select>
+                    </div>
                 </div>
-            </div>
-        </md-card-content>
-        <md-card-content>
+            </md-card-content>
+            <md-card-content>
 
-        <div id="contact">
-            <md-input-container>
-                <label>Address 1: </label><input type="text" ng-model="buyer.ad_address.ad_address1"/>
-            </md-input-container>
-            <div layout="row">
-                <md-input-container flex>
-                    <label>Address 2: </label><input type="text" ng-model="buyer.ad_address.ad_address2"/>
+                <div id="contact">
+                    <md-input-container>
+                        <label>Address 1: </label><input type="text" ng-model="buyer.ad_address.ad_address1"/>
+                    </md-input-container>
+                    <div layout="row">
+                        <md-input-container flex>
+                            <label>Address 2: </label><input type="text" ng-model="buyer.ad_address.ad_address2"/>
+                        </md-input-container>
+
+                        <md-select flex ng-init="buyer.ad_address.pa_parish" placeholder="Parish" ng-model="buyer.ad_address.pa_parish">
+                            <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
+                        </md-select>
+                    </div>
+
+                    <md-input-container>
+                        <label>Contact Number: </label><input type="tel" ng-model="buyer.bu_phone"/>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Email: </label><input type="email" ng-model="buyer.bu_email"/>
+                    </md-input-container>
+                </div>
+
+                <div id="paymentTerms">
+                    <md-input-container>
+                        <label>Preferred Payment Terms: </label><input type="text" ng-model="buyer.bu_payment_terms"/>
+                    </md-input-container>
+                </div>
+                <md-input-container layout="row" layout-sm="column" layout-align="center center">
+                    <md-button ng-click="save()">Save</md-button>
+                    <span flex="5"></span>
+                    <md-button ng-click="newBuyerCancel()">Cancel</md-button>
                 </md-input-container>
-
-                <md-select flex ng-init="buyer.ad_address.pa_parish" placeholder="Parish" ng-model="buyer.ad_address.pa_parish">
-                    <md-option ng-value="parish.pa_parish_name" ng-repeat="parish in parishes">{{parish.pa_parish_name}} | {{parish.pa_parish_code}}</md-option>
-                </md-select>
-            </div>
-
-            <md-input-container>
-                <label>Cell #: </label><input type="tel" ng-model="buyer.bu_phone"/>
-            </md-input-container>
-            <md-input-container>
-                <label>Email: </label><input type="email" ng-model="buyer.bu_email"/>
-            </md-input-container>
-        </div>
-
-        <div id="paymentTerms">
-            <md-input-container>
-                <label>Preferred Payment Terms: </label><input type="text" ng-model="buyer.bu_payment_terms"/>
-            </md-input-container>
-        </div>
-        <md-input-container layout="row" layout-sm="column" layout-align="center center">
-            <md-button ng-click="save()">Save</md-button>
-        </md-input-container>
-        </md-card-content>
-    </md-card>
-
-    <md-card>
-        <md-card-content>
-            <md-subheader class="md-primary">Demand</md-subheader>
-        </md-card-content>
-    </md-card>
+            </md-card-content>
+        </md-card>
     </md-content>
 </div>
 
