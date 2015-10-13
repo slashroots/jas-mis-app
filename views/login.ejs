@@ -33,8 +33,11 @@
             <span flex></span>
         </div>
         <div layout-padding layout="column" flex>
+          <%if(message){%>
+              <p class="error-message"><%=message%></p>
+          <%}%>
         <form layout="column" layout="center center" method="POST" action="/login?goTo=<%=goTo%>">
-                
+
                 <div layout="column" layout-align="center center" layout-padding>
                     <input class="loginEntry userLogin" placeholder="Username" type="text" name="username"/>
                 </div>
@@ -42,8 +45,9 @@
                     <input class="loginEntry pass" placeholder="Password" type="password" name="blank" id="blank"/>
                 </div>
                 <input type="hidden" id="password" name="password" />
-                <div layout="column" layout-padding layout-align="center center">
-                    <input class="btn btn-primary" type="submit" value="Login"/>
+                <div layout="row" layout-padding layout-align="center center">
+                    <input class="btn btn-primary" type="submit" value="Login"/><span flex="5"></span>
+                    <a class="btn btn-primary" href="register" value="Register">Register</a>
                 </div>
             </form>
         </div>

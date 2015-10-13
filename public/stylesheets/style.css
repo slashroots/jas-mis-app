@@ -12,12 +12,28 @@ md-progress-linear .md-bar {
   background-color: #5CC64C;
 }
 
+.labels{
+  padding: 0px 16px 0px 16px;
+  text-decoration: underline;
+}
+
+md-list-item.md-3-line .md-list-item-text p, md-list-item.md-3-line > .md-no-style .md-list-item-text p{
+  font-weight: 300;
+  font-style: normal;
+  color: #000;
+  letter-spacing: .1px;
+}
 .report-btn{
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
 }
 .contact-item .md-list-item-text p{
     overflow: hidden;
+}
+
+.error-message{
+  color: #C62828;
+  margin-left: 60px;
 }
 
 md-toolbar.md-default-theme {
@@ -179,9 +195,9 @@ div.md-actions.edge {
 }
 
 .follow {
-  position: fixed;
-  top: 240px;
-  width: 31%;
+  position:relative !important;
+  top:25px !important;
+  width:100% !important;
 }
 .search {
   width: 100%;

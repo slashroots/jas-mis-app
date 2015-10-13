@@ -1,25 +1,24 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var passport = require('passport');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var farmer_routes = require('./routes/farmer/farmer_routes');
-var buyer_routes = require('./routes/buyer/buyer_routes');
-var supplier_routes = require('./routes/supplier/supplier_routes');
-var common_routes = require('./routes/common/common_routes');
-var transaction_routes = require('./routes/transaction/transaction-routes');
-var crop_routes = require('./routes/crop/crop_routes');
-var report_routes = require('./routes/reports/report_routes');
-var call_routes = require('./routes/calls/call_routes');
-var email_routes = require('./routes/email/email_routes');
-
-var model = require('./models/db');
-
-var app = express();
+var express = require('express'),
+ path = require('path'),
+ logger = require('morgan'),
+ cookieParser = require('cookie-parser'),
+ bodyParser = require('body-parser'),
+ session = require('express-session'),
+ passport = require('passport'),
+ flash = require('connect-flash'),
+ routes = require('./routes/index'),
+ users = require('./routes/users'),
+ farmer_routes = require('./routes/farmer/farmer_routes'),
+ buyer_routes = require('./routes/buyer/buyer_routes'),
+ supplier_routes = require('./routes/supplier/supplier_routes'),
+ common_routes = require('./routes/common/common_routes'),
+ transaction_routes = require('./routes/transaction/transaction-routes'),
+ crop_routes = require('./routes/crop/crop_routes'),
+ report_routes = require('./routes/reports/report_routes'),
+ call_routes = require('./routes/calls/call_routes'),
+ email_routes = require('./routes/email/email_routes'),
+ model = require('./models/db'),
+ app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +35,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));

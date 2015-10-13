@@ -61,6 +61,14 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, fail, true);
                 });
             };
+
+            $scope.newBuyerCancel = function () {
+
+                window.history.go(-1);
+
+                return false;
+
+            }
         }
     ])
     /**

@@ -8,14 +8,12 @@
  * Created by matjames007 on 4/28/15.
  */
 
-var model = require('../../models/db');
-var common = require('../common/common');
-var Commodity = model.Commodity;
-var Farm = model.Farm;
-var Demand = model.Demand;
-var Branch = model.Branch;
-var Membership = model.Membership;
-var Farmer = model.Farmer;
+var model = require('../../models/db'),
+ common = require('../common/common'),
+ Commodity = model.Commodity,
+ Demand = model.Demand,
+ Branch = model.Branch,
+ Membership = model.Membership;
 /**
  * This is a generic helper function for MongoDB errors
  * that occur during searching/creating/updating a document.
@@ -64,11 +62,11 @@ exports.getFarmers = function(req, res) {
 
         model.Farmer.find(query)
             .populate('ad_address fr_farms.di_district')
-            .exec(function (err, docs) {
-                if (err) {
+            .exec(function (err, farmers) {
+                if (err || !farmers) {
                     handleDBError(err, res);
                 } else {
-                    res.send(docs);
+                    res.send(farmers);
                 }
             });
     }
@@ -100,22 +98,22 @@ exports.createFarmer = function(req, res) {
  */
 exports.getFarmerById = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        model.Farmer.findById(req.params.id).populate('ad_address fr_farms.di_district')
-            .exec(function (err, item) {
-                if (err) {
+      var fields_to_exclude = '';
+      if(req.user.ut_user_type != "Administrator"){
+         fields_to_exclude = '-fa_government_id';
+      }
+        model.Farmer.findById(req.params.id)
+            .populate('ad_address fr_farms.di_district')
+            .select(fields_to_exclude)
+            .exec(function (err, farmer) {
+                if (err || !farmer) {
                     handleDBError(err, res);
                 } else {
-                    if (item) {
-                        res.send(item);
-                    } else {
-                        res.status(404);
-                        res.send({error: "Not Found"});
-                    }
+                    res.send(farmer);
                 }
             });
     }
 };
-
 /**
  * Attempt to update farmer given an id in the req.params
  * @param req
@@ -260,9 +258,8 @@ exports.editCommodity = function(req, res) {
  * @param res
  */
 exports.updateFarmById = function(req, res) {
-
     if(common.isAuthenticated(req, res)) {
-        /*model.Farm.update({_id: req.params.farm_id}, req.body, function (err, response) {
+        model.Farm.update({_id: req.params.farm_id}, req.body, function (err, response) {
             if (err) {
                 handleDBError(err, res);
             } else {
@@ -274,49 +271,12 @@ exports.updateFarmById = function(req, res) {
                     res.send({error: "Not Found"});
                 }
             }
-        });*/
-
-
-        Farmer.findById(req.params.id, function (err, doc) {
-
-            var this_farm = doc.fr_farms.id(req.params.farm_id);
-
-            this_farm.fr_name = req.body.fr_name;
-
-            this_farm.di_district = req.body.di_district;
-
-            this_farm.ad_address1 = req.body.ad_address1;
-
-            this_farm.ad_address2 = req.body.ad_address2;
-
-            this_farm.ad_latitude = req.body.ad_latitude;
-
-            this_farm.ad_longitude = req.body.ad_longitude;
-
-            this_farm.ad_city = req.body.ad_city;
-
-            this_farm.ad_country = req.body.ad_country;
-
-            this_farm.ad_longitude = req.body.ad_longitude;
-
-            this_farm.fr_size = req.body.fr_size;
-
-            doc.save(function(err2) {
-                if(err2) {
-                    handleDBError(err2, res);
-                } else {
-                    res.send({message : "Success"});
-                }
-            });
-
         });
-
-
     }
 };
 
 /**
- * Allows for a comment to be eeated based on a given farmer.
+ * Allows for a comment to be created based on a given farmer.
  * Requires a id of the farmer to be passed as a parameter in
  * the request.
  *
@@ -479,34 +439,6 @@ exports.updateMembership = function(req, res) {
                 res.send(changes);
             }
         });
-    }
-};
-
-/**
- * Edits a commodity based on commodity's id.
- * @param req
- * @param res
- */
-exports.editCommodity = function(req, res) {
-    if(common.isAuthenticated(req, res)){
-        /*Commodity.update({_id:req.params.comID}, req.body, function(err, response){
-            if(err || response.nModified != 0){
-                common.handleDBError(err, res);
-            }else{
-                res.send(response);
-            }
-        });*/
-
-        Commodity.findByIdAndUpdate({_id:req.params.commodity_id}, req.body, function (err, changes) {
-            if (err) {
-                handleDBError(err, res);
-            } else {
-                res.send(changes);
-            }
-        });
-
-        //res.end();
-
     }
 };
 
