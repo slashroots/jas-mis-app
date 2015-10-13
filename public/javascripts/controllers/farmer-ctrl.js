@@ -113,6 +113,16 @@ angular.module('jasmic.controllers')
                 }
             };
 
+            $scope.getMomentString = function(date_string) {
+
+                console.log("Date String : " + date_string);
+
+                var formatted_string = moment(date_string).format('YYYY-MM-DD')
+
+                return formatted_string;
+
+            }
+
             /**
              * Attempts to add new Farm to the farmer object.  Assumes the
              * server will take care of the address creation.
@@ -457,4 +467,5 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
             showDialog($mdDialog, error, true);
         })
     };
+
 };

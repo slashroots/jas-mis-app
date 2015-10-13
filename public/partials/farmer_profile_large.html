@@ -208,7 +208,7 @@
                     <div flex layout="row">
                         <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_approve.svg"></md-icon>
                         <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                            {{isValid(commodity.co_availability_date) ? commodity.co_availability_date.split("T")[0]:  'N/A'}}
+                            {{isValid(commodity.co_availability_date) ? getMomentString(commodity.co_availability_date) :  'N/A'}}
                             <div class="label">Available</div>
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                     <div flex layout="row">
                         <md-icon class="no-margin" md-svg-icon="/images/report-icons/icons_date_expires.svg"></md-icon>
                         <div layout-align="center" style="text-align: center;" layout="column" ng-class="{'md-offset': 1}">
-                            {{isValid(commodity.co_expiration_date) ? commodity.co_expiration_date:  'N/A'}}
+                            {{isValid(commodity.co_until) ? getMomentString(commodity.co_until):  'N/A'}}
                             <div class="label">Expiry Date</div>
                         </div>
                     </div>
