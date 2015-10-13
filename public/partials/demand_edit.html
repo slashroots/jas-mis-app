@@ -13,7 +13,7 @@
             </md-input-container>
 
             <md-select ng-required="true" ng-model="demand.un_quantity_unit" placeholder="Unit">
-                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+                <md-option ng-value="unit" ng-repeat="unit in units" ng-selected="{{unit.un_unit_name == demand.un_price_unit.un_unit_name}}">{{unit.un_unit_name}}</md-option>
             </md-select>
         </div>
         <div layout-align="center center" layout="row">
@@ -23,7 +23,7 @@
             </md-input-container>
             per
             <md-select ng-required="true" ng-model="demand.un_price_unit" placeholder="Unit">
-                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+                <md-option ng-value="unit" ng-repeat="unit in units" ng-selected="{{unit.un_unit_name == demand.un_price_unit.un_unit_name}}">{{unit.un_unit_name}}</md-option>
             </md-select>
         </div>
 
