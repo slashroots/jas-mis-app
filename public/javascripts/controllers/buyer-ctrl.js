@@ -117,10 +117,10 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
-        function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+    .controller('BuyerProfileCtrl', ['$q','$window', '$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
+        'BuyerDemandFactory', 'DemandEditFactory','DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
+        function ($q, $window, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandEditFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
