@@ -35,15 +35,15 @@
                                 <div class="label">Type</div>
                             </div>
                         </div>
-                        <span flex="5"></span>
-                        <div flex="60" layout="row">
+                        <span flex="15"></span>
+                        <div flex="50" layout="row">
                             <md-icon md-svg-icon="/images/ic_attach_money_24px.svg"></md-icon>
-                            <div layout="column">
+                            <div class="center-text" layout="column" flex="60">
                                 {{isValid(buyer.bu_payment_terms)? buyer.bu_payment_terms: 'Not Disclosed'}}
                                 <div class="label">Payment Terms</div>
                             </div>
                         </div>
-                        <span flex="10"></span>
+                        <span flex="5"></span>
                     </div>
                     <div layout-align="space-around start" class="farmer_info" layout="row">
                         <div layout="row" flex="25">
@@ -53,10 +53,10 @@
                                 <div class="label">Contact</div>
                             </div>
                         </div>
-                        <span flex="5"></span>
-                        <div layout="row" flex="60">
+                        <span flex="15"></span>
+                        <div layout="row" flex="50">
                             <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
-                            <div layout="column">
+                            <div class="center-text" layout="column" flex="60">
                                 {{isValid(buyer.bu_email)? (buyer.bu_email| lowercase): 'Not Disclosed'}}
                                 <div class="label">Email</div>
                             </div>
