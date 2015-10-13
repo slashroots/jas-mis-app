@@ -1,7 +1,7 @@
 angular.module('jasmic.controllers')
-    .controller('AdministratorCtrl', ['$scope','$mdDialog','UsersFactory','CropsFactory','SuppliersFactory',
+    .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast','UsersFactory','CropsFactory','SuppliersFactory',
     'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
-    function($scope, $mdDialog, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
+    function($scope, $mdDialog, $mdToast, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
     SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory){
       /**
        * Get all users from the database.
@@ -36,11 +36,12 @@ angular.module('jasmic.controllers')
         });
       };
       getSuppliers();
-
+      /**
+       * Get all parishes from the database
+       */
       getParishes = function(){
         ParishesFactory.query({}, function(parishes){
             $scope.parishes = parishes;
-            console.log(parishes);
         }, function(error){
             $scope.parishes = [];
         });
@@ -151,6 +152,11 @@ angular.module('jasmic.controllers')
               $scope.hideList.croptype = !$scope.hideList.croptype;
               getCrops();
           }else if(entity === 'supplier'){
+              $scope.parishes.forEach(function(parish){
+                if(parish.pa_parish_name === $scope.supplier.pa_parish){
+                  $scope.supplier.pa_parish_code = parish.pa_parish_code;
+                }
+              });
               SupplierFactory.create($scope.supplier, function(success){
                   $scope.supplier = {};
                   $scope.newSupplier = !$scope.newSupplier;
@@ -172,6 +178,7 @@ angular.module('jasmic.controllers')
               case 'user': $scope.editUser = !$scope.editUser;
                            $scope.hideList.user = !$scope.hideList.user;
                            $scope.user_obj = obj;
+                           $scope.current_us_state = obj.us_state;
                   break;
               case 'crop' : $scope.editCrop = !$scope.editCrop;
                            $scope.hideList.croptype = !$scope.hideList.croptype;
@@ -207,11 +214,14 @@ angular.module('jasmic.controllers')
           }, function(error){
               showDialog($mdDialog,error,false);
           });
-          EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"}, function(success){
-            $mdToast.show($mdToast.simple().position('bottom').content('Approval email sent successfully.'));
-          }, function(error){
-            $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
-          })
+          if($scope.current_us_state === 'Pending' && $scope.user_obj.us_state === 'Approved'){
+            EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"
+            ,username: $scope.user_obj.us_username}, function(success){
+              $mdToast.show($mdToast.simple().position('bottom').content('Approval email sent successfully.'));
+            }, function(error){
+              $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
+            })
+          }
           $scope.editUser = !$scope.editUser;
           $scope.hideList.user = !$scope.hideList.user;
           getUsers();
