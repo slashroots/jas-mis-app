@@ -25,7 +25,7 @@ function routeEmailRequest(email_params, res, req){
   if(email_params.email_type === "new_user_registration"){
     email_body = '<div style="background-color: #F7F7F7; border: 1px solid #F7F7F7;width: 650px; height:400px; padding: 32px 32px;'+
                   'text-align:center; color:#000000">'+
-                '<h1 style="margin 0px 0px 16px 0px;">Welcome to JASMIC!</h1>'+
+                '<h1 style="margin 0px 0px 16px 0px;">Welcome to the JAS\'s Market information Center!</h1>'+
                 '<p style="font-size:17px;margin 0px 0px 16px 0px;"><span style="font-size:17px;">We are happy you\'re here.</span></p>'+
                 '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Please await further instructions from your system administrator.</span></p>'+
                 '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">In the event your administrator has approved your account, you may click the button below which'+
@@ -34,7 +34,7 @@ function routeEmailRequest(email_params, res, req){
                 'text-align:center;border-radius:5px; margin: 0 auto;">'+
                 '<a href="'+ login_url +'" style="color:#ffffff;text-decoration:none;font-size:20px">Click here</a>'+
                 '</div>'+
-                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may copy/paste this link in the browser.</span></p>'+
+                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may also copy/paste the below link in your browser to access the application.</span></p>'+
                 '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ login_url +'</span></p>'+
                 '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">Your username is:</span></p>' +
                 '<p style="margin 0px 0px 16px 0px; font-size: 20px;"><span style="font-size:17px;"><strong>' + email_params.username + '</strong><span></p>' +
@@ -52,7 +52,7 @@ function routeEmailRequest(email_params, res, req){
                'text-align:center;border-radius:5px; margin: 0 auto;">'+
                '<a href="'+ login_url +'" style="color:#ffffff;text-decoration:none;font-size:20px">Login</a>'+
                '</div>'+
-               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may copy/paste the below link in your browser.</span></p>'+
+               '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">You may also copy/paste the below link in your browser to access the application.</span></p>'+
                '<p style="margin 0px 0px 16px 0px;"><span style="font-size:17px;">'+ login_url +'</span></p>'+
                '</div>';
     subject = "User Approval Completed";
