@@ -487,3 +487,10 @@ md-fab-speed-dial {
   overflow : visible !important;
   height : 0 !important;
 }
+
+.no-blue-outline:focus {
+
+  outline: none !important;
+  border: 0 !important;
+
+}
