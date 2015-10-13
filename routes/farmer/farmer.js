@@ -199,6 +199,9 @@ exports.createFarm = function(req, res) {
 exports.addCommodity = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var com = new Commodity(req.body);
+        var result = common.convertToBaseUnit(com.co_quantity, com.co_price, com.un_quantity_unit.un_unit_conversion,com.un_quantity_unit.un_unit_name);
+        com.co_quantity = result.quantity;
+        com.co_price = result.price;
         com.fa_farmer = req.params.id;
         com.save(function (err, item) {
             if (err) {
@@ -224,6 +227,7 @@ exports.getCommodities = function(req, res) {
                 if (err) {
                     common.handleDBError(err, res);
                 } else {
+                    common.convertListFromBaseUnit(list, 'commodity');
                     res.send(list);
                 }
             });
@@ -710,6 +714,7 @@ exports.findCommodityMatch = function(req, res) {
                         if (err2) {
                             common.handleDBError(err2, list);
                         } else {
+                            common.convertListFromBaseUnit(list, 'commodity');
                             res.send(list);
                         }
                     });
@@ -736,6 +741,7 @@ exports.searchCurrentCommodities = function(req, res) {
                     if (err) {
                         common.handleDBError(err, res);
                     } else {
+                        common.convertListFromBaseUnit(list, 'commodity');
                         res.send(list);
                     }
                 });
@@ -747,6 +753,7 @@ exports.searchCurrentCommodities = function(req, res) {
                     if (err) {
                         common.handleDBError(err, res);
                     } else {
+                        common.convertListFromBaseUnit(list, 'commodity');
                         res.send(list);
                     }
                 });

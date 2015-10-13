@@ -330,7 +330,70 @@ exports.createUnit = function(req, res) {
         });
     }
 };
-
+/**
+ * Converts a demand or commodity amount to the application's si unit
+ * @param  {Number} quantity        The quantity of the demand/supply
+ * @param  {Number} price           The price of the demand/supply
+ * @param  {Number} unit_conversion  The conversion rate
+ * @param  {String} unit_name       The name of the unit i.e. KG or LB
+ * @return {Object} result          The result of the conversion
+ */
+exports.convertToBaseUnit = function(quantity, price, unit_conversion, unit_name){
+  var result = {};
+  if(unit_name != 'KG'){
+    result.quantity = quantity / unit_conversion;
+    result.price = price / unit_conversion;
+  }else{
+    result.quantity = quantity;
+    result.price = price;
+  }
+  return result;
+}
+/**
+ * Converts a list of demand or commodity from the application's base
+ * si unit.
+ * @param  list List of demands or commodities
+ * @param  {String} type List type
+ */
+exports.convertItemFromBaseUnit = function(item,type){
+  if(type === 'demand'){
+        if(item.un_quantity_unit.un_unit_name != "KG"){
+          item.de_quantity = item.de_quantity * item.un_quantity_unit.un_unit_conversion;
+          item.de_price = item.de_price * item.un_quantity_unit.un_unit_conversion;
+        }
+    }else if(type === 'commodity'){
+        if(item.un_quantity_unit.un_unit_name != "KG"){
+          item.co_quantity = item.co_quantity * item.un_quantity_unit.un_unit_conversion;
+          item.co_price = item.co_price * item.un_quantity_unit.un_unit_conversion;
+        }
+  }
+return item;
+}
+/**
+ * Converts a list of demand or commodity to the application's base
+ * si unit.
+ * @param  list List of demands or commodities
+ * @param  {String} type List type
+ */
+exports.convertListFromBaseUnit = function(list,type){
+    var length = list.length, i= 0;
+    if(type === 'demand'){
+        for(;i<length;i++){
+          if(list[i].un_quantity_unit.un_unit_name != "KG"){
+            list[i].de_quantity = list[i].de_quantity * list[i].un_quantity_unit.un_unit_conversion;
+            list[i].de_price = list[i].de_price * list[i].un_quantity_unit.un_unit_conversion;
+          }
+        }
+      }else if(type === 'commodity'){
+        for(;i<length;i++){
+          if(list[i].un_quantity_unit.un_unit_name != "KG"){
+            list[i].co_quantity = list[i].co_quantity * list[i].un_quantity_unit.un_unit_conversion;
+            list[i].co_price = list[i].co_price * list[i].un_quantity_unit.un_unit_conversion;
+          }
+      }
+    }
+    return list;
+}
 /**
  * Retrieves the units allows for search based on req.query.
  * @param req

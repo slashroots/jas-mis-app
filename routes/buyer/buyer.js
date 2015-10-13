@@ -63,7 +63,6 @@ exports.getBuyers = function(req, res) {
  */
 exports.createBuyer = function(req, res) {
     if(common.isAuthenticated(req, res)) {
-        console.log(req.body);
         var address = new model.Address(req.body.ad_address);
         address.save(function (err) {
             if (err) {
@@ -209,6 +208,9 @@ exports.addNewDemand = function(req, res) {
     if(common.isAuthenticated(req, res)) {
         var demand = new Demand(req.body);
         demand.bu_buyer = req.params.id;
+        var result = common.convertToBaseUnit(demand.de_quantity, demand.de_price, demand.un_quantity_unit.un_unit_conversion,demand.un_quantity_unit.un_unit_name);
+        demand.de_quantity = result.quantity;
+        demand.de_price = result.price;
         demand.save(function (err, item) {
             if (err) {
                 common.handleDBError(err, res);
@@ -232,6 +234,7 @@ exports.getDemands = function(req, res) {
                 if (err) {
                     common.handleDBError(err, res);
                 } else {
+                    common.convertListFromBaseUnit(list,'demand');
                     res.send(list);
                 }
             });
@@ -255,6 +258,7 @@ exports.searchCurrentDemands = function(req, res) {
                     if (err) {
                         common.handleDBError(err, res);
                     } else {
+                        common.convertFromBaseUnit(list, 'demand');
                         res.send(list);
                     }
                 });
@@ -266,6 +270,7 @@ exports.searchCurrentDemands = function(req, res) {
                     if (err) {
                         common.handleDBError(err, res);
                     } else {
+                        common.convertListFromBaseUnit(list, 'demand');
                         res.send(list);
                     }
                 });
@@ -299,6 +304,7 @@ exports.findDemandMatch = function(req, res) {
                         if (err2) {
                             common.handleDBError(err2, list);
                         } else {
+                            common.convertListFromBaseUnit(list, 'commodity');
                             res.send(list);
                         }
                     });
@@ -322,6 +328,7 @@ exports.getDemand = function(req, res) {
                 if (err) {
                     common.handleDBError(err, res);
                 } else {
+                    common.convertItemFromBaseUnit(demand,'demand');
                     res.send(demand);
                 }
             });
