@@ -187,89 +187,89 @@ angular.module('jasmic.controllers')
                     $scope.hideList.supplier = !$scope.hideList.supplier;
                     getSuppliers();
                 }
-            };
-            /**
-             * Gets the selected record from a list once clicked.
-             * @param type - Type of record being selected.
-             * @param obj - Details of record selected.
-             */
-            $scope.selectedElement = function (type, obj) {
-                switch (type) {
-                    case 'user':
-                        $scope.editUser = !$scope.editUser;
-                        $scope.hideList.user = !$scope.hideList.user;
-                        $scope.user_obj = obj;
-                        break;
-                    case 'crop' :
-                        $scope.editCrop = !$scope.editCrop;
-                        $scope.hideList.croptype = !$scope.hideList.croptype;
-                        $scope.crop_type = obj;
-                        break;
-                    case 'supplier':
-                        $scope.editSupplier = !$scope.editSupplier;
-                        $scope.hideList.supplier = !$scope.hideList.supplier;
-                        $scope.supplier = obj;
-                        break;
-                    case 'buyer' :
-                        $scope.editBuyer = !$scope.editBuyer;
-                        $scope.hideList.buyer = !$scope.hideList.buyer;
-                        $scope.buyer = obj;
-                        break;
-                    default:
-                        showDialog($mdDialog, {statusText: "Error"}, false);
-                        break
-                }
-            };
-            /**
-             *  Determines which type of selected record should be updated.
-             * @param type - Type of record being selected.
-             */
-            $scope.update = function (type) {
-                if (type === 'user') {
-                    updateUser();
-                } else if (type === 'crop') {
-                    updateCrop();
-                } else if (type === 'supplier') {
-                    updateSupplier();
-                } else if (type === 'buyer') {
-                    updateBuyer();
-                }
-            };
-            /**
-             * Updates a user record. Requires admin privileges.
-             */
-            function updateUser() {
-                UserFactory.update({id: $scope.user_obj._id}, $scope.user_obj, function (success) {
-                    showDialog($mdDialog, {statusText: 'User Updated!'}, false);
-                }, function (error) {
-                    showDialog($mdDialog, error, false);
-                });
-                EmailFactory.create({
-                    to: $scope.user_obj.us_email_address,
-                    email_type: "new_user_approval"
-                }, function (success) {
-                    $mdToast.show($mdToast.simple().position('bottom').content('Approval email sent successfully.'));
-                }, function (error) {
-                    $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
-                })
-                $scope.editUser = !$scope.editUser;
-                $scope.hideList.user = !$scope.hideList.user;
-                getUsers();
-            }
-
-            /**
-             * Update a crop type record. Requires admin privileges.
-             */
-            function updateCrop() {
-                CropFactory.update({id: $scope.crop_type._id}, $scope.crop_type, function (success) {
-                    showDialog($mdDialog, {statusText: 'Crop Type Updated!'}, false);
-                }, function (error) {
-                    showDialog($mdDialog, error, false);
-                });
-                $scope.editCrop = !$scope.editCrop;
-                $scope.hideList.croptype = !$scope.hideList.croptype;
-                getCrops();
-            }
+              });
+              SupplierFactory.create($scope.supplier, function(success){
+                  $scope.supplier = {};
+                  $scope.newSupplier = !$scope.newSupplier;
+                  showDialog($mdDialog,{statusText: "New Supplier Created!"}, false);
+              }, function(error){
+                  showDialog($mdDialog, error, false);
+              });
+              $scope.hideList.supplier = !$scope.hideList.supplier;
+              getSuppliers();
+          }
+      };
+      /**
+       * Gets the selected record from a list once clicked.
+       * @param type - Type of record being selected.
+       * @param obj - Details of record selected.
+       */
+      $scope.selectedElement = function(type, obj){
+          switch(type){
+              case 'user': $scope.editUser = !$scope.editUser;
+                           $scope.hideList.user = !$scope.hideList.user;
+                           $scope.user_obj = obj;
+                           $scope.current_us_state = obj.us_state;
+                  break;
+              case 'crop' : $scope.editCrop = !$scope.editCrop;
+                           $scope.hideList.croptype = !$scope.hideList.croptype;
+                           $scope.crop_type = obj;
+                  break;
+              case 'supplier': $scope.editSupplier = !$scope.editSupplier;
+                               $scope.hideList.supplier = !$scope.hideList.supplier;
+                               $scope.supplier = obj;
+                  break;
+              default: showDialog($mdDialog,{statusText: "Error"}, false);
+                  break
+          }
+      };
+      /**
+       *  Determines which type of selected record should be updated.
+       * @param type - Type of record being selected.
+       */
+      $scope.update = function(type){
+         if(type === 'user'){
+             updateUser();
+         }else if(type === 'crop'){
+             updateCrop();
+         }else if(type === 'supplier'){
+             updateSupplier();
+         }
+      };
+      /**
+       * Updates a user record. Requires admin privileges.
+       */
+      function updateUser(){
+          UserFactory.update({id:$scope.user_obj._id}, $scope.user_obj, function(success){
+              showDialog($mdDialog, {statusText: 'User Updated!'}, false);
+          }, function(error){
+              showDialog($mdDialog,error,false);
+          });
+          if($scope.current_us_state === 'Pending' && $scope.user_obj.us_state === 'Approved'){
+            EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"
+            ,username: $scope.user_obj.us_username}, function(success){
+              $mdToast.show($mdToast.simple().position('bottom').content('Approval email sent successfully.'));
+            }, function(error){
+              $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
+            })
+          }
+          $scope.editUser = !$scope.editUser;
+          $scope.hideList.user = !$scope.hideList.user;
+          getUsers();
+      }
+      /**
+       * Update a crop type record. Requires admin privileges.
+       */
+      function updateCrop(){
+           CropFactory.update({id:$scope.crop_type._id}, $scope.crop_type, function(success){
+               showDialog($mdDialog, {statusText: 'Crop Type Updated!'}, false);
+              }, function(error){
+               showDialog($mdDialog, error, false);
+           });
+          $scope.editCrop = !$scope.editCrop;
+          $scope.hideList.croptype = !$scope.hideList.croptype;
+          getCrops();
+      }
 
             /**
              * Updates a supplier record. Requires admin privileges.
