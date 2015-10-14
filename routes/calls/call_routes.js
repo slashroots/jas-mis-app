@@ -3,7 +3,7 @@ var CallLogs = require('./calls');
 var router = express.Router();
 
 /**
- * End Points relevant to CallLogs and 
+ * End Points relevant to CallLogs and
  * Call Types.
  */
 router.get('/calls', CallLogs.searchCalls);

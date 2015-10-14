@@ -5,10 +5,10 @@
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', '$mdDialog','CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
-        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
+        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory','StatisticsFactory',
         function ($scope, $location, $routeParams, $mdDialog, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
-                  ParishesFactory, SuppliersFactory, InputsFactory) {
+                  ParishesFactory, SuppliersFactory, InputsFactory, StatisticsFactory) {
             /**
              * Gets all calls associated with the logged in
              * user id.
@@ -39,6 +39,13 @@ angular.module('jasmic.controllers')
               });
             };
             lookupCallsForToday();
+
+            getStatistics = function(){
+              StatisticsFactory.show({}, function(stats){
+                $scope.stats = stats;
+              })
+            }
+            getStatistics();
             /**
              * looks up current demands
              */

@@ -102,8 +102,6 @@ angular.module('jasmic.controllers')
                         $scope.commoditySelected = false;
                     $scope.inputSelected = true;
                     $scope.selectedInput = obj;
-                } else {
-                    console.log('Mi nuh know weh you click pan boss man');
                 }
             };
 

@@ -1,16 +1,20 @@
 /**
  * Created by matjames007 on 4/29/15.
  */
-var model = require('../../models/db');
-var Address = model.Address;
-var Parish = model.Parish;
-var Farmer = model.Farmer;
-var Buyer = model.Buyer;
-var Unit = model.Unit;
-var Demand = model.Demand;
-var Crop = model.Crop;
-var Commodity = model.Commodity;
-var District = model.District;
+var model = require('../../models/db'),
+ Address = model.Address,
+ Parish = model.Parish,
+ Farmer = model.Farmer,
+ Buyer = model.Buyer,
+ Unit = model.Unit,
+ Demand = model.Demand,
+ Crop = model.Crop,
+ Commodity = model.Commodity,
+ District = model.District,
+ CallLog = model.CallLog,
+ Demand = model.Demand,
+ Transaction = model.Transaction,
+ moment = require('moment');
 
 /**
  *  Check if user is logged in.
@@ -397,3 +401,30 @@ exports.batchPushDistricts = function(req, res) {
         }
     })
 };
+
+exports.getStats = function(req, res){
+  var start_of_prev_week = moment().day(1).subtract(8, 'days');
+  var end_of_prev_week = moment().day(-5);
+  var start_of_week = moment().startOf('week');
+  var now = moment();
+  var query = {cc_date: {$gte: start_of_prev_week.toDate(), $lt:end_of_prev_week.toDate()}};
+  //var current_week_call_query = {cc_date: {$gte: start_of_week.toDate(), $lt:now.toDate()}};
+  CallLog.count(query)
+         .exec(function(err, prev_week_calls){
+           if(err){
+             handleDBError(err, res);
+           }else{
+             query = {cc_date: {$gte: start_of_week.toDate(), $lt:now.toDate()}};
+             CallLog
+               .count()
+               .exec(function(err, current_week_calls){
+                  if(err){
+                    handleDBError(err, res);
+                  }else{
+                    console.log(current_week_calls);
+                    res.send({message: 'Success'});
+                }
+              });
+           }
+         });
+}

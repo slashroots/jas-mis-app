@@ -9,8 +9,10 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_shopping_cart_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Opened Demands</div>
-                                <div><md-icon md-svg-src="/images/ic_arrow_up_24px.svg"></md-icon></div>
-                                <div><h1>{{demands.length}}</h1></div>
+                                <div>
+                                  <md-icon md-svg-src="/images/ic_arrow_down_24px.svg" ng-show="demand_statistics.change === 'decrease'"></md-icon>
+                                <md-icon md-svg-src="/images/ic_arrow_up_24px.svg" ng-show="demand_statistics.change === 'increase'"></md-icon></div>
+                                <div><h1>{{demand_statistics.changed_by}}</h1></div>
                             </div>
                         </div>
                         <div layout-padding flex ng-click="setSelected('transactions')" layout-align="end end" layout="column" >
@@ -36,8 +38,11 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_call_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Calls Made</div>
-                                <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
-                                <div><h1>{{total_calls.length}}</h1></div>
+                                <div>
+                                  <md-icon md-svg-src="/images/ic_arrow_down_24px.svg" ng-show="stats.calls.change === 'decrease'"></md-icon>
+                                  <md-icon md-svg-src="/images/ic_arrow_up_24px.svg" ng-show="stats.calls.change === 'increase'"></md-icon>
+                                </div>
+                                <div><h1>{{stats.calls.changed_by}}</h1></div>
                             </div>
                         </div>
                     </div>
