@@ -508,7 +508,7 @@ formatandSendStats = function(stats, res){
 getStatisticChange = function(current, prev){
   var stat_change = {};
   current === prev ? stat_change.change = "none" :
-  current > prev ? stat_change.change = "decrease" : stat_change.change = "increase";
+  current > prev ? stat_change.change = "increase" : stat_change.change = "decrease";
   stat_change.changed_by = Math.abs(current - prev);
   return stat_change;
 }
