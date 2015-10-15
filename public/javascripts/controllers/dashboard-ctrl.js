@@ -17,7 +17,6 @@ angular.module('jasmic.controllers')
              */
             $scope.isAdmin = false;
             $scope.parish_label = "", $scope.store_label = "";
-            $scope.showIcon = {};
             $scope.metric = {};
             var icons = {increase: "/images/ic_arrow_up_24px.svg", decrease: "/images/ic_arrow_down_24px.svg", neutral: "/images/icons/icons_star.svg" };
              UserProfileFactory.show(function(user){

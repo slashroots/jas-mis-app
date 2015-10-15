@@ -164,19 +164,3 @@ exports.getCallTypes = function(req, res){
 			});
 	}
 };
-
-getCallStatistics = function(res){
-		var start_of_prev_week = moment().day(1).subtract(7, 'days').toString();
-		var end_of_prev_week = moment().day(-5).toString();
-		query = {cc_date: {$gte: start_of_prev_week.toDate(), $lt:end_of_prev_week.toDate()}};
-		CallLog.find(query)
-			.populate('ct_call_type')
-			.sort('-cc_date')
-			.exec(function(err, list){
-				if(err){
-					common.handleDBError(err, res);
-				}else{
-					res.send(list);
-				}
-			});
-}
