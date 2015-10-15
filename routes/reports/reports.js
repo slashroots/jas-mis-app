@@ -76,6 +76,7 @@ exports.renderReport = function(req, res) {
                             }
                             addresses.push(address);
                           });
+                          console.log(item.co_commodities[0].fa_farmer.ad_address);
                       }
                       Buyer.findById(item.de_demand.bu_buyer, function (err2, buyer) {
                         if (err2) {
