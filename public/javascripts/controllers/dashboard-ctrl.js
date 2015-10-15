@@ -70,22 +70,6 @@ angular.module('jasmic.controllers')
               }else{
                 $scope.metric.closed_trans = icons.decrease;
               }
-
-              if($scope.stats.pending_trans.changes.change === "none"){
-                $scope.metric.pending_trans = icons.neutral;
-              }else if($scope.stats.pending_trans.changes.change === "increase"){
-                $scope.metric.pending_trans = icons.increase;
-              }else{
-                $scope.metric.pending_trans = icons.decrease;
-              }
-
-              if($scope.stats.demand.changes.change === "none"){
-                $scope.metric.demands = icons.neutral;
-              }else if($scope.stats.demand.changes.change === "increase"){
-                $scope.metric.demands = icons.increase;
-              }else{
-                $scope.metric.demands = icons.decrease;
-              }
             }
             /**
              * looks up current demands

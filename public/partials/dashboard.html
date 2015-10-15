@@ -9,9 +9,9 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_shopping_cart_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Opened Demands</div>
-                                <div><md-icon  md-svg-src="{{metric.demands}}"></md-icon>
+                                <div>
                                 </div>
-                                <div><h1>{{stats.demand.current_week}}</h1></div>
+                                <div><h1>{{ demands.length }}</h1></div>
                             </div>
                         </div>
                         <div layout-padding flex ng-click="setSelected('transactions')" layout-align="end end" layout="column" >
@@ -19,8 +19,8 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_money_off_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Pending Transactions</div>
-                                <div><md-icon md-svg-src="{{metric.pending_trans}}"></md-icon></div>
-                                <div><h1>{{stats.pending_trans.current_week}}</h1></div>
+                                <div></div>
+                                <div><h1>{{ open_transactions.length }}</h1></div>
                             </div>
                         </div>
                         <div layout-padding flex ng-click="setSelected('closed_transactions')" layout-align="end end" layout="column" >
@@ -37,8 +37,7 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_call_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Calls Made</div>
-                                <div><md-icon md-svg-src="{{metric.calls}}"></md-icon>
-                                </div>
+                                <div><md-icon md-svg-src="{{metric.calls}}"></md-icon></div>
                                 <div><h1>{{stats.call.current_week}}</h1></div>
                             </div>
                         </div>

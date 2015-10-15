@@ -434,48 +434,11 @@ exports.getStats = function(req, res){
                     if(err){
                       handleDBError(err, res);
                     }else{
-                      Transaction
-                      .count({ $or: [{tr_status: 'Pending'}, {tr_status: 'Waiting'}]})
-                      .and([{tr_date_created: prev_week_query}])
-                      .exec(function(err, prev_pending_trans_count){
-                        if(err){
-                            handleDBError(err, res);
-                        }else{
-                          Transaction
-                            .count({ $or: [{tr_status: 'Pending'}, {tr_status: 'Waiting'}]})
-                            .and([{tr_date_created: current_week_query}])
-                            .exec(function(err, current_pending_trans_count){
-                              if(err){
-                                handleDBError(err, res);
-                              }else{
-                                Demand.count({de_posting_date: prev_week_query})
-                                      .exec(function(err, prev_demand_count){
-                                        if(err){
-                                          handleDBError(err, res);
-                                        }else{
-                                          Demand.count({de_posting_date: current_week_query})
-                                                .exec(function(err, current_demand_count){
-                                                  if(err){
-                                                    handleDBError(err, res);
-                                                  }else{
-                                                    var stats = { demand: {current_week: current_demand_count,
-                                                                            previous_week: prev_demand_count },
-                                                                  pending_trans: {current_week: current_pending_trans_count,
-                                                                                    previous_week: prev_pending_trans_count},
-                                                                  completed_trans: { current_week: current_completed_trans_count,
-                                                                                      previous_week: prev_completed_trans_count },
-                                                                  call: { current_week: current_call_count,
-                                                                          previous_week: prev_call_count }}//end of object
-
-                                                   formatandSendStats(stats, res);
-                                                  }
-                                                })
-                                        }
-                                      })
-                              }
-                            })
-                        }
-                      })
+                      var stats = { completed_trans: { current_week: current_completed_trans_count,
+                                                        previous_week: prev_completed_trans_count },
+                                    call: { current_week: current_call_count,
+                                            previous_week: prev_call_count }}//end of object
+                     formatandSendStats(stats, res);
                     }
                   });
             }
@@ -492,8 +455,6 @@ exports.getStats = function(req, res){
  * @param  {[type]} res   [description]
  */
 formatandSendStats = function(stats, res){
-  stats.demand.changes = getStatisticChange(stats.demand.current_week, stats.demand.previous_week);
-  stats.pending_trans.changes = getStatisticChange(stats.pending_trans.current_week, stats.pending_trans.previous_week);
   stats.completed_trans.changes = getStatisticChange(stats.completed_trans.current_week, stats.completed_trans.previous_week);
   stats.call.changes = getStatisticChange(stats.call.current_week, stats.call.previous_week);
   res.send(stats);
