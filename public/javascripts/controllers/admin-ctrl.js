@@ -189,7 +189,7 @@ angular.module('jasmic.controllers')
                                $scope.supplier = obj;
                   break;
               default: showDialog($mdDialog,{statusText: "Error"}, false);
-                  break
+                  break;
           }
       };
       /**

@@ -12,7 +12,6 @@ var model = require('../../models/db'),
  Commodity = model.Commodity,
  District = model.District,
  CallLog = model.CallLog,
- Demand = model.Demand,
  Transaction = model.Transaction,
  moment = require('moment');
 
@@ -401,30 +400,115 @@ exports.batchPushDistricts = function(req, res) {
         }
     })
 };
-
+/**
+ * Generates the dashboard performance metrics from the database
+ * by counting the number of calls, demands or transactions
+ * made within a period of time.
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ */
 exports.getStats = function(req, res){
-  var start_of_prev_week = moment().day(1).subtract(8, 'days');
-  var end_of_prev_week = moment().day(-5);
-  var start_of_week = moment().startOf('week');
-  var now = moment();
-  var query = {cc_date: {$gte: start_of_prev_week.toDate(), $lt:end_of_prev_week.toDate()}};
-  //var current_week_call_query = {cc_date: {$gte: start_of_week.toDate(), $lt:now.toDate()}};
-  CallLog.count(query)
-         .exec(function(err, prev_week_calls){
-           if(err){
-             handleDBError(err, res);
-           }else{
-             query = {cc_date: {$gte: start_of_week.toDate(), $lt:now.toDate()}};
-             CallLog
-               .count()
-               .exec(function(err, current_week_calls){
-                  if(err){
-                    handleDBError(err, res);
-                  }else{
-                    console.log(current_week_calls);
-                    res.send({message: 'Success'});
-                }
-              });
-           }
-         });
+  var start_of_prev_week = moment().startOf('day').day(1).subtract(7, 'days'),
+      last_week = moment().day(moment().day()).subtract(7, 'days'),
+      current_week = moment().startOf('week'),
+      today = moment(),
+      prev_week_query = {$gte: start_of_prev_week.toDate(), $lt:last_week.toDate()},
+      current_week_query = {$gte: current_week.toDate(), $lt:today.toDate()};
+  CallLog.count({cc_date: prev_week_query}).exec(function(err, prev_call_count){
+    if(err){
+      handleDBError(err, res);
+    }else{
+      CallLog.count({cc_date: current_week_query}).exec(function(err, current_call_count){
+        if(err){
+          handleDBError(err, res);
+        }else{
+          Transaction
+          .count({tr_status: 'Completed', tr_date_created: prev_week_query})
+          .exec(function(err, prev_completed_trans_count){
+            if(err){
+              handleDBError(err, res);
+            }else{
+              Transaction
+                .count({tr_status: 'Completed', tr_date_created: current_week_query})
+                 .exec(function(err, current_completed_trans_count){
+                    if(err){
+                      handleDBError(err, res);
+                    }else{
+                      Transaction
+                      .count({ $or: [{tr_status: 'Pending'}, {tr_status: 'Waiting'}]})
+                      .and([{tr_date_created: prev_week_query}])
+                      .exec(function(err, prev_pending_trans_count){
+                        if(err){
+                            handleDBError(err, res);
+                        }else{
+                          Transaction
+                            .count({ $or: [{tr_status: 'Pending'}, {tr_status: 'Waiting'}]})
+                            .and([{tr_date_created: current_week_query}])
+                            .exec(function(err, current_pending_trans_count){
+                              if(err){
+                                handleDBError(err, res);
+                              }else{
+                                Demand.count({de_posting_date: prev_week_query})
+                                      .exec(function(err, prev_demand_count){
+                                        if(err){
+                                          handleDBError(err, res);
+                                        }else{
+                                          Demand.count({de_posting_date: current_week_query})
+                                                .exec(function(err, current_demand_count){
+                                                  if(err){
+                                                    handleDBError(err, res);
+                                                  }else{
+                                                    var stats = { demand: {current_week: current_demand_count,
+                                                                            previous_week: prev_demand_count },
+                                                                  pending_trans: {current_week: current_pending_trans_count,
+                                                                                    previous_week: prev_pending_trans_count},
+                                                                  completed_trans: { current_week: current_completed_trans_count,
+                                                                                      previous_week: prev_completed_trans_count },
+                                                                  call: { current_week: current_call_count,
+                                                                          previous_week: prev_call_count }}//end of object
+
+                                                   formatandSendStats(stats, res);
+                                                  }
+                                                })
+                                        }
+                                      })
+                              }
+                            })
+                        }
+                      })
+                    }
+                  });
+            }
+          });
+        }
+      });
+    }
+  });
+}
+/**
+ * Determines if there has been any change week on week
+ * for performance metrics.
+ * @param  {[type]} stats Calculated performance metrics
+ * @param  {[type]} res   [description]
+ */
+formatandSendStats = function(stats, res){
+  stats.demand.changes = getStatisticChange(stats.demand.current_week, stats.demand.previous_week);
+  stats.pending_trans.changes = getStatisticChange(stats.pending_trans.current_week, stats.pending_trans.previous_week);
+  stats.completed_trans.changes = getStatisticChange(stats.completed_trans.current_week, stats.completed_trans.previous_week);
+  stats.call.changes = getStatisticChange(stats.call.current_week, stats.call.previous_week);
+  res.send(stats);
+}
+/**
+ * Determines change in performance metrics. The function
+ * attempts to return whether there is an increase, decrease or
+ * no change in a performance metric.
+ * @param  {[type]} current Current week's count of a particular metric
+ * @param  {[type]} prev    Previous week's count of a particular metric
+ */
+getStatisticChange = function(current, prev){
+  var stat_change = {};
+  current === prev ? stat_change.change = "none" :
+  current > prev ? stat_change.change = "decrease" : stat_change.change = "increase";
+  stat_change.changed_by = Math.abs(current - prev);
+  return stat_change;
 }
