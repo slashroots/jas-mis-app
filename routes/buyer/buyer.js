@@ -181,6 +181,12 @@ exports.editRep = function(req, res) {
 
             doc.save();
 
+            /*
+
+            NOTE TO SELF - UPDATE THIS TO ACTUALLY CHECK FOR ERRORS AND RETURN AN APPROPRIATE ERROR CODE
+
+             */
+
             res.status(200);
 
             res.send({code: "Success"});
