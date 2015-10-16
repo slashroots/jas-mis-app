@@ -73,7 +73,7 @@ exports.renderReport = function(req, res){
                 }})
         },
         function(item, callback){
-          var l = item.co_commodities.length;
+          var length = item.co_commodities.length;
           item.co_commodities.forEach(function(farmer){
             Address
               .findById(farmer.fa_farmer.ad_address)
@@ -81,9 +81,9 @@ exports.renderReport = function(req, res){
                 if(err){
                   common.handleDBError(err, res)
                 }else{
-                  l--;
+                  length--;
                   addresses.push(address);
-                  if(l === 0){
+                  if(length === 0){
                     callback(null, addresses, item);
                   }
                 }
