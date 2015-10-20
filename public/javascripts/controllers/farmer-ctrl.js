@@ -46,11 +46,11 @@ angular.module('jasmic.controllers')
     .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
         'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
-        'CallLogsFactory', 'UserProfileFactory',
+        'CallLogsFactory', 'UserProfileFactory', 'FarmEditFactory',
         function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
                 CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
-              UserProfileFactory) {
+              UserProfileFactory, FarmEditFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
              * then query for the transactions this farmer has been involved in.

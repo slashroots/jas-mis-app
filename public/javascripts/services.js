@@ -259,6 +259,19 @@ services.factory('CommodityFactory', function($resource) {
     })
 });
 
+
+
+/**
+ * Updates a farm
+ */
+
+services.factory('FarmEditFactory', function($resource){
+    return $resource('farm/:farm_id', {}, {
+        update: { method: 'PUT', params: {farm_id: '@farm_id'} },
+    });
+});
+
+
 /**
  * Adds a new Demand and associates it with a buyer
  */
