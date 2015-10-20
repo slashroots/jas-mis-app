@@ -153,6 +153,9 @@
 
                     </div>
 
+                    <div class="{{edit_demand ?'dark':'white'}}" ng-include="edit_demand ? '/partials/demand_edit.html':null">
+
+                    </div>
 
                 </md-card-content>
                 <md-card-content ng-show="!edit_demand">
@@ -210,30 +213,6 @@
                         </tbody>
 
                     </table>
-
-
-                    <!--<div class="farmerInfo" layout-padding layout="column" ng-repeat="demand in demands">
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{demand.cr_crop.cr_crop_name}} - {{demand.cr_crop.cr_crop_variety}}
-                                <label>Produce/Crop</label>
-                            </div>
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_quantity}}{{demand.un_quantity_unit.un_unit_name}}
-                                <label>Amount</label>
-                            </div>
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_price}} per {{demand.un_price_unit.un_unit_name}}
-                                <label>Unit Cost</label>
-                            </div>
-                        </div>
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_payment_terms}}
-                                <label>Payout Term(s)</label>
-                            </div>
-                        </div>
-                    </div>-->
 
                 </md-card-content>
             </md-card>
