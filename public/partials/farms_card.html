@@ -7,11 +7,9 @@
             </md-button>
         </div>
     </div>
-    <div ng-include="newFarm ? '/partials/farm_new.html':null">
+    <div class="{{editFarm ?'dark':'white'}}" ng-include="newFarm || editFarm ? '/partials/farm_new.html':null">
 
     </div>
-
-    <div class="{{editFarm ?'dark':'white'}}" ng-include="editFarm ? '/partials/farm_edit.html':null">
 
     </div>
 
@@ -56,7 +54,7 @@
             </div>
             <div layout="column" flex>
 
-                <md-button style="float:right;" ng-click="editFarmLocation($index)">Edit</md-button>
+                <md-button style="float:right;" ng-click="editFarmLocation(farm)">Edit</md-button>
 
             </div>
         </div>

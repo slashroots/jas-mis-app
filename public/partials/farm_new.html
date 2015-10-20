@@ -50,7 +50,9 @@
     </md-input-container>
 
     <md-input-container layout="row" layout-align="center center">
-        <md-button ng-click="cancelAdd()">Cancel</md-button>
-        <md-button ng-click="addNewFarm()">Save</md-button>
+        <md-button ng-if="newFarm" ng-click="cancelAdd()">Cancel</md-button>
+        <md-button ng-if="editFarm" ng-click="cancelAdd()">Cancel</md-button>
+        <md-button ng-if="newFarm" ng-click="addNewFarm()">Save</md-button>
+        <md-button ng-if="editFarm" ng-click="updateFarm()">Save</md-button>
     </md-input-container>
 </md-content>
