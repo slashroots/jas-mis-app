@@ -266,8 +266,8 @@ services.factory('CommodityFactory', function($resource) {
  */
 
 services.factory('FarmEditFactory', function($resource){
-    return $resource('farm/:farm_id', {}, {
-        update: { method: 'PUT', params: {farm_id: '@farm_id'} },
+    return $resource('farmer/:id/farm/:farm_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', farm_id: '@farm_id'} },
     });
 });
 

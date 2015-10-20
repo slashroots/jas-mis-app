@@ -169,27 +169,25 @@ angular.module('jasmic.controllers')
 
             };
 
-
             $scope.updateFarm = function() {
 
                 $scope.editFarm = false;
 
                 FarmEditFactory.update({id:$scope.farmer._id, farm_id:$scope.farm._id}, $scope.farm, function(success) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
-                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+                    //showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
-                    showDialog($mdDialog, {statusText:"Error Updating Farm!"}, true);
+                    //showDialog($mdDialog, {statusText:"Error Updating Farm!"}, true);
 
                 });
 
             }
-
 
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
