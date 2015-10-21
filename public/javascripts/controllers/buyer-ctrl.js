@@ -110,10 +110,10 @@ angular.module('jasmic.controllers')
  *  TODO: Document this controller!
  */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
+        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
         'BuyerDemandFactory', 'DemandsFactory',
         function ($location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
+                  OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
                   BuyerDemandFactory, DemandsFactory) {
 
             /**
