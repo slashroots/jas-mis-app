@@ -90,11 +90,7 @@
                             </md-button>
                         </div>
                     </div>
-                    <div class="{{new_rep ?'dark':'white'}}" ng-include="new_rep ? '/partials/representative_new.html':null">
-
-                    </div>
-
-                    <div class="{{edit_rep ?'dark':'white'}}" ng-include="edit_rep ? '/partials/representative_edit.html':null">
+                    <div class="{{edit_rep ?'dark':'white'}}" ng-include="new_rep || edit_rep ? '/partials/representative_new.html':null">
 
                     </div>
 
@@ -131,7 +127,7 @@
                                     <br><div class="label">Security Answer</div>
                                 </div>
                                 <div flex>
-                                    <md-button ng-click="editRepForm($index)">EDIT</md-button>
+                                    <md-button ng-click="editRepForm(representative)">EDIT</md-button>
                                 </div>
                             </div>
                         </div>

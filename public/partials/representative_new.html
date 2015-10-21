@@ -32,7 +32,9 @@
     </div>
 
     <md-input-container layout="row" layout-align="center center">
-        <md-button ng-click="toggleRepForm()">Cancel</md-button>
-        <md-button ng-click="addNewRep()">Save</md-button>
+        <md-button ng-if="new_rep" ng-click="toggleRepForm()">Cancel</md-button>
+        <md-button ng-if="new_rep" ng-click="addNewRep()">Save</md-button>
+        <md-button ng-if="edit_rep" ng-click="editRepForm(representative)">Cancel</md-button>
+        <md-button ng-if="edit_rep" ng-click="updateRep()">Save</md-button>
     </md-input-container>
 </md-content>

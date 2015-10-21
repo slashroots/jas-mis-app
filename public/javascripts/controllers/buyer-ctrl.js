@@ -214,11 +214,11 @@ angular.module('jasmic.controllers')
 
             }
 
-            $scope.editRepForm = function (index) {
+            $scope.editRepForm = function (obj) {
 
                 $scope.edit_rep = !$scope.edit_rep;
 
-                $scope.representative = $scope.buyer.re_representatives[index];
+                $scope.representative = obj;
 
             }
 
