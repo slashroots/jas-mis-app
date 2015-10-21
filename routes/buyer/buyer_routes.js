@@ -15,6 +15,7 @@ router.get('/buyer/:id', Buyer.getBuyerById);
 router.put('/buyer/:id', Buyer.updateBuyerById);
 
 router.post('/buyer/:id/rep', Buyer.addNewRep);
+router.put('/buyer/:id/rep/:rep_id', Buyer.editRep);
 
 router.post('/buyer/:id/demand', Buyer.addNewDemand);
 router.get('/buyer/:id/demands', Buyer.getDemands);

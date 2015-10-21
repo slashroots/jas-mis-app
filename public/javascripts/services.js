@@ -215,6 +215,16 @@ services.factory('RepFactory', function($resource) {
 });
 
 /**
+ * This is the factory used to update a representative based on a given
+ * Buyer and Representative ID
+ */
+services.factory('RepEditFactory', function($resource) {
+    return $resource('/buyer/:id/rep/:rep_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', rep_id: '@rep_id'}}
+    });
+});
+
+/**
  * The plural form of crop.  Use this factory to get access to all crop
  * information on the system and their varieties.
  */
