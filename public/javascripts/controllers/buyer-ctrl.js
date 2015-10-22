@@ -208,6 +208,8 @@ angular.module('jasmic.controllers')
 
                 $scope.demand = obj;
 
+                $scope.selectedItemChange(obj.cr_crop);
+
                 $scope.demand.de_posting_date= moment().toDate();
 
                 $scope.demand.de_until = moment().add(7, 'days').toDate();
@@ -245,6 +247,8 @@ angular.module('jasmic.controllers')
             $scope.updateDemand = function() {
 
                 $scope.edit_demand = !$scope.edit_demand;
+
+                $scope.demand.cr_crop = selectedCrop;
 
                 DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
 

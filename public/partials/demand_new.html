@@ -1,6 +1,7 @@
 <div>
     <md-content>
         <md-autocomplete
+                ng-if="new_demand"
                 ng-required="true"
                 ng-disabled="false"
                 md-no-cache="true"
@@ -20,6 +21,12 @@
                 No matches found for "{{searchText}}".
             </md-not-found>
         </md-autocomplete>
+
+        <md-input-container ng-if="edit_demand">
+            <label>Crop</label>
+            <input readonly ng-model="demand.cr_crop.cr_crop_name" type="text"/>
+        </md-input-container>
+
         <div layout-align="center center" layout="row">
             <md-input-container flex>
                 <label>Quantity</label><input min="0" ng-required="true" ng-model="demand.de_quantity" type="number"/>
