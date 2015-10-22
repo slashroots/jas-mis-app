@@ -111,10 +111,10 @@ angular.module('jasmic.controllers')
  */
     .controller('BuyerProfileCtrl', ['$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory',
+        'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory',
         function ($location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandsFactory) {
+                  BuyerDemandFactory, DemandEditFactory, DemandsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -202,15 +202,35 @@ angular.module('jasmic.controllers')
                 $scope.demand.de_until = moment().add(7, 'days').toDate();
             };
 
-            $scope.editDemandForm = function (index) {
+            $scope.editDemandForm = function (obj) {
 
                 $scope.edit_demand = !$scope.edit_demand;
 
-                $scope.demand = $scope.demands[index];
+                $scope.demand = obj;
 
                 $scope.demand.de_posting_date= moment().toDate();
 
                 $scope.demand.de_until = moment().add(7, 'days').toDate();
+
+            }
+
+            $scope.updateDemand = function() {
+
+                $scope.edit_demand = !$scope.edit_demand;
+
+                DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+
+                }, function (error) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
+
+                });
 
             }
 

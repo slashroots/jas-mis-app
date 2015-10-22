@@ -291,6 +291,14 @@ services.factory('BuyerDemandFactory', function($resource) {
     })
 });
 
+
+services.factory('DemandEditFactory', function($resource){
+    return $resource('/buyer/:id/demand/:demand_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', demand_id: '@demand_id'} },
+    });
+});
+
+
 /**
  * Factory to be used to retrieve the demands listing.
  */

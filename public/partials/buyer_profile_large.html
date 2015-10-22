@@ -145,11 +145,7 @@
                             </md-button>
                         </div>
                     </div>
-                    <div class="{{new_demand ?'dark':'white'}}" ng-include="new_demand ? '/partials/demand_new.html':null">
-
-                    </div>
-
-                    <div class="{{edit_demand ?'dark':'white'}}" ng-include="edit_demand ? '/partials/demand_edit.html':null">
+                    <div class="{{new_demand ?'dark':'white'}}" ng-include="new_demand || edit_demand ? '/partials/demand_new.html':null">
 
                     </div>
 
@@ -202,7 +198,7 @@
 
                             <td>{{isValid(demand.de_payment_terms) ? demand.de_payment_terms :  'N/A'}}</td>
 
-                            <td><md-button style="float:right;" id="{{$index}}" ng-click="editDemandForm($index)">Edit</md-button></td>
+                            <td><md-button style="float:right;" id="{{$index}}" ng-click="editDemandForm(demand)">Edit</md-button></td>
 
                         </tr>
 

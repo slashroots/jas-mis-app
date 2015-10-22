@@ -144,7 +144,6 @@ exports.updateBuyerById = function(req, res) {
 
  **/
 
-
 exports.editDemand = function(req, res) {
     if(common.isAuthenticated(req, res)){
 

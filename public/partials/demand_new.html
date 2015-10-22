@@ -26,7 +26,7 @@
             </md-input-container>
 
             <md-select ng-required="true" ng-model="demand.un_quantity_unit" placeholder="Unit">
-                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+                <md-option ng-value="unit" ng-repeat="unit in units"  ng-selected="{{unit.un_unit_name == demand.un_quantity_unit.un_unit_name}}">{{unit.un_unit_name}}</md-option>
             </md-select>
         </div>
         <div layout-align="center center" layout="row">
@@ -36,7 +36,7 @@
             </md-input-container>
             per
             <md-select ng-required="true" ng-model="demand.un_price_unit" placeholder="Unit">
-                <md-option ng-value="unit" ng-repeat="unit in units">{{unit.un_unit_name}}</md-option>
+                <md-option ng-value="unit" ng-repeat="unit in units"  ng-selected="{{unit.un_unit_name == demand.un_price_unit.un_unit_name}}">{{unit.un_unit_name}}</md-option>
             </md-select>
         </div>
 
@@ -63,8 +63,10 @@
         </md-input-container>
 
         <md-input-container layout="row" layout-sm="column" layout-align="center center">
-            <md-button ng-click="toggleDemandForm()">Cancel</md-button>
-            <md-button ng-click="saveDemand()">Save</md-button>
+            <md-button ng-if="new_demand" ng-click="toggleDemandForm()">Cancel</md-button>
+            <md-button ng-if="new_demand" ng-click="saveDemand()">Save</md-button>
+            <md-button ng-if="edit_demand" ng-click="editDemandForm(0)">Cancel</md-button>
+            <md-button ng-if="edit_demand" ng-click="updateDemand()">Update</md-button>
         </md-input-container>
     </md-content>
 </div>
