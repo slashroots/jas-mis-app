@@ -284,11 +284,13 @@ exports.updateFarmById = function(req, res) {
 
             this_farm.fr_size = req.body.fr_size;
 
-            doc.save();
-
-            res.status(200);
-
-            res.send({code: "Success"});
+            doc.save(function (err, item) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(item);
+                }
+            });
 
         });
 

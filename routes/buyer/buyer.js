@@ -178,17 +178,13 @@ exports.editRep = function(req, res) {
 
             this_rep.re_security_answer = req.body.re_security_answer;
 
-            doc.save();
-
-            /*
-
-            NOTE TO SELF - UPDATE THIS TO ACTUALLY CHECK FOR ERRORS AND RETURN AN APPROPRIATE ERROR CODE
-
-             */
-
-            res.status(200);
-
-            res.send({code: "Success"});
+            doc.save(function (err, item) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(item);
+                }
+            });
 
         });
 
@@ -215,11 +211,13 @@ exports.editRep = function(req, res) {
 
             this_rep.re_security_answer = req.body.re_security_answer;
 
-            doc.save();
-
-            res.status(200);
-
-            res.send({code: "Success"});
+            doc.save(function (err, item) {
+                if (err) {
+                    common.handleDBError(err, res);
+                } else {
+                    res.send(item);
+                }
+            });
 
         });
 
