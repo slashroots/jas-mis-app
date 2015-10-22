@@ -215,6 +215,16 @@ services.factory('RepFactory', function($resource) {
 });
 
 /**
+ * This is the factory used to update a representative based on a given
+ * Buyer and Representative ID
+ */
+services.factory('RepEditFactory', function($resource) {
+    return $resource('/buyer/:id/rep/:rep_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', rep_id: '@rep_id'}}
+    });
+});
+
+/**
  * The plural form of crop.  Use this factory to get access to all crop
  * information on the system and their varieties.
  */
@@ -259,13 +269,36 @@ services.factory('CommodityFactory', function($resource) {
     })
 });
 
+services.factory('CommodityEditFactory', function($resource){
+    return $resource('farmer/:id/commodity/:commodity_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', commodity_id: '@commodity_id'} },
+    });
+});
+
+/**
+ * Updates a farm
+ */
+
+services.factory('FarmEditFactory', function($resource){
+    return $resource('farmer/:id/farm/:farm_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', farm_id: '@farm_id'} },
+    });
+});
+
 /**
  * Adds a new Demand and associates it with a buyer
  */
 services.factory('BuyerDemandFactory', function($resource) {
     return $resource('/buyer/:id/demand', {}, {
-        create: {method: 'POST', params: {id: '@id'}}
+        create: {method: 'POST', params: {id: '@id'}},
     })
+});
+
+
+services.factory('DemandEditFactory', function($resource){
+    return $resource('/buyer/:id/demand/:demand_id', {}, {
+        update: { method: 'PUT', params: {id: '@id', demand_id: '@demand_id'} },
+    });
 });
 
 /**

@@ -6,17 +6,17 @@
                     <div layout="row">
                         <div flex="10" class="profilePic"></div>
                         <div flex="70" layout="column" class="farmerNames farmerPretty2">
+                            <label>Buyer</label>
 
                             <h2 class="farmerSummary">{{buyer.bu_buyer_name}}</h2>
-
                         </div>
                         <div layout="column" flex="20">
                             <div layout="row" >
                                 <md-button ng-click="editBuyer()" class="md-icon-button" aria-label="Edit">
                                     <md-icon md-svg-icon="/images/ic_mode_edit_24px.svg"></md-icon>
                                 </md-button>
-                                <md-button ng-click="createBuyerCall();"class="md-icon-button" aria-label="New Call">
-                                    <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
+                                <md-button class="md-icon-button" aria-label="Favourites">
+                                    <md-icon md-svg-icon="/images/ic_grade_24px.svg"></md-icon>
                                 </md-button>
                                 <md-button class="md-icon-button" aria-label="Details">
                                     <md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>
@@ -35,15 +35,15 @@
                                 <div class="label">Type</div>
                             </div>
                         </div>
-                        <span flex="5"></span>
-                        <div flex="60" layout="row">
+                        <span flex="15"></span>
+                        <div flex="50" layout="row">
                             <md-icon md-svg-icon="/images/ic_attach_money_24px.svg"></md-icon>
-                            <div layout="column">
+                            <div class="center-text" layout="column" flex="60">
                                 {{isValid(buyer.bu_payment_terms)? buyer.bu_payment_terms: 'Not Disclosed'}}
                                 <div class="label">Payment Terms</div>
                             </div>
                         </div>
-                        <span flex="10"></span>
+                        <span flex="5"></span>
                     </div>
                     <div layout-align="space-around start" class="farmer_info" layout="row">
                         <div layout="row" flex="25">
@@ -53,10 +53,10 @@
                                 <div class="label">Contact</div>
                             </div>
                         </div>
-                        <span flex="5"></span>
-                        <div layout="row" flex="60">
+                        <span flex="15"></span>
+                        <div layout="row" flex="50">
                             <md-icon md-svg-icon="/images/ic_email_24px.svg"></md-icon>
-                            <div layout="column">
+                            <div class="center-text" layout="column" flex="60">
                                 {{isValid(buyer.bu_email)? (buyer.bu_email| lowercase): 'Not Disclosed'}}
                                 <div class="label">Email</div>
                             </div>
@@ -64,18 +64,9 @@
                         <span flex="10"></span>
                     </div>
                     <div class="lastInfo" layout="row">
-
-                        <div layout="row" flex="30">
-                            <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
-                            <div layout="column">
-                                <br>
-                                {{ buyer.bu_verified ? "Verified" : 'Unverified'}} Buyer
-                                <div class="label">Verification Status</div>
-                            </div>
-                        </div>
-
+                        <span flex></span>
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
-                        <div layout="column">
+                        <div class="center-text" layout="column" flex="40">
                             {{isValid(buyer.ad_address.ad_address1)? buyer.ad_address.ad_address1: 'Not Disclosed'}}
                             <br/>
                             {{isValid(buyer.ad_address.ad_address2)? buyer.ad_address.ad_address2: ''}}
@@ -84,6 +75,7 @@
                             <br ng-if="isValid(buyer.ad_address.pa_parish)"/>
                             <div class="label">Address</div>
                         </div>
+                        <span flex></span>
                     </div>
                 </md-card-content>
             </md-card>
@@ -101,31 +93,45 @@
                     <div ng-include="new_rep ? '/partials/representative_new.html':null">
 
                     </div>
+
+                    <div ng-include="edit_rep ? '/partials/representative_edit.html':null">
+
+                    </div>
+
                 </md-card-content>
-                <md-card-content>
+                <md-card-content ng-show="!edit_rep">
                     <div class="farmerInfo" ng-repeat="representative in buyer.re_representatives">
                         <div layout="column">
                             <div layout-padding layout-align="space-around center" layout="row">
-                                <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
-                                <div flex>
+                                <!--<md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>-->
+                                <div flex="20">
                                     {{representative.re_name}}
+                                    <br><div class="label">Name</div>
                                 </div>
-                                <div flex>
+                                <div flex="20">
                                     {{representative.re_contact}}
+                                    <br><div class="label">Contact Number</div>
                                 </div>
-                                <div flex>
+                                <div flex="20">
+                                    {{representative.re_crop}}
+                                    <br><div class="label">Crop</div>
+                                </div>
+                                <div flex="40">
                                     {{representative.re_email}}
+                                    <br><div class="label">Email Address</div>
                                 </div>
                             </div>
                             <div layout-padding layout-align="space-around center" layout="row">
                                 <div flex>
-                                    {{representative.re_crop}}
-                                </div>
-                                <div flex>
                                     {{representative.re_security_question}}
+                                    <br><div class="label">Security Question</div>
                                 </div>
                                 <div flex>
                                     {{representative.re_security_answer}}
+                                    <br><div class="label">Security Answer</div>
+                                </div>
+                                <div flex>
+                                    <md-button ng-click="editRepForm($index)">EDIT</md-button>
                                 </div>
                             </div>
                         </div>
@@ -146,9 +152,70 @@
                     <div ng-include="new_demand ? '/partials/demand_new.html':null">
 
                     </div>
+
+                    <div ng-include="edit_demand ? '/partials/demand_edit.html':null">
+
+                    </div>
+
                 </md-card-content>
-                <md-card-content>
-                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="demand in demands">
+                <md-card-content ng-show="!edit_demand">
+
+
+                    <style>
+
+                        md-icon.no-margin {
+
+                            margin:0;
+                            margin-right:20px;
+
+                        }
+
+                        table {
+
+                            width:100% !important;
+
+                        }
+
+                        td {
+
+                            width:25% !important;
+
+                        }
+
+                        th {
+
+                            font-weight: bold;
+
+                        }
+
+                    </style>
+
+                    <table class="table-striped">
+
+                        <thead><td><b>Produce/Crop</b></td><td><b>Amount</b></td><td><b>Unit Cost</b></td><td><b>Payout Terms</b></td><td></td></thead>
+
+                        <tbody>
+
+                        <tr class="demand-row" ng-repeat="demand in demands">
+
+                            <td>{{isValid(demand.cr_crop.cr_crop_name) ? demand.cr_crop.cr_crop_name + " - " + demand.cr_crop.cr_crop_variety :  'N/A'}}</td>
+
+                            <td>{{isValid(demand.de_quantity) ? demand.de_quantity + " " + demand.un_quantity_unit.un_unit_name :  'N/A'}}</td>
+
+                            <td>${{isValid(demand.de_price) ? demand.de_price + " / " + demand.un_price_unit.un_unit_name :  'N/A'}}</td>
+
+                            <td>{{isValid(demand.de_payment_terms) ? demand.de_payment_terms :  'N/A'}}</td>
+
+                            <td><md-button style="float:right;" id="{{$index}}" ng-click="editDemandForm($index)">Edit</md-button></td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!--<div class="farmerInfo" layout-padding layout="column" ng-repeat="demand in demands">
                         <div layout-align="space-around start" layout="row">
                             <div layout-align="left center" layout="column">
                                 {{demand.cr_crop.cr_crop_name}} - {{demand.cr_crop.cr_crop_variety}}
@@ -168,22 +235,14 @@
                                 {{demand.de_payment_terms}}
                                 <label>Payout Term(s)</label>
                             </div>
-                            <div layout-align="left center" layout="column">
-                                {{demand.de_notes}}
-                                <label>Note(s)</label>
-                            </div>
                         </div>
+                    </div>-->
 
-                    </div>
                 </md-card-content>
             </md-card>
 
         </div>
-        <div layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
-            <div ng-include="'/partials/statistics_small.html'" >
-            </div>
-            <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'">
-            </md-card>
+        <div ng-include="'/partials/statistics_small.html'" layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
         </div>
     </md-content>
 </ui-view>

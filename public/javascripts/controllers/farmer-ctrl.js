@@ -43,13 +43,13 @@ angular.module('jasmic.controllers')
      * This controller does a query to retrieve the farmer by the specified ID in the
      * routeParameter.  It then creates the $scope.farmer object for the view to consume
      */
-    .controller('FarmerProfileCtrl', ['$q', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
+    .controller('FarmerProfileCtrl', ['$q', '$window', '$scope', '$location', '$routeParams', '$mdDialog', 'OpenTransactionsFactory',
         'TransactionsFactory', 'FarmerFactory', 'ParishesFactory', 'FarmerFarmFactory', 'CropsFactory',
-        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory',
+        'UnitsFactory', 'CommodityFactory', 'CommoditiesFactory', 'DistrictsFactory', 'FarmerMembershipsFactory','CommodityEditFactory', 'FarmEditFactory',
         'CallLogsFactory', 'UserProfileFactory',
-        function ($q, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
+        function ($q, $window, $scope, $location, $routeParams, $mdDialog, OpenTransactionsFactory, TransactionsFactory,
                 FarmerFactory, ParishesFactory, FarmerFarmFactory, CropsFactory, UnitsFactory,
-                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CallLogsFactory,
+                CommodityFactory, CommoditiesFactory, DistrictsFactory, FarmerMembershipsFactory, CommodityEditFactory, FarmEditFactory, CallLogsFactory,
               UserProfileFactory) {
             /**
              * First query for the farmer based on the id supplied in the parameters,
@@ -105,6 +105,24 @@ angular.module('jasmic.controllers')
                 }
             };
 
+            $scope.isActive = function(exp_date) {
+                if(new Date(exp_date) > Date.now()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            $scope.getMomentString = function(date_string) {
+
+                console.log("Date String : " + date_string);
+
+                var formatted_string = moment(date_string).format('YYYY-MM-DD')
+
+                return formatted_string;
+
+            }
+
             /**
              * Attempts to add new Farm to the farmer object.  Assumes the
              * server will take care of the address creation.
@@ -123,6 +141,26 @@ angular.module('jasmic.controllers')
 
             $scope.cancelAdd = function() {
                 $scope.newFarm = !$scope.newFarm;
+            };
+
+            $scope.cancelFarmEdit = function() {
+                $scope.editFarm = !$scope.editFarm;
+            };
+
+            /*.updateFarm = function() {
+                $scope.farm.di_district = selectedDistrict;
+                FarmerFarmFactory.create({id:$scope.farmer._id}, $scope.farm, function(success) {
+                    $scope.newFarm = !$scope.newFarm;
+                    loadAll();
+                }, function(fail) {
+                    console.log(fail);
+                    console.log($scope.farm);
+                    showDialog($mdDialog, fail, true);
+                });
+            };*/
+
+            $scope.cancelEdit = function() {
+                $scope.editFarm = !$scope.editFarm;
             };
 
             /**
@@ -154,14 +192,104 @@ angular.module('jasmic.controllers')
                 $scope.newFarm = !$scope.newFarm;
                 $scope.farm = {};
             };
+
+            $scope.editFarmLocation = function(arrayindex) {
+
+                $scope.editFarm = !$scope.editFarm;
+                $scope.farm = $scope.farmer.fr_farms[arrayindex];
+
+                $scope.editingFarm = arrayindex;//set the farm currently being edited
+
+            };
+
             $scope.newCommodityItem = function() {
                 $scope.newCommodity = !$scope.newCommodity;
             };
+
+            $scope.editCommodityItem = function(arrayindex) {
+
+                if (arrayindex == null) document.getElementById("commodities-table").style.visibility='visible'; //if cancel button was clicked
+
+                else document.getElementById("commodities-table").style.visibility='hidden';
+
+                $scope.editCommodity = !$scope.editCommodity;
+                $scope.commodity = $scope.commodities[arrayindex];
+                $scope.commodity.co_availability_date= moment().toDate();
+                $scope.commodity.co_until = moment().add(7, 'days').toDate();
+
+                $scope.editingCommodity = arrayindex;//sets the commodity currently being edited
+
+            };
+
+            $scope.updateCommodity = function() {
+
+                CommodityEditFactory.update({id:$scope.commodities[$scope.editingCommodity].fa_farmer._id, commodity_id:$scope.commodity._id}, $scope.commodity, function(success) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+
+                    $scope.editCommodity = false;
+
+                    document.getElementById("commodities-table").style.visibility='visible';
+
+                }, function (error) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Commodity!"}, true);
+
+                });
+
+            }
+
+
+            $scope.updateFarm = function() {
+
+                $scope.editFarm = false;
+
+                FarmEditFactory.update({id:$scope.farmer._id, farm_id:$scope.farm._id}, $scope.farm, function(success) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+
+                }, function (error) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Farm!"}, true);
+
+                });
+
+            }
+
+
             $scope.newCommodity = false;
             $scope.newFarm = false;
+            $scope.editCommodity = false;
 
 
             var selectedDistrict;
+
+
+            /*
+
+            This hides all the commodity cards to ensure that the one clicked is the only one on screen
+
+             */
+
+            $scope.hidePopupCommodities = function(commodity){
+
+                var elements = document.getElementsByClassName('popupcommodities');
+
+                for (var i = 0; i < elements.length; i++){
+                    elements[i].style.display = "none";
+                }
+
+                document.getElementById('commodity-' + commodity._id).style.display='block';
+
+            }
 
             /**
              * Open the page for editing the farmer.
@@ -339,4 +467,5 @@ function NewCommodityCtrl($q, $scope, $routeParams, CropsFactory, UnitsFactory, 
             showDialog($mdDialog, error, true);
         })
     };
+
 };

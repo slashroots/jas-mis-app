@@ -1,0 +1,65 @@
+<md-card-content class="{{newFarm ? 'dark':'white'}}">
+    <div layout="row">
+        <h3 class="{{newFarm ? 'dark':'white'}}">Farms</h3>
+        <div flex class="md-actions edge" layout="row" layout-align="end center">
+            <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
+                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+            </md-button>
+        </div>
+    </div>
+    <div ng-include="newFarm ? '/partials/farm_new.html':null">
+
+    </div>
+
+    <div ng-include="editFarm ? '/partials/farm_edit.html':null">
+
+    </div>
+
+</md-card-content>
+
+<md-card-content ng-show="!editFarm">
+    <div class="farmerInfo" layout="column" layout-padding ng-repeat="farm in farmer.fr_farms">
+        <div layout-align="space-around start" layout="row" >
+            <md-icon flex="5" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
+            <div layout="column" flex>
+                <div layout-align="start center" layout="column">
+                    {{farm.fr_name}}
+                    <div class="label">Farm Name</div>
+                </div>
+            </div>
+            <div layout="column" flex>
+                <div layout-align="start center" layout="column">
+                    {{farm.fr_size}}
+                    <div class="label">Farm Size (Acre)</div>
+                </div>
+            </div>
+            <div layout="column" flex>
+                <div layout-align="start center" layout="column">
+                    {{farm.ad_address1}}
+                    <div class="label">Address 1</div>
+                </div>
+            </div>
+        </div>
+        <div layout-align="space-around start" layout-padding layout="row">
+            <span flex="5"></span>
+            <div layout="column" flex>
+                <div layout-align="start center" layout="column">
+                    {{farm.ad_city}}
+                    <div class="label">City</div>
+                </div>
+            </div>
+            <div layout="column" flex>
+                <div layout-align="start center" layout="column">
+                    {{farm.di_district.di_parish_name}}
+                    <div class="label">Parish</div>
+                </div>
+            </div>
+            <div layout="column" flex>
+
+                <md-button style="float:right;" ng-click="editFarmLocation($index)">Edit</md-button>
+
+            </div>
+        </div>
+    </div>
+
+</md-card-content>

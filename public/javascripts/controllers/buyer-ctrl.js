@@ -28,6 +28,7 @@ angular.module('jasmic.controllers')
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.selectedBuyer._id+'/edit');
             };
+
         }
     ])
     /**
@@ -75,9 +76,9 @@ angular.module('jasmic.controllers')
      * then creation of the buyer object for the view to render.  It also
      * populates the parishes combo box for user interaction.
      */
-    .controller('EditBuyerCtrl', ['$location', '$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+    .controller('EditBuyerCtrl', ['$location', '$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
         'ParishesFactory', 'BuyerTypesListingFactory',
-        function ($location, $scope, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
+        function ($location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, ParishesFactory, BuyerTypesListingFactory) {
             BuyerFactory.show({id:$routeParams.id},
                 function(buyer) {
                     $scope.buyer = buyer;
@@ -116,12 +117,12 @@ angular.module('jasmic.controllers')
      *  Controller logic for the profile page of a buyer.
      *  TODO: Document this controller!
      */
-    .controller('BuyerProfileCtrl', ['$q','$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
-        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
-        function ($q, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
-                  OpenTransactionsFactory, TransactionsFactory, RepFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
+    .controller('BuyerProfileCtrl', ['$q','$window', '$location','$scope', '$mdDialog','$routeParams', 'BuyerFactory',
+        'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
+        'BuyerDemandFactory', 'DemandEditFactory','DemandsFactory', 'UserProfileFactory', 'CallLogsFactory',
+        function ($q, $window, $location, $scope, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
+                  OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
+                  BuyerDemandFactory, DemandEditFactory, DemandsFactory, UserProfileFactory, CallLogsFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -215,7 +216,9 @@ angular.module('jasmic.controllers')
             $scope.representative = {};
             $scope.demand = {};
             $scope.new_rep = false;
+            $scope.edit_rep = false;
             $scope.new_demand = false;
+            $scope.edit_demand = false;
             $scope.toggleRepForm = function() {
                 $scope.new_rep = !$scope.new_rep;
                 $scope.representative = {};
@@ -226,6 +229,67 @@ angular.module('jasmic.controllers')
                 $scope.demand.de_posting_date= moment().toDate();
                 $scope.demand.de_until = moment().add(7, 'days').toDate();
             };
+
+            $scope.editDemandForm = function (index) {
+
+                $scope.edit_demand = !$scope.edit_demand;
+
+                $scope.demand = $scope.demands[index];
+
+                $scope.demand.de_posting_date= moment().toDate();
+
+                $scope.demand.de_until = moment().add(7, 'days').toDate();
+
+            }
+
+            $scope.editRepForm = function (index) {
+
+                $scope.edit_rep = !$scope.edit_rep;
+
+                $scope.representative = $scope.buyer.re_representatives[index];
+
+            }
+
+            $scope.updateDemand = function() {
+
+                $scope.edit_demand = !$scope.edit_demand;
+
+                DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+
+                }, function (error) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
+
+                });
+
+            }
+
+
+            $scope.updateRep = function() {
+
+                $scope.edit_rep = !$scope.edit_rep;
+
+                RepEditFactory.update({id:$scope.buyer._id, rep_id:$scope.representative._id}, $scope.representative, function(success) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
+
+                }, function (error) {
+
+                    $window.scrollTo(0,0);
+
+                    showDialog($mdDialog, {statusText:"Error Updating Employee!"}, false);
+
+                });
+
+            }
 
 
             /**

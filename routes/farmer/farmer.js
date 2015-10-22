@@ -236,7 +236,8 @@ exports.getCommodities = function(req, res) {
  * @param res
  */
 exports.editCommodity = function(req, res) {
-   if(common.isAuthenticated(res, req)){
+
+   if(common.isAuthenticated(req, res)){
        Commodity.update({_id:req.params.comID}, req.body, function(err, response){
            if(err || response.nModified != 0){
                common.handleDBError(err, res);

@@ -64,7 +64,6 @@ angular.module('jasmic.controllers')
                     $scope.demand = demand;
                     $scope.selectedDemand = demand;
                     lookupDemandMatches();
-                    lookupReports();
                 },
                 function(error) {
                     $scope.demand = {};
@@ -77,7 +76,7 @@ angular.module('jasmic.controllers')
             $scope.downloadPDF = function() {
                 //create transaction(s)
                 if($scope.m_commodities.length > 0) {
-                    //createTransactions();
+                    createTransactions();
                 } else {
                     $mdToast.show($mdToast.simple().position('top right').content('No Supplies Selected!'));
                 }
