@@ -13,46 +13,14 @@
     <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
 
     </div>
-    <div ng-include="editCommodity ? '/partials/commodity_edit.html':null">
 
-    </div>
-
-    <style>
-
-        md-icon.no-margin {
-
-            margin:0;
-            margin-right:20px;
-
-        }
-
-        table {
-
-            width:100% !important;
-
-        }
-
-        td {
-
-            width:25% !important;
-
-        }
-
-        th {
-
-            font-weight: bold;
-
-        }
-
-    </style>
-
-    <table ng-show="!editCommodity && commodities.length > 0" class="table-striped" id="commodities-table">
+    <table class="commodity-table" ng-show="!editCommodity && commodities.length > 0" class="table-striped" id="commodities-table">
 
         <thead><td><b>Produce</b></td><td><b>Amount</b></td><td><b>Price</b></td><td><b>Payment Terms</b></td></thead>
 
         <tbody>
 
-        <tr class="commodity-row" ng-repeat="commodity in commodities" ng-click="hidePopupCommodities(commodity);$event.stopPropagation();" id="{{commodity._id}}">
+        <tr class="commodity-row" ng-repeat="commodity in commodities" id="{{commodity._id}}">
 
             <td>{{isValid(commodity.cr_crop.cr_crop_name) ? commodity.cr_crop.cr_crop_name:  'N/A'}}</td>
 

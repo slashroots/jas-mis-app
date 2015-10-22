@@ -152,37 +152,7 @@
                 </md-card-content>
                 <md-card-content ng-show="!edit_demand">
 
-
-                    <style>
-
-                        md-icon.no-margin {
-
-                            margin:0;
-                            margin-right:20px;
-
-                        }
-
-                        table {
-
-                            width:100% !important;
-
-                        }
-
-                        td {
-
-                            width:25% !important;
-
-                        }
-
-                        th {
-
-                            font-weight: bold;
-
-                        }
-
-                    </style>
-
-                    <table class="table-striped">
+                    <table class="table-striped demand-table">
 
                         <thead><td><b>Produce/Crop</b></td><td><b>Amount</b></td><td><b>Unit Cost</b></td><td><b>Payout Terms</b></td><td></td></thead>
 
@@ -198,7 +168,7 @@
 
                             <td>{{isValid(demand.de_payment_terms) ? demand.de_payment_terms :  'N/A'}}</td>
 
-                            <td><md-button style="float:right;" id="{{$index}}" ng-click="editDemandForm(demand)">Edit</md-button></td>
+                            <td><md-button class="floatRight" id="{{$index}}" ng-click="editDemandForm(demand)">Edit</md-button></td>
 
                         </tr>
 

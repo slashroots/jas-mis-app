@@ -494,3 +494,52 @@ md-fab-speed-dial {
     overflow : visible !important;
     height : 0 !important;
 }
+
+md-icon.no-margin {
+
+    margin:0;
+    margin-right:20px;
+
+}
+
+table.demand-table {
+
+    width:100% !important;
+
+}
+
+td.demand-table {
+
+    width:25% !important;
+
+}
+
+th.demand-table {
+
+    font-weight: bold;
+
+}
+
+table.commodity-table {
+
+    width:100% !important;
+
+}
+
+td.commodity-table {
+
+    width:25% !important;
+
+}
+
+th.commodity-table {
+
+    font-weight: bold;
+
+}
+
+.floatRight {
+
+    float:right;
+
+}

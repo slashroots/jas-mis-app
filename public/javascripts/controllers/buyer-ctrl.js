@@ -208,11 +208,11 @@ angular.module('jasmic.controllers')
 
                 $scope.demand = obj;
 
-                $scope.selectedItemChange(obj.cr_crop);
+                //for some reason the dates needed to be passed through MomentJS as seen below to be assigned to the form inputs
 
-                $scope.demand.de_posting_date= moment().toDate();
+                $scope.demand.de_posting_date= moment(obj.de_posting_date).toDate();
 
-                $scope.demand.de_until = moment().add(7, 'days').toDate();
+                $scope.demand.de_until= moment(obj.de_until).toDate();
 
             }
 
@@ -248,9 +248,7 @@ angular.module('jasmic.controllers')
 
                 $scope.edit_demand = !$scope.edit_demand;
 
-                $scope.demand.cr_crop = selectedCrop;
-
-                DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
+                DemandEditFactory.update({id:$scope.buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
 
                     $window.scrollTo(0,0);
 
