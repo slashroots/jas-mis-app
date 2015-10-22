@@ -61,6 +61,14 @@ angular.module('jasmic.controllers')
                         showDialog($mdDialog, fail, true);
                     });
             };
+
+            $scope.newBuyerCancel = function () {
+
+                window.history.go(-1);
+
+                return false;
+
+            }
         }
     ])
 /**
@@ -111,10 +119,10 @@ angular.module('jasmic.controllers')
  */
     .controller('BuyerProfileCtrl', ['$q', '$location','$scope', '$window', '$mdDialog','$routeParams', 'BuyerFactory',
         'BuyerTypesListingFactory', 'OpenTransactionsFactory', 'TransactionsFactory', 'RepFactory', 'RepEditFactory', 'CropsFactory', 'UnitsFactory',
-        'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory',
+        'BuyerDemandFactory', 'DemandEditFactory', 'DemandsFactory', 'CallLogsFactory', 'UserProfileFactory',
         function ($q, $location, $scope, $window, $mdDialog, $routeParams, BuyerFactory, BuyerTypesListingFactory,
                   OpenTransactionsFactory, TransactionsFactory, RepFactory, RepEditFactory, CropsFactory, UnitsFactory,
-                  BuyerDemandFactory, DemandEditFactory, DemandsFactory) {
+                  BuyerDemandFactory, DemandEditFactory, DemandsFactory, CallLogsFactory, UserProfileFactory) {
 
             /**
              * Start the page by setting up the buyer.  This section retrieves the
@@ -134,6 +142,14 @@ angular.module('jasmic.controllers')
                             bu_buyer: buyer._id
                         });
                         $scope.disputes = [];
+                        /**
+                         * Retrieves all calls associated with buyer by id.
+                         */
+                        CallLogsFactory.query({cc_entity_id: buyer._id}, function(calls){
+                            $scope.calls = calls;
+                        }, function(error){
+                            $scope.calls = [];
+                        });
                     },
                     function (error) {
                         showDialog($mdDialog, error, true);
@@ -164,6 +180,15 @@ angular.module('jasmic.controllers')
             $scope.editBuyer = function() {
                 $location.url('buyer/'+$scope.buyer._id+'/edit');
             };
+
+            /**
+             *
+             * Gets the currently logged in user.
+             *
+             **/
+            UserProfileFactory.show(function(user) {
+                $scope.user = user;
+            });
 
 
             /**
@@ -318,6 +343,13 @@ angular.module('jasmic.controllers')
                     showDialog($mdDialog, error, true);
                 })
             }
+
+            $scope.createBuyerCall = function(){
+                $scope.cc_caller_id = $scope.buyer.bu_phone;
+                $scope.cc_entity_id = $scope.buyer._id;
+                $scope.cc_entity_type = "buyer";
+                showCallInputDialog($mdDialog, $scope);
+            };
         }
     ]);
 

@@ -64,6 +64,14 @@
                         <span flex="10"></span>
                     </div>
                     <div class="lastInfo" layout="row">
+                        <div layout="row" flex="30">
+                            <md-icon md-svg-icon="/images/ic_verified_user_24px.svg"></md-icon>
+                            <div layout="column">
+                                <br>
+                                {{ buyer.bu_verified ? "Verified" : 'Unverified'}} Buyer
+                                <div class="label">Verification Status</div>
+                            </div>
+                        </div>
                         <span flex></span>
                         <md-icon md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
                         <div class="center-text" layout="column" flex="40">
