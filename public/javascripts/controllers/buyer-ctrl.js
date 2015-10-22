@@ -250,13 +250,13 @@ angular.module('jasmic.controllers')
 
                 DemandEditFactory.update({id:$scope.buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
                     showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
 
@@ -271,13 +271,13 @@ angular.module('jasmic.controllers')
 
                 RepEditFactory.update({id:$scope.buyer._id, rep_id:$scope.representative._id}, $scope.representative, function(success) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
                     showDialog($mdDialog, {statusText:"Error Updating Employee!"}, false);
 
