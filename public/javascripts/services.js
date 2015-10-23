@@ -514,3 +514,9 @@ services.factory('EmailFactory', function($resource){
         create: { method: 'POST'}
     });
 });
+
+services.factory('StatisticsFactory', function($resource){
+  return $resource('/common/stats', {}, {
+        show: { method: 'GET'}
+  });
+})

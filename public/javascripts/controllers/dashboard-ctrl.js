@@ -5,10 +5,10 @@
 angular.module('jasmic.controllers')
     .controller('DashboardCtrl', ['$scope','$location','$routeParams', '$mdDialog','CurrentDemandsFactory',
         'OpenTransactionsFactory', 'TransactionsFactory','CallLogsFactory', 'UserProfileFactory',
-        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory',
+        'CallTypesFactory',  'ParishesFactory', 'SuppliersFactory', 'InputsFactory','StatisticsFactory',
         function ($scope, $location, $routeParams, $mdDialog, CurrentDemandsFactory, OpenTransactionsFactory,
                   TransactionsFactory, CallLogsFactory, UserProfileFactory, CallTypesFactory,
-                  ParishesFactory, SuppliersFactory, InputsFactory) {
+                  ParishesFactory, SuppliersFactory, InputsFactory, StatisticsFactory) {
             /**
              * Gets all calls associated with the logged in
              * user id.
@@ -17,6 +17,8 @@ angular.module('jasmic.controllers')
              */
             $scope.isAdmin = false;
             $scope.parish_label = "", $scope.store_label = "";
+            $scope.metric = {};
+            var icons = {increase: "/images/ic_arrow_up_24px.svg", decrease: "/images/ic_arrow_down_24px.svg", neutral: "/images/icons/icons_star.svg" };
              UserProfileFactory.show(function(user){
                 CallLogsFactory.query({us_user_id: user._id}, function(calls){
                     if(calls.length > 0){
@@ -39,6 +41,36 @@ angular.module('jasmic.controllers')
               });
             };
             lookupCallsForToday();
+            /**
+             * Gets performance metrics to be displayed.
+             */
+            getStatistics = function(){
+              StatisticsFactory.show({}, function(stats){
+                $scope.stats = stats;
+                showPerformanceMetricIcons();
+              })
+            }
+            getStatistics();
+            /**
+             * Determines if a up, down or equal arrow is to be shown.
+             */
+            showPerformanceMetricIcons = function(){
+              if($scope.stats.call.changes.change === "none"){
+                $scope.metric.calls = icons.neutral;
+              }else if($scope.stats.call.changes.change === "increase"){
+                $scope.metric.calls = icons.increase;
+              }else{
+                $scope.metric.calls = icons.decrease;
+              }
+
+              if($scope.stats.completed_trans.changes.change === "none"){
+                $scope.metric.closed_trans = icons.neutral;
+              }else if($scope.stats.completed_trans.changes.change === "increase"){
+                $scope.metric.closed_trans = icons.increase;
+              }else{
+                $scope.metric.closed_trans = icons.decrease;
+              }
+            }
             /**
              * looks up current demands
              */

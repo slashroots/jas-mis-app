@@ -17,9 +17,9 @@ exports.searchCalls = function(req, res){
 	if(common.isAuthenticated(req, res)) {
 		var query = req.query;
 		if(req.query.today === 'true'){
-			var today = moment().startOf('day');
-			var tomorrow = moment(today).add(1,'days');
-			query = {cc_date: {$gte: today.toDate(), $lt: tomorrow.toDate()}};
+			var start_of_week = moment().startOf('week');
+			var now = moment();
+			query = {cc_date: {$gte: start_of_week.toDate(), $lt: now.toDate()}};
 		}
 		CallLog.find(query)
 			.populate('ct_call_type')
@@ -33,6 +33,7 @@ exports.searchCalls = function(req, res){
 			});
 	}
 };
+
 /**
  * Routes call creation based on an
  * entity type.

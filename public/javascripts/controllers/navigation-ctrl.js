@@ -143,7 +143,6 @@ function showNewCallInputDialog($mdDialog, $scope){
                         $mdDialog.hide();
                         showDialog($mdDialog, {statusText:"New Call Added!"}, false);
                         clearCallFormData();
-                        loadCalls();
                     }, function(fail){
                         $mdDialog.hide();
                         showDialog($mdDialog, error, true);

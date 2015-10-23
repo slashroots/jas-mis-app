@@ -9,8 +9,9 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_shopping_cart_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Opened Demands</div>
-                                <div><md-icon md-svg-src="/images/ic_arrow_up_24px.svg"></md-icon></div>
-                                <div><h1>{{demands.length}}</h1></div>
+                                <div>
+                                </div>
+                                <div><h1>{{ demands.length }}</h1></div>
                             </div>
                         </div>
                         <div layout-padding flex ng-click="setSelected('transactions')" layout-align="end end" layout="column" >
@@ -18,26 +19,26 @@
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_money_off_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Pending Transactions</div>
-                                <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
-                                <div><h1>{{open_transactions.length}}</h1></div>
+                                <div></div>
+                                <div><h1>{{ open_transactions.length }}</h1></div>
                             </div>
                         </div>
                         <div layout-padding flex ng-click="setSelected('closed_transactions')" layout-align="end end" layout="column" >
-                            <div flex="10">This Week</div>
+                            <div flex="10"><strong>This Week</strong></div>
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_attach_money_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Closed Transactions</div>
-                                <div><md-icon md-svg-src="/images/ic_arrow_up_24px.svg"></md-icon></div>
-                                <div><h1>{{closed_transactions.length}}</h1></div>
+                                <div><md-icon md-svg-src="{{metric.closed_trans}}"></md-icon></div>
+                                <div><h1>{{stats.completed_trans.current_week}}</h1></div>
                             </div>
                         </div>
                         <div layout-padding flex ng-click="setSelected('calls')" layout-align="end end" layout="column">
-                            <div flex="10">Today</div>
+                            <div flex="10"><strong>This Week</strong></div>
                             <div class="infoStat" layout-align="center center" flex layout-fill layout="row">
                                 <div flex="20"><md-icon md-svg-src="/images/ic_call_24px.svg"></md-icon></div>
                                 <div class="textLabel" flex>Calls Made</div>
-                                <div><md-icon md-svg-src="/images/ic_arrow_down_24px.svg"></md-icon></div>
-                                <div><h1>{{total_calls.length}}</h1></div>
+                                <div><md-icon md-svg-src="{{metric.calls}}"></md-icon></div>
+                                <div><h1>{{stats.call.current_week}}</h1></div>
                             </div>
                         </div>
                     </div>
