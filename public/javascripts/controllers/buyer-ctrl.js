@@ -54,12 +54,12 @@ angular.module('jasmic.controllers')
 
             $scope.save = function() {
                 BuyerFactory.create($scope.buyer, function(success) {
-                        showDialog($mdDialog, {statusText:"Successfully Saved!"}, false);
-                        $location.url('buyer/'+ success._id);
-                    },
-                    function(fail) {
-                        showDialog($mdDialog, fail, true);
-                    });
+                    showDialog($mdDialog, {statusText:"Successfully Saved!"}, false);
+                    $location.url('buyer/'+ success._id);
+                },
+                function(fail) {
+                    showDialog($mdDialog, fail, true);
+                });
             };
 
             $scope.newBuyerCancel = function () {
