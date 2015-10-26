@@ -159,7 +159,7 @@ angular.module('jasmic.controllers')
                 DemandsFactory.query({id: $routeParams.id}, function(listing) {
                     $scope.demands = listing;
                 }, function(fail) {
-                    console.log(fail);
+                    $scope.demands = [];
                 });
             };
             loadAll();
@@ -168,6 +168,11 @@ angular.module('jasmic.controllers')
             /**
              * Fetches the units that user can select
              */
+
+            UnitsFactory.query({un_unit_class: "Weight"}, function(units){
+                $scope.units = units;
+            });
+
             $scope.units = UnitsFactory.query({});
 
             $scope.isValid = isValid;
@@ -247,13 +252,13 @@ angular.module('jasmic.controllers')
 
                 DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
                     showDialog($mdDialog, {statusText:"Successfully Updated!"}, false);
 
                 }, function (error) {
 
-                    $window.scrollTo(0,0);
+                    //$window.scrollTo(0,0);
 
                     showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
 

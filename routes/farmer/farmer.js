@@ -260,6 +260,8 @@ exports.editCommodity = function(req, res) {
  */
 exports.updateFarmById = function(req, res) {
 
+    if(common.isAuthenticated(res, req)) {
+
         Farmer.findById(req.params.id, function (err, doc) {
 
             var this_farm = doc.fr_farms.id(req.params.farm_id);
@@ -293,6 +295,8 @@ exports.updateFarmById = function(req, res) {
             });
 
         });
+
+    }
 
 };
 
