@@ -173,8 +173,6 @@ angular.module('jasmic.controllers')
                 $scope.units = units;
             });
 
-            $scope.units = UnitsFactory.query({});
-
             $scope.isValid = isValid;
             $scope.isBuyerContext = true;
 
