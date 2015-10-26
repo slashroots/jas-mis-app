@@ -543,3 +543,11 @@ th.commodity-table {
     float:right;
 
 }
+
+.approved-employee-button {
+
+    text-align: left;
+    padding:0;
+    margin:0;
+
+}
