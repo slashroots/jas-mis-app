@@ -1,160 +1,191 @@
 angular.module('jasmic.controllers')
-    .controller('AdministratorCtrl', ['$scope','$mdDialog', '$mdToast','UsersFactory','CropsFactory','SuppliersFactory',
-    'UserFactory','CropFactory','SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
-    function($scope, $mdDialog, $mdToast, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
-    SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory){
-      /**
-       * Get all users from the database.
-       */
-      getUsers = function(){
-          UsersFactory.show(function(users){
-              $scope.users = users;
-          }, function(error){
-              $scope.users = [];
-          });
-      };
-      getUsers();
-      /**
-       * Get all crops from the database
-       */
-      getCrops = function(){
-        CropsFactory.show(function(crops){
-            $scope.crops = crops;
-        },function(error){
-            $scope.crops = [];
-        });
-      };
-      getCrops();
-      /**
-       * Get all suppliers from the database
-       */
-      getSuppliers = function(){
-          SuppliersFactory.show(function(suppliers){
-            $scope.suppliers = suppliers;
-        },function(error){
-            $scope.suppliers = [];
-        });
-      };
-      getSuppliers();
-      /**
-       * Get all parishes from the database
-       */
-      getParishes = function(){
-        ParishesFactory.query({}, function(parishes){
-            $scope.parishes = parishes;
-        }, function(error){
-            $scope.parishes = [];
-        });
-      }
-      getParishes();
+    .controller('AdministratorCtrl', ['$scope', '$mdDialog', '$mdToast', '$window', 'UsersFactory', 'CropsFactory', 'SuppliersFactory',
+        'UserFactory', 'CropFactory', 'SupplierFactory', 'EmailFactory', 'UserProfileFactory', 'ParishesFactory',
+        'BuyersListingFactory', 'BuyerFactory',
+        function ($scope, $mdDialog, $mdToast, $window, UsersFactory, CropsFactory, SuppliersFactory, UserFactory, CropFactory,
+                  SupplierFactory, EmailFactory, UserProfileFactory, ParishesFactory, BuyersListingFactory, BuyerFactory) {
+            /**
+             * Get all users from the database.
+             */
+            getUsers = function () {
+                UsersFactory.show(function (users) {
+                    $scope.users = users;
+                }, function (error) {
+                    $scope.users = [];
+                });
+            };
+            getUsers();
+            /**
+             * Get all crops from the database
+             */
+            getCrops = function () {
+                CropsFactory.show(function (crops) {
+                    $scope.crops = crops;
+                }, function (error) {
+                    $scope.crops = [];
+                });
+            };
+            getCrops();
+            /**
+             * Get all suppliers from the database
+             */
+            getSuppliers = function () {
+                SuppliersFactory.show(function (suppliers) {
+                    $scope.suppliers = suppliers;
+                }, function (error) {
+                    $scope.suppliers = [];
+                });
+            };
+            getSuppliers();
+            /**
+             * Get all parishes from the database
+             */
+            getParishes = function () {
+                ParishesFactory.query({}, function (parishes) {
+                    $scope.parishes = parishes;
+                }, function (error) {
+                    $scope.parishes = [];
+                });
+            };
+            getParishes();
+            /**
+             * Gets all unverified buyers from the database
+             */
+            getUnverifiedBuyers = function () {
+                BuyersListingFactory.query({bu_verified: "Unverified"}, function (buyers) {
+                    $scope.buyers = buyers;
+                }, function (error) {
+                    $scope.buyers = [];
+                });
+            };
+            getUnverifiedBuyers();
 
-      $scope.user_obj = {};
-      $scope.crop_type = {};
-      $scope.supplier = {};
-      $scope.usertypes = ['Administrator', 'Call Representative'];
-      $scope.states = ['Approved', 'Pending'];
-      /**
-       * Used to toggle list of records.
-       * @type {{user: boolean, croptype: boolean, supplier: boolean}}
-       */
-      $scope.hideList = { user: false, croptype: false, supplier: false};
-      /**
-       * Determines if form to create user must edit a record or create a new record.
-       * @type {boolean}
-       */
-      $scope.editUser = false;
-      $scope.editCrop = false;
-      $scope.editSupplier = false;
-      /**
-       * Displays form specific to each entity i.e. user, crop or supplier.
-       * @param entity
-       */
-      $scope.create = function(entity){
-          if(entity === 'user'){
-              $scope.newUser = !$scope.newUser;
-              $scope.user_obj = {};
-              $scope.hideList.user = !$scope.hideList.user;
-          }else if(entity === 'croptype'){
-              $scope.newCropType = !$scope.newCropType;
-              $scope.crop_type = {};
-              $scope.hideList.croptype = !$scope.hideList.croptype;
-          }else if(entity === 'supplier'){
-              $scope.newSupplier = !$scope.newSupplier;
-              $scope.supplier = {};
-              $scope.hideList.supplier = !$scope.hideList.supplier;
-          }
-      };
-      /**
-       * Closes form once user clicks the cancel button.
-       *
-       * @param entity
-       */
-      $scope.cancel = function(entity){
-          if(entity === 'user'){
-              if($scope.editUser){
-                  $scope.editUser = !$scope.editUser;
+            $scope.user_obj = {};
+            $scope.crop_type = {};
+            $scope.supplier = {};
+            $scope.buyer = {};
+            $scope.usertypes = ['Administrator', 'Call Representative'];
+            $scope.states = ['Approved', 'Pending'];
+            $scope.buyer_states = ['Unverified', 'Verified'];
+            /**
+             * Used to toggle list of records.
+             * @type {{user: boolean, croptype: boolean, supplier: boolean}}
+             */
+            $scope.hideList = {user: false, croptype: false, supplier: false, buyer: false};
+            /**
+             * Determines if form to create user must edit a record or create a new record.
+             * @type {boolean}
+             */
+            $scope.editUser = false;
+            $scope.editCrop = false;
+            $scope.editSupplier = false;
+            $scope.editBuyer = false;
+            /**
+             * Displays form specific to each entity i.e. user, crop or supplier.
+             * @param entity
+             */
+            $scope.create = function (entity) {
+                if (entity === 'user') {
+                    $scope.newUser = !$scope.newUser;
+                    $scope.user_obj = {};
+                    $scope.hideList.user = !$scope.hideList.user;
+                } else if (entity === 'croptype') {
+                    $scope.newCropType = !$scope.newCropType;
+                    $scope.crop_type = {};
+                    $scope.hideList.croptype = !$scope.hideList.croptype;
+                } else if (entity === 'supplier') {
+                    $scope.newSupplier = !$scope.newSupplier;
+                    $scope.supplier = {};
+                    $scope.hideList.supplier = !$scope.hideList.supplier;
+                }
+            };
+            /**
+             * Closes form once user clicks the cancel button.
+             *
+             * @param entity
+             */
+            $scope.cancel = function (entity) {
+                if (entity === 'user') {
+                    if ($scope.editUser) {
+                        $scope.editUser = !$scope.editUser;
 
-              }else{
-                  $scope.user_obj = {};
-                  $scope.newUser = !$scope.newUser;
-              }
-              getUsers();
-              $scope.hideList.user = !$scope.hideList.user;
-          }else if(entity === 'croptype'){
-              if($scope.editCrop){
-                  $scope.editCrop = !$scope.editCrop;
-              }else{
-                  $scope.crop_type = {};
-                  $scope.newCropType = !$scope.newCropType;
-              }
-              getCrops();
-              $scope.hideList.croptype = !$scope.hideList.croptype;
-          }else if(entity === 'supplier'){
-              if($scope.editSupplier){
-                  $scope.editSupplier = !$scope.editSupplier;
-              }else{
-                  $scope.supplier = {};
-                  $scope.newSupplier = !$scope.newSupplier;
-              }
-              getSuppliers();
-              $scope.hideList.supplier = !$scope.hideList.supplier;
-          }
-      };
-      /**
-       * Creates and saves an entity i.e. user or crop type
-       *  @param entity
-       *
-       */
-      $scope.save = function(entity){
-          if(entity === 'user'){
-              UserProfileFactory.create($scope.user_obj, function(user){
-                  $scope.newUser = !$scope.newUser;
-                  showDialog($mdDialog, {statusText:" New User Created!"}, false);
-              }, function(error){
-                  showDialog($mdDialog, error, false);
-              });
-              EmailFactory.create({to:$scope.user_obj.us_email_address, email_type: "new_user_approval"}, function(success){
-                $mdToast.show($mdToast.simple().position('bottom').content('Approval Email sent successfully.'));
-              }, function(error){
-                $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
-              })
-              $scope.user_obj = {};
-              $scope.hideList.user = !$scope.hideList.user;
-              getUsers();
-          }else if(entity === 'croptype'){
-              CropFactory.create($scope.crop_type, function(success){
-                  $scope.crop_type = {};
-                  $scope.newCropType = !$scope.newCropType;
-                  showDialog($mdDialog, {statusText:" New Crop Created!"}, false);
-              }, function(error){
-                  showDialog($mdDialog, error, false);
-              });
-              $scope.hideList.croptype = !$scope.hideList.croptype;
-              getCrops();
-          }else if(entity === 'supplier'){
-              $scope.parishes.forEach(function(parish){
-                if(parish.pa_parish_name === $scope.supplier.pa_parish){
-                  $scope.supplier.pa_parish_code = parish.pa_parish_code;
+                    } else {
+                        $scope.user_obj = {};
+                        $scope.newUser = !$scope.newUser;
+                    }
+                    getUsers();
+                    $scope.hideList.user = !$scope.hideList.user;
+                } else if (entity === 'croptype') {
+                    if ($scope.editCrop) {
+                        $scope.editCrop = !$scope.editCrop;
+                    } else {
+                        $scope.crop_type = {};
+                        $scope.newCropType = !$scope.newCropType;
+                    }
+                    getCrops();
+                    $scope.hideList.croptype = !$scope.hideList.croptype;
+                } else if (entity === 'supplier') {
+                    if ($scope.editSupplier) {
+                        $scope.editSupplier = !$scope.editSupplier;
+                    } else {
+                        $scope.supplier = {};
+                        $scope.newSupplier = !$scope.newSupplier;
+                    }
+                    getSuppliers();
+                    $scope.hideList.supplier = !$scope.hideList.supplier;
+                } else if (entity === 'buyer') {
+                    if ($scope.editBuyer) {
+                        $scope.editBuyer = !$scope.editBuyer;
+                    }
+                    $scope.buyer = {};
+                    getUnverifiedBuyers();
+                    $scope.hideList.buyer = !$scope.hideList.buyer;
+                }
+            };
+            /**
+             * Creates and saves an entity i.e. user or crop type
+             *  @param entity
+             *
+             */
+            $scope.save = function (entity) {
+                if (entity === 'user') {
+                    UserProfileFactory.create($scope.user_obj, function (user) {
+                        $scope.newUser = !$scope.newUser;
+                        showDialog($mdDialog, {statusText: " New User Created!"}, false);
+                    }, function (error) {
+                        showDialog($mdDialog, error, false);
+                    });
+                    EmailFactory.create({
+                        to: $scope.user_obj.us_email_address,
+                        email_type: "new_user_approval"
+                    }, function (success) {
+                        $mdToast.show($mdToast.simple().position('bottom').content('Approval Email sent successfully.'));
+                    }, function (error) {
+                        $mdToast.show($mdToast.simple().position('bottom').content('An error has occured in sending approval email.'));
+                    })
+                    $scope.user_obj = {};
+                    $scope.hideList.user = !$scope.hideList.user;
+                    getUsers();
+                } else if (entity === 'croptype') {
+                    CropFactory.create($scope.crop_type, function (success) {
+                        $scope.crop_type = {};
+                        $scope.newCropType = !$scope.newCropType;
+                        showDialog($mdDialog, {statusText: " New Crop Created!"}, false);
+                    }, function (error) {
+                        showDialog($mdDialog, error, false);
+                    });
+                    $scope.hideList.croptype = !$scope.hideList.croptype;
+                    getCrops();
+                } else if (entity === 'supplier') {
+                    SupplierFactory.create($scope.supplier, function (success) {
+                        $scope.supplier = {};
+                        $scope.newSupplier = !$scope.newSupplier;
+                        showDialog($mdDialog, {statusText: "New Supplier Created!"}, false);
+                    }, function (error) {
+                        showDialog($mdDialog, error, false);
+                    });
+                    $scope.hideList.supplier = !$scope.hideList.supplier;
+                    getSuppliers();
                 }
               });
               SupplierFactory.create($scope.supplier, function(success){
@@ -240,20 +271,37 @@ angular.module('jasmic.controllers')
           getCrops();
       }
 
-      /**
-       * Updates a supplier record. Requires admin privileges.
-       */
-      function updateSupplier(){
-         SupplierFactory.update({id:$scope.supplier._id}, $scope.supplier, function(success){
-              showDialog($mdDialog, {statusText: 'Supplier Updated!'}, false);
-          }, function(error){
-              showDialog($mdDialog, error, false);
-          });
-          $scope.editSupplier = !$scope.editSupplier;
-          $scope.hideList.supplier = !$scope.hideList.supplier;
-          getSuppliers();
-      }
-}]);
+            /**
+             * Updates a supplier record. Requires admin privileges.
+             */
+            function updateSupplier() {
+                SupplierFactory.update({id: $scope.supplier._id}, $scope.supplier, function (success) {
+                    var myEl = angular.element(document.querySelector('#supplier-admin'));
+                    showDialog($mdDialog, myEl, {statusText: 'Supplier Updated!'}, false);
+                }, function (error) {
+                    showDialog($mdDialog, error, false);
+                });
+                $scope.editSupplier = !$scope.editSupplier;
+                $scope.hideList.supplier = !$scope.hideList.supplier;
+                getSuppliers();
+            }
+
+            /**
+             * Updates a buyer record. Requires admin privileges.
+             */
+            function updateBuyer() {
+                BuyerFactory.update({id: $scope.buyer._id}, $scope.buyer, function (success) {
+                    var myEl = angular.element(document.querySelector('#buyer-admin'));
+                    showDialog($mdDialog, myEl, {statusText: "Buyer Updated!"}, false);
+                    $scope.buyer = {};
+                    $scope.editBuyer = !$scope.editBuyer;
+                }, function (error) {
+                    showDialog($mdDialog, error, false);
+                });
+                $scope.hideList.buyer = !$scope.hideList.buyer;
+                getUnverifiedBuyers();
+            }
+        }]);
 
 /**
  * A general purpose Dialog window to display feedback from the
@@ -265,12 +313,38 @@ angular.module('jasmic.controllers')
  * @param isError
  */
 function showDialog($mdDialog, message, isError) {
-    $mdDialog.show(
-        $mdDialog.alert()
-            .parent(angular.element(document.body))
-            .title(isError? 'Error Detected':'System Message')
-            .content(message.statusText)
-            .ariaLabel(isError?'Alert Error':'Alert Message')
-            .ok('Ok')
-    );
+    alert = $mdDialog.alert({
+        title: isError ? 'Error Detected' : 'System Message',
+        content: message.statusText,
+        ok: 'Ok'
+    });
+    $mdDialog
+        .show(alert)
+        .finally(function () {
+            alert = undefined;
+        });
+};
+
+/**
+ * This overloaded function has an additional parameter for
+ * the parent of the interface.  This allows for proper
+ * centering of the dialog.
+ *
+ * @param $mdDialog
+ * @param parent
+ * @param message
+ * @param isError
+ */
+function showDialog($mdDialog, parent, message, isError) {
+    alert = $mdDialog.alert({
+        title: isError ? 'Error Detected' : 'System Message',
+        content: message.statusText,
+        ok: 'Ok',
+        parent: parent
+    });
+    $mdDialog
+        .show(alert)
+        .finally(function () {
+            alert = undefined;
+        });
 };

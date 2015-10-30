@@ -40,7 +40,7 @@ angular.module('jasmic.controllers')
             BuyerTypesListingFactory.query(function(buyertypes) {
                 $scope.buyerTypes = buyertypes;
             }, function(fail) {
-                //TODO:  I need to ensure that I handle these properly
+              $scoe.buyerTypes = [];
             });
 
             ParishesFactory.query({},
@@ -48,7 +48,7 @@ angular.module('jasmic.controllers')
                     $scope.parishes = parishes;
                 },
                 function(error) {
-                    console.log(error);
+                    $scope.parishes = [];
                 });
 
             $scope.save = function() {

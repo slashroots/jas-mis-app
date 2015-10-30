@@ -86,7 +86,7 @@
 
 
     <md-card class="admin-cards">
-        <md-card-content class="{{newSupplier ? 'dark':'white'}}">
+        <md-card-content id="supplier-admin" class="{{newSupplier ? 'dark':'white'}}">
             <div layout="row">
                 <h3 class="{{newSupplier ? 'dark':'white'}}">Farm Stores</h3>
 
@@ -140,4 +140,39 @@
             </div>
         </md-card-content>
     </md-card>
+
+    <md-card class="admin-cards">
+        <md-card-content id="buyer-admin" class="{{newBuyer ? 'dark':'white'}}">
+            <div layout="row">
+                <h3 class="{{newBuyer ? 'dark':'white'}}">Unverified Buyers</h3>
+                <!-- <div flex class="md-actions edge" layout="row" layout-align="end center">
+                    <md-button ng-click="create('unit')" class="md-fab edge" aria-label="Add New Farm">
+                        <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
+                    </md-button>
+                </div> -->
+            </div>
+            <div>
+              <table class="table table-hover table-mc-light-blue" ng-if="!hideList.buyer" ng-show="buyers.length > 0">
+                  <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>Type</th>
+                              <th>Parish</th>
+                          </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="buyer in buyers" ng-click="selectedElement('buyer',buyer)">
+                          <td>{{buyer.bu_buyer_name}}</td>
+                          <td>{{buyer.bt_buyer_type.bt_buyer_type_name}}</td>
+                          <td>{{buyer.ad_address.pa_parish}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+          <div class="{{editBuyer ?'dark':'white'}}" ng-include="editBuyer ? '/partials/admin/buyer_edit.html': null">
+
+          </div>
+        </md-card-content>
+    </md-card>
+
 </div>
