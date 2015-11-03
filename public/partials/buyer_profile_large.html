@@ -105,7 +105,7 @@
                     </div>
 
                 </md-card-content>
-                <md-card-content ng-show="!edit_rep">
+                <md-card-content ng-if="!edit_rep">
                     <div class="farmerInfo" ng-repeat="representative in buyer.re_representatives">
                         <div layout="column">
                             <div layout-padding layout-align="space-around center" layout="row">
@@ -161,7 +161,7 @@
                     </div>
 
                 </md-card-content>
-                <md-card-content ng-show="!edit_demand">
+                <md-card-content ng-if="!edit_demand">
 
                     <table class="table-striped demand-table">
 
