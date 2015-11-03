@@ -1,5 +1,5 @@
 <ui-view>
-    <md-content layout="row" layout-fill>
+    <md-content class="no-blue-outline" ng-click="hidePopupCommodities()" layout="row" layout-fill>
         <div layout="column" layout-fill flex-md="100" flex="60" flex-sm="100">
             <md-card>
                 <md-card-content class="pretty" layout-padding>
@@ -22,7 +22,7 @@
                                     <md-icon md-svg-icon="/images/ic_call_24px.svg"></md-icon>
                                 </md-button>
                                 <!--<md-button class="md-icon-button" aria-label="Details" ng-click="showTestDialog();">-->
-                                    <!--<md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>-->
+                                <!--<md-icon md-svg-icon="/images/ic_more_vert_24px.svg"></md-icon>-->
                                 <!--</md-button>-->
                             </div>
                             <span flex></span>
@@ -47,7 +47,7 @@
                         </div>
                         <div flex layout="row">
                             <md-icon md-svg-icon="/images/ic_multitrack_audio_24px.svg"></md-icon>
-                            <div layout-align="center" layout="column"> 
+                            <div layout-align="center" layout="column">
                                 {{farmer.fa_deceased === undefined ? "Not Disclosed" : (farmer.fa_deceased ? 'Yes': 'No')}}
                                 <div class="label">Deceased</div>
                             </div>
@@ -98,119 +98,33 @@
             </md-card>
 
             <md-card>
-                <md-card-content class="{{newFarm ? 'dark':'white'}}">
-                    <div layout="row">
-                        <h3 class="{{newFarm ? 'dark':'white'}}">Farms</h3>
-                        <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button ng-click="newFarmLocation()" class="md-fab edge" aria-label="Add New Farm">
-                                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-                            </md-button>
-                        </div>
-                    </div>
-                    <div ng-include="newFarm ? '/partials/farm_new.html':null">
 
-                    </div>
+
+                <md-card-content ng-include="'/partials/farms_card.html'">
+
+
                 </md-card-content>
 
-                <md-card-content>
-                    <div class="farmerInfo" layout="column" layout-padding ng-repeat="farm in farmer.fr_farms">
-                        <div layout-align="space-around start" layout="row" >
-                            <md-icon flex="5" md-svg-icon="/images/ic_location_on_24px.svg"></md-icon>
-                            <div layout="column" flex>
-                                <div layout-align="start center" layout="column">
-                                    {{farm.fr_name}}
-                                    <div class="label">Farm Name</div>
-                                </div>
-                            </div>
-                            <div layout="column" flex>
-                                <div layout-align="start center" layout="column">
-                                    {{farm.fr_size}}
-                                    <div class="label">Farm Size (Acre)</div>
-                                </div>
-                            </div>
-                            <div layout="column" flex>
-                                <div layout-align="start center" layout="column">
-                                    {{farm.ad_address1}}
-                                    <div class="label">Address 1</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div layout-align="space-around start" layout-padding layout="row">
-                            <span flex="5"></span>
-                            <div layout="column" flex>
-                                <div layout-align="start center" layout="column">
-                                    {{farm.ad_city}}
-                                    <div class="label">City</div>
-                                </div>
-                            </div>
-                            <div layout="column" flex>
-                                <div layout-align="start center" layout="column">
-                                    {{farm.di_district.di_parish_name}}
-                                    <div class="label">Parish</div>
-                                </div>
-                            </div>
-                            <div layout="column" flex>
-                                <div layout-align="start center" layout="column">
-                                    {{farm.di_district.di_extension_name}} - {{farm.di_district.di_district_name}}
-                                    <div class="label">Extension - District</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </md-card-content>
             </md-card>
 
 
 
             <md-card>
-                <md-card-content class="{{newCommodity ? 'dark':'white'}}">
-                    <div layout="row">
-                        <h3 class="{{newCommodity ? 'dark':'white'}}">Supplies</h3>
-                        <div flex class="md-actions edge" layout="row" layout-align="end center">
-                            <md-button ng-click="newCommodityItem()" class="md-fab edge" aria-label="Add New Supply">
-                                <md-icon class="edge" md-svg-icon="/images/ic_add_24px.svg"></md-icon>
-                            </md-button>
-                        </div>
-                    </div>
-                    <div ng-include="newCommodity ? '/partials/commodity_new.html':null">
 
-                    </div>
+
+                <md-card-content ng-include="'/partials/supplies_card.html'">
+
+
                 </md-card-content>
-                <md-card-content>
-                    <div class="farmerInfo" layout-padding layout="column" ng-repeat="commodity in commodities">
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{commodity.cr_crop.cr_crop_name}} - {{commodity.cr_crop.cr_crop_variety}}
-                                <label>Produce/Crop</label>
-                            </div>
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_quantity}}{{commodity.un_quantity_unit.un_unit_name}}
-                                <label>Amount</label>
-                            </div>
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_price}} per {{commodity.un_price_unit.un_unit_name}}
-                                <label>Unit Cost</label>
-                            </div>
-                        </div>
-                        <div layout-align="space-around start" layout="row">
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_payment_preference}}
-                                <label>Payout Preference</label>
-                            </div>
-                            <span></span>
-                            <div layout-align="left center" layout="column">
-                                {{commodity.co_notes}}
-                                <label>Notes</label>
-                            </div>
-                        </div>
-                    </div>
-                </md-card-content>
+
+
             </md-card>
         </div>
+        <div layout="column" flex="40" flex-md="0" flex-sm="0" hide-sm>
 
-        <div flex="40" flex-md="0" flex-sm="0" hide-sm>
-            <div ng-include="'/partials/statistics_small.html'" layout="column"></div>
-            <md-card ng-if="calls.length > 0" ng-include="'/partials/calls_card.html'"></md-card>
-        </div>
+            <div ng-include="'/partials/statistics_small.html'"></div>
+
+    </div>
+
     </md-content>
 </ui-view>
