@@ -248,7 +248,7 @@ angular.module('jasmic.controllers')
 
                 $scope.edit_demand = !$scope.edit_demand;
 
-                DemandEditFactory.update({id:$scope.demands[0].bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
+                DemandEditFactory.update({id:$scope.bu_buyer._id, demand_id:$scope.demand._id}, $scope.demand, function(success) {
 
                     //$window.scrollTo(0,0);
 
@@ -258,7 +258,7 @@ angular.module('jasmic.controllers')
 
                     //$window.scrollTo(0,0);
 
-                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
+                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, true);
 
                 });
 
@@ -286,7 +286,7 @@ angular.module('jasmic.controllers')
 
                     //$window.scrollTo(0,0);
 
-                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, false);
+                    showDialog($mdDialog, {statusText:"Error Updating Demand!"}, true);
 
                 });
 
