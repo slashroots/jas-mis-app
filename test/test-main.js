@@ -4,11 +4,11 @@
 var should = require('should-http');
 var request = require('supertest');
 var db = require('../models/db');
+var app = require('../app');
 
 
 describe('Common Endpoints', function() {
-    var url = 'http://localhost:3000';
-    var agent = request.agent(url);
+    var agent = request.agent(app);
 
     /**
      * First simulate a login to the API.  By using the agent it stores the session cookie for
