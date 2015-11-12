@@ -74,7 +74,7 @@ describe('Common Endpoints', function() {
                     /**
                      * Just deleting the test object!
                      */
-                    db.Unit.remove({_id: res._id}, function(err, res) {
+                    db.Unit.remove({_id: res.body._id}, function(err, res) {
                         done();
                     });
 
