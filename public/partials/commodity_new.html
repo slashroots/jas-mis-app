@@ -47,12 +47,12 @@
 
             <md-input-container>
                 <label>Available Date (yyyy-MM-dd)</label>
-                <input ng-required="true" ng-model="ctrl.commodity.co_availability_date" type="date"/>
+                <input ng-required="true" ng-model="ctrl.commodity.co_availability_date" ng-change="commodityDateCheck(ctrl.commodity)" type="date"/>
             </md-input-container>
 
             <md-input-container>
                 <label>End Date (yyyy-MM-dd)</label>
-                <input ng-required="true" ng-model="ctrl.commodity.co_until" type="date"/>
+                <input ng-required="true" ng-model="ctrl.commodity.co_until" ng-change="commodityDateCheck(ctrl.commodity)" type="date"/>
             </md-input-container>
         </div>
 
@@ -60,6 +60,12 @@
             <label>Notes</label>
             <input ng-model="ctrl.commodity.co_notes" type="text"/>
         </md-input-container>
+
+        <div layout-align="center center" layout="row" ng-show="commodity_date_valid == false">
+
+            Please ensure that the End Date falls after the Start Date!
+
+        </div>
 
         <md-input-container layout="row" layout-sm="column" layout-align="center center">
             <md-button ng-click="newCommodityItem()">Cancel</md-button>
