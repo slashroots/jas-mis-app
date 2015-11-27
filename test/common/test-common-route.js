@@ -1,7 +1,9 @@
 /**
  * Created by matjames007 on 11/11/15.
  */
-var should = require('should-http');
+var should_http = require('should-http');
+var should = require('should');
+
 var db = require('../../models/db');
 
 
@@ -40,10 +42,11 @@ exports.runTest = function(agent) {
              * Creates a new unit as a test and removes it after.
              */
             it('should create a new unit - and respond with status 200', function(done) {
+                this.timeout(10000);
                 var new_unit = {
                     un_unit_name: "m",
                     un_unit_desc: "Metres",
-                    un_unit_conversion: "1",
+                    un_unit_conversion: 1,
                     un_unit_class: "Length"
                 };
                 agent
@@ -54,14 +57,21 @@ exports.runTest = function(agent) {
                         if (err) {
                             throw err;
                         }
-                        // this is should.js syntax, very clear
-                        res.should.have.status(200);
+
                         /**
                          * Just deleting the test object!
                          */
                         db.Unit.remove({_id: res.body._id}, function(err, res) {
                             done();
                         });
+
+                        // this is should.js syntax, very clear
+                        res.should.have.status(200);
+                        should(res.body.un_unit_name).be.a.String();
+                        should(res.body.un_unit_conversion).be.a.Number();
+                        should.exist(res.body._id);
+                        should.equal(res.body.un_unit_name, new_unit.un_unit_name, "Data Integrity Check Failed");
+                        should.equal(res.body.un_unit_desc, new_unit.un_unit_desc, "Data Integrity Check Failed");
 
                     });
             });
