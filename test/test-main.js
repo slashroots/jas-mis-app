@@ -4,9 +4,9 @@
 var request = require('supertest');
 var app = require('../app');
 var common_route = require("./common/test-common-route");
+var farmer_route = require("./farmer/test-farmer-route");
 
-
-describe('Common Endpoints', function() {
+describe('JAS Marketing Information Center', function() {
     var agent = request.agent(app);
 
     /**
@@ -26,7 +26,8 @@ describe('Common Endpoints', function() {
             });
     });
 
-    describe('JAS Marketing Information Center API Test Suite', function() {
+    describe('API Endpoints', function() {
         common_route.runTest(agent);
+        farmer_route.runTest(agent);
     });
 });
