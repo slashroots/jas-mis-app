@@ -61,7 +61,7 @@ exports.runTest = function(agent) {
                         /**
                          * Just deleting the test object!
                          */
-                        db.Unit.remove({_id: res.body._id}, function(err, res) {
+                        db.Unit.remove({_id: res.body._id}, function(err, r) {
                             // this is should.js syntax, very clear
                             res.should.have.status(200);
                             should(res.body.un_unit_name).be.a.String();
@@ -71,8 +71,6 @@ exports.runTest = function(agent) {
                             should.equal(new_unit.un_unit_desc, res.body.un_unit_desc, "Data Integrity Check Failed");
                             done();
                         });
-
-
                     });
             });
             it('should list all units on the platform', function(done){
