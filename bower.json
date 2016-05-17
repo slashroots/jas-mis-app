@@ -27,7 +27,8 @@
     "jquery": "2.1.4",
     "bootstrap-material-design": "~0.3.0",
     "bootstrap": "~3.3.5",
-    "angular-messages": "1.4.4"
+    "angular-messages": "1.4.4",
+    "crypto-js": "^3.1.6"
   },
   "resolutions": {
     "angular": "1.4.4"
