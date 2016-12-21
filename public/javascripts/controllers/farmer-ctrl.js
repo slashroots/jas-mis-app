@@ -105,6 +105,20 @@ angular.module('jasmic.controllers')
                 }
             };
 
+            $scope.parseDate = function(date) {
+
+                return moment(date).format('YYYY-MM-DD');
+
+            };
+
+            $scope.isActive = function(exp_date) {
+                if(new Date(exp_date) > Date.now()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
             /**
              * Attempts to add new Farm to the farmer object.  Assumes the
              * server will take care of the address creation.
